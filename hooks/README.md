@@ -43,11 +43,21 @@ END TASK
 ## Hooks
 
 ### 0. `session-start.sh` + `session-start-hooks-validation.sh`
-**When:** Beginning of each Claude Code session
-**Purpose:** Check prerequisites, MCP server status, and subagent availability
-**Blocks:** NO - Advisory only
-**Exit Code:** 0 (reports issues but continues)
-**Actions:**
+**When:** Beginning of each Claude Code session (manual)
+**Purpose:** Validate/repair hooks and check environment
+**Blocks:** NO - Auto-repairs issues
+**Exit Code:** 0 (always continues)
+
+**Hooks Validation (`session-start-hooks-validation.sh`):**
+- Creates settings.json if missing
+- Validates JSON format and structure
+- Checks matcher fields are strings (not objects)
+- Ensures hook scripts exist and are executable
+- Auto-fixes file permissions
+- Cleans up old enforcement flags
+- Reports issues found and fixed
+
+**Environment Check (`session-start.sh`):**
 - Creates `.env` template if missing
 - Checks Node.js, npx, Claude CLI installed
 - Reports MCP server configuration status
