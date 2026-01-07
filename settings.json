@@ -1,0 +1,7 @@
+{
+  "hooks": {
+    "preTaskStart": "bash ~/.claude/hooks/pre-task-start.sh",
+    "postCodeWrite": "bash ~/.claude/hooks/post-code-write.sh",
+    "preTaskComplete": "bash ~/.claude/hooks/pre-task-complete.sh"
+  }
+}

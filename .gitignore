@@ -35,7 +35,8 @@ mcp-servers.json
 # ===========================================
 # CLAUDE CODE SETTINGS (may contain tokens)
 # ===========================================
-settings.json
+# settings.json is now portable (hooks only, no tokens)
+# Use settings.local.json for local overrides
 settings.local.json
 
 # ===========================================

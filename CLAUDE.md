@@ -111,23 +111,36 @@ Invoke subagents via Task tool with `subagent_type` parameter. Mandatory usage:
 
 ## Hooks
 
+Hooks are **programmatically enforced** via `settings.json` configuration. They trigger automatically during Claude Code execution.
+
 ### Hook Execution Order
 ```
 SESSION START
     |
-[session-start.sh] <- Installs, connects, updates, tests all MCP servers
+[session-start.sh] <- Manual: Run at session start (not automated)
     |
 START TASK
     |
-[pre-task-start.sh] <- Validates MCP servers & subagents exist
+[pre-task-start.sh] <- AUTO: Validates MCP servers & subagents exist
     |
 WORK ON TASK
     |
-[post-code-write.sh] <- Triggers code-reviewer after writing code
+[post-code-write.sh] <- AUTO: Triggers after Write/Edit operations
     |
-[pre-task-complete.sh] <- BLOCKS completion until visual validation
+[pre-task-complete.sh] <- AUTO: BLOCKS completion until visual validation
     |
 END TASK
+```
+
+**Configured in `settings.json`:**
+```json
+{
+  "hooks": {
+    "preTaskStart": "bash ~/.claude/hooks/pre-task-start.sh",
+    "postCodeWrite": "bash ~/.claude/hooks/post-code-write.sh",
+    "preTaskComplete": "bash ~/.claude/hooks/pre-task-complete.sh"
+  }
+}
 ```
 
 ## UI Component Protocol
