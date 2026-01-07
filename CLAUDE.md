@@ -136,12 +136,20 @@ END TASK
 ```json
 {
   "hooks": {
-    "preTaskStart": "bash ~/.claude/hooks/pre-task-start.sh",
-    "preBash": "bash ~/.claude/hooks/pre-bash.sh",
-    "preWrite": "bash ~/.claude/hooks/pre-write.sh",
-    "postCodeWrite": "bash ~/.claude/hooks/post-code-write.sh",
-    "postToolUse": "bash ~/.claude/hooks/post-tool-use.sh",
-    "preTaskComplete": "bash ~/.claude/hooks/pre-task-complete.sh"
+    "PreToolUse": [
+      {"matcher": {"tools": ["BashTool"]}, "hooks": [{"type": "command", "command": "bash ~/.claude/hooks/pre-bash.sh"}]},
+      {"matcher": {"tools": ["WriteTool"]}, "hooks": [{"type": "command", "command": "bash ~/.claude/hooks/pre-write.sh"}]}
+    ],
+    "PostToolUse": [
+      {"matcher": {"tools": ["WriteTool", "EditTool"]}, "hooks": [{"type": "command", "command": "bash ~/.claude/hooks/post-code-write.sh"}]},
+      {"matcher": {}, "hooks": [{"type": "command", "command": "bash ~/.claude/hooks/post-tool-use.sh"}]}
+    ],
+    "UserPromptSubmit": [
+      {"matcher": {}, "hooks": [{"type": "command", "command": "bash ~/.claude/hooks/pre-task-start.sh"}]}
+    ],
+    "Stop": [
+      {"matcher": {}, "hooks": [{"type": "command", "command": "bash ~/.claude/hooks/pre-task-complete.sh"}]}
+    ]
   }
 }
 ```
