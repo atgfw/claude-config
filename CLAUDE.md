@@ -52,14 +52,22 @@ Only fall back to Playwright MCP if Scrapling cannot handle a specific use case.
 
 ### Session Start Hook
 Run `~/.claude/hooks/session-start.sh` at the beginning of each session to:
+- Validate and repair hooks configuration
 - Install/update all MCP servers
 - Connect MCP servers to Claude
 - Save API keys to `.env`
-- Curl test each server for connectivity
+- Test server connectivity
 
 ```bash
 bash ~/.claude/hooks/session-start.sh
 ```
+
+**Hooks validation automatically:**
+- Creates settings.json if missing
+- Validates JSON format and structure
+- Checks matcher fields are strings
+- Ensures hook scripts exist and are executable
+- Cleans up old enforcement flags
 
 ### Tool Categories
 - **Browser Automation**: Scrapling (primary), Playwright (fallback)

@@ -42,7 +42,7 @@ END TASK
 
 ## Hooks
 
-### 0. `session-start.sh`
+### 0. `session-start.sh` + `session-start-hooks-validation.sh`
 **When:** Beginning of each Claude Code session
 **Purpose:** Check prerequisites, MCP server status, and subagent availability
 **Blocks:** NO - Advisory only

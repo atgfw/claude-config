@@ -1,10 +1,17 @@
 #!/bin/bash
 # Session Start Hook
-# Proactively installs, connects, updates, and tests all MCP servers at session start
+# Validates hooks, installs MCP servers, and prepares environment
 # PORTABLE: Uses relative paths, creates .env template, cross-platform compatible
 
 # Don't exit on error - we want to continue and report all issues
 set +e
+
+# Run hooks validation first
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "$SCRIPT_DIR/session-start-hooks-validation.sh" ]; then
+    bash "$SCRIPT_DIR/session-start-hooks-validation.sh"
+    echo ""
+fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CLAUDE_DIR="$(dirname "$SCRIPT_DIR")"
