@@ -137,22 +137,27 @@ END TASK
 {
   "hooks": {
     "PreToolUse": [
-      {"matcher": {"tools": ["BashTool"]}, "hooks": [{"type": "command", "command": "bash ~/.claude/hooks/pre-bash.sh"}]},
-      {"matcher": {"tools": ["WriteTool"]}, "hooks": [{"type": "command", "command": "bash ~/.claude/hooks/pre-write.sh"}]}
+      {"matcher": "Bash", "hooks": [{"type": "command", "command": "bash ~/.claude/hooks/pre-bash.sh"}]},
+      {"matcher": "Write", "hooks": [{"type": "command", "command": "bash ~/.claude/hooks/pre-write.sh"}]}
     ],
     "PostToolUse": [
-      {"matcher": {"tools": ["WriteTool", "EditTool"]}, "hooks": [{"type": "command", "command": "bash ~/.claude/hooks/post-code-write.sh"}]},
-      {"matcher": {}, "hooks": [{"type": "command", "command": "bash ~/.claude/hooks/post-tool-use.sh"}]}
+      {"matcher": "Write|Edit", "hooks": [{"type": "command", "command": "bash ~/.claude/hooks/post-code-write.sh"}]},
+      {"matcher": "*", "hooks": [{"type": "command", "command": "bash ~/.claude/hooks/post-tool-use.sh"}]}
     ],
     "UserPromptSubmit": [
-      {"matcher": {}, "hooks": [{"type": "command", "command": "bash ~/.claude/hooks/pre-task-start.sh"}]}
+      {"hooks": [{"type": "command", "command": "bash ~/.claude/hooks/pre-task-start.sh"}]}
     ],
     "Stop": [
-      {"matcher": {}, "hooks": [{"type": "command", "command": "bash ~/.claude/hooks/pre-task-complete.sh"}]}
+      {"hooks": [{"type": "command", "command": "bash ~/.claude/hooks/pre-task-complete.sh"}]}
     ]
   }
 }
 ```
+
+**Matcher Format:**
+- String patterns: `"Bash"`, `"Write|Edit"` (regex), `"*"` (all tools)
+- Case-sensitive tool names
+- No matcher needed for UserPromptSubmit/Stop events
 
 ### Enforcement Mechanisms
 
