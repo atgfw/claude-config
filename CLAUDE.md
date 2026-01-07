@@ -137,11 +137,24 @@ END TASK
 {
   "hooks": {
     "preTaskStart": "bash ~/.claude/hooks/pre-task-start.sh",
+    "preBash": "bash ~/.claude/hooks/pre-bash.sh",
+    "preWrite": "bash ~/.claude/hooks/pre-write.sh",
     "postCodeWrite": "bash ~/.claude/hooks/post-code-write.sh",
+    "postToolUse": "bash ~/.claude/hooks/post-tool-use.sh",
     "preTaskComplete": "bash ~/.claude/hooks/pre-task-complete.sh"
   }
 }
 ```
+
+### Enforcement Mechanisms
+
+| Directive | Hook | Enforcement |
+|-----------|------|-------------|
+| Use Scrapling MCP | `postToolUse` | Logs violations, blocks direct Playwright |
+| Code review mandatory | `postCodeWrite` | BLOCKS until code-reviewer invoked |
+| No file deletion | `preBash` | BLOCKS rm/del/Remove-Item commands |
+| No emojis | `preWrite`, `preBash` | BLOCKS emoji in files/commands |
+| Visual validation | `preTaskComplete` | BLOCKS without validation flag |
 
 ## UI Component Protocol
 

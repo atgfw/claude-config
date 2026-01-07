@@ -117,9 +117,11 @@ plans/
 /webapp-testing/
 
 # ===========================================
-# VALIDATION FLAGS (session-specific)
+# ENFORCEMENT FLAGS (session-specific)
 # ===========================================
 validation-completed
+code-review-completed
+scrapling-violations.log
 
 # ===========================================
 # NODE MODULES (if any MCP servers installed locally)

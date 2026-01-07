@@ -20,19 +20,22 @@ All hooks are **portable** - they use relative paths and environment variables, 
 ```
 SESSION START
     |
-[session-start.sh] <- Checks prerequisites, MCP servers, subagents
+[session-start.sh] <- Manual: Checks prerequisites, MCP servers, subagents
     |
 START TASK
     |
-[pre-task-start.sh] <- Validates MCP servers & subagents exist
+[pre-task-start.sh] <- AUTO: Validates MCP servers & subagents exist
     |
 WORK ON TASK
     |
-[post-code-write.sh] <- Triggers code-reviewer after writing code
+[pre-bash.sh] <- AUTO: BLOCKS rm/del/Remove-Item and emojis
+[pre-write.sh] <- AUTO: BLOCKS emojis in file writes
+[post-code-write.sh] <- AUTO: BLOCKS until code-reviewer invoked
+[post-tool-use.sh] <- AUTO: Enforces Scrapling over Playwright
     |
-[n8n-workflow-validation.sh] <- For n8n workflows specifically
+[n8n-workflow-validation.sh] <- Manual: For n8n workflows specifically
     |
-[pre-task-complete.sh] <- BLOCKS completion until visual validation
+[pre-task-complete.sh] <- AUTO: BLOCKS without visual validation
     |
 END TASK
 ```
@@ -61,27 +64,58 @@ END TASK
 - Optional: playwright, supabase, n8n-mcp
 - Subagents: code-reviewer, debugger, test-automator, system-architect
 
-### 2. `post-code-write.sh`
-**When:** After writing any code file
-**Purpose:** Reminder to invoke code-reviewer subagent
-**Blocks:** NO - Reminder only
-**Exit Code:** 0
+### 2. `pre-bash.sh` [AUTO]
+**When:** Before executing bash commands
+**Purpose:** ENFORCE deletion ban and emoji prohibition
+**Blocks:** YES - Blocks rm/del/Remove-Item and emoji commands
+**Exit Code:** 1 if violations detected
+**Enforces:**
+- CLAUDE.md: "Deletion is banned - move to old/"
+- CLAUDE.md: "Never use emojis anywhere"
 
-### 3. `n8n-workflow-validation.sh`
+### 3. `pre-write.sh` [AUTO]
+**When:** Before writing files
+**Purpose:** ENFORCE emoji prohibition in file content
+**Blocks:** YES - Blocks writes containing emojis
+**Exit Code:** 1 if emojis detected
+**Enforces:**
+- CLAUDE.md: "Never use emojis anywhere for any reason"
+
+### 4. `post-code-write.sh` [AUTO]
+**When:** After writing any code file
+**Purpose:** ENFORCE mandatory code review
+**Blocks:** YES - Blocks until code-reviewer invoked
+**Exit Code:** 1 if code-review-completed flag missing
+**Enforces:**
+- CLAUDE.md: "After writing code | code-reviewer | Immediately after Write/Edit"
+**Flag:** `~/.claude/code-review-completed`
+
+### 5. `post-tool-use.sh` [AUTO]
+**When:** After any tool is used
+**Purpose:** ENFORCE Scrapling MCP preference over Playwright
+**Blocks:** PARTIAL - Blocks direct Python Playwright, logs MCP Playwright usage
+**Exit Code:** 1 if direct Playwright detected
+**Enforces:**
+- CLAUDE.md: "USE SCRAPLING MCP for all browser automation tasks"
+**Log:** `~/.claude/scrapling-violations.log`
+
+### 6. `pre-task-complete.sh` [AUTO]
+**When:** Before marking task complete
+**Purpose:** ENFORCE visual validation requirement
+**Blocks:** YES - Task cannot complete without visual validation
+**Exit Code:** 1 if validation flag missing
+**Validation Flag:** `~/.claude/validation-completed`
+**Enforces:**
+- CLAUDE.md: "Task completion requires visual validation"
+**Note:** Moves (not deletes) validation flag to `old/` after use
+
+### 7. `n8n-workflow-validation.sh` (Manual)
 **When:** After creating/modifying n8n workflow
 **Purpose:** Comprehensive validation checklist
 **Blocks:** NO - Guidance only
 **Exit Code:** 0
 **Usage:** `bash n8n-workflow-validation.sh <workflow_id> [workflow_name]`
 **Env Vars:** Uses `N8N_BASE_URL` from `.env` (defaults to localhost:5678)
-
-### 4. `pre-task-complete.sh`
-**When:** Before marking task complete
-**Purpose:** Enforce visual validation requirement from CLAUDE.md
-**Blocks:** YES - Task cannot complete without visual validation
-**Exit Code:** 1 if validation flag missing
-**Validation Flag:** `~/.claude/validation-completed`
-**Note:** Moves (not deletes) validation flag to `old/` after use
 
 ## Environment Variables
 
