@@ -122,6 +122,7 @@ plans/
 validation-completed
 code-review-completed
 scrapling-violations.log
+.session-validated
 
 # ===========================================
 # NODE MODULES (if any MCP servers installed locally)

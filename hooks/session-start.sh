@@ -177,3 +177,9 @@ echo "To configure MCP servers, edit:"
 echo "  - API keys: $ENV_FILE"
 echo "  - MCP config: See CLAUDE.md for config locations"
 echo "========================================="
+
+# Create session validation flag for compact mode (expires in 1 hour)
+SESSION_FLAG="$CLAUDE_DIR/.session-validated"
+touch "$SESSION_FLAG"
+echo ""
+echo "[COMPACT MODE] Session validation cached - pre-task checks will skip for 1 hour"

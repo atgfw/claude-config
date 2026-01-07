@@ -22,6 +22,7 @@ This ensures correct path resolution across different user contexts:
 - Scrapling preferred over Playwright
 - No deletion commands (uses `mv` to `old/` directory)
 - Graceful degradation when tools missing
+- **Compact mode**: Skips pre-task validation if session-start ran within last hour
 
 ## Hook Execution Order
 
@@ -77,10 +78,14 @@ END TASK
 **Purpose:** Verify required MCP servers and subagents are available
 **Blocks:** NO - Warnings only (was YES, changed for portability)
 **Exit Code:** 0
+**Compact Mode:** Skips validation if `.session-validated` flag exists and is < 1 hour old
 **Checks:**
 - Required: scrapling, exa, memory
 - Optional: playwright, supabase, n8n-mcp
 - Subagents: code-reviewer, debugger, test-automator, system-architect
+
+**Performance Optimization:**
+When `session-start.sh` runs, it creates a `.session-validated` flag file. The `pre-task-start.sh` hook checks this flag and skips full validation if it's recent (< 1 hour). This eliminates overhead in compact/continuation sessions while ensuring validation runs at least once per session.
 
 ### 2. `pre-bash.sh` [AUTO]
 **When:** Before executing bash commands

@@ -2,11 +2,31 @@
 # Pre-Task Start Hook
 # Ensures all MCP servers and subagents are available before starting any task
 # PORTABLE: Uses $HOME, checks .md files, no hardcoded paths
+# COMPACT MODE: Skips validation if session-start.sh ran recently (< 1 hour)
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CLAUDE_DIR="$(dirname "$SCRIPT_DIR")"
+SESSION_FLAG="$CLAUDE_DIR/.session-validated"
+
+# Check if session validation already ran recently (compact mode optimization)
+if [ -f "$SESSION_FLAG" ]; then
+    # Get file modification time in seconds since epoch
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        FLAG_TIME=$(stat -f %m "$SESSION_FLAG" 2>/dev/null || echo 0)
+    else
+        FLAG_TIME=$(stat -c %Y "$SESSION_FLAG" 2>/dev/null || echo 0)
+    fi
+    CURRENT_TIME=$(date +%s)
+    TIME_DIFF=$((CURRENT_TIME - FLAG_TIME))
+
+    # Skip if validated within last hour (3600 seconds)
+    if [ $TIME_DIFF -lt 3600 ]; then
+        echo "[COMPACT MODE] Session validated $(($TIME_DIFF / 60)) minutes ago - skipping pre-task check"
+        exit 0
+    fi
+fi
 
 echo "PRE-TASK VALIDATION HOOK"
 echo "========================"
@@ -83,6 +103,9 @@ if [ ${#MISSING_AGENTS[@]} -gt 0 ]; then
     echo "       Clone agents from: https://github.com/wshobson/agents"
 fi
 
+# Create session validation flag for compact mode (expires in 1 hour)
+touch "$SESSION_FLAG"
+
 echo ""
-echo "Pre-task validation complete"
+echo "Pre-task validation complete (cached for 1 hour)"
 echo ""
