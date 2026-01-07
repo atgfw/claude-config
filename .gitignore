@@ -1,0 +1,129 @@
+# Claude Code Configuration - Git Ignore
+
+# ===========================================
+# CREDENTIALS AND SECRETS - CRITICAL
+# ===========================================
+.credentials.json
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+*_key.json
+*-credentials.json
+*_credentials.json
+secrets.json
+secrets.yaml
+secrets.yml
+
+# API keys that might be in filenames
+*api_key*
+*apikey*
+*API_KEY*
+
+# ===========================================
+# MCP CONFIGURATION (contains API keys!)
+# ===========================================
+# Note: claude_desktop_config.json is at $APPDATA/Claude/ (outside this repo)
+# but if copied here, it MUST be ignored
+claude_desktop_config.json
+mcp-config.json
+mcp_config.json
+mcp-servers.json
+
+# ===========================================
+# CLAUDE CODE SETTINGS (may contain tokens)
+# ===========================================
+settings.json
+settings.local.json
+
+# ===========================================
+# SESSION-SPECIFIC DATA
+# ===========================================
+history.jsonl
+*.jsonl
+stats-cache.json
+shell-snapshots/
+session-env/
+file-history/
+
+# ===========================================
+# TELEMETRY AND DEBUG
+# ===========================================
+telemetry/
+debug/
+statsig/
+
+# ===========================================
+# PROJECT-SPECIFIC GENERATED FILES
+# ===========================================
+todos/*.json
+projects/
+
+# ===========================================
+# IDE ARTIFACTS
+# ===========================================
+.vscode/
+.idea/
+*.code-workspace
+
+# ===========================================
+# OS FILES
+# ===========================================
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# ===========================================
+# TEMPORARY FILES
+# ===========================================
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+*.log
+*.cache
+
+# ===========================================
+# USER-SPECIFIC DIRECTORIES
+# ===========================================
+downloads/
+
+# ===========================================
+# ARCHIVED FILES (never delete, always move here)
+# ===========================================
+old/
+
+# ===========================================
+# PLUGINS (machine-specific paths and downloads)
+# ===========================================
+plugins/known_marketplaces.json
+plugins/marketplaces/
+plugins/repos/
+
+# ===========================================
+# PLANS (session-specific implementation plans)
+# ===========================================
+plans/
+
+# ===========================================
+# DUPLICATE SKILL DIRECTORIES (canonical location is skills/)
+# ===========================================
+/e2e-testing-patterns/
+/webapp-testing/
+
+# ===========================================
+# VALIDATION FLAGS (session-specific)
+# ===========================================
+validation-completed
+
+# ===========================================
+# NODE MODULES (if any MCP servers installed locally)
+# ===========================================
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
