@@ -31,7 +31,7 @@ if [ ! -f "$SETTINGS_FILE" ]; then
         "hooks": [
           {
             "type": "command",
-            "command": "bash ~/.claude/hooks/pre-bash.sh"
+            "command": "bash \"$HOME/.claude/hooks/pre-bash.sh\""
           }
         ]
       },
@@ -40,7 +40,7 @@ if [ ! -f "$SETTINGS_FILE" ]; then
         "hooks": [
           {
             "type": "command",
-            "command": "bash ~/.claude/hooks/pre-write.sh"
+            "command": "bash \"$HOME/.claude/hooks/pre-write.sh\""
           }
         ]
       }
@@ -51,7 +51,7 @@ if [ ! -f "$SETTINGS_FILE" ]; then
         "hooks": [
           {
             "type": "command",
-            "command": "bash ~/.claude/hooks/post-code-write.sh"
+            "command": "bash \"$HOME/.claude/hooks/post-code-write.sh\""
           }
         ]
       },
@@ -60,7 +60,7 @@ if [ ! -f "$SETTINGS_FILE" ]; then
         "hooks": [
           {
             "type": "command",
-            "command": "bash ~/.claude/hooks/post-tool-use.sh"
+            "command": "bash \"$HOME/.claude/hooks/post-tool-use.sh\""
           }
         ]
       }
@@ -70,7 +70,7 @@ if [ ! -f "$SETTINGS_FILE" ]; then
         "hooks": [
           {
             "type": "command",
-            "command": "bash ~/.claude/hooks/pre-task-start.sh"
+            "command": "bash \"$HOME/.claude/hooks/pre-task-start.sh\""
           }
         ]
       }
@@ -80,7 +80,7 @@ if [ ! -f "$SETTINGS_FILE" ]; then
         "hooks": [
           {
             "type": "command",
-            "command": "bash ~/.claude/hooks/pre-task-complete.sh"
+            "command": "bash \"$HOME/.claude/hooks/pre-task-complete.sh\""
           }
         ]
       }

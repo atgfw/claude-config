@@ -5,6 +5,14 @@
 These hooks enforce the development framework defined in CLAUDE.md files.
 All hooks are **portable** - they use relative paths and environment variables, no hardcoded user paths.
 
+### Windows Path Resolution
+
+On Windows with Git Bash, the hooks use `$HOME` instead of `~` in settings.json commands.
+This ensures correct path resolution across different user contexts:
+- `$HOME` = `/c/Users/username` (Git Bash format, works cross-platform)
+- `~` may resolve incorrectly in some execution contexts
+- `$USERPROFILE` = `C:\Users\username` (Windows format, incompatible with Git Bash)
+
 ## Portability Features
 
 - All paths derived from `$SCRIPT_DIR` (where the hook lives)
