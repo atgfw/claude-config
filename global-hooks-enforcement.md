@@ -1,5 +1,35 @@
 # Global Hooks Enforcement
 
+## Official Design vs Reality
+
+### How It SHOULD Work (Official)
+
+`~/.claude/settings.json` is the official global settings location. Per [Claude Code docs](https://code.claude.com/docs/en/settings.md):
+- User settings in `~/.claude/settings.json` apply to all projects
+- Settings merge with project settings taking precedence
+- Hooks configured globally SHOULD work everywhere
+
+### Known Bug (Reality)
+
+There are multiple reported bugs where hooks from `~/.claude/settings.json` don't load properly:
+
+- [Issue #11544](https://github.com/anthropics/claude-code/issues/11544) - Hooks not loading from settings.json
+- [Issue #3579](https://github.com/anthropics/claude-code/issues/3579) - User settings hooks not loading (regression in v1.0.51+)
+- [Issue #8810](https://github.com/anthropics/claude-code/issues/8810) - Hooks not working in subdirectories
+- [Issue #10367](https://github.com/anthropics/claude-code/issues/10367) - Hooks non-functional in subdirectories (v2.0.27)
+
+### Workaround (Current Approach)
+
+Until the bug is fixed, each project needs `.claude/settings.json` that references global hook scripts:
+
+```
+~/.claude/hooks/           <- Hook scripts (truly global)
+~/.claude/settings.json    <- Template/master settings
+
+Each project (WORKAROUND):
+  project/.claude/settings.json  <- Copy referencing global scripts
+```
+
 ## Policy: Standardized Hook Configuration
 
 **ALL projects must use identical settings.json files that reference global hook scripts.**
