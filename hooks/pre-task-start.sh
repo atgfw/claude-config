@@ -31,8 +31,9 @@ fi
 echo "PRE-TASK VALIDATION HOOK"
 echo "========================"
 
-# Required MCP servers (scrapling preferred over playwright)
+# Required MCP servers (filesystem-with-morph CRITICAL for fast code editing)
 REQUIRED_MCP_SERVERS=(
+    "filesystem-with-morph"
     "scrapling"
     "exa"
     "memory"

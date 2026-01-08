@@ -50,6 +50,27 @@ Task completion requires visual validation using MCP tools and subagents. Do not
 
 Only fall back to Playwright MCP if Scrapling cannot handle a specific use case.
 
+### Fast Apply - Morph LLM Code Editing
+**CRITICAL: Use `edit_file` MCP tool for ALL code modifications.**
+
+Morph Fast Apply provides blazing-fast code editing (10,500+ tokens/sec) via the `edit_file` tool:
+- **ALWAYS use `edit_file` instead of `Write`, `Edit`, or `str_replace`**
+- Works with partial code snippets - no need for full file content
+- Supports any file type and handles complex edits automatically
+- Significantly faster than traditional read/write operations
+
+**Warp Grep for Codebase Search:**
+Use `warpgrep_codebase_search` at the beginning of codebase explorations for fast, semantic search:
+- Find relevant files/lines quickly with broad semantic queries
+- "Find the XYZ flow", "How does XYZ work", "Where is XYZ handled?"
+- NOT for pinpointing keywords - use for broader contextual searches
+- Can run up to 8 parallel tool calls per turn
+
+**Performance Comparison:**
+- `edit_file` (Morph): ~11 seconds
+- Traditional read/write: ~60 seconds
+- Search & replace: ~20 seconds
+
 ### Session Start Hook
 Run `~/.claude/hooks/session-start.sh` at the beginning of each session to:
 - Validate and repair hooks configuration
@@ -70,9 +91,10 @@ bash ~/.claude/hooks/session-start.sh
 - Cleans up old enforcement flags
 
 ### Tool Categories
+- **Code Editing**: Morph `edit_file` (PRIMARY - 10,500+ tokens/sec), Read for viewing only
+- **Codebase Search**: Morph `warpgrep_codebase_search` (semantic, fast), Grep for keyword search
 - **Browser Automation**: Scrapling (primary), Playwright (fallback)
 - **Data Analysis**: Desktop Commander process tools, Exa for web research
-- **Code Operations**: Built-in file tools (Read, Edit, Bash)
 - **Web Research**: Exa tools for searches, WebFetch for specific URLs
 - **UI Development**: Material UI MCP for component examples
 - **Memory Management**: Memory MCP for persistent knowledge graphs

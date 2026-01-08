@@ -106,6 +106,7 @@ echo "-------------------------"
 # Define MCP servers with their check commands
 # Format: name|description|check_command
 declare -a MCP_SERVERS=(
+    "filesystem-with-morph|Fast code editing (CRITICAL)|test -n \"\$MORPH_API_KEY\""
     "scrapling|Browser automation (primary)|echo ok"
     "playwright|Browser automation (fallback)|echo ok"
     "exa|Web search|test -n \"\$EXA_API_KEY\""
