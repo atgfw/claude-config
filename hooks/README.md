@@ -24,6 +24,50 @@ This ensures correct path resolution across different user contexts:
 - Graceful degradation when tools missing
 - **Compact mode**: Skips pre-task validation if session-start ran within last hour
 
+## Hook Output Format
+
+**CRITICAL**: Hooks must output valid JSON to stdout and redirect diagnostic messages to stderr.
+
+### JSON Output Requirements
+
+Claude Code expects hooks to output JSON according to specific schemas:
+
+**UserPromptSubmit Hooks** (e.g., pre-task-start.sh):
+```json
+{"hookEventName":"UserPromptSubmit","additionalContext":""}
+```
+
+**Stop Hooks** (e.g., pre-task-complete.sh):
+```json
+// Success case
+{"decision":"approve"}
+
+// Blocking case
+{"decision":"block","reason":"Reason for blocking"}
+```
+
+**PreToolUse Hooks**:
+```json
+{"permissionDecision":"allow"}  // or "deny" or "ask"
+```
+
+### Implementation Pattern
+
+All hooks follow this pattern:
+```bash
+# Redirect diagnostic output to stderr
+echo "Checking something..." >&2
+
+# Output JSON to stdout
+echo '{"decision":"approve"}'
+```
+
+This ensures:
+- Claude Code receives valid JSON for decision-making
+- Users see diagnostic messages in the terminal
+- Hook validation passes
+- No "Invalid input" or "No stderr output" errors
+
 ## Hook Execution Order
 
 ```
