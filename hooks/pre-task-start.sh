@@ -23,13 +23,16 @@ if [ -f "$SESSION_FLAG" ]; then
 
     # Skip if validated within last hour (3600 seconds)
     if [ $TIME_DIFF -lt 3600 ]; then
-        echo "[COMPACT MODE] Session validated $(($TIME_DIFF / 60)) minutes ago - skipping pre-task check"
+        # Output JSON to stdout, message to stderr
+        echo "[COMPACT MODE] Session validated $(($TIME_DIFF / 60)) minutes ago - skipping" >&2
+        echo '{"hookEventName":"UserPromptSubmit","additionalContext":""}'
         exit 0
     fi
 fi
 
-echo "PRE-TASK VALIDATION HOOK"
-echo "========================"
+# All diagnostic output goes to stderr
+echo "PRE-TASK VALIDATION HOOK" >&2
+echo "========================" >&2
 
 # Required MCP servers (filesystem-with-morph CRITICAL for fast code editing)
 REQUIRED_MCP_SERVERS=(
@@ -54,34 +57,34 @@ REQUIRED_SUBAGENTS=(
     "system-architect"
 )
 
-echo ""
-echo "Checking MCP server availability..."
+echo "" >&2
+echo "Checking MCP server availability..." >&2
 
 # Check if claude CLI exists
 if ! command -v claude &> /dev/null; then
-    echo "[WARN] Claude CLI not found - skipping MCP server check"
-    echo "       Install from: https://claude.ai/code"
+    echo "[WARN] Claude CLI not found - skipping MCP server check" >&2
+    echo "       Install from: https://claude.ai/code" >&2
 else
     # Try to check MCP servers (command may vary by version)
     for server in "${REQUIRED_MCP_SERVERS[@]}"; do
         if claude mcp list 2>/dev/null | grep -q "$server"; then
-            echo "[OK] $server configured"
+            echo "[OK] $server configured" >&2
         else
-            echo "[WARN] $server not found - run session-start.sh"
+            echo "[WARN] $server not found - run session-start.sh" >&2
         fi
     done
 
     for server in "${OPTIONAL_MCP_SERVERS[@]}"; do
         if claude mcp list 2>/dev/null | grep -q "$server"; then
-            echo "[OK] $server configured (optional)"
+            echo "[OK] $server configured (optional)" >&2
         else
-            echo "[INFO] $server not configured (optional)"
+            echo "[INFO] $server not configured (optional)" >&2
         fi
     done
 fi
 
-echo ""
-echo "Checking subagent availability..."
+echo "" >&2
+echo "Checking subagent availability..." >&2
 
 AGENT_DIR="$CLAUDE_DIR/agents"
 MISSING_AGENTS=()
@@ -89,24 +92,27 @@ MISSING_AGENTS=()
 for agent in "${REQUIRED_SUBAGENTS[@]}"; do
     # Check for .md files (actual agent format)
     if [ -f "$AGENT_DIR/$agent.md" ]; then
-        echo "[OK] $agent available"
+        echo "[OK] $agent available" >&2
     elif [ -f "$AGENT_DIR/$agent.json" ] || [ -f "$AGENT_DIR/$agent.yaml" ]; then
-        echo "[OK] $agent available"
+        echo "[OK] $agent available" >&2
     else
-        echo "[MISSING] $agent not found in $AGENT_DIR"
+        echo "[MISSING] $agent not found in $AGENT_DIR" >&2
         MISSING_AGENTS+=("$agent")
     fi
 done
 
-echo ""
+echo "" >&2
 if [ ${#MISSING_AGENTS[@]} -gt 0 ]; then
-    echo "[WARN] Missing agents: ${MISSING_AGENTS[*]}"
-    echo "       Clone agents from: https://github.com/wshobson/agents"
+    echo "[WARN] Missing agents: ${MISSING_AGENTS[*]}" >&2
+    echo "       Clone agents from: https://github.com/wshobson/agents" >&2
 fi
 
 # Create session validation flag for compact mode (expires in 1 hour)
 touch "$SESSION_FLAG"
 
-echo ""
-echo "Pre-task validation complete (cached for 1 hour)"
-echo ""
+echo "" >&2
+echo "Pre-task validation complete (cached for 1 hour)" >&2
+echo "" >&2
+
+# Output required JSON to stdout
+echo '{"hookEventName":"UserPromptSubmit","additionalContext":""}'
