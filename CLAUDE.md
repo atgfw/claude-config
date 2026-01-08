@@ -59,6 +59,15 @@ Morph Fast Apply provides blazing-fast code editing (10,500+ tokens/sec) via the
 - Supports any file type and handles complex edits automatically
 - Significantly faster than traditional read/write operations
 
+**Global Enforcement:**
+SessionStart hook (`session-start-global-mcp.sh`) automatically configures Morph MCP in EVERY project:
+1. On session start, hook checks for `.mcp.json` in project directory
+2. If missing or Morph not configured, creates/updates `.mcp.json` with Morph MCP
+3. API key loaded from `~/.claude/.env` (MORPH_API_KEY)
+4. Claude Code loads `.mcp.json` and starts Morph MCP server
+5. Pre-write hook detects Morph availability and BLOCKS Write/Edit
+6. Result: **100% enforcement across ALL projects**
+
 **Warp Grep for Codebase Search:**
 Use `warpgrep_codebase_search` at the beginning of codebase explorations for fast, semantic search:
 - Find relevant files/lines quickly with broad semantic queries

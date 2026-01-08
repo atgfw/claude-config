@@ -3,7 +3,18 @@
 ## Overview
 
 These hooks enforce the development framework defined in CLAUDE.md files.
+All hooks are **global/user-wide** - configured in `~/.claude/settings.json`, they apply to ALL projects.
 All hooks are **portable** - they use relative paths and environment variables, no hardcoded user paths.
+
+### Global Configuration
+
+**Hooks:** Configured in `~/.claude/settings.json` - apply universally across all projects
+
+**MCP Servers:** SessionStart hook auto-configures Morph MCP in every project via `.mcp.json`
+- On first session in any project, `.mcp.json` is created automatically
+- Morph Fast Apply MCP configured with API key from `~/.claude/.env`
+- Pre-write hook enforces `edit_file` usage in all projects
+- **Result: 100% deterministic enforcement globally**
 
 ### Windows Path Resolution
 
