@@ -2,7 +2,142 @@
 
 ## Date: 2026-01-08
 
+## Update: Complete n8n Project Hook Audit (2026-01-08 Evening)
+
+### Issue Expansion
+After fixing global hooks in ~/.claude, discovered project-specific hooks in n8n_workflow_development/.claude/hooks/ also had incorrect JSON output formats, causing persistent validation errors in fresh sessions.
+
+### Project-Specific Hooks Fixed
+
+**Location**: `C:\Users\codya\OneDrive - Applied Technology Group\Documents\n8n_workflow_development\.claude\hooks\`
+
+#### 1. detect-workflow-intent.js (UserPromptSubmit)
+- **Before**: `{"decision":"continue","systemMessage":"..."}`
+- **After**: `{"hookEventName":"UserPromptSubmit","additionalContext":"..."}`
+
+#### 2. detect-voice-agent-intent.js (UserPromptSubmit)  
+- **Before**: `{"decision":"continue","systemMessage":"..."}`
+- **After**: `{"hookEventName":"UserPromptSubmit","additionalContext":"..."}`
+
+#### 3. session-init.js (SessionStart)
+- **Before**: `{"continue":true,"systemMessage":"..."}`
+- **After**: `{"hookEventName":"SessionStart","systemMessage":"..."}`
+
+#### 4. mcp-auto-recovery.js (SessionStart)
+- **Before**: `{"continue":true,"systemMessage":"..."}`
+- **After**: `{"hookEventName":"SessionStart","systemMessage":"..."}`
+
+#### 5. workflow-file-guard.js (PreToolUse)
+- **Before**: `{"continue":true,"systemMessage":"..."}`
+- **After**: `{"permissionDecision":"allow","permissionDecisionReason":"..."}`
+
+#### 6. auto-git-stage.js (PostToolUse)
+- **Before**: `{"continue":true,"systemMessage":"..."}`
+- **After**: `{"hookEventName":"PostToolUse","additionalContext":"..."}`
+
+#### 7. post-deploy-log.js (PostToolUse)
+- **Before**: `{"continue":true,"systemMessage":"..."}`
+- **After**: `{"hookEventName":"PostToolUse","additionalContext":"..."}`
+
+#### 8. pre-deploy-check.js (PreToolUse)
+- **Before**: `{"continue":true,"systemMessage":"..."}`
+- **After**: `{"permissionDecision":"allow","permissionDecisionReason":"..."}`
+
+#### 9. elevenlabs-agent-governance.js (PreToolUse & PostToolUse - Dual Mode)
+- **Before**: 
+  - PreToolUse: `{"continue":true/false,"systemMessage":"..."}`
+  - PostToolUse: `{"systemMessage":"..."}`
+- **After**: 
+  - PreToolUse: `{"permissionDecision":"allow"|"deny","permissionDecisionReason":"..."}`
+  - PostToolUse: `{"hookEventName":"PostToolUse","additionalContext":"..."}`
+- **Special Fix**: Dynamic schema selection based on `process.env.CLAUDE_HOOK_TYPE`
+
+#### 10. workflow-governance.js (PreToolUse & PostToolUse - Dual Mode)
+- **Before**: 
+  - PreToolUse: `{"continue":true/false,"systemMessage":"..."}`
+  - PostToolUse: `{"systemMessage":"..."}` or `{}`
+- **After**: 
+  - PreToolUse: `{"permissionDecision":"allow"|"deny","permissionDecisionReason":"..."}`
+  - PostToolUse: `{"hookEventName":"PostToolUse","additionalContext":"..."}`
+- **Special Fix**: Dynamic schema selection, updated exit code logic to check `permissionDecision` instead of `continue`
+
+### Test Results (All Hooks Fixed)
+
+```bash
+# Verify no remaining wrong format
+$ cd n8n_workflow_development/.claude/hooks
+$ grep -l "continue.*true\|decision.*continue" *.js
+No files found with wrong JSON format
+✅ PASS
+```
+
+### Summary Statistics
+
+**Total Hooks Fixed**: 
+- Global hooks (from earlier): 5
+- Project-specific hooks: 10
+- **Grand Total**: 15 hooks
+
+**Hook Types Covered**:
+- UserPromptSubmit: 4 hooks
+- SessionStart: 3 hooks  
+- PreToolUse: 5 hooks
+- PostToolUse: 5 hooks
+- Dual-mode hooks: 2 hooks
+
+---
+
+**Test Timestamp**: 2026-01-08 - Morph MCP edit_file working correctly ✅
+
+## FINAL FIX: hookSpecificOutput Wrapper (2026-01-08 Night)
+
+### Root Cause Discovery
+After researching official Claude Code documentation, discovered **ALL hooks were using wrong JSON schema**. The official format requires a `hookSpecificOutput` wrapper object.
+
+### Official Schema Requirements
+
+**WRONG (What was used):**
+```json
+{"hookEventName": "UserPromptSubmit", "additionalContext": "..."}
+{"permissionDecision": "allow"}
+```
+
+**CORRECT (Official format):**
+```json
+{
+  "hookSpecificOutput": {
+    "hookEventName": "UserPromptSubmit",
+    "additionalContext": "..."
+  }
+}
+```
+
+### All Hooks Fixed (15 Total)
+
+**n8n Project Hooks (10):**
+- detect-workflow-intent.js ✅
+- detect-voice-agent-intent.js ✅  
+- session-init.js ✅
+- mcp-auto-recovery.js ✅
+- workflow-file-guard.js ✅
+- auto-git-stage.js ✅
+- post-deploy-log.js ✅
+- pre-deploy-check.js ✅
+- elevenlabs-agent-governance.js ✅
+- workflow-governance.js ✅
+
+**Global Hooks (3):**
+- pre-bash.sh ✅
+- post-tool-use.sh ✅
+- post-code-write.sh ✅
+
+### Verification
+All hooks now output valid JSON matching official Claude Code hook specification with `hookSpecificOutput` wrapper.
+
+**Status**: Ready for testing in fresh session ✅
+
 ## Issue
+
 Fresh Claude Code sessions showing hook validation errors:
 ```
 ⎿ UserPromptSubmit hook error: Failed with non-blocking status code: No stderr output

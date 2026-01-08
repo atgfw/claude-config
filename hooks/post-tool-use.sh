@@ -3,15 +3,29 @@
 # ENFORCES Scrapling MCP over Playwright for browser automation
 # Receives: TOOL_NAME (from Claude Code)
 
-TOOL_NAME="${1:-}"
+# Read JSON from stdin if available
+if [ -t 0 ]; then
+    TOOL_NAME="${1:-}"
+else
+    INPUT=$(cat)
+    # Extract tool name from JSON
+    if command -v jq &> /dev/null; then
+        TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name // empty' 2>/dev/null)
+    else
+        TOOL_NAME=$(echo "$INPUT" | grep -oP '"tool_name"\s*:\s*"\K[^"]+' | head -1)
+    fi
+    [ -z "$TOOL_NAME" ] && TOOL_NAME="${1:-}"
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CLAUDE_DIR="$(dirname "$SCRIPT_DIR")"
 VIOLATION_LOG="$CLAUDE_DIR/scrapling-violations.log"
 
 # All diagnostic output to stderr
-echo "POST-TOOL-USE VALIDATION" >&2
-echo "========================" >&2
-echo "Tool used: $TOOL_NAME" >&2
+echo "========================================" >&2
+echo "POST-TOOL-USE HOOK - Browser Automation" >&2
+echo "========================================" >&2
+echo "Tool executed: $TOOL_NAME" >&2
 echo "" >&2
 
 # Check if Playwright was used when Scrapling should be used
@@ -35,7 +49,7 @@ if echo "$TOOL_NAME" | grep -q "playwright"; then
         echo "" >&2
         echo "Continuing with WARNING..." >&2
         # Output JSON with warning context
-        echo '{"hookEventName":"PostToolUse","additionalContext":"WARNING: Playwright used when Scrapling available - logged violation"}'
+        echo '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"WARNING: Playwright used when Scrapling available - logged violation"}}'
         exit 0
     fi
 fi
@@ -63,12 +77,12 @@ if echo "$TOOL_NAME" | grep -q "^Bash$"; then
         echo "  - mcp__playwright__browser_screenshot(filename)" >&2
         echo "" >&2
         # Output blocking JSON to stdout
-        echo '{"decision":"block","reason":"Direct Python Playwright blocked - use Scrapling MCP"}'
-        exit 1
+        echo '{"hookSpecificOutput":{"hookEventName":"PostToolUse","decision":"block","reason":"Direct Python Playwright blocked - use Scrapling MCP"}}'
+        exit 0
     fi
 fi
 
 echo "[OK] Tool usage compliant" >&2
 
 # Output success JSON to stdout
-echo '{"hookEventName":"PostToolUse"}'
+echo '{"hookSpecificOutput":{"hookEventName":"PostToolUse"}}'

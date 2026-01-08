@@ -25,7 +25,7 @@ if [ -f "$SESSION_FLAG" ]; then
     if [ $TIME_DIFF -lt 3600 ]; then
         # Output JSON to stdout, message to stderr
         echo "[COMPACT MODE] Session validated $(($TIME_DIFF / 60)) minutes ago - skipping" >&2
-        echo '{"hookEventName":"UserPromptSubmit","additionalContext":""}'
+        echo '{"hookSpecificOutput":{"hookEventName":"UserPromptSubmit","additionalContext":""}}'
         exit 0
     fi
 fi
@@ -115,4 +115,4 @@ echo "Pre-task validation complete (cached for 1 hour)" >&2
 echo "" >&2
 
 # Output required JSON to stdout
-echo '{"hookEventName":"UserPromptSubmit","additionalContext":""}'
+echo '{"hookSpecificOutput":{"hookEventName":"UserPromptSubmit","additionalContext":""}}'

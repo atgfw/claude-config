@@ -8,14 +8,18 @@ CLAUDE_DIR="$(dirname "$SCRIPT_DIR")"
 REVIEW_FLAG="$CLAUDE_DIR/code-review-completed"
 
 # All diagnostic output to stderr
-echo "POST-CODE-WRITE ENFORCEMENT" >&2
-echo "===========================" >&2
+echo "======================================" >&2
+echo "POST-CODE-WRITE HOOK - Code Review" >&2
+echo "======================================" >&2
 echo "" >&2
 
 # Check if WRITTEN_FILES env var is set (by Claude Code)
 if [ -n "${WRITTEN_FILES:-}" ]; then
-    echo "FILES WRITTEN:" >&2
-    echo "$WRITTEN_FILES" >&2
+    echo "Files written:" >&2
+    echo "$WRITTEN_FILES" | sed 's/^/  - /' >&2
+    echo "" >&2
+else
+    echo "No WRITTEN_FILES env var (files may have been written)" >&2
     echo "" >&2
 fi
 
@@ -37,8 +41,8 @@ if [ ! -f "$REVIEW_FLAG" ]; then
     echo "> Code review is MANDATORY immediately after Write/Edit operations" >&2
     echo "" >&2
     # Output blocking JSON to stdout
-    echo '{"decision":"block","reason":"Code review required - invoke code-reviewer subagent"}'
-    exit 1
+    echo '{"hookSpecificOutput":{"hookEventName":"PostToolUse","decision":"block","reason":"Code review required - invoke code-reviewer subagent"}}'
+    exit 0
 fi
 
 echo "[OK] Code review completed" >&2
@@ -49,4 +53,4 @@ mkdir -p "$OLD_DIR"
 mv "$REVIEW_FLAG" "$OLD_DIR/code-review-completed-$(date +%Y%m%d-%H%M%S)" 2>/dev/null || true
 
 # Output success JSON to stdout
-echo '{"hookEventName":"PostToolUse","additionalContext":"Code review completed"}'
+echo '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"Code review completed"}}'
