@@ -99,6 +99,32 @@ bash ~/.claude/hooks/session-start.sh
 - Ensures hook scripts exist and are executable
 - Cleans up old enforcement flags
 
+**CRITICAL: Global Hooks Only Policy**
+
+ALL hooks MUST be global. Project-specific hook configurations are BANNED.
+
+- **ONLY** `~/.claude/settings.json` defines hooks
+- **NEVER** create project-specific `.claude/settings.json` files
+- Local settings.json files OVERRIDE global hooks, bypassing enforcement
+- Global hooks apply to ALL projects automatically
+- For project-specific logic, use global hooks with matchers
+
+Example of project-specific matcher in GLOBAL settings:
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__n8n-mcp__*",
+        "hooks": [{"type": "command", "command": "bash \"$HOME/.claude/hooks/n8n-validation.sh\""}]
+      }
+    ]
+  }
+}
+```
+
+This ensures Morph enforcement, deletion prevention, and all other protections work universally.
+
 ### Tool Categories
 - **Code Editing**: Morph `edit_file` (PRIMARY - 10,500+ tokens/sec), Read for viewing only
 - **Codebase Search**: Morph `warpgrep_codebase_search` (semantic, fast), Grep for keyword search
