@@ -1,0 +1,55 @@
+{
+  "self_audit_completed": true,
+  "task": "CLAUDE.md creation for llm_data_collection project",
+  "completed_at": "2026-01-14T19:01:00Z",
+  "auditor": "Claude Code",
+  "checklist": {
+    "files_reviewed": true,
+    "architecture_documented": true,
+    "testing_commands_documented": true,
+    "invocation_modes_documented": true,
+    "error_codes_documented": true,
+    "constraints_documented": true,
+    "no_generic_practices": true,
+    "no_obvious_instructions": true,
+    "project_specific_focus": true
+  },
+  "details": {
+    "files_reviewed": [
+      "PROJECT-DIRECTIVE.md",
+      "draft_spec.md",
+      "llm-data-extraction-pipeline.json",
+      "workflow-ids.json",
+      "test-fixtures/"
+    ],
+    "architecture_items": [
+      "15-node workflow from triggers to output routing",
+      "Dual trigger pattern (executeWorkflowTrigger + webhook)",
+      "Category-based extraction system",
+      "OpenAI Structured Outputs with strict mode",
+      "Route switch for webhook vs subworkflow response"
+    ],
+    "credentials": [
+      "OpenAI API (ubrgN9ciepUAocAx)"
+    ],
+    "testing_patterns": [
+      "Local Vitest tests for code nodes (53 tests)",
+      "Primordial pipeline (3+ novel runs)",
+      "MCP workflow validation",
+      "Webhook trigger testing"
+    ],
+    "implementation_details": [
+      "json_schema strict mode constraints",
+      "additionalProperties: false requirement",
+      "All properties in required array",
+      "Array items type definition requirement",
+      "Category registry in Config Loader node"
+    ],
+    "deployment_info": {
+      "workflow_id": "8ZN0l9BHo1zBKDnl",
+      "instance": "https://n8n.atgfw.com",
+      "webhook_path": "webhook/llm-data-extraction"
+    }
+  },
+  "output_file": "CLAUDE.md"
+}

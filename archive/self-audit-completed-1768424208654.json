@@ -1,0 +1,12 @@
+{
+  "directiveAligned": true,
+  "specsComplete": true,
+  "enforcerAudited": true,
+  "researchDone": true,
+  "noIncompleteMarkers": true,
+  "testsPlanned": true,
+  "hierarchyRespected": true,
+  "task": "Fix Input Validator to handle string body (text/plain content-type)",
+  "fix_applied": "Added JSON.parse fallback when body is string instead of object",
+  "verification": "Workflow tested - 200 OK response with correct v3.0 schema output in 5.7s"
+}

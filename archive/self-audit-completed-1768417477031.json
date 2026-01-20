@@ -1,0 +1,53 @@
+{
+  "directiveAligned": true,
+  "specsComplete": true,
+  "enforcerAudited": true,
+  "researchDone": true,
+  "noIncompleteMarkers": true,
+  "testsPlanned": true,
+  "hierarchyRespected": true,
+  "checklist": {
+    "scraplingMcpConfigured": true,
+    "playwrightSessionPersistence": true,
+    "loginDetectionEscalatorUpdated": true,
+    "mcpRegistryUpdated": true,
+    "testsPass": true,
+    "claudeMdDocumented": true,
+    "nodeSpecsCreated": true,
+    "preBashDirectBrowserBlocking": true,
+    "scraplingToolsResearched": true,
+    "noIncompleteMarkers": true,
+    "testsPlanned": true,
+    "hierarchyRespected": true
+  },
+  "specs": [
+    "hooks/specs/login-detection-escalator.yaml",
+    "hooks/specs/browser-automation-gate.yaml"
+  ],
+  "enforcerAudit": {
+    "verdict": "APPROVED",
+    "auditor": "architect-reviewer subagent",
+    "reportPath": "ENFORCER_AUDIT_REPORT.md",
+    "timestamp": "2026-01-14T19:00:00.000Z"
+  },
+  "research": {
+    "scraplingMcpTools": ["s-fetch-page", "s-fetch-pattern"],
+    "scraplingCliCommands": ["scrapling extract get/fetch/stealthy-fetch", "scrapling shell"],
+    "playwrightMcpTools": ["browser_navigate", "browser_click", "browser_type", "browser_screenshot", "browser_snapshot"],
+    "toolArchitecture": "Scrapling for anti-bot fetching, Playwright MCP for browser interactions",
+    "sources": [
+      "https://github.com/cyberchitta/scrapling-fetch-mcp",
+      "https://github.com/D4Vinci/Scrapling",
+      "https://playbooks.com/mcp/cyberchitta/scrapling-fetch-mcp"
+    ]
+  },
+  "corrections": [
+    "Added direct browser automation blocking to pre-bash hook",
+    "Updated CLAUDE.md with explicit BLOCKED/REQUIRED browser automation rules",
+    "Corrected tool mapping - Scrapling has s-fetch-page/s-fetch-pattern, not navigate/click/type",
+    "Browser-automation-gate now allows Playwright for interactions, suggests Scrapling for fetch",
+    "Pre-bash allows scrapling CLI commands (scrapling extract, scrapling shell)"
+  ],
+  "summary": "Browser automation architecture corrected based on research: Scrapling MCP/CLI for anti-bot fetching, Playwright MCP for interactions. Direct Python/Node Playwright blocked. 221 tests passing.",
+  "timestamp": "2026-01-14T19:10:00.000Z"
+}

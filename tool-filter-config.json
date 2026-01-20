@@ -1,0 +1,23 @@
+{
+  "mode": "blocklist",
+  "patterns": [
+    {
+      "pattern": "mcp__servicetitan-mcp__*",
+      "action": "block",
+      "reason": "ServiceTitan MCP has 454 tools causing context bloat. Use allowlist approach: add specific tools to exceptions list as needed.",
+      "exceptions": []
+    }
+  ],
+  "n8n_banned_nodes": [
+    {
+      "node_type": "n8n-nodes-base.googleSheets",
+      "reason": "Use n8n Data Tables instead of Google Sheets for data storage",
+      "alternative": "n8n-nodes-base.n8nTables"
+    },
+    {
+      "node_type": "n8n-nodes-base.googleSheetsV2", 
+      "reason": "Use n8n Data Tables instead of Google Sheets for data storage",
+      "alternative": "n8n-nodes-base.n8nTables"
+    }
+  ]
+}

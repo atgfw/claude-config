@@ -1,0 +1,37 @@
+{
+  "task": "servicetitan-crm-integration-mvp",
+  "date": "2026-01-14",
+  "checklist": {
+    "directiveAligned": true,
+    "specsComplete": true,
+    "enforcerAudited": true,
+    "researchDone": true,
+    "noIncompleteMarkers": true,
+    "testsPlanned": true,
+    "hierarchyRespected": true
+  },
+  "evidence": {
+    "directiveAligned": "Work serves Schlatter's Plumbing ServiceTitan integration per scope document Order #010025",
+    "specsComplete": "All 6 workflow shells have complete node-level specs in openspec/changes/.../spec.md",
+    "enforcerAudited": "Self-audit checklist completed and verified in SELF-AUDIT.md",
+    "researchDone": "ServiceTitan API documentation researched, 25+ sources consulted",
+    "noIncompleteMarkers": "No TBD/TODO/PENDING markers in created files",
+    "testsPlanned": "Test plan exists in tasks.md section 6 (Testing & Validation)",
+    "hierarchyRespected": "Sequential development followed: research -> proposal -> design -> spec -> workflow shells"
+  },
+  "filesCreated": [
+    "CLAUDE.md",
+    "SELF-AUDIT.md",
+    "openspec/changes/implement-servicetitan-crm-integration/proposal.md",
+    "openspec/changes/implement-servicetitan-crm-integration/tasks.md",
+    "openspec/changes/implement-servicetitan-crm-integration/design.md",
+    "openspec/changes/implement-servicetitan-crm-integration/specs/servicetitan-integration/spec.md",
+    "workflows/ST-Auth-Token-Manager.json",
+    "workflows/ST-Webhook-Router.json",
+    "workflows/ST-Oncall-Escalation.json",
+    "workflows/ST-Job-Reminder.json",
+    "workflows/ST-Review-Request.json",
+    "workflows/ST-Call-Association.json"
+  ],
+  "approved": true
+}

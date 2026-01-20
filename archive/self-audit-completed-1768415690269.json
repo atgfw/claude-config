@@ -1,0 +1,9 @@
+{
+  "directiveAligned": true,
+  "specsComplete": true,
+  "enforcerAudited": true,
+  "researchDone": true,
+  "noIncompleteMarkers": true,
+  "testsPlanned": true,
+  "hierarchyRespected": true
+}

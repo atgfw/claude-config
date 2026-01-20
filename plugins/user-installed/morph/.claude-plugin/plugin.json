@@ -1,0 +1,7 @@
+{
+  "name": "morph",
+  "description": "AI-powered code editing and refactoring tool. Uses LLM to perform complex multi-file edits with high accuracy. Optimized for large-scale code modifications.",
+  "author": {
+    "name": "Morph Labs"
+  }
+}

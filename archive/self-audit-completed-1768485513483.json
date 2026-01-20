@@ -1,0 +1,21 @@
+{
+  "directiveAligned": true,
+  "specsComplete": true,
+  "enforcerAudited": true,
+  "researchDone": true,
+  "noIncompleteMarkers": true,
+  "testsPlanned": true,
+  "hierarchyRespected": true,
+  "task": "Update OpenSpec proposal for simplified DEV-only evaluation governance",
+  "verification": {
+    "proposal_updated": "openspec/changes/add-evaluation-governance/proposal.md",
+    "design_updated": "openspec/changes/add-evaluation-governance/design.md",
+    "tasks_updated": "openspec/changes/add-evaluation-governance/tasks.md",
+    "spec_updated": "openspec/changes/add-evaluation-governance/specs/workflow-governance/spec.md",
+    "validation_passed": true,
+    "scope_simplified": "Only [DEV], [ARCHIVE(D)], untagged governed",
+    "requirements_defined": 6,
+    "scenarios_defined": 14
+  },
+  "timestamp": "2026-01-15T00:25:00Z"
+}

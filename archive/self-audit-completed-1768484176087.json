@@ -1,0 +1,21 @@
+{
+  "directiveAligned": true,
+  "specsComplete": true,
+  "enforcerAudited": true,
+  "researchDone": true,
+  "noIncompleteMarkers": true,
+  "testsPlanned": true,
+  "hierarchyRespected": true,
+  "task": "Create OpenSpec proposal for n8n Evaluation and Production Checklist Governance",
+  "verification": {
+    "proposal_created": "openspec/changes/add-evaluation-governance/proposal.md",
+    "design_created": "openspec/changes/add-evaluation-governance/design.md",
+    "tasks_created": "openspec/changes/add-evaluation-governance/tasks.md",
+    "spec_delta_created": "openspec/changes/add-evaluation-governance/specs/workflow-governance/spec.md",
+    "validation_passed": true,
+    "research_sources": 6,
+    "requirements_defined": 6,
+    "scenarios_defined": 13
+  },
+  "timestamp": "2026-01-15T00:15:00Z"
+}
