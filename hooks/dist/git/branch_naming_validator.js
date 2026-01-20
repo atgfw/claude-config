@@ -8,7 +8,10 @@ import { registerHook } from '../runner.js';
 // Allowed branch prefixes
 const allowedPrefixes = ['feature', 'bugfix', 'hotfix', 'release', 'chore', 'docs'];
 // Protected branches that cannot be created directly
-const protectedBranches = new Set(['main', 'master', 'develop']);
+const protectedBranches = new Set(['main', 'develop']);
+// BANNED branch name - always use 'main' instead
+const BANNED_BRANCH = 'master';
+const DEFAULT_BRANCH = 'main';
 // Regex for valid branch name format: prefix/kebab-case-description
 const branchNameRegex = /^(?<prefix>feature|bugfix|hotfix|release|chore|docs)\/(?<description>[a-z\d][a-z\d-]*[a-z\d])$/;
 /**
@@ -94,6 +97,23 @@ function isNewBranchCommand(command) {
         /git\s+switch\s+-c\b/.test(command));
 }
 /**
+ * Check if command references the banned 'master' branch
+ */
+function referencesMasterBranch(command) {
+    // Match various git commands that reference master
+    const masterPatterns = [
+        /git\s+checkout\s+master\b/i,
+        /git\s+switch\s+master\b/i,
+        /git\s+push\s+\S+\s+master\b/i,
+        /git\s+pull\s+\S+\s+master\b/i,
+        /git\s+merge\s+master\b/i,
+        /git\s+rebase\s+master\b/i,
+        /git\s+branch\s+-[dD]\s+master\b/i,
+        /origin\/master\b/i,
+    ];
+    return masterPatterns.some((pattern) => pattern.test(command));
+}
+/**
  * Log a warning (non-blocking)
  */
 function logWarning(title, details) {
@@ -113,6 +133,26 @@ export async function branchNamingValidatorHook(input) {
     const toolInput = input.tool_input;
     const command = typeof toolInput === 'object' && toolInput ? toolInput.command : '';
     log(`Command: ${command || '(empty)'}`);
+    // STRICT: Block any reference to 'master' branch
+    if (command && referencesMasterBranch(command)) {
+        log('');
+        log('[BLOCKED] Reference to banned branch "master" detected');
+        log('');
+        log('STANDARD: Always use "main" as the default branch');
+        log('');
+        log('Replace your command:');
+        log(`  - "master" -> "${DEFAULT_BRANCH}"`);
+        log(`  - "origin/master" -> "origin/${DEFAULT_BRANCH}"`);
+        log('');
+        return {
+            hookSpecificOutput: {
+                hookEventName: 'PreToolUse',
+                permissionDecision: 'deny',
+                permissionDecisionReason: `BLOCKED: Branch "${BANNED_BRANCH}" is banned. Use "${DEFAULT_BRANCH}" instead. ` +
+                    'All repositories must use "main" as the default branch.',
+            },
+        };
+    }
     // Check if this creates a new branch
     if (!command || !isNewBranchCommand(command)) {
         logAllowed('Not a new branch creation command');

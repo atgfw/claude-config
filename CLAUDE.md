@@ -85,6 +85,7 @@ Setup will:
 | **Webhook Path Naming** | `n8n_webhook_path_validator` | kebab-case, no nesting, no "test", must authenticate |
 | **Secret Scanning** | `secret_scanner` | STRICT: Blocks commits containing API keys/secrets |
 | **Commit Conventions** | `commit_message_validator` | WARN: Conventional Commits format recommended |
+| **Default Branch** | `branch_naming_validator` | STRICT: Blocks `master`, enforces `main` only |
 | **Branch Naming** | `branch_naming_validator` | WARN: prefix/description format recommended |
 
 ## Hierarchical Development Governance
@@ -618,6 +619,24 @@ The Spinal Cord includes a comprehensive GitHub framework for standardized versi
 | `chore` | Maintenance tasks | None |
 
 **Breaking Changes:** Add `!` after type or include `BREAKING CHANGE:` in footer for MAJOR bump.
+
+### Default Branch Standard
+
+**Enforcement:** STRICT (hard block)
+
+**Rule:** All repositories MUST use `main` as the default branch. The branch name `master` is BANNED.
+
+| Allowed | Banned |
+|---------|--------|
+| `main` | `master` |
+| `origin/main` | `origin/master` |
+
+The `branch_naming_validator` hook blocks any git command referencing `master`:
+- `git checkout master` → BLOCKED
+- `git push origin master` → BLOCKED
+- `git merge master` → BLOCKED
+
+**Rationale:** Eliminates confusion between `main` and `master` across all projects permanently.
 
 ### Branch Naming
 
