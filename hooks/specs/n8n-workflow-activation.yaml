@@ -1,0 +1,75 @@
+# Node Specification: n8n-workflow-activation
+node_name: "n8n Workflow Activation Hook"
+node_type: "PostToolUse Hook"
+file_path: "hooks/src/hooks/n8n_workflow_activation.ts"
+
+# PURPOSE
+# Ensures n8n workflows are activated after creation to enable MCP-level access
+# (webhook triggers only work on active workflows)
+
+# INPUTS
+inputs:
+  - name: PostToolUseInput
+    type: object
+    required: true
+    source: "Claude Code hook system (PostToolUse event)"
+    schema:
+      tool_name: string
+      tool_result: string | object
+
+# LOGIC
+logic:
+  1: "Check if tool_name is n8n_create_workflow or n8n_update_workflow"
+  2: "If not, pass through without intervention"
+  3: "Parse tool_result to extract workflow ID"
+  4: "Check if workflow is active from result"
+  5: "If workflow not active, call n8n API to activate it"
+  6: "Log activation status and provide context to LLM"
+
+activation_api:
+  endpoint: "PATCH /api/v1/workflows/{id}"
+  body: '{"active": true}'
+  headers:
+    X-N8N-API-KEY: "from environment"
+
+# OUTPUTS
+outputs:
+  - name: PostToolUseOutput
+    type: object
+    schema:
+      hookSpecificOutput:
+        hookEventName: "PostToolUse"
+        additionalContext: string (activation status message)
+    guaranteed: true
+
+# ROUTES
+routes:
+  pass_through:
+    condition: "Not an n8n workflow creation/update tool"
+    output: "{ hookSpecificOutput: { hookEventName: 'PostToolUse' } }"
+
+  already_active:
+    condition: "Workflow already active"
+    output: "{ hookSpecificOutput: { hookEventName: 'PostToolUse', additionalContext: 'Workflow active - MCP access enabled' } }"
+
+  activated:
+    condition: "Workflow was inactive and now activated"
+    output: "{ hookSpecificOutput: { hookEventName: 'PostToolUse', additionalContext: 'ACTIVATED workflow for MCP access' } }"
+
+  activation_failed:
+    condition: "Activation API call failed"
+    output: "{ hookSpecificOutput: { hookEventName: 'PostToolUse', additionalContext: 'WARNING: Could not auto-activate. Use n8n UI to activate.' } }"
+
+# TEST CASES
+test_cases:
+  - name: "Passes through non-n8n tools"
+    input: { tool_name: "Read", tool_result: "file content" }
+    expected_route: pass_through
+
+  - name: "Activates inactive workflow after creation"
+    input: { tool_name: "mcp__n8n-mcp__n8n_create_workflow", tool_result: { id: "abc123", active: false } }
+    expected_route: activated
+
+  - name: "Skips already active workflow"
+    input: { tool_name: "mcp__n8n-mcp__n8n_create_workflow", tool_result: { id: "abc123", active: true } }
+    expected_route: already_active

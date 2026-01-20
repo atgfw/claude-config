@@ -1,0 +1,108 @@
+{
+  "name": "@claude-config/hooks",
+  "version": "1.1.0",
+  "description": "TypeScript hooks for Claude Code - deterministic enforcement system with quality checks",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "xo",
+    "lint:fix": "xo --fix",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "typecheck": "tsc --noEmit",
+    "quality": "npm run typecheck && npm run lint && npm run format:check",
+    "quality:fix": "npm run lint:fix && npm run format",
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "claude-code",
+    "hooks",
+    "automation",
+    "enforcement",
+    "quality-check",
+    "xo",
+    "prettier"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/eslint": "^8.56.0",
+    "@types/estree": "^1.0.5",
+    "@types/node": "^20.11.0",
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.0",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.0",
+    "xo": "^0.59.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "xo": {
+    "space": 2,
+    "semicolon": true,
+    "prettier": true,
+    "ignores": ["src/lint/**/*.ts", "src/index.ts"],
+    "rules": {
+      "no-console": "off",
+      "unicorn/no-process-exit": "off",
+      "unicorn/prevent-abbreviations": ["error", {
+        "replacements": {
+          "args": false, "env": false, "err": false, "fn": false,
+          "func": false, "msg": false, "params": false, "pkg": false,
+          "props": false, "ref": false, "req": false, "res": false,
+          "src": false, "str": false, "tmp": false, "val": false
+        },
+        "allowList": { "ProcessEnv": true }
+      }],
+      "import/prefer-default-export": "off",
+      "@typescript-eslint/no-unused-vars": ["error", {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }],
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-non-null-assertion": "warn",
+      "no-empty": ["error", { "allowEmptyCatch": true }],
+      "unicorn/filename-case": ["error", {
+        "cases": { "kebabCase": true, "snakeCase": true, "pascalCase": true }
+      }],
+      "unicorn/no-null": "off",
+      "unicorn/no-array-reduce": "off",
+      "unicorn/no-nested-ternary": "off",
+      "unicorn/prefer-node-protocol": "error",
+      "unicorn/prefer-module": "error",
+      "unicorn/prefer-top-level-await": "off",
+      "unicorn/prefer-type-error": "error",
+      "unicorn/prefer-set-has": "error",
+      "unicorn/prefer-array-flat-map": "error"
+    },
+    "overrides": [
+      {
+        "files": ["**/*.test.ts", "**/*.spec.ts", "**/tests/**/*.ts"],
+        "rules": {
+          "@typescript-eslint/no-explicit-any": "off",
+          "@typescript-eslint/no-non-null-assertion": "off",
+          "unicorn/no-null": "off"
+        }
+      }
+    ]
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "es5",
+    "printWidth": 100,
+    "bracketSpacing": true,
+    "arrowParens": "always"
+  }
+}

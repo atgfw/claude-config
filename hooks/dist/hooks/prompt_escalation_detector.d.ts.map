@@ -1,0 +1,1 @@
+{"version":3,"file":"prompt_escalation_detector.d.ts","sourceRoot":"","sources":["../../src/hooks/prompt_escalation_detector.ts"],"names":[],"mappings":"AAAA;;;;;GAKG;AAEH,OAAO,KAAK,EAAE,qBAAqB,EAAE,sBAAsB,EAAE,MAAM,aAAa,CAAC;AAgJjF;;;;;GAKG;AACH,wBAAsB,4BAA4B,CAChD,KAAK,EAAE,qBAAqB,GAC3B,OAAO,CAAC,sBAAsB,CAAC,CA6CjC;AAKD,eAAe,4BAA4B,CAAC"}

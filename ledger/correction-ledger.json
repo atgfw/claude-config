@@ -1,0 +1,171 @@
+{
+  "entries": [
+    {
+      "id": "47d3ced4c0d380a8",
+      "timestamp": "2026-01-12T17:43:47.071Z",
+      "symptom": "Claude used rm command instead of mv",
+      "rootCause": "Pre-bash hook was not blocking rm command",
+      "hookToPrevent": "Update pre-bash hook regex to catch all deletion patterns",
+      "hookImplemented": false,
+      "recurrenceCount": 0
+    },
+    {
+      "id": "bda2103f1ba87660",
+      "timestamp": "2026-01-12T17:49:06.480Z",
+      "symptom": "Hooks failed on Windows - $HOME not expanded in settings.json",
+      "rootCause": "settings.json uses $HOME which only expands in bash/zsh, not in Windows cmd.exe or PowerShell",
+      "hookToPrevent": "Use Node.js os.homedir() for cross-platform path resolution in settings.json commands",
+      "hookImplemented": true,
+      "resolution": "Fixed settings.json to use node -e with process.argv.splice and os.homedir() for cross-platform path resolution",
+      "resolvedAt": "2026-01-12T18:00:00.000Z",
+      "recurrenceCount": 0
+    },
+    {
+      "id": "c8f91b3a2d4e5f67",
+      "timestamp": "2026-01-13T12:35:00.000Z",
+      "symptom": "n8n_n8n child project created duplicate workflow 'SW0 - Rewst Get Workflow' without checking existing workflows",
+      "rootCause": "Child project had self-governance hook that only checked local YAML files (registry.yaml, governance.yaml), not live n8n API",
+      "hookToPrevent": "Global n8n_workflow_governance hook that fetches ALL workflows from n8n API before allowing creation",
+      "hookImplemented": true,
+      "resolution": "Created global hook ~/.claude/hooks/src/governance/n8n_workflow_governance.ts that fetches live workflows via n8n API, blocks 70%+ similar, warns 40%+. Archived child project hooks per 'child projects must not override' directive.",
+      "resolvedAt": "2026-01-13T12:35:00.000Z",
+      "recurrenceCount": 0
+    },
+    {
+      "id": "d9a82c4b3e5f6789",
+      "timestamp": "2026-01-13T12:50:00.000Z",
+      "symptom": "Claude treated local YAML files as source of truth instead of querying live cloud APIs",
+      "rootCause": "No directive enforcing API-first approach; local governance.yaml/registry.yaml files became 'ghost files' that diverged from actual cloud state",
+      "hookToPrevent": "Anti-ghost-file directive in global CLAUDE.md + governance hooks that query LIVE APIs (n8n, ElevenLabs) before object creation",
+      "hookImplemented": true,
+      "resolution": "Added 'Source of Truth: LIVE APIs' section to global CLAUDE.md. Created elevenlabs_agent_governance.ts hook that queries ElevenLabs API. Both governance hooks now explicitly fetch from live cloud, not local files.",
+      "resolvedAt": "2026-01-13T12:50:00.000Z",
+      "recurrenceCount": 0
+    },
+    {
+      "id": "e0b93d5c4f6g7890",
+      "timestamp": "2026-01-13T13:00:00.000Z",
+      "symptom": "When user asks for 'tests' or 'evaluations', Claude writes unit tests instead of running evaluations against live cloud objects",
+      "rootCause": "No directive clarifying that 'tests' in this context means evaluation runs against LIVE cloud objects (n8n workflows, ElevenLabs agents), not Jest/Vitest unit tests",
+      "hookToPrevent": "Testing & Evaluation Context directive in global CLAUDE.md with interpretation table and evaluation patterns",
+      "hookImplemented": true,
+      "resolution": "Added 'Testing & Evaluation Context' section to CLAUDE.md with: (1) Interpretation table mapping 'run tests' to 'evaluate live objects', (2) Non-interruptive evaluation patterns for n8n/ElevenLabs, (3) Bulk evaluation protocol with rate limit awareness.",
+      "resolvedAt": "2026-01-13T13:00:00.000Z",
+      "recurrenceCount": 0
+    },
+    {
+      "id": "f1c04e6d5g7h8901",
+      "timestamp": "2026-01-13T13:10:00.000Z",
+      "symptom": "Inconsistent test frameworks across projects (Jest in some, Mocha in others, no standard)",
+      "rootCause": "No organization-wide test framework standard enforced",
+      "hookToPrevent": "Vitest standardization directive in global CLAUDE.md with migration patterns",
+      "hookImplemented": true,
+      "resolution": "Added 'Test Framework Standard: Vitest' section to CLAUDE.md with: (1) Vitest as ONLY approved framework, (2) Complete Jest-to-Vitest migration guide with package changes, config, API equivalents, (3) Migration checklist, (4) TypeScript and React/DOM special cases. Added 'Vitest only' to Critical Rules.",
+      "resolvedAt": "2026-01-13T13:10:00.000Z",
+      "recurrenceCount": 0
+    },
+    {
+      "id": "g2d15f7e6h8i9012",
+      "timestamp": "2026-01-13T13:30:00.000Z",
+      "symptom": "Building workflows without sequential node-by-node testing; deploying untested code as foundation for subsequent work; skipping individual component validation to test whole workflow",
+      "rootCause": "No hierarchical development governance enforcing that untested work is unsuitable to build upon",
+      "hookToPrevent": "Hierarchical Development Governance directive in global CLAUDE.md with strict sequential pipeline",
+      "hookImplemented": true,
+      "resolution": "Added comprehensive 'Hierarchical Development Governance (MANDATORY)' section with: (1) 4-level development hierarchy (Code Node → Node → Subworkflow → Parent), (2) 5-phase sequential pipeline (Spec→Build→Mock Test→Real Test→Gate Check), (3) Node-by-node perfection protocol with visual diagram, (4) Subworkflow-as-node composition rules, (5) Code node local testing requirement with Vitest template, (6) Perfection criteria table, (7) Anti-patterns list with blocking rules, (8) Progress tracking template. Core principle: 'UNTESTED WORK IS UNSUITABLE TO BUILD UPON'",
+      "resolvedAt": "2026-01-13T13:30:00.000Z",
+      "recurrenceCount": 0
+    },
+    {
+      "id": "h3e26g8f7i9j0123",
+      "timestamp": "2026-01-13T14:00:00.000Z",
+      "symptom": "Specs lacked node-level granularity; no enforcer audit against project directive before approval; projects missing plain English directive",
+      "rootCause": "No requirement for detailed inputs/logic/outputs/routes specs; no 3rd party review step; no project-level directive document",
+      "hookToPrevent": "Node-level spec template + Design Enforcer Audit protocol + PROJECT-DIRECTIVE.md requirement in global CLAUDE.md",
+      "hookImplemented": true,
+      "resolution": "Added to CLAUDE.md: (1) PROJECT-DIRECTIVE.md requirement with template (purpose, success criteria, constraints, out of scope), (2) YAML node specification template with exhaustive inputs/logic/outputs/routes/test_cases, (3) Design Enforcer Audit protocol with visual diagram, (4) Enforcer audit checklist template with directive alignment, spec completeness, code rules, higher-order reflection, (5) Enforcer invocation pattern using architect-reviewer subagent, (6) Updated Critical Rules with 'Node-level specs' and 'Project directive' requirements.",
+      "resolvedAt": "2026-01-13T14:00:00.000Z",
+      "recurrenceCount": 0
+    },
+    {
+      "id": "i4f37h9g8j0k1234",
+      "timestamp": "2026-01-13T15:30:00.000Z",
+      "symptom": "Child project attempting to proceed to BUILD phase (Gate 1) with enforcer audit checkboxes still marked PENDING; PROJECT-DIRECTIVE.md missing from project root despite governance requirement",
+      "rootCause": "Directive-only governance insufficient; child created enforcer audit checkboxes in design.md but proceeded without completing them; embedded directive in spec file instead of creating standalone PROJECT-DIRECTIVE.md at root",
+      "hookToPrevent": "Pre-build gate hook that: (1) Verifies PROJECT-DIRECTIVE.md exists at project root, (2) Scans spec/design files for PENDING enforcer audit checkboxes, (3) Blocks BUILD phase until all audits complete",
+      "hookImplemented": true,
+      "resolution": "Created ~/.claude/hooks/src/hooks/pre_build_gate.ts with: (1) Detection of implementation code vs spec/design files via path patterns, (2) Project root discovery via package.json/.git/CLAUDE.md markers, (3) PROJECT-DIRECTIVE.md existence check, (4) Recursive scan of openspec/**/design.md for '- [ ]...PENDING' patterns, (5) Blocks Write/Edit to implementation code if pre-requisites not met. Registered in settings.json with Write|Edit matcher. 16 tests passing.",
+      "resolvedAt": "2026-01-13T16:10:00.000Z",
+      "recurrenceCount": 0,
+      "relatedEntry": "h3e26g8f7i9j0123"
+    },
+    {
+      "id": "j5g48i0h9k1l2345",
+      "timestamp": "2026-01-13T16:45:00.000Z",
+      "symptom": "Code node tests written as plain Node.js scripts with console.log instead of Vitest; test data inline instead of external fixture files; no expected output validation against authoritative fixtures",
+      "rootCause": "Governance specifies Vitest + fixture pattern but no programmatic enforcement; child followed spirit of local testing but used ad-hoc console.log approach instead of mandated Vitest describe/it/expect with mock-input.json and expected-output.json files",
+      "hookToPrevent": "Code node test format validator hook that: (1) Detects test files in tests/code-nodes/, (2) Requires .test.ts extension (not .js), (3) Requires Vitest imports (describe, it, expect), (4) Requires companion fixtures/ directory with *-input.json and *-expected.json files, (5) Blocks test file creation that doesn't follow pattern",
+      "hookImplemented": true,
+      "resolution": "Created ~/.claude/hooks/src/hooks/code_node_test_validator.ts with: (1) Detection of tests/code-nodes/**/*.test.* files, (2) Blocks .test.js requiring .test.ts, (3) Scans for Vitest imports (describe/it/expect from 'vitest'), (4) Detects console.log anti-patterns (PASS/FAIL logging, passed++/failed++, process.exit), (5) Checks for fixture imports from ./fixtures/, (6) Warns when fixtures/ directory missing or lacks *-input.json/*-expected.json files, (7) Provides correct template in block message. Registered in settings.json with Write|Edit matcher. 15 tests passing.",
+      "resolvedAt": "2026-01-13T17:25:00.000Z",
+      "recurrenceCount": 0,
+      "relatedEntry": "f1c04e6d5g7h8901"
+    },
+    {
+      "id": "k6h59j1i0l2m3456",
+      "timestamp": "2026-01-13T19:59:00.000Z",
+      "symptom": "n8n subworkflows using executeWorkflowTrigger cannot be triggered via API for automated testing; child project hit architectural constraint preventing workflow self-testing",
+      "rootCause": "Subworkflows designed only with executeWorkflowTrigger have no API endpoint; n8n's Execute Workflow node is internal-only and requires parent orchestrator to trigger",
+      "hookToPrevent": "n8n dual trigger validator hook that enforces both executeWorkflowTrigger AND webhook trigger (with test/{name} path) for all subworkflows",
+      "hookImplemented": true,
+      "resolution": "Created ~/.claude/hooks/src/governance/n8n_dual_trigger_validator.ts with: (1) Detection of subworkflows via executeWorkflowTrigger, (2) Enforcement of companion webhook trigger, (3) Validation of test/{workflow-name} path convention, (4) Warning for missing Merge node, (5) Template generation for correct dual trigger pattern. Added 'n8n Subworkflow Testing Pattern (MANDATORY)' section to CLAUDE.md. Registered in settings.json with mcp__n8n-mcp__n8n_create_workflow|mcp__n8n-mcp__n8n_update_workflow matcher. 19 tests passing.",
+      "resolvedAt": "2026-01-13T19:59:00.000Z",
+      "recurrenceCount": 0
+    },
+    {
+      "id": "l7i60k2j1m3n4567",
+      "timestamp": "2026-01-13T21:30:00.000Z",
+      "symptom": "Entities passing through Build gate after single test run or with duplicate test inputs; weak links in hierarchy where parent entities built upon unhealthy children; no enforcement of statistical testing confidence",
+      "rootCause": "No requirement for minimum test runs with novel input data; no tracking of input diversity; no hierarchical health propagation; single passing test considered sufficient",
+      "hookToPrevent": "Primordial Pipeline Chain: (1) Every entity requires 3 complete end-to-end test runs with NOVEL input data before building upon, (2) Input novelty verified via SHA-256 hash, (3) Parent entities require ALL children to be healthy first, (4) No weak links - single unhealthy child blocks parent",
+      "hookImplemented": true,
+      "resolution": "Created comprehensive primordial pipeline system: (1) ~/.claude/ledger/test-run-registry.json for tracking test runs per entity, (2) ~/.claude/hooks/src/ledger/test_run_registry.ts with entity registration, test run recording, hash-based novelty detection, hierarchical health checking, status lifecycle (untested/testing/healthy/failing/stale), (3) ~/.claude/hooks/src/hooks/primordial_pipeline_gate.ts PreToolUse hook blocking implementation code until 3 novel runs achieved, (4) Added 'Primordial Pipeline Chain (MANDATORY)' section to CLAUDE.md with visual diagrams, hash algorithm docs, hierarchy examples, anti-patterns. Registered in settings.json with Write|Edit matcher. 49 tests passing.",
+      "resolvedAt": "2026-01-13T21:30:00.000Z",
+      "recurrenceCount": 0
+    },
+    {
+      "id": "6367b84b1230db23",
+      "timestamp": "2026-01-15T18:00:00.000Z",
+      "symptom": "Claude deployed 4 ServiceTitan n8n workflows directly to cloud without PROJECT-DIRECTIVE.md, specs, local files, test-run-registry entries, or any hierarchical testing - complete governance bypass",
+      "rootCause": "Governance hooks only catch local file operations (Write/Edit matchers) but do NOT intercept direct MCP cloud API calls (mcp__n8n-mcp__n8n_create_workflow). Claude called cloud APIs directly, bypassing all file-based gates.",
+      "hookToPrevent": "Universal cloud object creation gate that intercepts ALL cloud-creating MCP tools and enforces: (1) PROJECT-DIRECTIVE.md exists, (2) Spec files exist, (3) test-run-registry has 3 novel runs, (4) Local version control files exist before cloud deployment",
+      "hookImplemented": false,
+      "hooksRequired": [
+        {
+          "name": "cloud_object_creation_gate.ts",
+          "event": "PreToolUse",
+          "matcher": "mcp__n8n-mcp__n8n_create_workflow|mcp__n8n-mcp__n8n_update_workflow|mcp__elevenlabs__.*|mcp__servicetitan__.*",
+          "priority": "P0-CRITICAL",
+          "logic": "Before ANY cloud object creation: Check PROJECT-DIRECTIVE.md, spec files, test-run-registry (3 novel runs), local version control files. Block if missing."
+        }
+      ],
+      "violationsCount": 10,
+      "workflowsDeployed": [
+        {
+          "name": "Auth Token Manager",
+          "id": "e8JlV1rxfR237HMu",
+          "trigger": "Schedule (14 min)"
+        },
+        {
+          "name": "Call Association v2",
+          "id": "fkTzuzjXYwxSGtlr",
+          "trigger": "Subworkflow"
+        }
+      ],
+      "architecturalFlaw": "Governance system assumes local files first, cloud deployment second workflow. Direct MCP cloud API usage bypasses file-based hooks entirely.",
+      "detailReport": "~/.claude/ledger/servicetitan-workflow-violations-2026-01-15.md",
+      "recurrenceCount": 0,
+      "severity": "CRITICAL"
+    }
+  ],
+  "lastUpdated": "2026-01-15T18:00:00.000Z"
+}

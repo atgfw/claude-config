@@ -1,0 +1,94 @@
+# Node Specification: login-detection-escalator
+node_name: "Login Detection Escalator"
+node_type: "PostToolUse Hook"
+file_path: "hooks/src/hooks/login_detection_escalator.ts"
+
+# INPUTS
+inputs:
+  - name: tool_name
+    type: string
+    required: true
+    source: "Claude Code hook system"
+    validation: "Must be a valid tool name"
+
+  - name: tool_input
+    type: object
+    required: false
+    source: "Claude Code hook system"
+    schema:
+      url: string (optional)
+
+  - name: tool_output
+    type: string | object | null
+    required: false
+    source: "Claude Code hook system - output from browser tool"
+
+# LOGIC
+logic:
+  1: "Check if tool_name is a browser tool (mcp__scrapling__ or mcp__playwright__ prefix)"
+  2: "If not browser tool, return empty PostToolUse response (pass through)"
+  3: "Extract analyzable content from tool_output (string, object.content, object.html, etc)"
+  4: "If no content, return empty PostToolUse response"
+  5: "Check content against LOGIN_PAGE_PATTERNS regex array (password fields, sign in text, OAuth, session expired)"
+  6: "Check URL against LOGIN_URL_PATTERNS regex array (/login, /auth, accounts.google.com, etc)"
+  7: "If no indicators found, return empty PostToolUse response"
+  8: "If login detected, build escalation message with AskUserQuestion instructions"
+  9: "Return PostToolUse response with additionalContext containing escalation message"
+
+error_handling:
+  - condition: "Null tool_output"
+    action: "Return empty PostToolUse response (no crash)"
+  - condition: "Malformed tool_output object"
+    action: "Stringify and analyze as fallback"
+
+# OUTPUTS
+outputs:
+  - name: hookSpecificOutput
+    type: object
+    schema:
+      hookEventName: "PostToolUse" (literal)
+      additionalContext: string (optional - only when login detected)
+    guaranteed: true
+
+# ROUTES
+routes:
+  pass_through:
+    condition: "Not a browser tool OR no content OR no login indicators"
+    output: "{ hookSpecificOutput: { hookEventName: 'PostToolUse' } }"
+
+  escalate:
+    condition: "Login page detected (content or URL patterns match)"
+    output: "{ hookSpecificOutput: { hookEventName: 'PostToolUse', additionalContext: <escalation_message> } }"
+
+# TEST CASES
+test_cases:
+  - name: "Detect password input field"
+    input:
+      tool_name: "mcp__scrapling__navigate"
+      tool_output: "<input type=\"password\">"
+    expected_route: escalate
+
+  - name: "Detect Sign In text"
+    input:
+      tool_name: "mcp__scrapling__navigate"
+      tool_output: "<button>Sign In</button>"
+    expected_route: escalate
+
+  - name: "Detect /login URL"
+    input:
+      tool_name: "mcp__scrapling__navigate"
+      tool_input: { url: "https://example.com/login" }
+      tool_output: "<html></html>"
+    expected_route: escalate
+
+  - name: "Pass through normal content"
+    input:
+      tool_name: "mcp__scrapling__navigate"
+      tool_output: "<h1>Dashboard</h1>"
+    expected_route: pass_through
+
+  - name: "Pass through non-browser tool"
+    input:
+      tool_name: "Read"
+      tool_output: "password = secret"
+    expected_route: pass_through

@@ -1,0 +1,62 @@
+# Node Specification Template
+
+node_name: "Node Name Here"
+node_type: "n8n-nodes-base.code"  # or function, class, API endpoint, etc.
+
+# INPUTS (exhaustive list)
+inputs:
+  - name: input_field_name
+    type: object
+    required: true
+    schema:
+      field1: string
+      field2: number
+    source: "Previous node output OR webhook body.field"
+    validation: "Validation rules"
+
+  - name: config_options
+    type: object
+    required: false
+    default: { option1: true }
+
+# LOGIC (step-by-step, no ambiguity)
+logic:
+  1: "Step 1 description"
+  2: "Step 2 description"
+  3: "Step 3 description"
+  error_handling:
+    - condition: "Error condition"
+      action: "Action to take"
+
+# OUTPUTS (exhaustive list)
+outputs:
+  - name: output_name
+    type: object
+    schema:
+      field1: string
+      field2: number
+    guaranteed: true
+
+# ROUTES (all possible paths)
+routes:
+  success:
+    condition: "Success condition"
+    target: "Next Node Name"
+    data_passed: output_name
+
+  failure:
+    condition: "Failure condition"
+    target: "Error Handler Node"
+    data_passed: error_details
+
+# TEST CASES (derived from spec)
+test_cases:
+  - name: "Test case 1 description"
+    input: { field1: "value" }
+    expected_output: { field1: "transformed" }
+    expected_route: success
+
+  - name: "Test case 2 - error condition"
+    input: { invalid: "data" }
+    expected_output: null
+    expected_route: failure

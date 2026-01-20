@@ -1,0 +1,132 @@
+# Research Quota Gate Hook Specification
+
+hook_name: research_quota_gate
+event: Stop
+priority: 100
+enabled: true
+project_filter: "n8n"  # Only enforces in n8n projects
+
+## Purpose
+Enforces the 25-source minimum research quota for non-trivial n8n workflow development, API integrations, and diagnostic queries.
+
+## Philosophy
+"Never reinvent the wheel" - comprehensive research across multiple knowledge bases ensures:
+- Existing solutions are discovered before building from scratch
+- Best practices from the community are incorporated
+- Known bugs and workarounds are identified early
+- API documentation is thoroughly consulted
+
+## Enforcement Rules
+
+### Complexity Classification
+| Complexity | Minimum Sources | Diversity Requirement |
+|------------|-----------------|----------------------|
+| Trivial    | 5               | ≥2 source types      |
+| Moderate+  | 25              | ≥4 source types      |
+
+### Complexity Detection
+Automatically classifies as **Moderate+** if request contains:
+- "workflow" + any of: create, build, design, implement
+- "API" + any of: integration, endpoint, authentication
+- "debug", "fix", "error", "troubleshoot"
+- Multi-step operations (e.g., "create X that does Y and Z")
+- Client/production context markers
+
+Classifies as **Trivial** if:
+- Single node lookup
+- Documentation reference
+- Simple configuration question
+- Status/informational query
+
+### Source Types (each unique item counts as 1)
+1. n8n node documentation (via `get_node_essentials`, `get_node_documentation`)
+2. n8n templates (via `search_templates`, `get_template`)
+3. YouTube tutorials (indexed knowledge base)
+4. Discord Q&A (indexed knowledge base)
+5. Community workflows (Zie619 library)
+6. API documentation (Context7, Ref, Exa)
+7. Reddit threads
+8. WebSearch/WebFetch results
+9. Live n8n instance workflows (via `n8n_list_workflows`)
+
+## Tracking Format
+Hook expects research tracking table in conversation:
+
+```markdown
+## Research Sources ({N}/{required} minimum)
+| # | Type | Source | Relevance |
+|---|------|--------|-----------|
+| 1 | n8n-node | httpRequest essentials | Core pattern |
+| 2 | Template | #1234 "Webhook Handler" | Structure |
+| 3 | YouTube | "n8n Webhook Tutorial" | Best practices |
+| ... | ... | ... | ... |
+```
+
+## Hook Logic
+
+### On Stop Event:
+1. **Detect project type**: Check if cwd contains "n8n" or "workflow"
+2. **Classify complexity**: Scan conversation for complexity markers
+3. **Count research sources**:
+   - Search for "## Research Sources" table
+   - Parse table rows (exclude header)
+   - Extract Type column and count unique source types
+4. **Enforce quota**:
+   - If Trivial: require 5+ sources, 2+ types
+   - If Moderate+: require 25+ sources, 4+ types
+5. **Action on failure**:
+   - BLOCK task completion (deny permission)
+   - Return message: "Research quota not met: {N}/{required} sources, {T}/{required_types} types. See ~/.claude/hooks/specs/research-quota-gate.yaml"
+
+### Exemptions:
+- Conversation contains "research quota exempt" (user override)
+- Task is pure code review/refactoring (no new design)
+- Emergency fix (user specifies "urgent production issue")
+
+## Implementation Notes
+
+### State Management:
+- Hook maintains session-scoped research counter
+- Resets on new task (detected via context shift)
+- Persists across tool calls within same task
+
+### Integration Points:
+- Reads conversation history to detect research activity
+- Looks for tool calls to: `search_nodes`, `get_node_documentation`, `search_templates`, `WebSearch`, `WebFetch`
+- Counts markdown tables with "Research Sources" header
+
+### Future Enhancements:
+- Auto-detect research from tool usage (infer even without explicit table)
+- Suggest knowledge bases when quota not met
+- Track research quality (relevance scoring)
+
+## Test Cases
+
+### Test 1: Trivial Task (Pass)
+- Request: "What does the HTTP Request node do?"
+- Research: 3 n8n docs, 2 templates = 5 sources, 2 types
+- Expected: ALLOW (meets trivial quota)
+
+### Test 2: Moderate Task (Fail)
+- Request: "Build a ServiceTitan CRM integration workflow"
+- Research: 10 sources (8 n8n docs, 2 templates) = 2 types
+- Expected: DENY (needs 25 sources, 4 types)
+
+### Test 3: Moderate Task (Pass)
+- Request: "Build webhook router with HMAC validation"
+- Research: 30 sources across 5 types (n8n docs, templates, YouTube, Discord, Context7)
+- Expected: ALLOW (exceeds moderate+ quota)
+
+### Test 4: Exemption (Pass)
+- Request: "Build X" + user says "research quota exempt"
+- Research: 0 sources
+- Expected: ALLOW (user override)
+
+## Related Hooks
+- `pre_build_gate`: Validates PROJECT-DIRECTIVE.md exists
+- `hierarchical_testing_gate`: Enforces node-by-node testing
+- `n8n_workflow_governance`: Checks live API before create/delete
+
+## References
+- Parent CLAUDE.md: `C:/Users/codya/coding/n8n_n8n/CLAUDE.md:72-102`
+- Plugin CLAUDE.md: `C:/Users/codya/coding/n8n_n8n/claude-n8n-plugin/CLAUDE.md:95-126`

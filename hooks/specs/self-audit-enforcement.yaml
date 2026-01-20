@@ -1,0 +1,72 @@
+# Node Specification: self-audit-enforcement
+node_name: "Self-Audit Enforcement Hook"
+node_type: "Stop Hook"
+file_path: "hooks/src/hooks/self_audit_enforcement.ts"
+
+# INPUTS
+inputs:
+  - name: StopInput
+    type: object
+    required: true
+    source: "Claude Code hook system (Stop event)"
+
+# LOGIC
+logic:
+  1: "Find openspec/changes directories in project hierarchy"
+  2: "If no openspec changes, approve without self-audit (no significant work)"
+  3: "Check for self-audit-completed file in 4 locations (global/project, with/without .json)"
+  4: "If no self-audit file found, block with detailed instructions"
+  5: "Parse and validate self-audit checklist (7 required fields)"
+  6: "If any checklist field is false, block with violation details"
+  7: "If significant work, check/request parent audit via audit_request_registry"
+  8: "If all checks pass, archive self-audit file and approve"
+
+file_locations_checked:
+  - "~/.claude/self-audit-completed"
+  - "~/.claude/self-audit-completed.json"
+  - "{project}/.claude/self-audit-completed"
+  - "{project}/.claude/self-audit-completed.json"
+
+checklist_fields:
+  - directiveAligned: "Work serves PROJECT-DIRECTIVE.md purpose"
+  - specsComplete: "All Code nodes have node-level specs"
+  - enforcerAudited: "Enforcer audit completed via architect-reviewer"
+  - researchDone: "Research requirements met"
+  - noIncompleteMarkers: "No TBD/TODO/PENDING markers"
+  - testsPlanned: "Test plan exists for all components"
+  - hierarchyRespected: "Sequential development followed"
+
+# OUTPUTS
+outputs:
+  - name: StopOutput
+    type: object
+    schema:
+      decision: "approve" | "block"
+      reason: string (optional - when blocking)
+    guaranteed: true
+
+# ROUTES
+routes:
+  approve_no_changes:
+    condition: "No openspec/changes directories found"
+    output: "{ decision: 'approve' }"
+
+  block_no_audit_file:
+    condition: "Openspec changes exist but no self-audit file found"
+    output: "{ decision: 'block', reason: 'Self-audit not completed - create self-audit-completed flag with checklist' }"
+
+  block_incomplete_checklist:
+    condition: "Self-audit file exists but checklist has false values"
+    output: "{ decision: 'block', reason: 'Self-audit incomplete: {first_violation}' }"
+
+  block_parent_corrections:
+    condition: "Parent audit requires corrections"
+    output: "{ decision: 'block', reason: 'Parent audit requires corrections: {message}' }"
+
+  block_parent_rejected:
+    condition: "Parent audit rejected the plan"
+    output: "{ decision: 'block', reason: 'Parent audit rejected the plan' }"
+
+  approve:
+    condition: "All checklist items true, no blocking parent audit"
+    output: "{ decision: 'approve' }"

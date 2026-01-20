@@ -1,0 +1,243 @@
+---
+hookName: cloud_object_creation_gate
+hookType: PreToolUse
+priority: P0-CRITICAL
+status: NOT_IMPLEMENTED
+createdDate: 2026-01-15
+relatedIncident: servicetitan-workflow-violation-2026-01-15-002
+
+purpose: |
+  Universal gate that intercepts ALL cloud object creation via MCP tools and enforces
+  hierarchical development governance BEFORE allowing cloud deployment. This hook closes
+  the critical architectural gap where file-based hooks (Write/Edit matchers) do not
+  catch direct MCP API calls to cloud services.
+
+architecturalGap: |
+  Current governance hooks assume a "local files first, cloud deployment second" workflow.
+  When Claude calls MCP tools directly (e.g., mcp__n8n-mcp__n8n_create_workflow), it bypasses:
+  - pre_build_gate (only matches Write|Edit)
+  - primordial_pipeline_gate (only matches Write|Edit)
+  - hierarchical_testing_gate (only matches Write|Edit)
+  - spec_completeness_validator (not registered)
+  
+  Result: Complete governance bypass with zero enforcement.
+
+matcher:
+  pattern: |
+    mcp__n8n-mcp__n8n_create_workflow|
+    mcp__n8n-mcp__n8n_update_workflow|
+    mcp__elevenlabs__.*|
+    mcp__servicetitan__.*|
+    mcp__.*__create.*|
+    mcp__.*__deploy.*
+  
+  explanation: |
+    Matches ANY MCP tool that creates or deploys cloud objects. Uses conservative
+    pattern matching to catch future MCP servers without requiring hook updates.
+
+prerequisites:
+  - name: PROJECT-DIRECTIVE.md
+    location: Project root (detected via .git, package.json, or CLAUDE.md markers)
+    reason: Ensures project has defined purpose, success criteria, constraints
+    enforcement: BLOCK if missing
+
+  - name: Specification files
+    location: openspec/ or specs/ directory with YAML files
+    reason: Documents inputs/outputs/logic/routes for all nodes
+    enforcement: BLOCK if missing
+    detection: Scan for *.yaml in openspec/** or specs/**
+  
+  - name: Test run registry entries
+    location: ~/.claude/ledger/test-run-registry.json
+    reason: Ensures 3 novel test runs completed (Primordial Pipeline)
+    enforcement: BLOCK if entity not in registry OR < 3 novel runs
+    detection: Query registry by entityId, check novelInputHashes.length >= 3
+  
+  - name: Local version control files
+    location: Project directory
+    reason: Ensures version control, local testing capability, diff history
+    enforcement: WARN if missing (not blocking for all object types)
+    detection: 
+      - n8n workflows: Check for .json file in workflows/ directory
+      - ElevenLabs agents: Check for agent config in agents/ directory
+      - ServiceTitan: Check for config in servicetitan/ directory
+
+detectionLogic:
+  entityTypeDetection: |
+    function detectEntityType(toolName: string, params: any): EntityType {
+      if (toolName.includes('n8n')) return 'n8n-workflow';
+      if (toolName.includes('elevenlabs')) return 'elevenlabs-agent';
+      if (toolName.includes('servicetitan')) return 'servicetitan-object';
+      return 'unknown-cloud-object';
+    }
+  
+  projectRootDetection: |
+    function findProjectRoot(cwd: string): string | null {
+      // Search up directory tree for markers
+      const markers = ['.git', 'package.json', 'CLAUDE.md', 'PROJECT-DIRECTIVE.md'];
+      let current = cwd;
+      while (current !== path.dirname(current)) {
+        for (const marker of markers) {
+          if (fs.existsSync(path.join(current, marker))) return current;
+        }
+        current = path.dirname(current);
+      }
+      return null;
+    }
+
+  prerequisiteChecks: |
+    async function checkPrerequisites(
+      projectRoot: string,
+      entityId: string,
+      entityType: EntityType
+    ): Promise<{ allow: boolean; reason: string; suggestions: string[] }> {
+      const missing: string[] = [];
+      const suggestions: string[] = [];
+      
+      // 1. Check PROJECT-DIRECTIVE.md
+      const directivePath = path.join(projectRoot, 'PROJECT-DIRECTIVE.md');
+      if (!fs.existsSync(directivePath)) {
+        missing.push('PROJECT-DIRECTIVE.md');
+        suggestions.push('Create PROJECT-DIRECTIVE.md at project root with purpose, success criteria, constraints');
+      }
+      
+      // 2. Check spec files
+      const specDirs = ['openspec', 'specs'];
+      let specsFound = false;
+      for (const dir of specDirs) {
+        const specPath = path.join(projectRoot, dir);
+        if (fs.existsSync(specPath)) {
+          const yamls = glob.sync('**/*.yaml', { cwd: specPath });
+          if (yamls.length > 0) specsFound = true;
+        }
+      }
+      if (!specsFound) {
+        missing.push('Specification files');
+        suggestions.push('Create YAML specs in openspec/ or specs/ directory');
+      }
+      
+      // 3. Check test-run-registry
+      const registryPath = path.join(os.homedir(), '.claude', 'ledger', 'test-run-registry.json');
+      const registry = JSON.parse(fs.readFileSync(registryPath, 'utf8'));
+      const entity = registry.entities[entityId];
+      if (!entity || entity.novelInputHashes.length < 3) {
+        missing.push('Primordial Pipeline (3 novel test runs)');
+        suggestions.push('Execute 3 test runs with novel input data, tracked in test-run-registry.json');
+      }
+      
+      return {
+        allow: missing.length === 0,
+        reason: missing.length > 0 ? `Missing prerequisites: ${missing.join(', ')}` : 'All prerequisites met',
+        suggestions
+      };
+    }
+
+blockMessage: |
+  GOVERNANCE GATE: Cloud Object Creation Blocked
+  
+  You attempted to create a cloud object via MCP without completing hierarchical development prerequisites.
+  
+  Missing prerequisites:
+  {{MISSING_LIST}}
+  
+  Required actions:
+  1. Create PROJECT-DIRECTIVE.md at project root
+  2. Write comprehensive YAML specs in openspec/ or specs/
+  3. Execute Primordial Pipeline: 3 test runs with novel input data
+  4. Register test runs in ~/.claude/ledger/test-run-registry.json
+  
+  Only after ALL prerequisites are met can you deploy to cloud.
+  
+  Why this matters:
+  - UNTESTED WORK IS UNSUITABLE TO BUILD UPON
+  - Cloud deployments without specs = no documentation of expected behavior
+  - Cloud deployments without tests = unknown correctness, unknown risk
+  - Cloud deployments without directive = misalignment with business goals
+  
+  See CLAUDE.md sections:
+  - Lines 82-108: PROJECT-DIRECTIVE.md requirement
+  - Lines 209-318: Specification and Design Enforcer Audit
+  - Lines 1000-1163: Primordial Pipeline (3 novel runs)
+
+testCases:
+  - name: Block n8n workflow creation without PROJECT-DIRECTIVE.md
+    input:
+      tool: mcp__n8n-mcp__n8n_create_workflow
+      params: { name: "Test Workflow" }
+      projectRoot: /tmp/test-project
+      filesPresent: []
+    expected:
+      decision: BLOCK
+      reason: Missing PROJECT-DIRECTIVE.md
+  
+  - name: Block n8n workflow creation without specs
+    input:
+      tool: mcp__n8n-mcp__n8n_create_workflow
+      params: { name: "Test Workflow" }
+      projectRoot: /tmp/test-project
+      filesPresent: [PROJECT-DIRECTIVE.md]
+    expected:
+      decision: BLOCK
+      reason: Missing specification files
+
+  - name: Block n8n workflow creation without 3 novel test runs
+    input:
+      tool: mcp__n8n-mcp__n8n_create_workflow
+      params: { name: "Test Workflow" }
+      projectRoot: /tmp/test-project
+      filesPresent: [PROJECT-DIRECTIVE.md, openspec/workflow.yaml]
+      registryEntry: { novelInputHashes: ["hash1", "hash2"] }
+    expected:
+      decision: BLOCK
+      reason: Primordial Pipeline incomplete (2/3 novel runs)
+  
+  - name: Allow n8n workflow creation with all prerequisites
+    input:
+      tool: mcp__n8n-mcp__n8n_create_workflow
+      params: { name: "Test Workflow" }
+      projectRoot: /tmp/test-project
+      filesPresent: [PROJECT-DIRECTIVE.md, openspec/workflow.yaml, workflows/test.json]
+      registryEntry: { novelInputHashes: ["hash1", "hash2", "hash3"] }
+    expected:
+      decision: ALLOW
+      reason: All prerequisites met
+
+implementationNotes:
+  - Hook must be registered EARLY in settings.json (before other hooks)
+  - Use comprehensive MCP matcher to catch all cloud-creating tools
+  - Performance: Cache project root detection within single tool use
+  - Error handling: If prerequisite check fails (file read error), ALLOW with warning
+  - Logging: Log all blocks to ~/.claude/ledger/governance-blocks.log
+  - False positives: Provide override mechanism for emergencies (require explicit user approval)
+
+relatedHooks:
+  - pre_build_gate: Checks PROJECT-DIRECTIVE.md for local files (Write|Edit)
+  - primordial_pipeline_gate: Checks 3 novel runs for local files (Write|Edit)
+  - n8n_workflow_governance: Checks for duplicate workflows via LIVE API
+  - This hook EXTENDS those checks to cover MCP cloud API calls
+
+
+migrationPath:
+  phase1: Implement basic hook with PROJECT-DIRECTIVE.md check only
+  phase2: Add spec file validation
+  phase3: Add test-run-registry integration
+  phase4: Add local version control file checks
+  phase5: Expand MCP matcher coverage based on real-world usage
+  phase6: Add override mechanism with audit trail
+
+successCriteria:
+  - Zero cloud deployments without PROJECT-DIRECTIVE.md
+  - Zero cloud deployments without specs
+  - Zero cloud deployments without 3 novel test runs
+  - Correction ledger shows no recurrence of incident 6367b84b1230db23
+  - User trust restored in governance enforcement
+
+estimatedComplexity: HIGH
+estimatedLOC: 300-400 lines
+requiredDependencies:
+  - fs, path, os (Node.js built-ins)
+  - glob for spec file detection
+  - test-run-registry.ts for registry queries
+  - hook-utils.ts for JSON output formatting
+
+---

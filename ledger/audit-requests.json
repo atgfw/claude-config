@@ -1,0 +1,159 @@
+{
+  "requests": {
+    "de5eedbbe26ea7e9": {
+      "id": "de5eedbbe26ea7e9",
+      "requestedAt": "2026-01-14T18:27:52.168Z",
+      "requestedBy": "child",
+      "projectPath": "C:\\Users\\codya\\.claude",
+      "artifactPath": "C:\\Users\\codya\\.claude\\openspec\\changes\\add-self-escalation-mechanism",
+      "auditType": "plan-review",
+      "description": "Plan review for: add-self-escalation-mechanism",
+      "status": "pending",
+      "expiresAt": "2026-01-15T18:27:52.168Z"
+    },
+    "a1e11052d142898c": {
+      "id": "a1e11052d142898c",
+      "requestedAt": "2026-01-14T18:27:52.173Z",
+      "requestedBy": "child",
+      "projectPath": "C:\\Users\\codya\\.claude",
+      "artifactPath": "C:\\Users\\codya\\.claude\\openspec\\changes\\api-key-dictatorship",
+      "auditType": "plan-review",
+      "description": "Plan review for: api-key-dictatorship",
+      "status": "pending",
+      "expiresAt": "2026-01-15T18:27:52.173Z"
+    },
+    "774a90492b9b2944": {
+      "id": "774a90492b9b2944",
+      "requestedAt": "2026-01-14T18:27:52.178Z",
+      "requestedBy": "child",
+      "projectPath": "C:\\Users\\codya\\.claude",
+      "artifactPath": "C:\\Users\\codya\\.claude\\openspec\\changes\\archive",
+      "auditType": "plan-review",
+      "description": "Plan review for: archive",
+      "status": "pending",
+      "expiresAt": "2026-01-15T18:27:52.178Z"
+    },
+    "4a455292d16828b3": {
+      "id": "4a455292d16828b3",
+      "requestedAt": "2026-01-14T18:27:52.182Z",
+      "requestedBy": "child",
+      "projectPath": "C:\\Users\\codya\\.claude",
+      "artifactPath": "C:\\Users\\codya\\.claude\\openspec\\changes\\enforce-file-governance",
+      "auditType": "plan-review",
+      "description": "Plan review for: enforce-file-governance",
+      "status": "pending",
+      "expiresAt": "2026-01-15T18:27:52.182Z"
+    },
+    "d8e09c6bf411e35b": {
+      "id": "d8e09c6bf411e35b",
+      "requestedAt": "2026-01-14T18:29:30.904Z",
+      "requestedBy": "child",
+      "projectPath": "C:\\Users\\codya\\coding\\n8n_n8n",
+      "artifactPath": "C:\\Users\\codya\\coding\\n8n_n8n\\openspec\\changes\\archive",
+      "auditType": "plan-review",
+      "description": "Plan review for: archive",
+      "status": "pending",
+      "expiresAt": "2026-01-15T18:29:30.904Z"
+    },
+    "bf33effa40ff5e98": {
+      "id": "bf33effa40ff5e98",
+      "requestedAt": "2026-01-14T18:29:30.908Z",
+      "requestedBy": "child",
+      "projectPath": "C:\\Users\\codya\\coding\\n8n_n8n",
+      "artifactPath": "C:\\Users\\codya\\coding\\n8n_n8n\\openspec\\changes\\implement-asbuilt-subworkflow-engine",
+      "auditType": "plan-review",
+      "description": "Plan review for: implement-asbuilt-subworkflow-engine",
+      "status": "pending",
+      "expiresAt": "2026-01-15T18:29:30.908Z"
+    },
+    "4f377bc357e7071f": {
+      "id": "4f377bc357e7071f",
+      "requestedAt": "2026-01-14T18:29:30.912Z",
+      "requestedBy": "child",
+      "projectPath": "C:\\Users\\codya\\coding\\n8n_n8n",
+      "artifactPath": "C:\\Users\\codya\\coding\\n8n_n8n\\openspec\\changes\\implement-llm-data-extraction-pipeline",
+      "auditType": "plan-review",
+      "description": "Plan review for: implement-llm-data-extraction-pipeline",
+      "status": "completed",
+      "completedAt": "2026-01-14T12:00:00.000Z",
+      "verdict": "APPROVED_WITH_MODIFICATIONS",
+      "selfAuditChecklist": {
+        "spec_phase": true,
+        "enforcer_audit": true,
+        "build_phase": true,
+        "local_tests": true,
+        "primordial_pipeline": true,
+        "research_quota": true,
+        "quality_audit": true
+      },
+      "expiresAt": "2026-01-15T18:29:30.912Z"
+    },
+    "e834ca1c34f034e0": {
+      "id": "e834ca1c34f034e0",
+      "requestedAt": "2026-01-14T18:29:30.919Z",
+      "requestedBy": "child",
+      "projectPath": "C:\\Users\\codya\\coding\\n8n_n8n",
+      "artifactPath": "C:\\Users\\codya\\coding\\n8n_n8n\\openspec\\changes\\refresh-hudu-documentation-agent",
+      "auditType": "plan-review",
+      "description": "Plan review for: refresh-hudu-documentation-agent",
+      "status": "pending",
+      "expiresAt": "2026-01-15T18:29:30.919Z"
+    },
+    "claudemd_llm_data_collection": {
+      "id": "claudemd_llm_data_collection",
+      "requestedAt": "2026-01-14T19:01:00.000Z",
+      "requestedBy": "agent",
+      "projectPath": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection",
+      "artifactPath": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection\\CLAUDE.md",
+      "auditType": "claudemd-creation",
+      "description": "CLAUDE.md creation for LLM Data Extraction Pipeline",
+      "status": "completed",
+      "completedAt": "2026-01-14T19:01:00.000Z",
+      "verdict": "PASSED",
+      "selfAuditChecklist": {
+        "codebase_analysis": true,
+        "read_project_directive": true,
+        "read_technical_spec": true,
+        "read_workflow_json": true,
+        "content_requirements": true,
+        "includes_build_commands": true,
+        "includes_test_commands": true,
+        "includes_architecture": true,
+        "format_requirements": true,
+        "no_repetition": true,
+        "no_emojis": true,
+        "project_specific": true,
+        "dual_trigger_documented": true,
+        "strict_mode_documented": true
+      },
+      "expiresAt": "2026-01-15T19:01:00.000Z"
+    },
+    "fd894c033d4b0cbc": {
+      "id": "fd894c033d4b0cbc",
+      "requestedAt": "2026-01-14T22:23:25.267Z",
+      "requestedBy": "child",
+      "projectPath": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan",
+      "artifactPath": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan\\openspec\\changes\\implement-servicetitan-crm-integration",
+      "auditType": "plan-review",
+      "description": "Plan review for: implement-servicetitan-crm-integration",
+      "status": "pending",
+      "expiresAt": "2026-01-15T22:23:25.267Z"
+    },
+    "d99089c0d8b769db": {
+      "id": "d99089c0d8b769db",
+      "requestedAt": "2026-01-15T13:36:16.074Z",
+      "requestedBy": "child",
+      "projectPath": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection",
+      "artifactPath": "C:\\Users\\codya\\coding\\n8n_n8n\\openspec\\changes\\add-evaluation-governance",
+      "auditType": "plan-review",
+      "description": "Plan review for: add-evaluation-governance",
+      "status": "pending",
+      "expiresAt": "2026-01-16T13:36:16.074Z"
+    }
+  },
+  "lastUpdated": "2026-01-15T13:36:16.074Z",
+  "config": {
+    "expiryHours": 24,
+    "maxPendingRequests": 10
+  }
+}

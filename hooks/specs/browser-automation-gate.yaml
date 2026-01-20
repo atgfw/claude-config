@@ -1,0 +1,86 @@
+# Node Specification: browser-automation-gate
+node_name: "Browser Automation Gate"
+node_type: "PreToolUse Hook"
+file_path: "hooks/src/hooks/browser_automation_gate.ts"
+
+# INPUTS
+inputs:
+  - name: tool_name
+    type: string
+    required: true
+    source: "Claude Code hook system"
+    validation: "Must be a valid tool name"
+
+  - name: tool_input
+    type: object
+    required: false
+    source: "Claude Code hook system"
+
+# LOGIC
+logic:
+  1: "Check if tool_name starts with mcp__playwright__ prefix"
+  2: "If not Playwright tool, return allow (pass through)"
+  3: "Check if Scrapling MCP is configured via isMcpServerConfigured('scrapling')"
+  4: "Check Scrapling health status via getMcpServerHealth('scrapling')"
+  5: "If Scrapling is healthy, DENY Playwright with redirect message to use Scrapling"
+  6: "If Scrapling configured but unhealthy, ALLOW Playwright as fallback with warning"
+  7: "If Scrapling not configured, ALLOW Playwright"
+
+error_handling:
+  - condition: "MCP registry file missing"
+    action: "Return health as 'unknown', allow Playwright"
+  - condition: "Registry parse error"
+    action: "Return health as 'unknown', allow Playwright"
+
+# OUTPUTS
+outputs:
+  - name: hookSpecificOutput
+    type: object
+    schema:
+      hookEventName: "PreToolUse" (literal)
+      permissionDecision: "allow" | "deny"
+      permissionDecisionReason: string (optional - when denying)
+    guaranteed: true
+
+# ROUTES
+routes:
+  pass_through:
+    condition: "Not a Playwright tool"
+    output: "{ hookSpecificOutput: { hookEventName: 'PreToolUse', permissionDecision: 'allow' } }"
+
+  deny_redirect:
+    condition: "Playwright tool AND Scrapling is healthy"
+    output: "{ hookSpecificOutput: { hookEventName: 'PreToolUse', permissionDecision: 'deny', permissionDecisionReason: 'Use Scrapling instead...' } }"
+
+  allow_fallback:
+    condition: "Playwright tool AND Scrapling unhealthy/unknown"
+    output: "{ hookSpecificOutput: { hookEventName: 'PreToolUse', permissionDecision: 'allow' } }"
+
+  allow_not_configured:
+    condition: "Playwright tool AND Scrapling not configured"
+    output: "{ hookSpecificOutput: { hookEventName: 'PreToolUse', permissionDecision: 'allow' } }"
+
+# TEST CASES
+test_cases:
+  - name: "Deny Playwright navigate when Scrapling healthy"
+    input:
+      tool_name: "mcp__playwright__browser_navigate"
+    precondition: "Scrapling configured and healthy"
+    expected_route: deny_redirect
+
+  - name: "Allow Playwright when Scrapling unhealthy"
+    input:
+      tool_name: "mcp__playwright__browser_navigate"
+    precondition: "Scrapling configured but health=failed"
+    expected_route: allow_fallback
+
+  - name: "Allow Playwright when Scrapling not configured"
+    input:
+      tool_name: "mcp__playwright__browser_navigate"
+    precondition: "Scrapling not in MCP config"
+    expected_route: allow_not_configured
+
+  - name: "Pass through non-Playwright tools"
+    input:
+      tool_name: "Read"
+    expected_route: pass_through

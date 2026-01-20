@@ -1,0 +1,57 @@
+{
+  "escalations": {
+    "91af2f069d1d4692": {
+      "id": "91af2f069d1d4692",
+      "symptomHash": "1967b91a6d5fca1e",
+      "timestamp": "2026-01-14T14:37:09.766Z",
+      "projectPath": "C:\\Users\\codya\\coding\\n8n_n8n",
+      "projectName": "n8n_n8n",
+      "symptom": "Security-sensitive operation detected without explicit governance",
+      "context": "Tool: Write, Contains sensitive patterns",
+      "proposedSolution": "Implement security-auditor review requirement for sensitive operations",
+      "category": "security",
+      "severity": "high",
+      "status": "pattern-detected",
+      "occurrenceCount": 64,
+      "crossProjectCount": 7,
+      "relatedProjects": [
+        "C:\\Users\\codya\\coding\\n8n_n8n",
+        "C:\\Users\\codya\\Videos\\Captures",
+        "C:\\Users\\codya\\.claude",
+        "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection",
+        "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\documentation_automation",
+        "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan",
+        "C:\\Users\\codya\\coding\\telnyx"
+      ],
+      "relatedCorrectionIds": [],
+      "relatedHookNames": [
+        "escalation-trigger"
+      ],
+      "lastEscalatedAt": "2026-01-16T13:57:19.297Z",
+      "cooldownUntil": "2026-01-14T20:28:30.471Z"
+    }
+  },
+  "symptomIndex": {
+    "1967b91a6d5fca1e": [
+      "91af2f069d1d4692"
+    ]
+  },
+  "projectIndex": {
+    "C:\\Users\\codya\\coding\\n8n_n8n": [
+      "91af2f069d1d4692"
+    ]
+  },
+  "config": {
+    "patternThreshold": 3,
+    "crossProjectThreshold": 2,
+    "cooldownMinutes": 30,
+    "autoProposalEnabled": true,
+    "severityWeights": {
+      "critical": 10,
+      "high": 5,
+      "medium": 2,
+      "low": 1
+    }
+  },
+  "lastUpdated": "2026-01-16T13:57:19.298Z"
+}

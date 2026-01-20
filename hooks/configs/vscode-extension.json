@@ -1,0 +1,59 @@
+{
+  "version": "1.0.0",
+  "name": "VS Code Extension Quality Check",
+  "description": "Quality checks optimized for VS Code extensions",
+  "projectType": "vscode-extension",
+  "typescript": {
+    "enabled": true,
+    "showDependencyErrors": false
+  },
+  "xo": {
+    "enabled": true,
+    "autofix": true
+  },
+  "prettier": {
+    "enabled": true,
+    "autofix": true
+  },
+  "general": {
+    "autofixSilent": true,
+    "debug": false
+  },
+  "rules": {
+    "console": {
+      "enabled": true,
+      "severity": "error",
+      "message": "Use VS Code output channels instead of console in extension code",
+      "allowIn": {
+        "paths": ["/webview/", "/test/"],
+        "fileTypes": ["test"],
+        "patterns": ["*.test.ts"]
+      }
+    },
+    "asAny": {
+      "enabled": true,
+      "severity": "error",
+      "message": "VS Code API is fully typed. Use proper types from 'vscode' module"
+    },
+    "debugger": {
+      "enabled": true,
+      "severity": "error",
+      "message": "Remove debugger statements before committing"
+    },
+    "todos": {
+      "enabled": true,
+      "severity": "warning",
+      "patterns": ["TODO", "FIXME", "HACK"]
+    }
+  },
+  "ignore": {
+    "paths": [
+      "node_modules/",
+      "out/",
+      "dist/",
+      ".vscode-test/",
+      "coverage/",
+      "*.vsix"
+    ]
+  }
+}

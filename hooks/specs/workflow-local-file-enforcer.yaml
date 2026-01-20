@@ -1,0 +1,136 @@
+---
+hookName: workflow_local_file_enforcer
+hookType: PreToolUse
+priority: P0-CRITICAL
+status: NOT_IMPLEMENTED
+createdDate: 2026-01-15
+relatedIncident: servicetitan-workflow-violation-2026-01-15-002
+
+purpose: |
+  Enforces "local files first, cloud deployment second" pattern for n8n workflows.
+  Requires local .json workflow file exists in version control BEFORE deploying to n8n cloud.
+  This ensures version control, local testing capability, diff history, and rollback capability.
+
+problem: |
+  Current governance allows direct MCP deployment to n8n without local files:
+  1. Claude calls mcp__n8n-mcp__n8n_create_workflow directly
+  2. Workflow JSON exists only in n8n cloud
+  3. No local file = no version control, no git history, no rollback
+  4. Violates "Source of Truth: LIVE APIs" governance (local files are cache/documentation)
+
+matcher:
+  pattern: mcp__n8n-mcp__n8n_create_workflow|mcp__n8n-mcp__n8n_update_workflow
+  explanation: Matches n8n workflow creation and updates via MCP
+
+prerequisites:
+  - name: Local workflow JSON file
+    location: workflows/ directory in project root
+    reason: Ensures version control, local testing, rollback capability
+    enforcement: BLOCK if missing
+    detection: |
+      1. Extract workflow name from MCP params
+      2. Search for matching .json file in workflows/ directory
+      3. Filename convention: {workflow-name}.json or {workflow-id}.json
+
+detectionLogic: |
+  function findLocalWorkflowFile(workflowName: string, projectRoot: string): string | null {
+    const workflowsDir = path.join(projectRoot, 'workflows');
+    if (!fs.existsSync(workflowsDir)) return null;
+    
+    // Normalize name: lowercase, replace spaces with hyphens
+    const normalized = workflowName.toLowerCase().replace(/\s+/g, '-');
+    
+    // Search patterns
+    const patterns = [
+      `${normalized}.json`,
+      `${workflowName}.json`,
+      `*${normalized}*.json`
+    ];
+    
+    for (const pattern of patterns) {
+      const matches = glob.sync(pattern, { cwd: workflowsDir });
+      if (matches.length > 0) return path.join(workflowsDir, matches[0]);
+    }
+    
+    return null;
+  }
+
+blockMessage: |
+  GOVERNANCE GATE: Local Workflow File Required
+  
+  You attempted to create/update n8n workflow "{{WORKFLOW_NAME}}" without a local JSON file.
+  
+  Why local files are required:
+  1. Version Control: Git tracks changes, enables collaboration
+  2. Rollback: Revert to previous versions if deployment fails
+  3. Local Testing: Test workflows locally before cloud deployment
+  4. Diff History: See what changed between versions
+  5. Documentation: Workflow JSON serves as source of truth
+  
+  Required action:
+  1. Create local workflow file: workflows/{{WORKFLOW_NAME}}.json
+  2. Populate with workflow definition (nodes, connections, settings)
+  3. Commit to version control: git add workflows/{{WORKFLOW_NAME}}.json
+  4. THEN deploy to n8n cloud via MCP
+  
+  Template:
+  {
+    "name": "{{WORKFLOW_NAME}}",
+    "nodes": [...],
+    "connections": {...},
+    "settings": {...}
+  }
+  
+  After creating local file, re-run the MCP deployment command.
+
+testCases:
+  - name: Block workflow creation without local file
+    input:
+      tool: mcp__n8n-mcp__n8n_create_workflow
+      params: { name: "Auth Token Manager" }
+      projectRoot: /tmp/test-project
+      filesPresent: []
+    expected:
+      decision: BLOCK
+      reason: Local workflow file not found in workflows/ directory
+  
+  - name: Allow workflow creation with local file
+    input:
+      tool: mcp__n8n-mcp__n8n_create_workflow
+      params: { name: "Auth Token Manager" }
+      projectRoot: /tmp/test-project
+      filesPresent: [workflows/auth-token-manager.json]
+    expected:
+      decision: ALLOW
+      reason: Local workflow file exists
+  
+  - name: Handle workflow update with local file
+    input:
+      tool: mcp__n8n-mcp__n8n_update_workflow
+      params: { id: "e8JlV1rxfR237HMu", name: "Auth Token Manager" }
+      projectRoot: /tmp/test-project
+      filesPresent: [workflows/auth-token-manager.json]
+    expected:
+      decision: ALLOW
+      reason: Local workflow file exists
+
+implementationNotes:
+  - Must handle fuzzy matching (spaces vs hyphens, case sensitivity)
+  - Warn if multiple potential matches found (ambiguity)
+  - Suggest creating workflows/ directory if it doesn't exist
+  - Integration with cloud_object_creation_gate (runs after that hook)
+  - Performance: Cache directory listing within single tool use
+
+exceptionHandling:
+  - If project root cannot be determined, ALLOW with warning (avoid false blocks)
+  - If workflows/ directory doesn't exist, suggest creating it in block message
+  - If user is updating existing workflow, check if local file exists for that workflow ID
+
+relatedGovernance:
+  - CLAUDE.md lines 576-596: Source of Truth - LIVE APIs
+  - This hook enforces LOCAL FILES as cache/documentation before cloud deployment
+  - Complements n8n_workflow_governance (duplicate detection)
+
+estimatedComplexity: MEDIUM
+estimatedLOC: 150-200 lines
+---

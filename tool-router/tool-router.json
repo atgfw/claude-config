@@ -1,0 +1,274 @@
+{
+  "routes": [
+    {
+      "operation": "file-edit",
+      "preferences": [
+        {
+          "tool": "mcp__morph__edit_file",
+          "priority": 1,
+          "conditions": {
+            "mcpHealthy": ["morph"]
+          }
+        },
+        {
+          "tool": "Edit",
+          "priority": 2
+        },
+        {
+          "tool": "Write",
+          "priority": 3
+        }
+      ],
+      "fallback": "Write"
+    },
+    {
+      "operation": "cloud-object-modify",
+      "description": "Creating or modifying cloud objects (n8n workflows, ServiceTitan objects, etc.)",
+      "preferences": [
+        {
+          "tool": "system-mcp",
+          "priority": 1,
+          "description": "Use system-specific MCP (mcp__n8n__*, mcp__servicetitan__*, etc.)",
+          "conditions": {
+            "mcpHealthy": ["n8n", "servicetitan", "elevenlabs"]
+          }
+        },
+        {
+          "tool": "mcp__morph__edit_file",
+          "priority": 2,
+          "description": "Download to temp, edit with Morph, upload via API",
+          "conditions": {
+            "mcpHealthy": ["morph"]
+          }
+        },
+        {
+          "tool": "mcp__desktop-commander__start_process",
+          "priority": 3,
+          "description": "Ad-hoc API call via node.js",
+          "conditions": {
+            "mcpHealthy": ["desktop-commander"]
+          }
+        },
+        {
+          "tool": "mcp__scrapling__s_fetch_page",
+          "priority": 4,
+          "description": "Browser-based modification with Scrapling CLI",
+          "conditions": {
+            "mcpHealthy": ["scrapling"]
+          }
+        },
+        {
+          "tool": "AskUserQuestion",
+          "priority": 5,
+          "description": "Last resort - provide URL/instructions for manual action"
+        }
+      ],
+      "fallback": "AskUserQuestion"
+    },
+    {
+      "operation": "local-object-modify",
+      "description": "Creating or modifying local files",
+      "preferences": [
+        {
+          "tool": "mcp__morph__edit_file",
+          "priority": 1,
+          "conditions": {
+            "mcpHealthy": ["morph"]
+          }
+        },
+        {
+          "tool": "mcp__desktop-commander__edit_block",
+          "priority": 2,
+          "conditions": {
+            "mcpHealthy": ["desktop-commander"]
+          }
+        },
+        {
+          "tool": "Edit",
+          "priority": 3
+        },
+        {
+          "tool": "mcp__desktop-commander__start_process",
+          "priority": 4,
+          "description": "Shell with node.js direct execution",
+          "conditions": {
+            "mcpHealthy": ["desktop-commander"],
+            "runtime": "node"
+          }
+        },
+        {
+          "tool": "mcp__desktop-commander__start_process",
+          "priority": 5,
+          "description": "Shell raw terminal",
+          "conditions": {
+            "mcpHealthy": ["desktop-commander"]
+          }
+        },
+        {
+          "tool": "Bash",
+          "priority": 6
+        },
+        {
+          "tool": "AskUserQuestion",
+          "priority": 7
+        }
+      ],
+      "fallback": "Edit"
+    },
+    {
+      "operation": "adhoc-code-execute",
+      "description": "Executing ad-hoc code (prefer node.js, avoid Python, avoid full scripts)",
+      "preferences": [
+        {
+          "tool": "mcp__desktop-commander__start_process",
+          "priority": 1,
+          "description": "node -e direct execution",
+          "conditions": {
+            "mcpHealthy": ["desktop-commander"],
+            "runtime": "node"
+          }
+        },
+        {
+          "tool": "Write",
+          "priority": 2,
+          "description": "Write temp file and execute"
+        },
+        {
+          "tool": "mcp__desktop-commander__start_process",
+          "priority": 3,
+          "description": "Raw terminal command",
+          "conditions": {
+            "mcpHealthy": ["desktop-commander"]
+          }
+        },
+        {
+          "tool": "Bash",
+          "priority": 4
+        },
+        {
+          "tool": "AskUserQuestion",
+          "priority": 5
+        }
+      ],
+      "fallback": "Bash",
+      "frameworkExceptions": {
+        "scrapling": "python",
+        "playwright-codegen": "javascript"
+      },
+      "constraints": {
+        "preferredRuntime": "node",
+        "avoidFullScripts": true,
+        "useTempDirectory": true
+      }
+    },
+    {
+      "operation": "browser-navigate",
+      "preferences": [
+        {
+          "tool": "mcp__scrapling__s_fetch_page",
+          "priority": 1,
+          "conditions": {
+            "mcpHealthy": ["scrapling"]
+          }
+        },
+        {
+          "tool": "mcp__playwright__browser_navigate",
+          "priority": 2,
+          "conditions": {
+            "mcpHealthy": ["playwright"]
+          }
+        }
+      ],
+      "fallback": "mcp__playwright__browser_navigate"
+    },
+    {
+      "operation": "browser-screenshot",
+      "preferences": [
+        {
+          "tool": "mcp__scrapling__screenshot",
+          "priority": 1,
+          "conditions": {
+            "mcpHealthy": ["scrapling"]
+          }
+        },
+        {
+          "tool": "mcp__playwright__browser_take_screenshot",
+          "priority": 2,
+          "conditions": {
+            "mcpHealthy": ["playwright"]
+          }
+        }
+      ],
+      "fallback": "mcp__playwright__browser_take_screenshot"
+    },
+    {
+      "operation": "browser-interact",
+      "preferences": [
+        {
+          "tool": "mcp__scrapling__click",
+          "priority": 1,
+          "conditions": {
+            "mcpHealthy": ["scrapling"]
+          }
+        },
+        {
+          "tool": "mcp__playwright__browser_click",
+          "priority": 2,
+          "conditions": {
+            "mcpHealthy": ["playwright"]
+          }
+        }
+      ],
+      "fallback": "mcp__playwright__browser_click"
+    },
+    {
+      "operation": "web-search",
+      "preferences": [
+        {
+          "tool": "mcp__exa__search",
+          "priority": 1,
+          "conditions": {
+            "mcpHealthy": ["exa"]
+          }
+        },
+        {
+          "tool": "WebSearch",
+          "priority": 2
+        }
+      ],
+      "fallback": "WebSearch"
+    },
+    {
+      "operation": "code-search",
+      "preferences": [
+        {
+          "tool": "mcp__filesystem-with-morph__warpgrep_codebase_search",
+          "priority": 1,
+          "conditions": {
+            "mcpHealthy": ["filesystem-with-morph"]
+          }
+        },
+        {
+          "tool": "Grep",
+          "priority": 2
+        }
+      ],
+      "fallback": "Grep"
+    }
+  ],
+  "frameworkExceptions": {
+    "scrapling": {
+      "allowedFramework": "python",
+      "reason": "Scrapling CLI only supports Python scripting"
+    },
+    "playwright-codegen": {
+      "allowedFramework": "javascript",
+      "reason": "Playwright's native language for codegen"
+    }
+  },
+  "lastResearchUpdate": "2026-01-16T00:00:00.000Z",
+  "researchSources": [
+    "https://github.com/anthropics/mcp-servers",
+    "https://docs.anthropic.com/claude-code"
+  ]
+}

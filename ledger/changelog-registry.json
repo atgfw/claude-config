@@ -1,6 +1,20 @@
 {
-  "repositories": {},
-  "lastUpdated": "2026-01-20T00:00:00Z",
+  "repositories": {
+    "C:/Users/codya/.claude": {
+      "lastRelease": "0.0.0",
+      "unreleased": [
+        {
+          "hash": "d3d8fe3",
+          "type": "feat",
+          "scope": "github",
+          "description": "add global GitHub framework for automated releases",
+          "breaking": false,
+          "timestamp": "2026-01-20T18:47:13.051Z"
+        }
+      ]
+    }
+  },
+  "lastUpdated": "2026-01-20T18:47:13.057Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"

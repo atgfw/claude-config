@@ -1,0 +1,61 @@
+{
+  "version": "1.0.0",
+  "name": "Global Quality Check",
+  "description": "Default quality check configuration for all projects",
+  "projectType": "node-typescript",
+  "typescript": {
+    "enabled": true,
+    "showDependencyErrors": false
+  },
+  "xo": {
+    "enabled": true,
+    "autofix": true
+  },
+  "prettier": {
+    "enabled": true,
+    "autofix": true
+  },
+  "general": {
+    "autofixSilent": true,
+    "debug": false
+  },
+  "rules": {
+    "console": {
+      "enabled": true,
+      "severity": "warning",
+      "message": "Consider using a proper logger for production code",
+      "allowIn": {
+        "paths": ["/cli/", "/bin/", "/scripts/"],
+        "fileTypes": ["cli", "test"],
+        "patterns": ["*.test.ts", "*.spec.ts"]
+      }
+    },
+    "asAny": {
+      "enabled": true,
+      "severity": "warning",
+      "message": "Prefer proper types, generics, or 'as unknown' for type assertions"
+    },
+    "debugger": {
+      "enabled": true,
+      "severity": "error",
+      "message": "Remove debugger statements before committing"
+    },
+    "todos": {
+      "enabled": true,
+      "severity": "info",
+      "patterns": ["TODO", "FIXME", "HACK", "XXX"]
+    }
+  },
+  "ignore": {
+    "paths": [
+      "node_modules/",
+      "dist/",
+      "build/",
+      "coverage/",
+      ".next/",
+      "*.config.js",
+      "*.config.ts",
+      "*.config.mjs"
+    ]
+  }
+}

@@ -1,0 +1,104 @@
+---
+hookName: hook_context_optimization
+priority: P1-HIGH
+status: SPECIFICATION
+createdDate: 2026-01-15
+incident: autocompact-failures-2026-01-15
+
+problem: |
+  PostToolUse hooks with "*" matcher run on EVERY tool call, causing context exhaustion:
+  - post-tool-use (line 178-184 in settings.json)
+  - api-key-detector (line 186-193 in settings.json)
+  - escalation-trigger (line 196-202 in settings.json)
+  
+  With frequent tool usage (n8n operations, git, file reads), context fills before autocompact.
+
+impact:
+  - "Context limit reached · /compact or /clear to continue" appears mid-session
+  - Disrupts workflow, requires manual intervention
+  - Hook overhead >> hook value for most tool calls
+
+rootCause:
+  - Universal "*" matcher is too broad
+  - Not all tools need API key detection (Read, Glob don't)
+  - Not all tools need escalation detection (Read, Glob don't)
+  - Hook output adds to context even when hooks do nothing
+
+solutions:
+  
+  solution1_targeted_matchers:
+    name: Replace "*" with specific tool patterns
+    changes:
+      api-key-detector:
+        old_matcher: "*"
+        new_matcher: "Bash|mcp__*|Write|Edit"
+        reasoning: Only tools that could expose API keys
+      
+      escalation-trigger:
+        old_matcher: "*"
+        new_matcher: "Bash|Write|Edit|mcp__n8n-mcp__*|mcp__elevenlabs__*"
+        reasoning: Only tools where corrections likely occur
+      
+      post-tool-use:
+        old_matcher: "*"
+        new_matcher: "mcp__playwright__*|mcp__scrapling__*|Bash"
+        reasoning: Only browser automation and bash need Scrapling preference enforcement
+    
+    impact: Reduces hook executions by ~70% for typical workflows
+  
+  solution2_silent_success:
+    name: Hooks output nothing on success, only on blocks/warnings
+    changes: |
+      Current: Every hook execution adds "Success" to context
+      Proposed: Hooks return empty context object on success:
+        { context: "" } instead of { context: "Success" }
+    
+    impact: Eliminates success message overhead (most hook executions)
+  
+  solution3_hook_batching:
+    name: Combine related hooks into single execution
+    changes: |
+      Instead of 3 separate PostToolUse hooks, create one post_tool_use_unified.ts:
+      - Combines api-key-detector + escalation-trigger + post-tool-use logic
+      - Single process spawn, single context addition
+      - Conditional execution of sub-checks based on tool type
+    
+    impact: Reduces 3 hook executions to 1 per tool call
+  
+  solution4_sampling:
+    name: Run expensive hooks only on percentage of tool calls
+    changes: |
+      escalation-trigger: Sample 20% of tool calls (still catches patterns)
+      api-key-detector: Run only on Write|Edit|Bash (high-risk tools)
+    
+    impact: Further reduces context overhead while maintaining safety
+
+recommendedApproach: |
+  Implement solution1 + solution2 immediately (low risk, high impact):
+  1. Update settings.json matchers to be specific
+  2. Modify hooks to output "" on success
+  
+  Consider solution3 for future optimization
+  Skip solution4 (sampling introduces non-determinism)
+
+migration:
+  step1: Create new settings.json with targeted matchers
+  step2: Test with high-frequency tool usage (n8n workflows)
+  step3: Verify no regressions in hook functionality
+  step4: Deploy to production
+
+testCases:
+  - name: Read tool does not trigger any PostToolUse hooks
+    before: 3 hooks fire (post-tool-use, api-key-detector, escalation-trigger)
+    after: 0 hooks fire
+  
+  - name: mcp__n8n-mcp__n8n_create_workflow triggers only relevant hooks
+    before: 4+ hooks fire
+    after: 2-3 hooks fire (governance + escalation only)
+  
+  - name: Bash command triggers security hooks
+    before: 3 hooks fire
+    after: 3 hooks fire (no change, appropriate)
+
+estimatedImpact:
+  contextReduction: 60-70%

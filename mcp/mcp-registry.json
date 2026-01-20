@@ -1,0 +1,109 @@
+{
+  "servers": [
+    {
+      "name": "n8n-mcp",
+      "package": "n8n-mcp",
+      "healthCheck": "npx -y n8n-mcp --help",
+      "recoveryProcedure": "npm cache clean --force && npx -y n8n-mcp@latest",
+      "env": {
+        "N8N_API_URL": "https://n8n.atgfw.com/api/v1",
+        "N8N_API_KEY": ""
+      },
+      "health": {
+        "status": "healthy",
+        "lastCheck": "2026-01-12T18:30:00.000Z"
+      },
+      "failureHistory": []
+    },
+    {
+      "name": "scrapling",
+      "package": "scrapling-fetch-mcp",
+      "healthCheck": "uvx scrapling-fetch-mcp --help",
+      "recoveryProcedure": "pip install uv && uv tool install scrapling-fetch-mcp",
+      "health": {
+        "status": "healthy",
+        "lastCheck": "2026-01-14T18:30:00.000Z"
+      },
+      "failureHistory": []
+    },
+    {
+      "name": "playwright",
+      "package": "@playwright/mcp",
+      "healthCheck": "claude mcp list | grep playwright",
+      "recoveryProcedure": "claude mcp add --scope user --transport stdio playwright -- npx -y @playwright/mcp",
+      "health": {
+        "status": "healthy",
+        "lastCheck": "2026-01-14T16:15:00.000Z"
+      },
+      "failureHistory": []
+    },
+    {
+      "name": "servicetitan",
+      "package": "servicetitan-mcp (local)",
+      "healthCheck": "claude mcp list | grep servicetitan",
+      "recoveryProcedure": "cd C:/Users/codya/.claude/mcp/servicetitan-mcp && npm install && npm run build",
+      "env": {
+        "SERVICE_TITAN_CLIENT_ID": "",
+        "SERVICE_TITAN_CLIENT_SECRET": "",
+        "SERVICE_TITAN_APP_KEY": "",
+        "SERVICE_TITAN_TENANT_ID": ""
+      },
+      "health": {
+        "status": "healthy",
+        "lastCheck": "2026-01-15T12:00:00.000Z"
+      },
+      "failureHistory": []
+    },
+    {
+      "name": "morph",
+      "package": "@morph-llm/morph-fast-apply",
+      "healthCheck": "claude mcp list | grep morph",
+      "recoveryProcedure": "claude mcp add --scope user --transport stdio morph -- npx -y @morph-llm/morph-fast-apply",
+      "env": {
+        "MORPH_API_KEY": ""
+      },
+      "health": {
+        "status": "healthy",
+        "lastCheck": "2026-01-15T18:30:00.000Z"
+      },
+      "failureHistory": []
+    },
+    {
+      "name": "desktop-commander",
+      "package": "@wonderwhy-er/desktop-commander",
+      "healthCheck": "claude mcp list | grep desktop-commander",
+      "recoveryProcedure": "claude mcp add --scope user --transport stdio desktop-commander -- npx -y @wonderwhy-er/desktop-commander",
+      "health": {
+        "status": "healthy",
+        "lastCheck": "2026-01-15T18:30:00.000Z"
+      },
+      "failureHistory": []
+    },
+    {
+      "name": "tavily",
+      "package": "tavily-mcp",
+      "healthCheck": "claude mcp list | grep tavily",
+      "recoveryProcedure": "claude mcp add --scope user --transport stdio tavily -- npx -y tavily-mcp@latest",
+      "env": {
+        "TAVILY_API_KEY": ""
+      },
+      "health": {
+        "status": "healthy",
+        "lastCheck": "2026-01-15T18:30:00.000Z"
+      },
+      "failureHistory": []
+    },
+    {
+      "name": "context7",
+      "package": "@upstash/context7-mcp",
+      "healthCheck": "claude mcp list | grep context7",
+      "recoveryProcedure": "claude mcp add --scope user --transport stdio context7 -- npx -y @upstash/context7-mcp",
+      "health": {
+        "status": "healthy",
+        "lastCheck": "2026-01-15T18:30:00.000Z"
+      },
+      "failureHistory": []
+    }
+  ],
+  "lastUpdated": "2026-01-15T18:30:00.000Z"
+}

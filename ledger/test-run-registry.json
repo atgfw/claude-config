@@ -1,0 +1,246 @@
+{
+  "entities": {
+    "llm-data-extraction-pipeline": {
+      "entityId": "llm-data-extraction-pipeline",
+      "entityType": "n8n-workflow",
+      "entityPath": "workflows/llm_data_collection/llm-data-extraction-pipeline.json",
+      "entityName": "LLM Data Extraction Pipeline",
+      "workflowId": "8ZN0l9BHo1zBKDnl",
+      "status": "healthy",
+      "version": "2.1.0",
+      "novelInputHashes": [
+        "b946c41e55c8a460",
+        "98383b009e54263f",
+        "eb51e00abcad4d99"
+      ],
+      "testRuns": [
+        {
+          "run": 1,
+          "inputHash": "b946c41e55c8a460",
+          "passed": true,
+          "timestamp": "2026-01-14T10:00:00.000Z",
+          "executionId": "154969",
+          "description": "HVAC furnace replacement sales call"
+        },
+        {
+          "run": 2,
+          "inputHash": "98383b009e54263f",
+          "passed": true,
+          "timestamp": "2026-01-14T10:15:00.000Z",
+          "executionId": "154970",
+          "description": "CRM software consultation - marketing agency"
+        },
+        {
+          "run": 3,
+          "inputHash": "eb51e00abcad4d99",
+          "passed": true,
+          "timestamp": "2026-01-14T10:30:00.000Z",
+          "executionId": "154971",
+          "description": "Landscaping cancellation - lost to competitor"
+        }
+      ],
+      "totalNovelRuns": 19,
+      "healthyAt": "2026-01-14T12:00:00.000Z",
+      "selfAuditCompleted": {
+        "completed": true,
+        "completedAt": "2026-01-14T12:00:00.000Z",
+        "checklist": {
+          "spec_phase": true,
+          "enforcer_audit": true,
+          "build_phase": true,
+          "local_tests": true,
+          "primordial_pipeline": true,
+          "research_quota": true,
+          "quality_audit": true
+        }
+      }
+    },
+    "st-call-association": {
+      "entityId": "st-call-association",
+      "entityType": "n8n-workflow",
+      "entityPath": "workflows/servicetitan/workflows/ST-Call-Association-v2.json",
+      "entityName": "[ST] Call Association v2",
+      "workflowId": "fkTzuzjXYwxSGtlr",
+      "status": "mock-tested",
+      "version": "2.0.0",
+      "novelInputHashes": [
+        "c0718e5e7ed3c733",
+        "79a9ba6d2700988f",
+        "5c92d92d22163208"
+      ],
+      "testRuns": [
+        {
+          "run": 1,
+          "inputHash": "c0718e5e7ed3c733",
+          "passed": true,
+          "timestamp": "2026-01-15T13:51:44.000Z",
+          "executionId": "vitest-local-001",
+          "description": "Commercial Emergency - Water Main Break (Meridian Tower)"
+        },
+        {
+          "run": 2,
+          "inputHash": "79a9ba6d2700988f",
+          "passed": true,
+          "timestamp": "2026-01-15T13:51:44.000Z",
+          "executionId": "vitest-local-002",
+          "description": "Residential HVAC - Furnace Maintenance (Johnson)"
+        },
+        {
+          "run": 3,
+          "inputHash": "5c92d92d22163208",
+          "passed": true,
+          "timestamp": "2026-01-15T13:51:44.000Z",
+          "executionId": "vitest-local-003",
+          "description": "Commercial Restaurant - Grease Trap (Tonys Italian)"
+        }
+      ],
+      "totalNovelRuns": 3,
+      "healthyAt": null,
+      "selfAuditCompleted": {
+        "completed": false,
+        "checklist": {
+          "spec_phase": true,
+          "enforcer_audit": false,
+          "build_phase": true,
+          "local_tests": true,
+          "primordial_pipeline": true,
+          "research_quota": false,
+          "quality_audit": false
+        }
+      }
+    },
+    "st-job-reminder": {
+      "entityId": "st-job-reminder",
+      "entityType": "n8n-workflow",
+      "entityPath": "workflows/servicetitan/workflows/ST-Job-Reminder-v2.json",
+      "entityName": "[ST] Job Reminder v2",
+      "workflowId": "knB3ZyreIIQwZh9k",
+      "status": "mock-tested",
+      "version": "2.0.0",
+      "novelInputHashes": [
+        "44ea3f761e965606",
+        "4cb7768dd84b44e8",
+        "aed45027460af2d0"
+      ],
+      "testRuns": [
+        {
+          "run": 1,
+          "inputHash": "44ea3f761e965606",
+          "passed": true,
+          "timestamp": "2026-01-15T13:51:44.000Z",
+          "executionId": "vitest-local-004",
+          "description": "Busy Monday - 8 Appointments"
+        },
+        {
+          "run": 2,
+          "inputHash": "4cb7768dd84b44e8",
+          "passed": true,
+          "timestamp": "2026-01-15T13:51:44.000Z",
+          "executionId": "vitest-local-005",
+          "description": "Light Tuesday - 2 Appointments"
+        },
+        {
+          "run": 3,
+          "inputHash": "aed45027460af2d0",
+          "passed": true,
+          "timestamp": "2026-01-15T13:51:44.000Z",
+          "executionId": "vitest-local-006",
+          "description": "Empty Wednesday - No Appointments"
+        }
+      ],
+      "totalNovelRuns": 3,
+      "healthyAt": null,
+      "selfAuditCompleted": {
+        "completed": false,
+        "checklist": {
+          "spec_phase": true,
+          "enforcer_audit": false,
+          "build_phase": true,
+          "local_tests": true,
+          "primordial_pipeline": true,
+          "research_quota": false,
+          "quality_audit": false
+        }
+      }
+    },
+    "st-call-association/parse-elevenlabs-data": {
+      "entityId": "st-call-association/parse-elevenlabs-data",
+      "entityType": "code-node",
+      "entityPath": "tests/code-nodes/st-call-association/parse-elevenlabs-data.js",
+      "entityName": "Parse ElevenLabs Data",
+      "parentWorkflow": "st-call-association",
+      "status": "mock-tested",
+      "novelInputHashes": ["c0718e5e7ed3c733", "79a9ba6d2700988f", "5c92d92d22163208"],
+      "testRuns": [
+        {"run": 1, "inputHash": "c0718e5e7ed3c733", "passed": true, "timestamp": "2026-01-15T13:51:44.000Z", "description": "Emergency commercial"},
+        {"run": 2, "inputHash": "79a9ba6d2700988f", "passed": true, "timestamp": "2026-01-15T13:51:44.000Z", "description": "Residential HVAC"},
+        {"run": 3, "inputHash": "5c92d92d22163208", "passed": true, "timestamp": "2026-01-15T13:51:44.000Z", "description": "Commercial restaurant"}
+      ],
+      "totalNovelRuns": 3
+    },
+    "st-call-association/format-note": {
+      "entityId": "st-call-association/format-note",
+      "entityType": "code-node",
+      "entityPath": "tests/code-nodes/st-call-association/format-note.js",
+      "entityName": "Format Note",
+      "parentWorkflow": "st-call-association",
+      "status": "mock-tested",
+      "novelInputHashes": ["c0718e5e7ed3c733", "79a9ba6d2700988f", "5c92d92d22163208"],
+      "testRuns": [
+        {"run": 1, "inputHash": "c0718e5e7ed3c733", "passed": true, "timestamp": "2026-01-15T13:51:44.000Z", "description": "Emergency note formatting"},
+        {"run": 2, "inputHash": "79a9ba6d2700988f", "passed": true, "timestamp": "2026-01-15T13:51:44.000Z", "description": "Residential no-company note"},
+        {"run": 3, "inputHash": "5c92d92d22163208", "passed": true, "timestamp": "2026-01-15T13:51:44.000Z", "description": "Commercial success/no-match"}
+      ],
+      "totalNovelRuns": 3
+    },
+    "st-job-reminder/prepare-query": {
+      "entityId": "st-job-reminder/prepare-query",
+      "entityType": "code-node",
+      "entityPath": "tests/code-nodes/st-job-reminder/prepare-query.js",
+      "entityName": "Prepare Query",
+      "parentWorkflow": "st-job-reminder",
+      "status": "mock-tested",
+      "novelInputHashes": ["44ea3f761e965606", "4cb7768dd84b44e8", "aed45027460af2d0"],
+      "testRuns": [
+        {"run": 1, "inputHash": "44ea3f761e965606", "passed": true, "timestamp": "2026-01-15T13:51:44.000Z", "description": "Sunday to Monday"},
+        {"run": 2, "inputHash": "4cb7768dd84b44e8", "passed": true, "timestamp": "2026-01-15T13:51:44.000Z", "description": "Monday to Tuesday"},
+        {"run": 3, "inputHash": "aed45027460af2d0", "passed": true, "timestamp": "2026-01-15T13:51:44.000Z", "description": "Tuesday to Wednesday"}
+      ],
+      "totalNovelRuns": 3
+    },
+    "st-job-reminder/format-appointments": {
+      "entityId": "st-job-reminder/format-appointments",
+      "entityType": "code-node",
+      "entityPath": "tests/code-nodes/st-job-reminder/format-appointments.js",
+      "entityName": "Format Appointments",
+      "parentWorkflow": "st-job-reminder",
+      "status": "mock-tested",
+      "novelInputHashes": ["44ea3f761e965606", "4cb7768dd84b44e8", "aed45027460af2d0"],
+      "testRuns": [
+        {"run": 1, "inputHash": "44ea3f761e965606", "passed": true, "timestamp": "2026-01-15T13:51:44.000Z", "description": "8 appointments + enrichment"},
+        {"run": 2, "inputHash": "4cb7768dd84b44e8", "passed": true, "timestamp": "2026-01-15T13:51:44.000Z", "description": "2 appointments + phone lookup"},
+        {"run": 3, "inputHash": "aed45027460af2d0", "passed": true, "timestamp": "2026-01-15T13:51:44.000Z", "description": "Empty list handling"}
+      ],
+      "totalNovelRuns": 3
+    }
+  },
+  "hierarchies": {
+    "llm-data-extraction-pipeline": {
+      "parent": null,
+      "children": ["input-validator", "category-config-loader", "output-assembler"]
+    },
+    "st-call-association": {
+      "parent": null,
+      "children": ["st-call-association/parse-elevenlabs-data", "st-call-association/format-note"]
+    },
+    "st-job-reminder": {
+      "parent": null,
+      "children": ["st-job-reminder/prepare-query", "st-job-reminder/format-appointments"]
+    }
+  },
+  "config": {
+    "requiredNovelRuns": 3,
+    "inputHashAlgorithm": "sha256-prefix-16"
+  },
+  "lastUpdated": "2026-01-15T13:51:44.000Z"
+}

@@ -1,0 +1,24 @@
+{
+  "session_id": "2026-01-14-dual-trigger-error-handling",
+  "task": "Document n8n dual-trigger error handling pattern from execution #155570",
+  "file_modified": "CLAUDE.md",
+  "timestamp": "2026-01-14T12:55:00Z",
+  "audit_status": "PASSED",
+  "checklist": [
+    { "item": "Error source analyzed", "status": "PASS", "value": "Execution #155570 - LLM Data Extraction workflow" },
+    { "item": "Error message identified", "status": "PASS", "value": "Unused Respond to Webhook node found in the workflow" },
+    { "item": "Root cause documented", "status": "PASS", "value": "Respond to Webhook on subworkflow-triggered error path" },
+    { "item": "Dual-Trigger Error Handling section added", "status": "PASS", "lines": "713-779" },
+    { "item": "Workflow Publishing Requirement section added", "status": "PASS", "lines": "781-799" },
+    { "item": "Webhook HTTP Methods section added", "status": "PASS", "lines": "801-828" },
+    { "item": "Code examples provided", "status": "PASS", "examples": ["triggerSource tracking", "Switch node routing"] },
+    { "item": "Compliance checklists provided", "status": "PASS" },
+    { "item": "Architecture diagrams included", "status": "PASS", "diagrams": ["WRONG vs CORRECT routing"] }
+  ],
+  "source_of_truth": "n8n execution #155570 browser inspection",
+  "requirements_documented": [
+    "Route ALL paths (success AND error) by trigger source",
+    "Publish workflows before production use",
+    "Configure webhook HTTP methods correctly"
+  ]
+}

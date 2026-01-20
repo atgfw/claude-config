@@ -1,0 +1,227 @@
+/**
+ * Claude Code Hooks - TypeScript Implementation
+ *
+ * Centralized hook system for deterministic enforcement across all projects.
+ * Part of the Spinal Cord architecture.
+ */
+
+// Export types
+export * from './types.js';
+
+// Export utilities
+export * from './utils.js';
+
+// Export runner
+export { registerHook, runHook, main } from './runner.js';
+
+// Import hooks to register them
+import './hooks/pre_bash.js';
+import './hooks/pre_write.js';
+import './hooks/pre_build_gate.js';
+import './hooks/code_node_test_validator.js';
+import './hooks/post_code_write.js';
+import './hooks/post_tool_use.js';
+import './hooks/pre_task_complete.js';
+import './hooks/pre_task_start.js';
+import './hooks/session_start.js';
+import './hooks/api_key_detector.js';
+import './hooks/primordial_pipeline_gate.js';
+import './hooks/escalation_trigger.js';
+import './hooks/prompt_escalation_detector.js';
+import './hooks/plan_completeness_gate.js';
+import './hooks/self_audit_enforcement.js';
+import './hooks/hierarchical_testing_gate.js';
+import './hooks/browser_automation_gate.js';
+import './hooks/login_detection_escalator.js';
+import './hooks/evaluation_gate_wrapper.js';
+import './hooks/quality_check.js';
+
+// Export individual hooks for direct use/testing
+export { preBashHook } from './hooks/pre_bash.js';
+export { preWriteHook } from './hooks/pre_write.js';
+export { preBuildGateHook } from './hooks/pre_build_gate.js';
+export { codeNodeTestValidatorHook } from './hooks/code_node_test_validator.js';
+export { postCodeWriteHook } from './hooks/post_code_write.js';
+export { postToolUseHook } from './hooks/post_tool_use.js';
+export { preTaskCompleteHook } from './hooks/pre_task_complete.js';
+export { preTaskStartHook } from './hooks/pre_task_start.js';
+export { sessionStartHook } from './hooks/session_start.js';
+export { apiKeyDetectorHook } from './hooks/api_key_detector.js';
+export { primordialPipelineGateHook } from './hooks/primordial_pipeline_gate.js';
+export { escalationTriggerHook } from './hooks/escalation_trigger.js';
+export { promptEscalationDetectorHook } from './hooks/prompt_escalation_detector.js';
+export { planCompletenessGateHook } from './hooks/plan_completeness_gate.js';
+export { selfAuditEnforcementHook } from './hooks/self_audit_enforcement.js';
+export { hierarchicalTestingGateHook } from './hooks/hierarchical_testing_gate.js';
+export { browserAutomationGateHook } from './hooks/browser_automation_gate.js';
+export { loginDetectionEscalatorHook } from './hooks/login_detection_escalator.js';
+export { evaluationGateWrapperHook } from './hooks/evaluation_gate_wrapper.js';
+export { qualityCheckHook } from './hooks/quality_check.js';
+export {
+  evaluationGateHook,
+  defaultEvaluationGateConfig,
+  type EvaluationGateConfig,
+  type EvaluationGateOptions,
+} from './hooks/evaluation_gate.js';
+
+// Export MCP management
+export * from './mcp/registry.js';
+export * from './mcp/healer.js';
+export * from './mcp/api_key_sync.js';
+
+// Export tool router
+export * from './router/index.js';
+
+// Export correction ledger
+export * from './ledger/correction_ledger.js';
+
+// Export audit request registry (cross-session audits)
+export {
+  loadAuditRegistry,
+  saveAuditRegistry,
+  requestAudit,
+  getPendingAudits,
+  getAuditRequest,
+  submitAuditReview,
+  checkAuditStatus,
+  formatAuditRequest,
+  getProjectAudits,
+  type AuditType,
+  type AuditStatus,
+  type AuditRequest,
+  type AuditFinding,
+  type AuditRegistry,
+} from './ledger/audit_request_registry.js';
+
+// Export escalation registry (renamed to avoid conflicts with mcp/registry.js and correction_ledger.js)
+export {
+  getRegistryPath as getEscalationRegistryPath,
+  loadRegistry as loadEscalationRegistry,
+  saveRegistry as saveEscalationRegistry,
+  createEmptyRegistry as createEmptyEscalationRegistry,
+  generateSymptomHash,
+  createEscalation,
+  updateStatus as updateEscalationStatus,
+  incrementOccurrence,
+  addRelatedProject,
+  linkToCorrection,
+  findBySymptomHash,
+  findBySymptomHashAndProject,
+  checkPatternThreshold,
+  isInCooldown,
+  calculatePriority,
+  getByPriority,
+  getPendingEscalations,
+  getStats as getEscalationStats,
+  getHighPriorityEscalations,
+  getPatternDetectedEscalations,
+  getActionableEscalations,
+} from './ledger/escalation_registry.js';
+
+// Export escalation utilities
+export * from './utils/escalate.js';
+
+// Export escalation pattern detection
+export * from './escalation/pattern_detector.js';
+
+// Export escalation proposal generator
+export * from './escalation/proposal_generator.js';
+
+// Export escalation reporter
+export * from './escalation/reporter.js';
+
+// Export test run registry (primordial pipeline)
+// Note: Renamed to avoid conflict with mcp/registry.js exports
+export {
+  loadRegistry as loadTestRunRegistry,
+  saveRegistry as saveTestRunRegistry,
+  generateInputHash,
+  generateEntityId,
+  generateRunId,
+  getOrCreateEntity,
+  registerChild,
+  recordTestRun,
+  markEntityStale,
+  checkEntityHealth,
+  buildHierarchy,
+  getEntityByPath,
+  getUnhealthyEntities,
+  getTestingSummary,
+  formatHealthReport,
+  formatEntityProgress,
+  type EntityType,
+  type EntityStatus,
+  type TestRun,
+  type EntityRecord,
+  type HierarchyRecord,
+  type RegistryConfig,
+  type TestRunRegistry,
+  type HealthCheckResult,
+  type RecordTestRunParams,
+} from './ledger/test_run_registry.js';
+
+// Export enforcement
+export * from './enforcement/child_project_detector.js';
+
+// Export context detection
+export * from './context/index.js';
+
+// Export intent hooks
+export * from './hooks/intent/index.js';
+
+// Export governance
+export { n8nWorkflowGovernanceHook } from './governance/n8n_workflow_governance.js';
+export { elevenlabsAgentGovernanceHook } from './governance/elevenlabs_agent_governance.js';
+export { n8nDualTriggerValidatorHook } from './governance/n8n_dual_trigger_validator.js';
+export { n8nWebhookPathValidatorHook } from './governance/n8n_webhook_path_validator.js';
+export { n8nEnvVarProvisionerHook } from './governance/n8n_env_var_provisioner.js';
+export { childProjectOverrideDetectorHook } from './governance/child_project_override_detector.js';
+export { ghostFileDetectorHook } from './governance/ghost_file_detector.js';
+export { specCompletenessValidatorHook } from './governance/spec_completeness_validator.js';
+export { toolFilterHook } from './governance/tool_filter.js';
+export { inlineScriptValidatorHook } from './hooks/inline_script_validator.js';
+export { vitestMigrationEnforcerHook } from './hooks/vitest_migration_enforcer.js';
+export { workflowPublishingGateHook } from './hooks/workflow_publishing_gate.js';
+export { webhookMethodsValidatorHook } from './hooks/webhook_methods_validator.js';
+export { evaluationGateExpanderHook } from './hooks/evaluation_gate_expander.js';
+
+// Import governance hooks to register them
+import './governance/n8n_workflow_governance.js';
+import './governance/elevenlabs_agent_governance.js';
+import './governance/n8n_dual_trigger_validator.js';
+import './governance/n8n_webhook_path_validator.js';
+import './governance/n8n_env_var_provisioner.js';
+import './governance/child_project_override_detector.js';
+import './governance/ghost_file_detector.js';
+import './governance/spec_completeness_validator.js';
+import './governance/tool_filter.js';
+import './hooks/inline_script_validator.js';
+import './hooks/vitest_migration_enforcer.js';
+import './hooks/workflow_publishing_gate.js';
+import './hooks/webhook_methods_validator.js';
+import './hooks/evaluation_gate_expander.js';
+
+// Unified hooks (lean and mean - consolidates multiple hooks)
+import './hooks/unified_write_gate.js';
+import './hooks/unified_post_tool.js';
+import './hooks/unified_prompt_handler.js';
+
+// Context summary trigger (replaces auto-compact)
+import './hooks/context-summary-trigger.js';
+
+// Git hooks (GitHub framework)
+import './git/secret_scanner.js';
+import './git/commit_message_validator.js';
+import './git/branch_naming_validator.js';
+import './git/changelog_generator.js';
+import './git/semantic_version_calculator.js';
+
+// Export git hooks
+export { secretScannerHook } from './git/secret_scanner.js';
+export { commitMessageValidatorHook } from './git/commit_message_validator.js';
+export { branchNamingValidatorHook } from './git/branch_naming_validator.js';
+export { changelogGeneratorHook } from './git/changelog_generator.js';
+export { semanticVersionCalculatorHook } from './git/semantic_version_calculator.js';
+
+// Export lint plugin (spinal-quality ESLint rules)
+export * as lint from './lint/index.js';

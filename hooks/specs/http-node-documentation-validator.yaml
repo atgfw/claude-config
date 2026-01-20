@@ -1,0 +1,178 @@
+# HTTP Request Node Documentation Validator Hook Specification
+
+hook_name: http_node_documentation_validator
+event: PreToolUse
+priority: 90
+enabled: true
+project_filter: "n8n"  # Only enforces in n8n projects
+
+## Purpose
+Enforces mandatory documentation format for HTTP Request nodes in n8n workflows to maintain API documentation standards and troubleshooting efficiency.
+
+## Philosophy
+Every HTTP Request node MUST include inline documentation in its notes field. This prevents:
+- "What does this API call do?" confusion months later
+- Undocumented breaking changes when APIs evolve
+- Time wasted re-researching API endpoints
+- Missing error handling for known error codes
+
+## Enforcement Rules
+
+### Triggers On:
+- Tool: `n8n_create_workflow`
+- Tool: `n8n_update_workflow`  
+- Tool: `n8n_update_partial_workflow`
+
+### Required Format:
+Every HTTP Request node MUST have notes field matching this template:
+
+```
+API: [METHOD] [PATH]
+Docs: [URL]
+Required: { field1, field2 }
+Response: { field1, field2 }
+Errors: [codes]
+```
+
+### Example (Valid):
+```
+API: POST /crm/v2/tenant/{t}/customers
+Docs: https://developer.servicetitan.io/docs/api-resources-crm/
+Required: { name, type, address }
+Response: { id, name, createdOn }
+Errors: 400 (validation), 401 (auth), 404 (tenant)
+```
+
+## Hook Logic
+
+### Detection:
+1. **Extract nodes from workflow**: Parse `nodes` array from workflow JSON
+2. **Filter HTTP Request nodes**: Match `type: "n8n-nodes-base.httpRequest"`
+3. **Check each node for notes field**: Look for `parameters.notes` or `notes` property
+4. **Validate format**: Check if notes contain all required sections
+
+### Validation Rules:
+- **API line**: Must start with "API:" followed by HTTP method and path
+- **Docs line**: Must start with "Docs:" followed by URL (http/https)
+- **Required line**: Must start with "Required:" followed by field list
+- **Response line**: Must start with "Response:" followed by field list
+- **Errors line**: Must start with "Errors:" followed by error codes/descriptions
+
+### Action on Failure:
+- BLOCK workflow create/update (deny permission)
+- Return detailed message:
+  ```
+  HTTP Request node documentation missing or invalid.
+  
+  Node: "{nodeName}" is missing required documentation format.
+  
+  Required format:
+  API: [METHOD] [PATH]
+  Docs: [URL]
+  Required: { field1, field2 }
+  Response: { field1, field2 }
+  Errors: [codes]
+  
+  See ~/.claude/hooks/specs/http-node-documentation-validator.yaml
+  ```
+
+### Exemptions:
+- Node has `skip_docs_validation: true` in parameters
+- Workflow name contains "[TEST]" or "[DEV]" prefix
+- User includes "skip http docs validation" in commit message
+
+## Implementation Notes
+
+### Node Detection:
+```typescript
+const httpNodes = workflow.nodes.filter(
+  node => node.type === 'n8n-nodes-base.httpRequest'
+);
+```
+
+### Format Validation:
+```typescript
+function validateNotes(notes: string): boolean {
+  const lines = notes.split('\n');
+  const hasAPI = lines.some(l => l.trim().startsWith('API:'));
+  const hasDocs = lines.some(l => l.trim().startsWith('Docs:'));
+  const hasRequired = lines.some(l => l.trim().startsWith('Required:'));
+  const hasResponse = lines.some(l => l.trim().startsWith('Response:'));
+  const hasErrors = lines.some(l => l.trim().startsWith('Errors:'));
+  
+  return hasAPI && hasDocs && hasRequired && hasResponse && hasErrors;
+}
+```
+
+### Partial Workflow Updates:
+For `n8n_update_partial_workflow`, only validate nodes being added/updated:
+- Filter operations with `type: "addNode"` or `type: "updateNode"`
+- Extract node data from operation
+- Validate only those nodes
+
+## Test Cases
+
+### Test 1: Valid HTTP Node (Pass)
+```json
+{
+  "name": "Get Customer",
+  "type": "n8n-nodes-base.httpRequest",
+  "parameters": {
+    "url": "https://api.example.com/customers",
+    "notes": "API: GET /customers\nDocs: https://docs.example.com\nRequired: { }\nResponse: { id, name }\nErrors: 404"
+  }
+}
+```
+Expected: ALLOW
+
+### Test 2: Missing Documentation (Fail)
+```json
+{
+  "name": "Get Customer",
+  "type": "n8n-nodes-base.httpRequest",
+  "parameters": {
+    "url": "https://api.example.com/customers"
+  }
+}
+```
+Expected: DENY (no notes field)
+
+### Test 3: Incomplete Documentation (Fail)
+```json
+{
+  "name": "Get Customer",
+  "type": "n8n-nodes-base.httpRequest",
+  "parameters": {
+    "url": "https://api.example.com/customers",
+    "notes": "API: GET /customers\nDocs: https://docs.example.com"
+  }
+}
+```
+Expected: DENY (missing Required, Response, Errors)
+
+### Test 4: Non-HTTP Node (Pass)
+```json
+{
+  "name": "Process Data",
+  "type": "n8n-nodes-base.code",
+  "parameters": { "code": "return items;" }
+}
+```
+Expected: ALLOW (not an HTTP node)
+
+### Test 5: Exemption (Pass)
+```json
+{
+  "name": "[TEST] Quick HTTP Call",
+  "type": "n8n-nodes-base.httpRequest",
+  "parameters": { "url": "https://api.example.com" }
+}
+```
+Expected: ALLOW (workflow name has [TEST] prefix)
+
+## Related Hooks
+- `n8n_workflow_governance`: Validates workflow doesn't duplicate existing
+- `pre_build_gate`: Ensures PROJECT-DIRECTIVE.md exists
+
+## References
+- ServiceTitan CLAUDE.md: `C:/Users/codya/coding/n8n_n8n/workflows/servicetitan/CLAUDE.md:110-120`

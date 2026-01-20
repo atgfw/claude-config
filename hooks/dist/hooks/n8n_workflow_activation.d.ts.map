@@ -1,0 +1,1 @@
+{"version":3,"file":"n8n_workflow_activation.d.ts","sourceRoot":"","sources":["../../src/hooks/n8n_workflow_activation.ts"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;GAaG;AAEH,OAAO,KAAK,EAAE,gBAAgB,EAAE,iBAAiB,EAAE,MAAM,aAAa,CAAC;AAoKvE;;GAEG;AACH,wBAAsB,yBAAyB,CAC7C,KAAK,EAAE,gBAAgB,GACtB,OAAO,CAAC,iBAAiB,CAAC,CAmE5B;AAKD,eAAe,yBAAyB,CAAC"}
