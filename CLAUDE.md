@@ -2,280 +2,705 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Portability
+## Purpose
 
-This configuration is git-ready and portable. After cloning:
+This is the **Spinal Cord** - a centralized nervous system that superintends the operation of ALL projects through deterministic, authoritative control. Every human corrective action represents a failure: a missing hook, an incomplete rule, or a flawed enforcement mechanism.
+
+## Setup
+
 ```bash
 cd ~/.claude
 bash setup.sh
 ```
 
-All paths use `~/.claude/` or `$CLAUDE_DIR` - never hardcoded user paths. API keys go in `.env` (gitignored).
+Setup will:
+1. Create directory structure
+2. Install npm dependencies for hooks
+3. Compile TypeScript hooks
+4. Run session validation
 
-## Core Directives
-
-### Visual Validation Requirement
-Task completion requires visual validation using MCP tools and subagents. Do not rely solely on code execution success. Use Scrapling or browser automation to verify actual UI/workflow output matches expectations. All subagents and MCP servers must be confirmed available before proceeding.
-
-### Critical Rules
-- **Never guess about code locations** - Always provide exact quotes and proof. If something doesn't exist, state that definitively with evidence.
-- **Deletion is banned** - Never use `rm`, `del`, `Remove-Item`. Always move files to `old/` directory instead.
-- **Never use emojis** anywhere for any reason.
-- **Always provide links** when referencing external resources or created artifacts.
-
-## Directory Structure
+## Architecture
 
 ```
-~/.claude/
-  agents/          # 70+ specialized subagents (code-reviewer, debugger, etc.)
-  commands/        # Custom slash commands (rewst-jinja-orchestrator)
-  hooks/           # Development process hooks (session-start, pre-task-start, etc.)
-  skills/          # Custom skills (frontend-design, webapp-testing, e2e-testing-patterns)
-  _PROJECTS_/      # Project-specific configurations
-  plans/           # Implementation plans
-  todos/           # Task tracking data
-  old/             # Archive directory (never delete, always move here)
-  .env             # API keys (gitignored)
-  setup.sh         # Portable setup script
+~/.claude/ (SPINAL CORD)
+    |
+    +-- hooks/
+    |   +-- src/           # TypeScript source files
+    |   +-- tests/         # Vitest tests (TDD)
+    |   +-- dist/          # Compiled JavaScript
+    |   +-- specs/         # Specification documents
+    |   +-- package.json   # Dependencies
+    |
+    +-- mcp/               # Self-managing MCP system
+    |   +-- mcp-registry.json
+    |
+    +-- tool-router/       # Dynamic preference engine
+    |   +-- tool-router.json
+    |
+    +-- ledger/            # Tracking systems
+    |   +-- test-run-registry.json
+    |   +-- correction-ledger.json
+    |   +-- escalation-registry.json
+    |   +-- release-registry.json
+    |   +-- changelog-registry.json
+    |
+    +-- github/            # GitHub framework
+    |   +-- templates/     # Repo templates (README, CONTRIBUTING, PR)
+    |   +-- configs/       # Tool configs (commitlint, semantic-release)
+    |
+    +-- .github/workflows/ # GitHub Actions
+    |   +-- semantic-release.yml
+    |   +-- security-scan.yml
+    |
+    +-- agents/            # 70+ specialized subagents
+    +-- settings.json      # Global hook configuration
+    +-- .env               # API keys (gitignored)
 ```
 
-## MCP Server Management
+## Critical Rules
 
-### Browser Automation Priority
-**USE SCRAPLING MCP** for all browser automation tasks. Scrapling is preferred over Playwright for:
-- Web scraping and data extraction
-- Page interaction and form filling
-- Screenshot capture and visual validation
-- Any browser-based testing
+| Rule | Enforcing Hook | Description |
+|------|---------------|-------------|
+| **Child projects MUST NOT override** | `child_project_override_detector` | No local .mcp.json, hooks, settings.json, or .env |
+| **Deletion is banned** | `pre_bash` | Move files to old/ directory instead |
+| **Never use emojis** | `pre_bash`, `pre_write` | Blocks emoji in code and output |
+| **Tool filtering** | `tool_filter` | Configurable MCP tool blocklist/allowlist via tool-filter-config.json |
+| **Every correction becomes a hook** | `escalation_trigger` | Tracks in Correction Debt Ledger |
+| **Never use complex inline scripts** | `inline_script_validator` | Enforces temp file pattern for complex scripts |
+| **LIVE APIs are source of truth** | `ghost_file_detector` | Never trust local files for cloud object state |
+| **Vitest only** | `vitest_migration_enforcer` | Migrate Jest to Vitest, no other frameworks |
+| **Hierarchical testing** | `hierarchical_testing_gate` | Untested work is unsuitable to build upon |
+| **Node-level specs** | `spec_completeness_validator` | Every node needs inputs/logic/outputs/routes before build |
+| **Project directive** | `pre_build_gate` | Every project needs PROJECT-DIRECTIVE.md at root |
+| **Dual trigger subworkflows** | `n8n_dual_trigger_validator` | n8n subworkflows MUST have executeWorkflowTrigger AND webhook |
+| **Primordial Pipeline (3 Novel Runs)** | `primordial_pipeline_gate` | Every entity requires 3 unique test runs before building upon |
+| **n8n Evaluations Exit Gate** | `evaluation_gate` | [DEV] workflows require 98%+ success before tag removal |
+| **Workflow Publishing** | `workflow_publishing_gate` | Workflows with webhooks MUST be published |
+| **Code Node Local Testing** | `code_node_test_validator` | JavaScript/Python nodes tested locally first |
+| **n8n Naming Conventions** | `n8n_naming_validator` | snake_case nodes, no version numbers, full system prefixes |
+| **n8n Node Documentation** | `n8n_node_note_validator` | All nodes require 20+ char notes with Display Note enabled |
+| **Code Node Linting** | `code_node_linting_gate` | Standard JS linting for n8n code node content |
+| **Version Numbers Banned** | `n8n_naming_validator` | No v1, v2, r1, _1 in any object names (global rule) |
+| **Integers Banned in Names** | `n8n_naming_validator` | No arbitrary integers unless canonical (base64, oauth2) |
+| **Webhook Path Naming** | `n8n_webhook_path_validator` | kebab-case, no nesting, no "test", must authenticate |
+| **Secret Scanning** | `secret_scanner` | STRICT: Blocks commits containing API keys/secrets |
+| **Commit Conventions** | `commit_message_validator` | WARN: Conventional Commits format recommended |
+| **Branch Naming** | `branch_naming_validator` | WARN: prefix/description format recommended |
 
-Only fall back to Playwright MCP if Scrapling cannot handle a specific use case.
+## Hierarchical Development Governance
 
-### Fast Apply - Morph LLM Code Editing
-**CRITICAL: Use `edit_file` MCP tool for ALL code modifications.**
+**Philosophy:** UNTESTED WORK IS UNSUITABLE TO BUILD UPON. All development follows a strict hierarchical, sequential, test-driven pipeline enforced by hooks.
 
-Morph Fast Apply provides blazing-fast code editing (10,500+ tokens/sec) via the `edit_file` tool:
-- **ALWAYS use `edit_file` instead of `Write`, `Edit`, or `str_replace`**
-- Works with partial code snippets - no need for full file content
-- Supports any file type and handles complex edits automatically
-- Significantly faster than traditional read/write operations
+**The 5-Phase Sequential Pipeline:**
+1. **SPEC** - Complete specification with inputs/outputs/routes (enforced by `spec_completeness_validator`)
+2. **BUILD** - Implementation (blocked until spec approved by `pre_build_gate`)
+3. **MOCK TESTING** - Synthetic data validation (tracked by `test_run_registry`)
+4. **REAL TESTING** - Live environment validation (tracked by `test_run_registry`)
+5. **GATE CHECK** - Perfection verification (enforced by `hierarchical_testing_gate`)
 
-**Global Enforcement:**
-SessionStart hook (`session-start-global-mcp.sh`) automatically configures Morph MCP in EVERY project:
-1. On session start, hook checks for `.mcp.json` in project directory
-2. If missing or Morph not configured, creates/updates `.mcp.json` with Morph MCP
-3. API key loaded from `~/.claude/.env` (MORPH_API_KEY)
-4. Claude Code loads `.mcp.json` and starts Morph MCP server
-5. Pre-write hook detects Morph availability and BLOCKS Write/Edit
-6. Result: **100% enforcement across ALL projects**
+**Node-by-Node Perfection:** Within workflows, nodes are tested sequentially. Building Node 3 while Node 2 is untested is BLOCKED by `hierarchical_testing_gate`.
 
-**Warp Grep for Codebase Search:**
-Use `warpgrep_codebase_search` at the beginning of codebase explorations for fast, semantic search:
-- Find relevant files/lines quickly with broad semantic queries
-- "Find the XYZ flow", "How does XYZ work", "Where is XYZ handled?"
-- NOT for pinpointing keywords - use for broader contextual searches
-- Can run up to 8 parallel tool calls per turn
+**Primordial Pipeline (3 Novel Runs):** Every entity (code node, subworkflow, workflow) requires 3 complete test runs with NOVEL input data (unique SHA-256 hash) before building upon. Enforced by `primordial_pipeline_gate`, tracked in `~/.claude/ledger/test-run-registry.json`.
 
-**Performance Comparison:**
-- `edit_file` (Morph): ~11 seconds
-- Traditional read/write: ~60 seconds
-- Search & replace: ~20 seconds
+**For complete specification templates, checklists, and examples:** See `~/.claude/hooks/specs/`
 
-### Session Start Hook
-Run `~/.claude/hooks/session-start.sh` at the beginning of each session to:
-- Validate and repair hooks configuration
-- Install/update all MCP servers
-- Connect MCP servers to Claude
-- Save API keys to `.env`
-- Test server connectivity
+## Source of Truth: LIVE APIs
 
-```bash
-bash ~/.claude/hooks/session-start.sh
-```
+**Rule:** Local files are documentation/cache only. Cloud APIs are authoritative. The `ghost_file_detector` governance hook prevents creating cloud objects that already exist by querying LIVE APIs first.
 
-**Hooks validation automatically:**
-- Creates settings.json if missing
-- Validates JSON format and structure
-- Checks matcher fields are strings
-- Ensures hook scripts exist and are executable
-- Cleans up old enforcement flags
+**Before creating ANY cloud object:**
+1. Query the LIVE API to fetch existing objects
+2. Check for duplicates/similar objects
+3. Only proceed if no conflict found
 
-**CRITICAL: Standardized Hook Configuration**
+**Enforced for:** n8n workflows (`n8n_workflow_governance`), ElevenLabs agents (`elevenlabs_agent_governance`), ServiceTitan objects (`servicetitan_governance`).
 
-ALL projects must use IDENTICAL settings.json files that reference global hook scripts.
+## Testing Context Interpretation
 
-How it works:
-- Hook scripts live in `~/.claude/hooks/` (truly global)
-- Each project needs `.claude/settings.json` (IDENTICAL copy)
-- All settings.json files reference global scripts via `$HOME/.claude/hooks/`
-- Result: Same hooks apply everywhere
+When user requests "tests" or "evaluations", interpret as operations on LIVE cloud objects:
 
-Setup new project:
-```bash
-cp ~/.claude/settings.json /path/to/project/.claude/settings.json
-```
+| Request | Meaning | Hook/Tool |
+|---------|---------|-----------|
+| "Run tests on workflows" | Execute/validate LIVE n8n workflows | `n8n_trigger_webhook_workflow` |
+| "Test the agents" | Run simulations against LIVE ElevenLabs agents | `elevenlabs-mcp` tools |
+| "2000 tests" | 2000 evaluation runs against cloud objects | Batch API calls with rate limiting |
+| "Validate everything" | Health check all LIVE cloud objects | Governance hooks |
 
-Rules:
-- ALL projects need .claude/settings.json
-- ALL settings.json must be IDENTICAL copies
-- NEVER modify project settings.json - update template instead
-- When updating hooks, copy to all projects
+## n8n Workflow Requirements
 
-This ensures Morph enforcement, deletion prevention, and code review work universally.
+**Dual Trigger Pattern:** All n8n subworkflows MUST have both `executeWorkflowTrigger` (for parent orchestration) AND `webhook` trigger (for API testing). Enforced by `n8n_dual_trigger_validator`.
 
-### Tool Categories
-- **Code Editing**: Morph `edit_file` (PRIMARY - 10,500+ tokens/sec), Read for viewing only
-- **Codebase Search**: Morph `warpgrep_codebase_search` (semantic, fast), Grep for keyword search
-- **Browser Automation**: Scrapling (primary), Playwright (fallback)
-- **Data Analysis**: Desktop Commander process tools, Exa for web research
-- **Web Research**: Exa tools for searches, WebFetch for specific URLs
-- **UI Development**: Material UI MCP for component examples
-- **Memory Management**: Memory MCP for persistent knowledge graphs
+**Webhook Path Convention:** (SUPERSEDED - see "n8n Webhook Path Naming" section)
+- Paths must be flat kebab-case (no nesting)
+- Example: `customer-sync`, not `api/customer-sync`
+- Must authenticate with header secret key
 
-For novel tasks, search for an MCP server that can handle it more effectively.
+**Publishing Requirement:** Workflows with webhook triggers MUST be published before production use. Enforced by `workflow_publishing_gate`.
 
-### MCP Server Reference
-External documentation: `$HOME/Documents/mcp-server-instructions.md` (create locally or see MCP docs)
+**Webhook HTTP Methods:** Configure webhooks to accept all expected methods (GET, POST, etc.). Validated by `webhook_methods_validator`.
 
-### MCP Config Location (CONTAINS API KEYS)
-```
-Windows: %APPDATA%\Claude\claude_desktop_config.json
-macOS:   ~/Library/Application Support/Claude/claude_desktop_config.json
-Linux:   ~/.config/claude/claude_desktop_config.json
-```
-This file contains API keys for MCP servers. NEVER commit this file. It is outside `~/.claude/` but is gitignored if copied here.
+**n8n Evaluations Exit Gate:** [DEV] workflows require 98%+ success rate on evaluations before tag removal. Enforced by `evaluation_gate`, tracked via execution history parsing.
 
-## Subagent Invocation
+**For detailed implementation patterns:** See `~/.claude/hooks/src/governance/n8n_dual_trigger_validator.ts`
 
-Location: `~/.claude/agents/`
+## n8n Naming Conventions
 
-Invoke subagents via Task tool with `subagent_type` parameter. Mandatory usage:
+**Enforced by:** `n8n_naming_validator` hook
 
-| Scenario | Subagent | When |
-|----------|----------|------|
-| After writing code | `code-reviewer` | Immediately after Write/Edit |
-| Any error/bug | `debugger` | When errors occur |
-| Creating tests | `test-automator` | Before marking feature complete |
-| Rewst Jinja work | `rewst-jinja-orchestrator` | Any Jinja debugging/creation |
-| CI/CD setup | `deployment-engineer` | Pipeline/container configuration |
-| Security-sensitive code | `security-auditor` | Auth flows, vulnerability reviews |
-| System design | `system-architect` | API contracts, database schemas |
-| Complex searches | `general-purpose` | When unsure about file locations |
-| MCP implementation | `mcp-backend-engineer` | MCP server modifications |
-| Technology evaluation | `technical-researcher` | Framework/library decisions |
+### Tag Syntax Reservation
 
-## Skills
+Reserve `[TAG]` bracket syntax ONLY for systems without built-in tag features. n8n has native tags, so bracket tags are BLOCKED except `[DEV]`.
 
-| Skill | Purpose |
+| System | Has Native Tags | Bracket Tags Allowed |
+|--------|-----------------|---------------------|
+| n8n | Yes | NO (use native tags) |
+| ServiceTitan | Limited | YES for status |
+| Files | No | YES for prefixes |
+
+### System Name Prefixes
+
+Use full system names as workflow prefixes, NOT abbreviations:
+
+| Wrong | Correct |
 |-------|---------|
-| `frontend-design` | Distinctive UI creation avoiding generic AI aesthetics |
-| `webapp-testing` | Scrapling/Playwright-based local web app testing |
-| `e2e-testing-patterns` | E2E testing with Playwright/Cypress |
+| `[ST] Customer Sync` | `ServiceTitan_customer_sync` |
+| `[EL] Agent Handler` | `ElevenLabs_agent_handler` |
+| `[N8N] Orchestrator` | `main_orchestrator` |
 
-## Hooks
+### Version Numbers Banned (Global Rule)
 
-Hooks are **programmatically enforced** via `settings.json` configuration. They trigger automatically during Claude Code execution.
+Version numbers in object names are BLOCKED across ALL systems:
 
-### Hook Execution Order
+**Blocked patterns:** `v1`, `v2`, `V3`, `r1`, `r2`, `_1`, `_2`, `ver1`, `version2`
+
+Use n8n tags or create new workflows instead of versioning names.
+
+### Node Naming: snake_case
+
+All n8n node names MUST be snake_case:
+
+| Wrong | Correct |
+|-------|---------|
+| `GetCustomerData` | `get_customer_data` |
+| `HTTP Request` | `http_request` |
+| `fetchJobs` | `fetch_jobs` |
+
+### Integers in Names (Global Rule)
+
+Arbitrary integers are BLOCKED in programming object names unless canonical:
+
+**Allowed (canonical):** `base64`, `oauth2`, `sha256`, `utf8`, `http2`, `ipv4`, `aes256`
+
+**Blocked (arbitrary):** `handler2`, `process_data_3`, `sync_v1`
+
+## n8n Node Documentation
+
+**Enforced by:** `n8n_node_note_validator` hook
+
+### Mandatory Notes
+
+ALL n8n nodes MUST have substantial notes:
+
+| Requirement | Specification |
+|-------------|---------------|
+| Minimum length | 20 characters |
+| Content | Must describe purpose, not repeat name |
+| Placeholders | BLOCKED (TODO, FIXME, "add description") |
+| Display | "Display Note in Flow?" MUST be enabled |
+
+### Good vs Bad Notes
+
+| Bad (BLOCKED) | Good (ALLOWED) |
+|---------------|----------------|
+| `HTTP Request` | `Fetches active jobs from ServiceTitan API for current dispatch zone` |
+| `Gets data` | `Retrieves customer records filtered by status and creation date` |
+| `TODO: add description` | `Transforms raw API response into normalized format for downstream processing` |
+
+## n8n Code Node Governance
+
+**Enforced by:** `code_node_linting_gate` hook
+
+### Logic Centralization
+
+Maximize workflow logic into JavaScript code nodes. Minimize inline expressions and mustaching in other node types.
+
+**Rationale:** Code nodes can be locally tested, linted, and version-controlled.
+
+### Complex Expression Detection
+
+Expressions with more than 2 operations trigger a warning to move logic to code nodes:
+
+```javascript
+// WARNING: Too complex for inline expression
+{{ $json.data.filter(x => x.active).map(x => x.id).join(',') }}
+
+// OK: Simple field access
+{{ $json.customer.name }}
 ```
-SESSION START
-    |
-[session-start.sh] <- Manual: Run at session start (not automated)
-    |
-START TASK
-    |
-[pre-task-start.sh] <- AUTO: Validates MCP servers & subagents exist
-    |
-WORK ON TASK
-    |
-[post-code-write.sh] <- AUTO: Triggers after Write/Edit operations
-    |
-[pre-task-complete.sh] <- AUTO: BLOCKS completion until visual validation
-    |
-END TASK
-```
 
-**Configured in `settings.json`:**
-```json
+### Linting Rules
+
+Standard JavaScript linting applies to code node content:
+
+| Rule | Severity | Description |
+|------|----------|-------------|
+| `no-var` | Error | Use const/let instead of var |
+| `no-debugger` | Error | Remove debugger statements |
+| `no-eval` | Error | eval() is dangerous |
+| `no-console` | Warning | Remove console.log in production |
+| `no-empty-catch` | Warning | Handle errors or comment why ignored |
+
+### n8n-Specific Exceptions
+
+These patterns are allowed despite normal linting:
+
+- `$input.all()`, `$json`, `$items`, `$workflow` - n8n globals
+- `return items` - standard n8n return pattern
+- `$('node name')` - n8n node reference syntax
+
+## n8n Webhook Path Naming
+
+**Enforced by:** `n8n_webhook_path_validator` hook
+
+### Path Requirements
+
+Webhook trigger paths must follow these rules:
+
+| Requirement | Specification |
+|-------------|---------------|
+| Format | kebab-case only |
+| Nesting | NOT allowed (no slashes) |
+| "test" word | BLOCKED (n8n has built-in test triggers) |
+| Authentication | REQUIRED via header auth |
+| Node name | Must be exactly "webhook" |
+
+### Valid vs Invalid Paths
+
+| Invalid Path | Why | Valid Path |
+|--------------|-----|------------|
+| `api/customer-sync` | Nested (has slash) | `customer-sync` |
+| `customer_sync` | snake_case, not kebab-case | `customer-sync` |
+| `test-customer-sync` | Contains "test" | `customer-sync` |
+| `CustomerSync` | PascalCase | `customer-sync` |
+
+### Authentication Requirement
+
+All webhooks MUST authenticate using header auth with a unique secret key:
+
+```javascript
+// Required webhook configuration
 {
-  "hooks": {
-    "PreToolUse": [
-      {"matcher": "Bash", "hooks": [{"type": "command", "command": "bash ~/.claude/hooks/pre-bash.sh"}]},
-      {"matcher": "Write", "hooks": [{"type": "command", "command": "bash ~/.claude/hooks/pre-write.sh"}]}
-    ],
-    "PostToolUse": [
-      {"matcher": "Write|Edit", "hooks": [{"type": "command", "command": "bash ~/.claude/hooks/post-code-write.sh"}]},
-      {"matcher": "*", "hooks": [{"type": "command", "command": "bash ~/.claude/hooks/post-tool-use.sh"}]}
-    ],
-    "UserPromptSubmit": [
-      {"hooks": [{"type": "command", "command": "bash ~/.claude/hooks/pre-task-start.sh"}]}
-    ],
-    "Stop": [
-      {"hooks": [{"type": "command", "command": "bash ~/.claude/hooks/pre-task-complete.sh"}]}
-    ]
+  "name": "webhook",
+  "type": "n8n-nodes-base.webhook",
+  "parameters": {
+    "path": "customer-sync",
+    "httpMethod": "POST",
+    "authentication": "headerAuth",
+    "options": {
+      "headerAuth": {
+        "name": "X-Webhook-Secret",
+        "value": "={{$env.N8N_IN_SECRET_CUSTOMER_SYNC}}"
+      }
+    }
   }
 }
 ```
 
-**Matcher Format:**
-- String patterns: `"Bash"`, `"Write|Edit"` (regex), `"*"` (all tools)
-- Case-sensitive tool names
-- No matcher needed for UserPromptSubmit/Stop events
+### Secret Key Naming Convention
 
-### Enforcement Mechanisms
+Store webhook secrets in `~/.claude/.env` with this naming pattern:
 
-| Directive | Hook | Enforcement |
-|-----------|------|-------------|
-| Use Scrapling MCP | `postToolUse` | Logs violations, blocks direct Playwright |
-| Code review mandatory | `postCodeWrite` | BLOCKS until code-reviewer invoked |
-| No file deletion | `preBash` | BLOCKS rm/del/Remove-Item commands |
-| No emojis | `preWrite`, `preBash` | BLOCKS emoji in files/commands |
-| Visual validation | `preTaskComplete` | BLOCKS without validation flag |
-
-## UI Component Protocol
-
-1. Deconstruct requirements from page guides
-2. Generate base code from Material UI MCP
-3. Adapt styling per `master_design_prompt.md` and `frontend_stack_guide.md`
-4. Invoke `code-reviewer` subagent
-5. Invoke `test-automator` for Storybook/Vitest tests
-
-## Animation Guidelines (No Framer Motion MCP)
-
-- Use CSS-only solutions first (transitions, keyframes)
-- For 3D effects: CSS perspective, transform3d, React state for mouse tracking
-- For holographic effects: CSS gradients, backdrop-filter, transform rotateY/X
-- Performance: Use `will-change`, prefer `transform`/`opacity`, enable GPU with `translateZ(0)`
-
-## Rewst Jinja Expression Testing
-
-Context pane represents data WITHIN CTX, not the CTX wrapper:
-WRONG:
-```json
-{"CTX": {"ticket_count": 25}}
+```
+N8N_IN_SECRET_<WEBHOOK_PATH_UPPER_SNAKE>
 ```
 
-CORRECT:
-```json
-{"ticket_count": 25}
+Examples:
+- `customer-sync` -> `N8N_IN_SECRET_CUSTOMER_SYNC`
+- `job-handler` -> `N8N_IN_SECRET_JOB_HANDLER`
+- `servicetitan-dispatch` -> `N8N_IN_SECRET_SERVICETITAN_DISPATCH`
+
+### Node Name Rule
+
+The webhook node name MUST be exactly `webhook`. This provides consistency and makes workflows predictable:
+
+| Wrong | Correct |
+|-------|---------|
+| `api_webhook` | `webhook` |
+| `customer_webhook` | `webhook` |
+| `trigger` | `webhook` |
+
+**Rationale:** Webhook nodes should be identified by their path, not their name. The path (`customer-sync`) provides the semantic meaning.
+
+## Test Framework: Vitest
+
+**Vitest is the ONLY approved test framework.** The `vitest_migration_enforcer` hook blocks Jest/Mocha and provides migration guidance.
+
+**Migration:** When encountering Jest, automatically migrate to Vitest. See `~/.claude/hooks/docs/vitest-migration.md` for complete migration checklist.
+
+## Hook System
+
+All hooks are TypeScript with TDD. Run via: `node ~/.claude/hooks/dist/cli.js <hook-name>`
+
+### Core Enforcement Hooks
+
+| Hook | Event | Purpose | Configuration |
+|------|-------|---------|---------------|
+| `pre_bash` | PreToolUse | Blocks deletion commands, emoji, dangerous operations | settings.json |
+| `pre_write` | PreToolUse | Blocks Write/Edit when Morph MCP available, emoji | settings.json |
+| `pre_build_gate` | PreToolUse | Validates PROJECT-DIRECTIVE.md exists before development | settings.json |
+| `pre_task_start` | UserPromptSubmit | Validates MCP health, triggers intent analysis | settings.json |
+| `pre_task_complete` | Stop | Requires visual validation via Scrapling | settings.json |
+
+### Governance Hooks
+
+| Hook | Event | Purpose | Data Source |
+|------|-------|---------|-------------|
+| `n8n_workflow_governance` | PreToolUse | Checks LIVE n8n API before create/delete | n8n API |
+| `elevenlabs_agent_governance` | PreToolUse | Checks LIVE ElevenLabs API before create | ElevenLabs API |
+| `servicetitan_governance` | PreToolUse | Prevents duplicate ServiceTitan object creation | ServiceTitan API |
+| `n8n_dual_trigger_validator` | PreToolUse | Validates dual trigger pattern in subworkflows | Workflow JSON |
+| `n8n_naming_validator` | PreToolUse | Enforces naming conventions for workflows/nodes | Workflow JSON |
+| `n8n_node_note_validator` | PreToolUse | Enforces documentation requirements for nodes | Workflow JSON |
+| `code_node_linting_gate` | PreToolUse | Enforces JS linting on code node content | Workflow JSON |
+| `n8n_webhook_path_validator` | PreToolUse | Enforces webhook path naming conventions | Workflow JSON |
+| `ghost_file_detector` | PreToolUse | Prevents creating cloud objects that already exist | LIVE APIs |
+| `child_project_override_detector` | PreToolUse | Blocks child projects from overriding spinal cord | File system |
+| `documentation_drift_detector` | PreToolUse | Detects when docs don't match implementation | Code analysis |
+
+### Testing & Validation Hooks
+
+| Hook | Event | Purpose | Registry |
+|------|-------|---------|----------|
+| `hierarchical_testing_gate` | PreToolUse | Enforces sequential node-by-node testing | test-run-registry.json |
+| `primordial_pipeline_gate` | PreToolUse | Requires 3 novel test runs before building upon | test-run-registry.json |
+| `code_node_test_validator` | PreToolUse | Validates code nodes tested locally first | File system + test results |
+| `evaluation_gate` | PreToolUse | Validates n8n workflows meet evaluation criteria | Execution history |
+| `spec_completeness_validator` | PreToolUse | Validates specs have inputs/outputs/routes/tests | Spec files |
+
+### Quality Enforcement Hooks
+
+| Hook | Event | Purpose | Integration |
+|------|-------|---------|-------------|
+| `post_code_write` | PostToolUse | Requires code-reviewer subagent invocation | Subagent system |
+| `inline_script_validator` | PreToolUse | Blocks complex inline scripts, enforces temp file pattern | Bash command analysis |
+| `vitest_migration_enforcer` | PreToolUse | Blocks Jest, provides Vitest migration guidance | package.json analysis |
+| `workflow_publishing_gate` | PreToolUse | Ensures workflows published before prod use | n8n API |
+| `webhook_methods_validator` | PreToolUse | Validates webhook HTTP method configuration | Workflow JSON |
+
+### Browser Automation Hooks
+
+| Hook | Event | Purpose | MCP Integration |
+|------|-------|---------|-----------------|
+| `browser_automation_gate` | PreToolUse | Blocks Playwright when Scrapling healthy | MCP health check |
+| `login_detection_escalator` | PostToolUse | Detects login pages, escalates to human | Browser content analysis |
+| `post_tool_use` | PostToolUse | Enforces Scrapling over Playwright | Tool usage monitoring |
+
+### Meta-System Hooks
+
+| Hook | Event | Purpose | Output |
+|------|-------|---------|--------|
+| `session_start` | SessionStart | MCP self-healing, environment setup | MCP health report |
+| `escalation_trigger` | PostToolUse | Detects repeated corrections, proposes new hooks | Correction Debt Ledger |
+| `prompt_escalation_detector` | UserPromptSubmit | Identifies escalation opportunities | Escalation registry |
+| `self_audit_enforcement` | SessionStart | Periodically audits hook system health | Audit reports |
+
+### Workflow Intent Analysis
+
+| Hook | Event | Purpose | Detection |
+|------|-------|---------|----------|
+| `workflow_intent` | PreToolUse | Classifies workflow operations (create/read/update/delete) | Natural language analysis |
+| `plan_completeness_gate` | PreToolUse | Validates execution plans are complete before proceeding | Plan structure analysis |
+
+### Hook Development (TDD)
+
+```bash
+cd hooks
+npm test           # Run Vitest tests
+npm run lint       # Lint TypeScript
+npm run build      # Compile to dist/
 ```
 
-Monaco editor auto-adds closing braces - remove extra trailing braces when they appear.
+### Hook JSON Schema
 
-Use multi-expression debugging (10+ expressions at once) to accelerate understanding:
-```jinja
-Submitted: {{ CTX.data | map(attribute="value") | list }}
-Stored: {{ ORG.VARIABLES().get("key") | from_yaml_string }}
-Comparison: {{ submitted_value == stored_value }}
-```
+All hooks output valid JSON matching Claude Code schemas. Use helpers from `hook-utils.js`:
+- `outputPreToolUse(decision, reason)`
+- `outputPostToolUse(context)`
+- `outputUserPromptSubmit(context)`
+- `outputSessionStart(context)`
+- `outputStop(decision, reason)`
 
-Use `now()` function, not `CTX.now`. Convert datetime to epoch with `| format_datetime('%s') | int`.
+## Hook Implementation Status
+
+This table maps CLAUDE.md sections to their enforcement mechanisms:
+
+| CLAUDE.md Section | Lines | Enforcement | Implementation Status |
+|-------------------|-------|-------------|----------------------|
+| Purpose | 1-7 | Philosophical foundation | N/A (documentation) |
+| Setup | 9-20 | setup.sh script | Implemented |
+| Architecture | 22-42 | File system structure | Implemented |
+| Critical Rules | 44-57 | Multiple hooks | See Critical Rules table above |
+| Hierarchical Development | 59-527 | `hierarchical_testing_gate`, `primordial_pipeline_gate`, `spec_completeness_validator` | Fully enforced |
+| Project Directive | 82-108 | `pre_build_gate` | Fully enforced |
+| Design Enforcer Audit | 209-318 | `spec_completeness_validator` + manual enforcer invocation | Hook enforces spec existence, manual review required |
+| Sequential Pipeline | 109-347 | `hierarchical_testing_gate` | Fully enforced |
+| Code Node Local Testing | 426-477 | `code_node_test_validator` | Fully enforced |
+| Perfection Criteria | 479-492 | `hierarchical_testing_gate` + test-run-registry | Tracked, gate enforced |
+| n8n Evaluations | 528-575 | `evaluation_gate`, `evaluation_gate_wrapper` | Fully enforced |
+| Source of Truth: LIVE APIs | 576-596 | `ghost_file_detector`, governance hooks | Fully enforced |
+| Testing Context Interpretation | 598-653 | Documentation only | N/A (interpretation guidance) |
+| n8n Subworkflow Dual Trigger | 654-762 | `n8n_dual_trigger_validator` | Fully enforced |
+| Dual-Trigger Error Handling | 763-833 | `n8n_dual_trigger_validator` (pattern validation) | Validated by hook |
+| Workflow Publishing | 834-853 | `workflow_publishing_gate` | Fully enforced |
+| Webhook HTTP Methods | 854-887 | `webhook_methods_validator` | Fully enforced |
+| Webhook Path Naming | 248-319 | `n8n_webhook_path_validator` | Fully enforced |
+| Vitest Standard | 889-998 | `vitest_migration_enforcer` | Fully enforced |
+| Primordial Pipeline | 1000-1163 | `primordial_pipeline_gate` + test-run-registry | Fully enforced |
+| Inline Script Anti-Pattern | 1165-1183 | `inline_script_validator` | Fully enforced |
+| Hook System | 1184-1203 | Hook infrastructure | Implemented |
+| Browser Automation | 1205-1267 | `browser_automation_gate`, `login_detection_escalator` | Fully enforced |
+| Hook JSON Schema | 1277-1295 | Hook output validation | Implemented in all hooks |
+| MCP Self-Healing | 1297-1306 | `session_start` hook | Fully enforced |
+| Dynamic Tool Router | 1308-1319 | tool-router.json + runtime logic | Implemented |
+| Subagent Invocation | 1321-1329 | `post_code_write` (code-reviewer) | Partially enforced |
+| API Key Architecture | 1331-1338 | `api_key_sync` module | Implemented |
+| Task Completion | 1340-1347 | Multiple hooks | Checklist format |
+
+## Browser Automation Rules
+
+**Tool Architecture:**
+
+| Tool | Purpose | When to Use | Hook Enforcement |
+|------|---------|-------------|------------------|
+| Scrapling MCP | Anti-bot page fetching | `s-fetch-page`, `s-fetch-pattern` for protected sites | `browser_automation_gate` (primary) |
+| Scrapling CLI | CLI-based extraction | `scrapling extract fetch URL output.md` | Documentation |
+| Playwright MCP | Browser interactions | Click, type, screenshot (fallback when Scrapling unhealthy) | `browser_automation_gate` (fallback) |
+
+**Direct Python/Node automation is BLOCKED** by `browser_automation_gate`.
+
+**Auth Escalation:** The `login_detection_escalator` hook monitors for login pages and stops automation, escalating to human user via AskUserQuestion tool. Browser sessions persist in `~/.claude/browser-data` for reuse after authentication.
+
+## MCP Self-Healing
+
+The `session_start` hook executes on every session:
+1. Inventories expected MCP servers from `~/.claude/mcp/mcp-registry.json`
+2. Health checks each server
+3. Self-heals failed servers (reinstall/update)
+4. Verifies all tools available
+5. Reports status for LLM awareness
+
+## Dynamic Tool Router
+
+Tool preferences are runtime decisions from `~/.claude/tool-router/tool-router.json`.
+
+### Cloud Object Modification Hierarchy
+
+When creating or modifying cloud objects (n8n workflows, ServiceTitan objects, etc.):
+
+| Priority | Tool | Condition |
+|----------|------|-----------|
+| 1 | Download to temp directory | Always first step |
+| 2 | `mcp__n8n__*` / `mcp__servicetitan__*` / system MCP | System MCP healthy |
+| 3 | `mcp__morph__edit_file` + API upload | Morph MCP healthy |
+| 4 | `mcp__desktop-commander__start_process` | Desktop Commander healthy |
+| 5 | `mcp__scrapling__s_fetch_page` + CLI | Scrapling healthy |
+| 6 | `AskUserQuestion` | Last resort |
+
+### Local Object Modification Hierarchy
+
+When creating or modifying local files:
+
+| Priority | Tool | Condition |
+|----------|------|-----------|
+| 1 | `mcp__morph__edit_file` | Morph MCP healthy |
+| 2 | `mcp__desktop-commander__edit_block` | Desktop Commander healthy |
+| 3 | `Edit` | Built-in tool |
+| 4 | `mcp__desktop-commander__start_process` (node.js) | Desktop Commander healthy |
+| 5 | `mcp__desktop-commander__start_process` (raw) | Desktop Commander healthy |
+| 6 | `Bash` | Built-in tool |
+| 7 | `AskUserQuestion` | Last resort |
+
+### Ad-Hoc Code Execution Hierarchy
+
+When executing ad-hoc code (prefer node.js, avoid Python, avoid full scripts):
+
+| Priority | Tool | Condition |
+|----------|------|-----------|
+| 1 | `mcp__desktop-commander__start_process` with `node -e` | Desktop Commander healthy |
+| 2 | `Write` to temp file + execute | Built-in tool |
+| 3 | `mcp__desktop-commander__start_process` (raw) | Desktop Commander healthy |
+| 4 | `Bash` | Built-in tool |
+| 5 | `AskUserQuestion` | Last resort |
+
+**Constraints:**
+- Prefer node.js/JavaScript over Python
+- Avoid creating full script files
+- Use temp directory for any required files
+
+### Framework Exceptions
+
+Some tools require specific frameworks. These exceptions override the default JavaScript preference:
+
+| Tool | Required Framework | Reason |
+|------|-------------------|--------|
+| Scrapling CLI | Python | CLI only supports Python scripting |
+| Playwright codegen | JavaScript | Playwright's native language |
+
+**Research requirement:** Before adding a framework exception, confirm via research that no preferred-language alternative exists.
+
+### Legacy Routes
+
+| Operation | Primary | Fallback |
+|-----------|---------|----------|
+| File edit | `mcp__morph__edit_file` | `Edit` |
+| Browser navigate | `mcp__scrapling__s_fetch_page` | `mcp__playwright__browser_navigate` |
+| Web search | `mcp__exa__search` | `WebSearch` |
+| Code search | `mcp__filesystem-with-morph__warpgrep_codebase_search` | `Grep` |
+
+## Subagent Invocation
+
+| Scenario | Subagent | Hook Enforcement |
+|----------|----------|------------------|
+| After writing code | code-reviewer | `post_code_write` (REQUIRED) |
+| Any error/bug | debugger | Manual invocation |
+| Creating tests | test-automator | Manual invocation |
+| Security-sensitive | security-auditor | Manual invocation |
+| System design | system-architect | Manual invocation |
+| Spec review | architect-reviewer | `spec_completeness_validator` (recommended) |
+
+## API Key Architecture
+
+Keys must exist in BOTH locations (synchronized by `api_key_sync`):
+
+| Location | Purpose |
+|----------|---------|
+| ~/.claude/.env | Non-MCP utilities, scripts |
+| MCP config JSON | MCP server authentication |
 
 ## Task Completion Checklist
 
-- [ ] Session start hook ran (MCP servers installed/connected)
-- [ ] All MCP servers responding
-- [ ] Appropriate subagents invoked
-- [ ] Code reviewed via code-reviewer
-- [ ] Tests created if applicable
+Before marking a task complete:
+- [ ] Session start hook ran (`session_start`)
+- [ ] MCP servers healthy (self-healed if needed)
+- [ ] Appropriate subagents invoked (e.g., `code-reviewer`)
+- [ ] Code reviewed via code-reviewer subagent
 - [ ] Visual validation performed (Scrapling screenshot)
-- [ ] Output verified matches expectations
+- [ ] All hooks passed (no permission denials)
+- [ ] Test runs recorded (if applicable)
+
+## GitHub Framework
+
+The Spinal Cord includes a comprehensive GitHub framework for standardized version control across all projects.
+
+### Commit Conventions
+
+**Standard:** Conventional Commits 1.0.0
+**Enforcement:** WARN (soft)
+
+```
+<type>(<scope>): <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+| Type | Description | Version Bump |
+|------|-------------|--------------|
+| `feat` | New feature | MINOR |
+| `fix` | Bug fix | PATCH |
+| `docs` | Documentation only | None |
+| `style` | Formatting, no code change | None |
+| `refactor` | Code change, no feature/fix | None |
+| `perf` | Performance improvement | PATCH |
+| `test` | Adding/updating tests | None |
+| `build` | Build system/dependencies | None |
+| `ci` | CI configuration | None |
+| `chore` | Maintenance tasks | None |
+
+**Breaking Changes:** Add `!` after type or include `BREAKING CHANGE:` in footer for MAJOR bump.
+
+### Branch Naming
+
+**Enforcement:** WARN (soft)
+
+| Prefix | Purpose | Example |
+|--------|---------|---------|
+| `feature/` | New functionality | `feature/user-auth` |
+| `bugfix/` | Bug fixes | `bugfix/login-redirect` |
+| `hotfix/` | Urgent fixes | `hotfix/security-patch` |
+| `release/` | Release preparation | `release/2.0.0` |
+| `chore/` | Maintenance | `chore/update-deps` |
+| `docs/` | Documentation | `docs/api-reference` |
+
+### Secret Scanning
+
+**Enforcement:** STRICT (hard block)
+
+Detected patterns include:
+- AWS keys (`AKIA...`)
+- GitHub tokens (`ghp_...`, `gho_...`)
+- Anthropic keys (`sk-ant-...`)
+- Private keys (`-----BEGIN...PRIVATE KEY-----`)
+- Connection strings (`mongodb://user:pass@...`)
+- JWTs, Slack tokens, Stripe keys, etc.
+
+### Semantic Versioning
+
+**Standard:** SemVer 2.0.0
+**Automation:** Fully automatic on push to main
+
+| Commit Type | Version Bump |
+|-------------|--------------|
+| `BREAKING CHANGE:` or `!` | MAJOR |
+| `feat` | MINOR |
+| `fix`, `perf` | PATCH |
+
+### Release Automation
+
+On push to main/master:
+1. Analyze commits since last tag
+2. Calculate version bump
+3. Generate changelog
+4. Create git tag
+5. Create GitHub release
+
+### Git Hooks
+
+| Hook | Event | Action |
+|------|-------|--------|
+| `secret_scanner` | PreToolUse (Bash git commit/push) | **BLOCK** on secrets |
+| `commit_message_validator` | PreToolUse (Bash git commit) | Warn on non-conventional |
+| `branch_naming_validator` | PreToolUse (Bash git checkout -b) | Warn on non-conformant |
+| `changelog_generator` | PostToolUse (Bash git commit) | Update changelog-registry |
+| `semantic_version_calculator` | PostToolUse (Bash git tag) | Update release-registry |
+
+### Templates Location
+
+```
+~/.claude/github/
+    +-- templates/
+    |   +-- README.template.md
+    |   +-- CONTRIBUTING.template.md
+    |   +-- PR_TEMPLATE.md
+    +-- configs/
+        +-- commitlint.config.js
+        +-- release.config.js
+```
+
+## References
+
+**For detailed specifications and templates:**
+- Node specification template: `~/.claude/hooks/specs/enforcer-audit-checklist.md`
+- Vitest migration guide: `~/.claude/hooks/docs/vitest-migration.md`
+- Hook source code: `~/.claude/hooks/src/hooks/`
+- Git hooks source: `~/.claude/hooks/src/git/`
+- Governance logic: `~/.claude/hooks/src/governance/`
+- Test run registry: `~/.claude/ledger/test-run-registry.json`
+- Release registry: `~/.claude/ledger/release-registry.json`
+- Changelog registry: `~/.claude/ledger/changelog-registry.json`
+- Correction ledger: `~/.claude/ledger/correction-ledger.json`
+- GitHub templates: `~/.claude/github/templates/`
+- GitHub configs: `~/.claude/github/configs/`
+- OpenSpec proposal: `~/.claude/openspec/changes/add-global-github-framework/`
+
+**Hook configuration:** `~/.claude/settings.json`

@@ -1,0 +1,240 @@
+/**
+ * Changelog Generator Hook
+ * Tracks commits for changelog generation
+ * Event: PostToolUse (Bash git commit)
+ */
+
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import { execSync } from 'node:child_process';
+import type { PostToolUseInput, PostToolUseOutput } from '../types.js';
+import { log, getClaudeDir as getClaudeDirectory } from '../utils.js';
+import { registerHook } from '../runner.js';
+
+// Conventional commit regex
+const conventionalCommitRegex =
+  /^(?<type>\w+)(?:\((?<scope>[^)]+)\))?(?<breaking>!)?\s*:\s*(?<description>.+)$/;
+
+type ChangelogEntry = {
+  hash: string;
+  type: string;
+  scope?: string;
+  description: string;
+  breaking: boolean;
+  timestamp: string;
+};
+
+type ChangelogRegistry = {
+  repositories: Record<
+    string,
+    {
+      lastRelease: string;
+      unreleased: ChangelogEntry[];
+    }
+  >;
+  lastUpdated: string;
+  schema: {
+    version: string;
+    description: string;
+  };
+};
+
+/**
+ * Get the changelog registry path
+ */
+function getRegistryPath(): string {
+  return path.join(getClaudeDirectory(), 'ledger', 'changelog-registry.json');
+}
+
+/**
+ * Load the changelog registry
+ */
+function loadRegistry(): ChangelogRegistry {
+  const registryPath = getRegistryPath();
+  if (fs.existsSync(registryPath)) {
+    return JSON.parse(fs.readFileSync(registryPath, 'utf8')) as ChangelogRegistry;
+  }
+
+  return {
+    repositories: {},
+    lastUpdated: new Date().toISOString(),
+    schema: {
+      version: '1.0.0',
+      description: 'Tracks unreleased changes for changelog generation',
+    },
+  };
+}
+
+/**
+ * Save the changelog registry
+ */
+function saveRegistry(registry: ChangelogRegistry): void {
+  const registryPath = getRegistryPath();
+  registry.lastUpdated = new Date().toISOString();
+  fs.writeFileSync(registryPath, JSON.stringify(registry, null, 2));
+}
+
+/**
+ * Get the current git repository root
+ */
+function getRepoRoot(): string | undefined {
+  try {
+    return execSync('git rev-parse --show-toplevel', {
+      encoding: 'utf8',
+      timeout: 5000,
+    }).trim();
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Get the latest commit info
+ */
+function getLatestCommit(): { hash: string; message: string } | undefined {
+  try {
+    const hash = execSync('git rev-parse HEAD', {
+      encoding: 'utf8',
+      timeout: 5000,
+    }).trim();
+
+    const message = execSync('git log -1 --pretty=%s', {
+      encoding: 'utf8',
+      timeout: 5000,
+    }).trim();
+
+    return { hash, message };
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Parse a conventional commit message
+ */
+function parseCommitMessage(
+  message: string
+): Omit<ChangelogEntry, 'hash' | 'timestamp'> | undefined {
+  const match = conventionalCommitRegex.exec(message);
+
+  if (!match?.groups) {
+    return undefined;
+  }
+
+  const { type, scope, description, breaking } = match.groups;
+
+  if (!type || !description) {
+    return undefined;
+  }
+
+  return {
+    type: type.toLowerCase(),
+    scope,
+    description,
+    breaking: breaking === '!',
+  };
+}
+
+/**
+ * Check if the command is a successful git commit
+ */
+function isGitCommit(command: string): boolean {
+  return /git\s+commit\b/.test(command);
+}
+
+/**
+ * Changelog Generator Hook Implementation
+ */
+export async function changelogGeneratorHook(input: PostToolUseInput): Promise<PostToolUseOutput> {
+  // Extract command
+  const toolInput = input.tool_input;
+  const command = typeof toolInput === 'object' && toolInput ? (toolInput.command as string) : '';
+
+  // Only process git commit commands
+  if (!command || !isGitCommit(command)) {
+    return {
+      hookSpecificOutput: {
+        hookEventName: 'PostToolUse',
+      },
+    };
+  }
+
+  log('Changelog generator: Processing git commit');
+
+  // Get repository root
+  const repoRoot = getRepoRoot();
+  if (!repoRoot) {
+    log('Changelog generator: Not in a git repository');
+    return {
+      hookSpecificOutput: {
+        hookEventName: 'PostToolUse',
+      },
+    };
+  }
+
+  // Get latest commit
+  const commit = getLatestCommit();
+  if (!commit) {
+    log('Changelog generator: Could not get latest commit');
+    return {
+      hookSpecificOutput: {
+        hookEventName: 'PostToolUse',
+      },
+    };
+  }
+
+  // Parse commit message
+  const parsed = parseCommitMessage(commit.message);
+  if (!parsed) {
+    log('Changelog generator: Commit does not follow Conventional Commits format, skipping');
+    return {
+      hookSpecificOutput: {
+        hookEventName: 'PostToolUse',
+      },
+    };
+  }
+
+  // Create changelog entry
+  const entry: ChangelogEntry = {
+    hash: commit.hash.slice(0, 7),
+    type: parsed.type,
+    scope: parsed.scope,
+    description: parsed.description,
+    breaking: parsed.breaking,
+    timestamp: new Date().toISOString(),
+  };
+
+  // Load registry and add entry
+  const registry = loadRegistry();
+
+  registry.repositories[repoRoot] ||= {
+    lastRelease: '0.0.0',
+    unreleased: [],
+  };
+
+  // Check for duplicate (same hash)
+  const existing = registry.repositories[repoRoot].unreleased.find(
+    (existingEntry) => existingEntry.hash === entry.hash
+  );
+  if (existing) {
+    log('Changelog generator: Entry already exists for this commit');
+  } else {
+    registry.repositories[repoRoot].unreleased.push(entry);
+    saveRegistry(registry);
+    log(
+      `Changelog generator: Added entry for ${entry.type}${entry.scope ? `(${entry.scope})` : ''}: ${entry.description}`
+    );
+  }
+
+  return {
+    hookSpecificOutput: {
+      hookEventName: 'PostToolUse',
+      additionalContext: `Changelog entry recorded: ${entry.type}${entry.scope ? `(${entry.scope})` : ''}: ${entry.description}`,
+    },
+  };
+}
+
+// Register the hook
+registerHook('changelog-generator', 'PostToolUse', changelogGeneratorHook);
+
+export default changelogGeneratorHook;

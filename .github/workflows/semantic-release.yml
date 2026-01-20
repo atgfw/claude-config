@@ -1,0 +1,157 @@
+name: Semantic Release
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get latest tag
+        id: latest_tag
+        run: |
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          echo "tag=$LATEST_TAG" >> $GITHUB_OUTPUT
+          echo "Latest tag: $LATEST_TAG"
+
+      - name: Analyze commits
+        id: analyze
+        run: |
+          LATEST_TAG="${{ steps.latest_tag.outputs.tag }}"
+
+          # Get commits since last tag
+          if [ "$LATEST_TAG" = "v0.0.0" ]; then
+            COMMITS=$(git log --pretty=format:"%s" --no-merges)
+          else
+            COMMITS=$(git log ${LATEST_TAG}..HEAD --pretty=format:"%s" --no-merges)
+          fi
+
+          # Determine bump type
+          BUMP="none"
+
+          if echo "$COMMITS" | grep -qE "^[a-z]+(\([^)]+\))?!:|BREAKING CHANGE:"; then
+            BUMP="major"
+          elif echo "$COMMITS" | grep -qE "^feat(\([^)]+\))?:"; then
+            BUMP="minor"
+          elif echo "$COMMITS" | grep -qE "^(fix|perf)(\([^)]+\))?:"; then
+            BUMP="patch"
+          fi
+
+          echo "bump=$BUMP" >> $GITHUB_OUTPUT
+          echo "Bump type: $BUMP"
+
+      - name: Calculate new version
+        id: version
+        if: steps.analyze.outputs.bump != 'none'
+        run: |
+          LATEST_TAG="${{ steps.latest_tag.outputs.tag }}"
+          BUMP="${{ steps.analyze.outputs.bump }}"
+
+          # Remove v prefix
+          VERSION=${LATEST_TAG#v}
+
+          # Split version
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+
+          # Bump version
+          case $BUMP in
+            major)
+              MAJOR=$((MAJOR + 1))
+              MINOR=0
+              PATCH=0
+              ;;
+            minor)
+              MINOR=$((MINOR + 1))
+              PATCH=0
+              ;;
+            patch)
+              PATCH=$((PATCH + 1))
+              ;;
+          esac
+
+          NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "New version: $NEW_VERSION"
+
+      - name: Generate changelog
+        id: changelog
+        if: steps.analyze.outputs.bump != 'none'
+        run: |
+          LATEST_TAG="${{ steps.latest_tag.outputs.tag }}"
+
+          # Get commits since last tag
+          if [ "$LATEST_TAG" = "v0.0.0" ]; then
+            COMMITS=$(git log --pretty=format:"- %s (%h)" --no-merges)
+          else
+            COMMITS=$(git log ${LATEST_TAG}..HEAD --pretty=format:"- %s (%h)" --no-merges)
+          fi
+
+          # Build changelog
+          CHANGELOG="## What's Changed\n\n"
+
+          # Features
+          FEATS=$(echo "$COMMITS" | grep -E "^- feat" || true)
+          if [ -n "$FEATS" ]; then
+            CHANGELOG="${CHANGELOG}### Features\n${FEATS}\n\n"
+          fi
+
+          # Bug Fixes
+          FIXES=$(echo "$COMMITS" | grep -E "^- fix" || true)
+          if [ -n "$FIXES" ]; then
+            CHANGELOG="${CHANGELOG}### Bug Fixes\n${FIXES}\n\n"
+          fi
+
+          # Performance
+          PERFS=$(echo "$COMMITS" | grep -E "^- perf" || true)
+          if [ -n "$PERFS" ]; then
+            CHANGELOG="${CHANGELOG}### Performance\n${PERFS}\n\n"
+          fi
+
+          # Other changes
+          OTHERS=$(echo "$COMMITS" | grep -vE "^- (feat|fix|perf)" || true)
+          if [ -n "$OTHERS" ]; then
+            CHANGELOG="${CHANGELOG}### Other Changes\n${OTHERS}\n\n"
+          fi
+
+          # Write to file for multiline output
+          echo -e "$CHANGELOG" > changelog.md
+          echo "Generated changelog"
+
+      - name: Create tag
+        if: steps.analyze.outputs.bump != 'none'
+        run: |
+          NEW_VERSION="${{ steps.version.outputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "v${NEW_VERSION}" -m "Release v${NEW_VERSION}"
+          git push origin "v${NEW_VERSION}"
+
+      - name: Create GitHub Release
+        if: steps.analyze.outputs.bump != 'none'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: Release v${{ steps.version.outputs.version }}
+          body_path: changelog.md
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: No release needed
+        if: steps.analyze.outputs.bump == 'none'
+        run: |
+          echo "No conventional commits found that trigger a release"
+          echo "Use feat: for features, fix: for fixes, or BREAKING CHANGE: for breaking changes"

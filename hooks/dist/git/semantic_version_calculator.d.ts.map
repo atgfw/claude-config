@@ -1,0 +1,1 @@
+{"version":3,"file":"semantic_version_calculator.d.ts","sourceRoot":"","sources":["../../src/git/semantic_version_calculator.ts"],"names":[],"mappings":"AAAA;;;;GAIG;AAKH,OAAO,KAAK,EAAE,gBAAgB,EAAE,iBAAiB,EAAE,MAAM,aAAa,CAAC;AA6GvE;;GAEG;AACH,wBAAsB,6BAA6B,CACjD,KAAK,EAAE,gBAAgB,GACtB,OAAO,CAAC,iBAAiB,CAAC,CAsF5B;AAKD,eAAe,6BAA6B,CAAC"}

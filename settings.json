@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$HOME/.claude/hooks/pre-bash.sh\""
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" pre-bash"
           }
         ]
       },
@@ -15,29 +15,175 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$HOME/.claude/hooks/pre-write.sh\""
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" unified-write-gate"
           }
         ]
+      },
+      {
+        "matcher": "mcp__n8n-mcp__n8n_create_workflow|mcp__n8n-mcp__n8n_delete_workflow",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-workflow-governance"
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__n8n-mcp__n8n_create_workflow|mcp__n8n-mcp__n8n_update_workflow",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-dual-trigger-validator"
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__n8n-mcp__n8n_create_workflow|mcp__n8n-mcp__n8n_update_workflow",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-naming-validator"
+          }
+        ],
+        "description": "Enforces naming conventions: snake_case nodes, no version numbers, full system prefixes. See CLAUDE.md 'n8n Naming Conventions'"
+      },
+      {
+        "matcher": "mcp__n8n-mcp__n8n_create_workflow|mcp__n8n-mcp__n8n_update_workflow",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-node-note-validator"
+          }
+        ],
+        "description": "Enforces node documentation: 20+ char notes, Display Note enabled. See CLAUDE.md 'n8n Node Documentation'"
+      },
+      {
+        "matcher": "mcp__n8n-mcp__n8n_create_workflow|mcp__n8n-mcp__n8n_update_workflow",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" code-node-linting-gate"
+          }
+        ],
+        "description": "Enforces JS linting on code node content. See CLAUDE.md 'n8n Code Node Governance'"
+      },
+      {
+        "matcher": "mcp__n8n-mcp__n8n_create_workflow|mcp__n8n-mcp__n8n_update_workflow",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-webhook-path-validator"
+          }
+        ],
+        "description": "Enforces webhook path naming: kebab-case, no nesting, no 'test', must authenticate. See CLAUDE.md 'Webhook Path Naming'"
+      },
+      {
+        "matcher": "mcp__n8n-mcp__n8n_create_workflow|mcp__n8n-mcp__n8n_update_workflow",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-env-var-provisioner"
+          }
+        ],
+        "description": "Auto-detects environment variables in workflows and logs required configuration"
+      },
+      {
+        "matcher": "mcp__elevenlabs-mcp__create_agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" elevenlabs-agent-governance"
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__playwright__browser_navigate|mcp__playwright__browser_click|mcp__playwright__browser_snapshot",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" browser-automation-gate"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" secret-scanner"
+          }
+        ],
+        "description": "STRICT: Blocks git commit/push if secrets detected in staged files. See CLAUDE.md Security Scanning"
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" commit-message-validator"
+          }
+        ],
+        "description": "WARN: Validates commit messages follow Conventional Commits 1.0.0. See CLAUDE.md Commit Conventions"
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" branch-naming-validator"
+          }
+        ],
+        "description": "WARN: Validates branch names follow naming conventions. See CLAUDE.md Branch Naming"
       }
     ],
     "PostToolUse": [
       {
-        "matcher": "Write|Edit",
+        "matcher": "Bash|Write|Edit",
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$HOME/.claude/hooks/post-code-write.sh\""
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" unified-post-tool"
           }
         ]
       },
       {
-        "matcher": "*",
+        "matcher": "Write|Edit|MultiEdit|NotebookEdit|mcp__desktop-commander__write_file|mcp__desktop-commander__edit_block|mcp__morph__edit_file|mcp__morph__write_file|mcp__filesystem-with-morph__edit_file|mcp__filesystem-with-morph__write_file|mcp__filesystem__write_file|mcp__filesystem__edit_file",
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$HOME/.claude/hooks/post-tool-use.sh\""
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" quality-check"
+          }
+        ],
+        "description": "Runs TypeScript, XO (ESLint), and Prettier checks on edited source files. Supports built-in tools and MCP file operations."
+      },
+      {
+        "matcher": "mcp__playwright__browser_navigate|mcp__playwright__browser_snapshot",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" login-detection-escalator"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" changelog-generator"
+          }
+        ],
+        "description": "Records conventional commits for changelog generation"
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" semantic-version-calculator"
+          }
+        ],
+        "description": "Tracks releases and version bumps"
       }
     ],
     "UserPromptSubmit": [
@@ -45,31 +191,36 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$HOME/.claude/hooks/pre-task-start.sh\""
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" unified-prompt-handler"
           }
         ]
-      }
-    ],
-    "Stop": [
+      },
       {
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$HOME/.claude/hooks/pre-task-complete.sh\""
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" context-summary-trigger"
           }
         ]
       }
     ],
+    "Stop": [],
     "SessionStart": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$HOME/.claude/hooks/session-start-global-mcp.sh\""
+            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" session-start"
           }
         ]
       }
     ]
   },
-  "model": "opus"
+  "promptSuggestionEnabled": false,
+  "autoUpdatesChannel": "latest",
+  "model": "opus",
+  "statusLine": {
+    "type": "command",
+    "command": "node C:\\Users\\codya\\.claude\\statusline.js"
+  }
 }

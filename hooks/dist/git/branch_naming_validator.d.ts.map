@@ -1,0 +1,1 @@
+{"version":3,"file":"branch_naming_validator.d.ts","sourceRoot":"","sources":["../../src/git/branch_naming_validator.ts"],"names":[],"mappings":"AAAA;;;;GAIG;AAEH,OAAO,KAAK,EAAE,eAAe,EAAE,gBAAgB,EAAE,MAAM,aAAa,CAAC;AA8IrE;;GAEG;AACH,wBAAsB,yBAAyB,CAAC,KAAK,EAAE,eAAe,GAAG,OAAO,CAAC,gBAAgB,CAAC,CAuGjG;AAKD,eAAe,yBAAyB,CAAC"}

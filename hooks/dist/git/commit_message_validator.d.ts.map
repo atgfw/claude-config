@@ -1,0 +1,1 @@
+{"version":3,"file":"commit_message_validator.d.ts","sourceRoot":"","sources":["../../src/git/commit_message_validator.ts"],"names":[],"mappings":"AAAA;;;;GAIG;AAEH,OAAO,KAAK,EAAE,eAAe,EAAE,gBAAgB,EAAE,MAAM,aAAa,CAAC;AAwJrE;;GAEG;AACH,wBAAsB,0BAA0B,CAC9C,KAAK,EAAE,eAAe,GACrB,OAAO,CAAC,gBAAgB,CAAC,CAsG3B;AAKD,eAAe,0BAA0B,CAAC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"changelog_generator.d.ts","sourceRoot":"","sources":["../../src/git/changelog_generator.ts"],"names":[],"mappings":"AAAA;;;;GAIG;AAKH,OAAO,KAAK,EAAE,gBAAgB,EAAE,iBAAiB,EAAE,MAAM,aAAa,CAAC;AAuIvE;;GAEG;AACH,wBAAsB,sBAAsB,CAAC,KAAK,EAAE,gBAAgB,GAAG,OAAO,CAAC,iBAAiB,CAAC,CAuFhG;AAKD,eAAe,sBAAsB,CAAC"}

@@ -1,0 +1,137 @@
+name: Security Scan
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+  schedule:
+    # Run weekly on Sundays at midnight UTC
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  secret-scan:
+    name: Secret Scanning
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+
+  dependency-audit:
+    name: Dependency Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check for package-lock.json
+        id: check_npm
+        run: |
+          if [ -f "package-lock.json" ]; then
+            echo "has_npm=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_npm=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: NPM Audit
+        if: steps.check_npm.outputs.has_npm == 'true'
+        run: |
+          npm audit --audit-level=high || true
+        continue-on-error: true
+
+      - name: Check for requirements.txt
+        id: check_pip
+        run: |
+          if [ -f "requirements.txt" ]; then
+            echo "has_pip=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_pip=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Setup Python
+        if: steps.check_pip.outputs.has_pip == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Pip Audit
+        if: steps.check_pip.outputs.has_pip == 'true'
+        run: |
+          pip install pip-audit
+          pip-audit -r requirements.txt || true
+        continue-on-error: true
+
+  codeql:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect languages
+        id: detect
+        run: |
+          LANGUAGES=""
+          if find . -name "*.js" -o -name "*.ts" -o -name "*.jsx" -o -name "*.tsx" | head -1 | grep -q .; then
+            LANGUAGES="javascript-typescript"
+          fi
+          if find . -name "*.py" | head -1 | grep -q .; then
+            [ -n "$LANGUAGES" ] && LANGUAGES="$LANGUAGES,"
+            LANGUAGES="${LANGUAGES}python"
+          fi
+          if [ -z "$LANGUAGES" ]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+            echo "languages=$LANGUAGES" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Initialize CodeQL
+        if: steps.detect.outputs.skip == 'false'
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ steps.detect.outputs.languages }}
+
+      - name: Autobuild
+        if: steps.detect.outputs.skip == 'false'
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        if: steps.detect.outputs.skip == 'false'
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ steps.detect.outputs.languages }}"
+
+  report:
+    name: Security Report
+    needs: [secret-scan, dependency-audit, codeql]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Summary
+        run: |
+          echo "## Security Scan Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Secret Scan | ${{ needs.secret-scan.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Dependency Audit | ${{ needs.dependency-audit.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| CodeQL Analysis | ${{ needs.codeql.result }} |" >> $GITHUB_STEP_SUMMARY
