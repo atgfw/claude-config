@@ -48,6 +48,9 @@ stats-cache.json
 shell-snapshots/
 session-env/
 file-history/
+browser-data/
+cache/
+.claude/
 
 # ===========================================
 # TELEMETRY AND DEBUG
