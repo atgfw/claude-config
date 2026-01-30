@@ -1,9 +1,12 @@
 {
   "id": "2",
   "subject": "Verify n8n variables exist for ST_CLIENT_ID and ST_CLIENT_SECRET",
-  "description": "Check if the variables already exist in n8n, create them if not",
+  "description": "n8n Variables ($vars) not available (requires paid license). Will use global static data for all config distribution.",
   "activeForm": "Checking n8n variables",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "userConfirmed": true
+  }
 }

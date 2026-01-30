@@ -3,7 +3,11 @@
   "subject": "Update RESPONSE-FORMAT.md for v5.5 (Issue #20)",
   "description": "Update docs/RESPONSE-FORMAT.md with new categories, fields, and examples.",
   "activeForm": "Updating response format docs",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "userConfirmed": true,
+    "evidence": "docs/RESPONSE-FORMAT.md rewritten for v5.5.0, issue #20 closed"
+  }
 }

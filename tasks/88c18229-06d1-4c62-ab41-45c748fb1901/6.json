@@ -3,7 +3,7 @@
   "subject": "Test sentiment/coaching with real transcripts (Issue #18)",
   "description": "Test the new categories against real ElevenLabs call transcripts via the webhook endpoint.",
   "activeForm": "Testing sentiment and coaching categories",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }

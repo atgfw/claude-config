@@ -1,9 +1,9 @@
 {
   "id": "1",
-  "subject": "Replace hardcoded secrets with n8n variable expressions",
-  "description": "Update get_oauth_token node in auth workflow to use $vars.ST_CLIENT_ID and $vars.ST_CLIENT_SECRET instead of hardcoded values",
+  "subject": "Centralize all ST config in auth workflow static data",
+  "description": "Update store_token code node to also store tenant_id and app_key in static data. Update downstream workflows to read from static data instead of $vars.",
   "activeForm": "Updating auth workflow credentials",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
