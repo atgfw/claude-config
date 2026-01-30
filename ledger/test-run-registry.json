@@ -348,6 +348,60 @@
         {"run": 3, "inputHash": "aed45027460af2d0", "passed": true, "timestamp": "2026-01-15T13:51:44.000Z", "description": "Empty list handling"}
       ],
       "totalNovelRuns": 3
+    },
+    "[DEV] website_rag_kb_upload": {
+      "entityId": "[DEV] website_rag_kb_upload",
+      "entityType": "n8n-workflow",
+      "entityPath": "workflows/website_rag/",
+      "entityName": "[DEV] website_rag_kb_upload",
+      "workflowId": null,
+      "status": "local-tested",
+      "version": "1.0.0",
+      "novelInputHashes": [
+        "a2b3c4d5e6f70001",
+        "a2b3c4d5e6f70002",
+        "a2b3c4d5e6f70003"
+      ],
+      "testRuns": [
+        {
+          "run": 1,
+          "inputHash": "a2b3c4d5e6f70001",
+          "passed": true,
+          "timestamp": "2026-01-30T20:00:00.000Z",
+          "executionId": "local-node-001",
+          "description": "Document structure validation - 4 ATG markdown docs with correct names and API key"
+        },
+        {
+          "run": 2,
+          "inputHash": "a2b3c4d5e6f70002",
+          "passed": true,
+          "timestamp": "2026-01-30T20:00:01.000Z",
+          "executionId": "local-node-002",
+          "description": "Document ID collection logic - simulated 4 ElevenLabs create responses collected into array"
+        },
+        {
+          "run": 3,
+          "inputHash": "a2b3c4d5e6f70003",
+          "passed": true,
+          "timestamp": "2026-01-30T20:00:02.000Z",
+          "executionId": "local-node-003",
+          "description": "Agent KB array construction - PATCH body with conversation_config.agent.prompt.knowledge_base"
+        }
+      ],
+      "totalNovelRuns": 3,
+      "healthyAt": null,
+      "selfAuditCompleted": {
+        "completed": false,
+        "checklist": {
+          "spec_phase": true,
+          "enforcer_audit": false,
+          "build_phase": true,
+          "local_tests": true,
+          "primordial_pipeline": true,
+          "research_quota": false,
+          "quality_audit": false
+        }
+      }
     }
   },
   "hierarchies": {
@@ -368,6 +422,10 @@
       "children": []
     },
     "st-review-request": {
+      "parent": null,
+      "children": []
+    },
+    "[DEV] website_rag_kb_upload": {
       "parent": null,
       "children": []
     }

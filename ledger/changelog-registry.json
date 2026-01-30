@@ -50,11 +50,19 @@
           "description": "v5.4 routing_config + contact enrichment",
           "breaking": false,
           "timestamp": "2026-01-23T21:43:00.774Z"
+        },
+        {
+          "hash": "c970565",
+          "type": "chore",
+          "scope": "llm-extraction",
+          "description": "directory cleanup + gitignore",
+          "breaking": false,
+          "timestamp": "2026-01-30T17:10:54.926Z"
         }
       ]
     }
   },
-  "lastUpdated": "2026-01-23T21:43:00.776Z",
+  "lastUpdated": "2026-01-30T17:10:54.941Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"
