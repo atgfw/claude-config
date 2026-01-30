@@ -17,6 +17,14 @@
           "description": "add runtime directories to gitignore",
           "breaking": false,
           "timestamp": "2026-01-22T14:21:18.011Z"
+        },
+        {
+          "hash": "af04ea5",
+          "type": "chore",
+          "scope": "sync",
+          "description": "add auto-commit hook and sync state",
+          "breaking": false,
+          "timestamp": "2026-01-30T20:10:22.329Z"
         }
       ]
     },
@@ -70,7 +78,7 @@
       ]
     }
   },
-  "lastUpdated": "2026-01-30T17:59:49.685Z",
+  "lastUpdated": "2026-01-30T20:10:22.331Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"
