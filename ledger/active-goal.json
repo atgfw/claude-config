@@ -1,14 +1,14 @@
 {
-  "goal": "Build metrics dashboard",
+  "goal": null,
   "fields": {
-    "who": "engineering team",
-    "what": "real-time metrics dashboard",
-    "when": "Q1 2026",
-    "where": "internal portal",
-    "why": "visibility into system health",
-    "how": "React + WebSocket"
+    "who": "unknown",
+    "what": "unknown",
+    "when": "unknown",
+    "where": "unknown",
+    "why": "unknown",
+    "how": "unknown"
   },
-  "summary": "Build metrics dashboard",
-  "updatedAt": "2026-01-30T21:31:22.691Z",
+  "summary": null,
+  "updatedAt": null,
   "history": []
 }

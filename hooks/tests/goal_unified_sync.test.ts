@@ -1,5 +1,7 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
 import * as fs from 'node:fs';
+import * as path from 'node:path';
+import * as os from 'node:os';
 import {
   createItem,
   renderToGitHubBody,
@@ -8,14 +10,10 @@ import {
   renderToPlanSteps,
   parseFromGitHubIssue,
 } from '../src/github/unified_checklist.js';
-import {
-  saveGoal,
-  createEmptyGoal,
-  getGoalPath,
-  type ActiveGoal,
-} from '../src/hooks/goal_injector.js';
+import { saveGoal, createEmptyGoal, type ActiveGoal } from '../src/hooks/goal_injector.js';
 
-let backup: string | null = null;
+let tempDir: string;
+let origClaudeDir: string | undefined;
 
 function setTestGoal(): void {
   const goal: ActiveGoal = {
@@ -35,23 +33,24 @@ function setTestGoal(): void {
   saveGoal(goal);
 }
 
-beforeEach(() => {
-  const goalPath = getGoalPath();
-  try {
-    backup = fs.readFileSync(goalPath, 'utf-8');
-  } catch {
-    backup = null;
-  }
-  setTestGoal();
+beforeAll(() => {
+  origClaudeDir = process.env['CLAUDE_DIR'];
+  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'goal-sync-test-'));
+  fs.mkdirSync(path.join(tempDir, 'ledger'), { recursive: true });
+  process.env['CLAUDE_DIR'] = tempDir;
 });
 
-afterEach(() => {
-  const goalPath = getGoalPath();
-  if (backup !== null) {
-    fs.writeFileSync(goalPath, backup, 'utf-8');
+afterAll(() => {
+  if (origClaudeDir !== undefined) {
+    process.env['CLAUDE_DIR'] = origClaudeDir;
   } else {
-    saveGoal(createEmptyGoal());
+    delete process.env['CLAUDE_DIR'];
   }
+  fs.rmSync(tempDir, { recursive: true, force: true });
+});
+
+beforeEach(() => {
+  setTestGoal();
 });
 
 describe('createItem goal auto-population', () => {
