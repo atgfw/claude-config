@@ -3,7 +3,10 @@
   "subject": "Test auth workflow after credential change",
   "description": "Execute workflow, verify token refresh works, check schedule trigger",
   "activeForm": "Testing auth workflow",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "executionId": "179196"
+  }
 }

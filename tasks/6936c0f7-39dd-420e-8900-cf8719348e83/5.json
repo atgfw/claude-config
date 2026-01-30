@@ -3,7 +3,10 @@
   "subject": "Redesign auth workflow to support token caching for subworkflow calls",
   "description": "Add logic to check if cached token is still valid when called as subworkflow. Only refresh if expired or called by schedule trigger.",
   "activeForm": "Redesigning auth workflow token caching",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "executionId": "179196"
+  }
 }

@@ -3,7 +3,7 @@
   "subject": "Add subworkflow call node to each downstream workflow",
   "description": "Add an execute_auth_workflow node at the start of call_association, job_reminder, and review_request that calls the auth workflow and passes token+config downstream.",
   "activeForm": "Adding auth subworkflow calls to downstream workflows",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
