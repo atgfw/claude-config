@@ -1,19 +1,14 @@
 {
-  "goal": null,
+  "goal": "Build metrics dashboard",
   "fields": {
-    "who": "unknown",
-    "what": "unknown",
-    "when": "unknown",
-    "where": "unknown",
-    "why": "unknown",
-    "how": "unknown"
+    "who": "engineering team",
+    "what": "real-time metrics dashboard",
+    "when": "Q1 2026",
+    "where": "internal portal",
+    "why": "visibility into system health",
+    "how": "React + WebSocket"
   },
-  "summary": null,
-  "updatedAt": null,
-  "history": [
-    {
-      "summary": "to migrate all services to Kubernetes",
-      "clearedAt": "2026-01-30T21:07:49.062Z"
-    }
-  ]
+  "summary": "Build metrics dashboard",
+  "updatedAt": "2026-01-30T21:31:22.691Z",
+  "history": []
 }

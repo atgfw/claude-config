@@ -4,6 +4,10 @@
  * Bridges 4 task sources: GitHub Issues, Claude Tasks, OpenSpec changes, and Plan steps.
  * Utility module only - no hook registration.
  */
+export interface GoalContext {
+    summary: string;
+    fields: Record<string, string>;
+}
 export interface UnifiedChecklistItem {
     id: string;
     title: string;
@@ -21,6 +25,7 @@ export interface UnifiedChecklistItem {
         text: string;
         done: boolean;
     }>;
+    goal_context?: GoalContext | null;
     created: string;
     updated: string;
 }

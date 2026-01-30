@@ -79,7 +79,7 @@ export { vitestMigrationEnforcerHook } from './hooks/vitest_migration_enforcer.j
 export { workflowPublishingGateHook } from './hooks/workflow_publishing_gate.js';
 export { webhookMethodsValidatorHook } from './hooks/webhook_methods_validator.js';
 export { evaluationGateExpanderHook } from './hooks/evaluation_gate_expander.js';
-export { goalInjectorHook } from './hooks/goal_injector.js';
+export { goalInjectorHook, getActiveGoalContext } from './hooks/goal_injector.js';
 export { taskCompletionGateHook } from './hooks/task_completion_gate.js';
 export { cloudObjectCreationGateHook } from './governance/cloud_object_creation_gate.js';
 export { llmModelValidatorHook } from './governance/llm_model_validator.js';

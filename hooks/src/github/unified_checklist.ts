@@ -53,9 +53,38 @@ export function createItem(
       plan_step: opts.sources?.plan_step ?? null,
     },
     acceptance_criteria: opts.acceptance_criteria ?? [],
+    goal_context: opts.goal_context !== undefined ? opts.goal_context : getActiveGoalContext(),
     created: opts.created ?? now,
     updated: opts.updated ?? now,
   };
+}
+
+/**
+ * Format a goal context into a markdown section for GitHub issue bodies.
+ */
+function formatGoalSection(goalContext?: GoalContext | null): string | null {
+  if (!goalContext) return null;
+  const fieldLines = Object.entries(goalContext.fields)
+    .filter(([, v]) => v !== 'unknown')
+    .map(([k, v]) => `- ${k.toUpperCase()}: ${v}`);
+  return ['## Goal', goalContext.summary, ...(fieldLines.length > 0 ? fieldLines : [])].join('\n');
+}
+
+/**
+ * Parse a ## Goal section from a GitHub issue body.
+ */
+function parseGoalSection(body: string): GoalContext | null {
+  const goalMatch = body.match(/## Goal\n([^\n]+)(?:\n([\s\S]*?))?(?=\n## |\n*$)/);
+  if (!goalMatch) return null;
+  const summary = goalMatch[1]!.trim();
+  const fields: Record<string, string> = {};
+  const fieldBlock = goalMatch[2] ?? '';
+  const fieldRegex = /^- ([A-Z]+): (.+)$/gm;
+  let fm: RegExpExecArray | null;
+  while ((fm = fieldRegex.exec(fieldBlock)) !== null) {
+    fields[fm[1]!.toLowerCase()] = fm[2]!.trim();
+  }
+  return { summary, fields };
 }
 
 /**
@@ -68,7 +97,10 @@ export function renderToGitHubBody(item: UnifiedChecklistItem): string {
 
   const openspecValue = item.sources.openspec_change ?? 'N/A';
 
+  const goalSection = formatGoalSection(item.goal_context);
+
   return [
+    ...(goalSection ? [goalSection, ''] : []),
     '## Problem',
     item.title,
     '',
@@ -97,7 +129,10 @@ export function renderToTaskCreate(item: UnifiedChecklistItem): {
     .map((c) => `- [${c.done ? 'x' : ' '}] ${c.text}`)
     .join('\n');
 
+  const goalLine = item.goal_context ? `Goal: ${item.goal_context.summary}` : '';
+
   const description = [
+    ...(goalLine ? [goalLine, ''] : []),
     `Priority: ${item.priority}`,
     `System: ${item.system || 'N/A'}`,
     `Type: ${item.type || 'N/A'}`,
@@ -117,19 +152,24 @@ export function renderToTaskCreate(item: UnifiedChecklistItem): {
  * Render multiple checklist items to a markdown task list.
  */
 export function renderToTasksMd(items: UnifiedChecklistItem[]): string {
-  return items
+  const goalCtx = items[0]?.goal_context;
+  const header = goalCtx ? `## Goal: ${goalCtx.summary}\n\n` : '';
+  const lines = items
     .map((item) => {
       const checked = item.status === 'completed' ? 'x' : ' ';
       return `- [${checked}] ${item.title}`;
     })
     .join('\n');
+  return header + lines;
 }
 
 /**
  * Render multiple checklist items to numbered plan steps.
  */
 export function renderToPlanSteps(items: UnifiedChecklistItem[]): string {
-  return items.map((item, i) => `${i + 1}. ${item.title}`).join('\n');
+  const goalCtx = items[0]?.goal_context;
+  const header = goalCtx ? `Goal: ${goalCtx.summary}\n\n` : '';
+  return header + items.map((item, i) => `${i + 1}. ${item.title}`).join('\n');
 }
 
 /**
@@ -200,6 +240,7 @@ export function parseFromGitHubIssue(issue: {
       plan_step: null,
     },
     acceptance_criteria: criteria,
+    goal_context: parseGoalSection(body),
     created: now,
     updated: now,
   };

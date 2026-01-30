@@ -18,6 +18,7 @@ export interface SyncEntry {
   claude_task_id: string | null;
   openspec_change_id: string | null;
   plan_step: number | null;
+  goal_summary: string | null;
   status: 'open' | 'closed';
   last_synced: string;
   sync_hash: string;
@@ -101,6 +102,7 @@ export function upsertEntry(
       claude_task_id: entry.claude_task_id ?? null,
       openspec_change_id: entry.openspec_change_id ?? null,
       plan_step: entry.plan_step ?? null,
+      goal_summary: entry.goal_summary ?? null,
       status: entry.status ?? 'open',
       last_synced: now,
       sync_hash: entry.sync_hash ?? '',

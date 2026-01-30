@@ -25,6 +25,14 @@ export declare function extractGoalText(prompt: string): string;
 export declare function formatGoalContext(goal: ActiveGoal): string;
 export declare function hasDehydratedFields(goal: ActiveGoal): boolean;
 declare function goalInjector(input: UserPromptSubmitInput): Promise<UserPromptSubmitOutput>;
+/**
+ * Get active goal context for embedding in other systems.
+ * Returns null if no goal is active.
+ */
+export declare function getActiveGoalContext(): {
+    summary: string;
+    fields: Record<string, string>;
+} | null;
 export { goalInjector as goalInjectorHook };
 export default goalInjector;
 //# sourceMappingURL=goal_injector.d.ts.map

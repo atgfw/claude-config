@@ -8,6 +8,7 @@ export interface SyncEntry {
     claude_task_id: string | null;
     openspec_change_id: string | null;
     plan_step: number | null;
+    goal_summary: string | null;
     status: 'open' | 'closed';
     last_synced: string;
     sync_hash: string;

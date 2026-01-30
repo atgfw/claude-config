@@ -10,6 +10,7 @@ import * as path from 'node:path';
 import { logTerse, logWarn, getClaudeDir } from '../utils.js';
 import { getLabelsForTitle, getLabelsForSource } from './label_taxonomy.js';
 import { detectImplementedFile } from './issue_file_detector.js';
+import { getActiveGoalContext } from '../hooks/goal_injector.js';
 
 // ============================================================================
 // Constants
@@ -117,7 +118,20 @@ export function computeKeywordOverlap(a: string, b: string): number {
  * Returns the created issue number, or null if duplicate/failure.
  */
 export function createIssue(opts: CreateIssueOpts): number | null {
-  const { title, body, source } = opts;
+  const { title, source } = opts;
+  let { body } = opts;
+
+  // Inject goal section if not already present
+  if (!body.includes('## Goal')) {
+    const goalCtx = getActiveGoalContext();
+    if (goalCtx) {
+      const fieldLines = Object.entries(goalCtx.fields)
+        .filter(([, v]) => v !== 'unknown')
+        .map(([k, v]) => `- ${k.toUpperCase()}: ${v}`);
+      const goalSection = ['## Goal', goalCtx.summary, ...fieldLines, ''].join('\n');
+      body = goalSection + '\n' + body;
+    }
+  }
 
   // Pre-creation gate: check if referenced file already exists on disk
   const existingFile = detectImplementedFile(title);
