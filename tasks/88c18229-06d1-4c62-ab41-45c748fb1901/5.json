@@ -1,0 +1,9 @@
+{
+  "id": "5",
+  "subject": "Update RESPONSE-FORMAT.md for v5.5 (Issue #20)",
+  "description": "Update docs/RESPONSE-FORMAT.md with new categories, fields, and examples.",
+  "activeForm": "Updating response format docs",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

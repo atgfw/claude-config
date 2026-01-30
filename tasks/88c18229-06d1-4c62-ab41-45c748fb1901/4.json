@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Update output_assembler for sentiment/coaching (Issue #19)",
+  "description": "Verify and update output_assembler to handle sentiment and coaching categories in all 3 response formats.",
+  "activeForm": "Updating output_assembler",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
