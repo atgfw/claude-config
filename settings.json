@@ -271,6 +271,15 @@
             "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" context-summary-trigger"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" goal-injector"
+          }
+        ],
+        "description": "Injects active sharp-pointed goal as additionalContext every turn"
       }
     ],
     "Stop": [
