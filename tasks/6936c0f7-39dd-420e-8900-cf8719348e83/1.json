@@ -3,7 +3,10 @@
   "subject": "Centralize all ST config in auth workflow static data",
   "description": "Update store_token code node to also store tenant_id and app_key in static data. Update downstream workflows to read from static data instead of $vars.",
   "activeForm": "Updating auth workflow credentials",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "executionId": "pending-test"
+  }
 }
