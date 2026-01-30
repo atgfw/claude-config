@@ -152,5 +152,26 @@
         "severity": "warn"
       }
     ]
+  },
+  {
+    "timestamp": "2026-01-30T20:17:40.018Z",
+    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag",
+    "issueCount": 2,
+    "issues": [
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag\\nul",
+        "filename": "nul",
+        "suggestion": "mv \"nul\" old/misc/",
+        "severity": "warn"
+      },
+      {
+        "type": "naming_violation",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag\\[DEV] website_rag_kb_upload.json",
+        "filename": "[DEV] website_rag_kb_upload.json",
+        "suggestion": "mv \"[DEV] website_rag_kb_upload.json\" \"[dev]-website_rag_kb_upload.json\" # Contains spaces",
+        "severity": "warn"
+      }
+    ]
   }
 ]
