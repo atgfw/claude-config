@@ -24,8 +24,8 @@ function main() {
         process.stdout.write(JSON.stringify({ decision: undefined }));
         return;
     }
-    // Stage all changes
-    run('git add -A');
+    // Stage all changes (exclude Windows reserved names)
+    run('git add -A -- ":!nul"');
     // Commit
     const result = run('git commit -m "chore(sync): session state sync" --no-verify');
     if (!result) {
