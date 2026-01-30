@@ -1,0 +1,12 @@
+{
+  "id": "2",
+  "subject": "Create slim category merger node",
+  "description": "Create category-merger-slim.js that reads from upstream config nodes and merges",
+  "activeForm": "Creating slim merger",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "userConfirmed": true
+  }
+}

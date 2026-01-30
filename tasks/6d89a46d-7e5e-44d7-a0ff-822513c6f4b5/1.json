@@ -1,0 +1,12 @@
+{
+  "id": "1",
+  "subject": "Create 10 category config JS files",
+  "description": "Extract each of the 10 categories from category-merger.js (v5.5) into individual files",
+  "activeForm": "Creating category config files",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "userConfirmed": true
+  }
+}

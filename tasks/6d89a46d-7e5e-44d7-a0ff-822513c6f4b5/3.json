@@ -1,0 +1,9 @@
+{
+  "id": "3",
+  "subject": "Deploy to n8n workflow",
+  "description": "Use n8n MCP partial update to add 10 nodes, update merger, and wire connections",
+  "activeForm": "Deploying to n8n",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
