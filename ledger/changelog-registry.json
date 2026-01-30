@@ -58,11 +58,19 @@
           "description": "directory cleanup + gitignore",
           "breaking": false,
           "timestamp": "2026-01-30T17:10:54.926Z"
+        },
+        {
+          "hash": "fc8cc10",
+          "type": "feat",
+          "scope": "llm-extraction",
+          "description": "v5.5 sentiment + coaching categories",
+          "breaking": false,
+          "timestamp": "2026-01-30T17:59:49.664Z"
         }
       ]
     }
   },
-  "lastUpdated": "2026-01-30T17:10:54.941Z",
+  "lastUpdated": "2026-01-30T17:59:49.685Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"
