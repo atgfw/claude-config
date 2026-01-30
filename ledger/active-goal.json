@@ -10,5 +10,10 @@
   },
   "summary": null,
   "updatedAt": null,
-  "history": []
+  "history": [
+    {
+      "summary": "to migrate all services to Kubernetes",
+      "clearedAt": "2026-01-30T21:07:49.062Z"
+    }
+  ]
 }
