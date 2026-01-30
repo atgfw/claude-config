@@ -5,9 +5,9 @@
  * This is the "usual whitelisting/blacklisting" mechanism for Claude Code tools.
  */
 
-import { readFileSync } from 'fs';
-import { join } from 'path';
-import { homedir } from 'os';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { homedir } from 'node:os';
 import { registerHook } from '../runner.js';
 import type { PreToolUseInput, PreToolUseOutput } from '../types.js';
 

@@ -4,13 +4,13 @@
  */
 
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
-import { postCodeWriteHook } from '../src/hooks/post-code-write.js';
-import type { PostToolUseInput, PostToolUseOutput } from '../src/types.js';
+import { postCodeWriteHook } from '../src/hooks/post_code_write.js';
+import type { PostToolUseInput } from '../src/types.js';
 import * as utils from '../src/utils.js';
 
 // Mock the utils module
 vi.mock('../src/utils.js', async () => {
-  const actual = (await vi.importActual('../src/utils.js')) as typeof utils;
+  const actual = await vi.importActual('../src/utils.js');
   return {
     ...actual,
     flagExists: vi.fn(),

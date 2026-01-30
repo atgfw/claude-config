@@ -2,11 +2,10 @@
  * Tests for Pattern Detector
  */
 
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as os from 'node:os';
-
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import {
   detectPatterns,
   shouldTriggerProposal,
@@ -17,7 +16,6 @@ import {
   calculateSymptomSimilarity,
   getPatternSummary,
 } from '../../src/escalation/pattern_detector.js';
-
 import {
   createEmptyRegistry,
   createEscalation,
@@ -26,18 +24,17 @@ import {
   saveRegistry,
   updateStatus,
 } from '../../src/ledger/escalation_registry.js';
-
 import type { EscalationRegistry } from '../../src/types.js';
 
 // Setup temporary registry for tests
-let tempDir: string;
+let temporaryDir: string;
 let originalClaudeDir: string | undefined;
 
 beforeEach(() => {
-  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'pattern-test-'));
-  fs.mkdirSync(path.join(tempDir, 'ledger'), { recursive: true });
-  originalClaudeDir = process.env['CLAUDE_DIR'];
-  process.env['CLAUDE_DIR'] = tempDir;
+  temporaryDir = fs.mkdtempSync(path.join(os.tmpdir(), 'pattern-test-'));
+  fs.mkdirSync(path.join(temporaryDir, 'ledger'), { recursive: true });
+  originalClaudeDir = process.env.CLAUDE_DIR;
+  process.env.CLAUDE_DIR = temporaryDir;
 
   const registry = createEmptyRegistry();
   saveRegistry(registry);
@@ -45,12 +42,13 @@ beforeEach(() => {
 
 afterEach(() => {
   if (originalClaudeDir) {
-    process.env['CLAUDE_DIR'] = originalClaudeDir;
+    process.env.CLAUDE_DIR = originalClaudeDir;
   } else {
-    delete process.env['CLAUDE_DIR'];
+    delete process.env.CLAUDE_DIR;
   }
+
   try {
-    fs.rmSync(tempDir, { recursive: true, force: true });
+    fs.rmSync(temporaryDir, { recursive: true, force: true });
   } catch {
     // Ignore cleanup errors
   }

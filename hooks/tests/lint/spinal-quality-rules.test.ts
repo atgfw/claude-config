@@ -32,7 +32,7 @@ describe('eslint-plugin-spinal-quality', () => {
     });
     it('should report non-ASCII character (curly quote)', () => {
       // U+201C LEFT DOUBLE QUOTATION MARK
-      const code = 'const message = "\u201cHello World\u201d";';
+      const code = 'const message = "\u201CHello World\u201D";';
       const messages = lint(code, rules);
       expect(messages).toHaveLength(1);
       expect(messages[0].messageId).toBe('nonAscii');

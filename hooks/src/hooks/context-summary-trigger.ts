@@ -4,8 +4,8 @@
  * before clearing context. This preserves continuity across sessions.
  */
 
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import type { UserPromptSubmitInput, UserPromptSubmitOutput } from '../types.js';
 import { log, getClaudeDir } from '../utils.js';
 import { registerHook } from '../runner.js';

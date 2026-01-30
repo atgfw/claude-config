@@ -2,6 +2,7 @@
  * Hook Utilities
  * Common functions for all hooks
  */
+import type { VerbosityLevel } from './types.js';
 /**
  * Get the Claude configuration directory
  * Uses CLAUDE_DIR env var or defaults to ~/.claude
@@ -62,26 +63,57 @@ export declare function parseJson<T>(json: string): T | null;
  */
 export declare function outputJson(data: unknown): void;
 /**
+ * Get current verbosity level from environment or config
+ */
+export declare function getVerbosity(): VerbosityLevel;
+/**
+ * Set verbosity level programmatically
+ */
+export declare function setVerbosity(level: VerbosityLevel): void;
+/**
  * Log diagnostic information to stderr
  * This is visible to users but doesn't interfere with JSON output
  */
 export declare function log(message: string): void;
 /**
- * Log a separator line
+ * Terse log - always outputs regardless of verbosity (except silent)
+ * Use for critical information only
+ */
+export declare function logTerse(message: string): void;
+/**
+ * Verbose log - only outputs in verbose mode
+ * Use for debugging details
+ */
+export declare function logVerbose(message: string): void;
+/**
+ * Log a separator line (only in normal/verbose mode)
  */
 export declare function logSeparator(title: string): void;
 /**
- * Log an error with context
+ * Log an error - terse format for production, detailed for verbose
  */
 export declare function logError(error: Error, context?: string): void;
 /**
- * Log a blocked action
+ * Log a blocked action - terse format minimizes context usage
  */
 export declare function logBlocked(reason: string, directive?: string): void;
 /**
  * Log an allowed action
  */
 export declare function logAllowed(message?: string): void;
+/**
+ * Log a warning - always shows but format varies by verbosity
+ */
+export declare function logWarn(message: string, details?: string): void;
+/**
+ * Log info - skipped in terse mode
+ */
+export declare function logInfo(message: string): void;
+/**
+ * Batch log multiple items efficiently
+ * In terse mode, outputs count only. In normal/verbose, lists items.
+ */
+export declare function logBatch(prefix: string, items: string[], maxShow?: number): void;
 /**
  * Check if a string contains emojis
  */
@@ -107,6 +139,14 @@ export declare function isSessionRecentlyValidated(): boolean;
  * Mark session as validated
  */
 export declare function markSessionValidated(): void;
+/**
+ * Archive a file to old/YYYY-MM-DD/ directory
+ * Never deletes - always moves to preserve history
+ * @param filePath - Path to file to archive
+ * @param baseDirectory - Optional base directory for relative old/ folder
+ * @returns Archive path if successful, null otherwise
+ */
+export declare function archiveToDateDir(filePath: string, baseDirectory?: string): string | null;
 /**
  * Check if Morph MCP is available
  */

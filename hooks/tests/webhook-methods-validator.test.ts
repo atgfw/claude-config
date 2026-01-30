@@ -92,8 +92,8 @@ describe('Webhook Methods Validator Hook', () => {
     });
   });
 
-  describe('Webhook nodes without httpMethod (blocked)', () => {
-    it('should block webhook without httpMethod', async () => {
+  describe('Webhook nodes without httpMethod (warned)', () => {
+    it('should warn about webhook without httpMethod', async () => {
       const input: PreToolUseInput = {
         tool_name: 'mcp__n8n-mcp__n8n_create_workflow',
         tool_input: {
@@ -115,11 +115,12 @@ describe('Webhook Methods Validator Hook', () => {
 
       const output = await webhookMethodsValidatorHook(input);
 
-      expect(output.hookSpecificOutput.permissionDecision).toBe('deny');
+      // WARN level - allows but includes warning message
+      expect(output.hookSpecificOutput.permissionDecision).toBe('allow');
       expect(output.hookSpecificOutput.permissionDecisionReason).toContain('Unconfigured Webhook');
     });
 
-    it('should block webhook with empty parameters', async () => {
+    it('should warn about webhook with empty parameters', async () => {
       const input: PreToolUseInput = {
         tool_name: 'mcp__n8n-mcp__n8n_create_workflow',
         tool_input: {
@@ -137,10 +138,12 @@ describe('Webhook Methods Validator Hook', () => {
 
       const output = await webhookMethodsValidatorHook(input);
 
-      expect(output.hookSpecificOutput.permissionDecision).toBe('deny');
+      // WARN level - allows but includes warning message
+      expect(output.hookSpecificOutput.permissionDecision).toBe('allow');
+      expect(output.hookSpecificOutput.permissionDecisionReason).toContain('Empty Params');
     });
 
-    it('should block webhook with no parameters field', async () => {
+    it('should warn about webhook with no parameters field', async () => {
       const input: PreToolUseInput = {
         tool_name: 'mcp__n8n-mcp__n8n_create_workflow',
         tool_input: {
@@ -157,10 +160,12 @@ describe('Webhook Methods Validator Hook', () => {
 
       const output = await webhookMethodsValidatorHook(input);
 
-      expect(output.hookSpecificOutput.permissionDecision).toBe('deny');
+      // WARN level - allows but includes warning message
+      expect(output.hookSpecificOutput.permissionDecision).toBe('allow');
+      expect(output.hookSpecificOutput.permissionDecisionReason).toContain('No Params');
     });
 
-    it('should block when one of multiple webhooks is unconfigured', async () => {
+    it('should warn when one of multiple webhooks is unconfigured', async () => {
       const input: PreToolUseInput = {
         tool_name: 'mcp__n8n-mcp__n8n_create_workflow',
         tool_input: {
@@ -188,7 +193,8 @@ describe('Webhook Methods Validator Hook', () => {
 
       const output = await webhookMethodsValidatorHook(input);
 
-      expect(output.hookSpecificOutput.permissionDecision).toBe('deny');
+      // WARN level - allows but includes warning message
+      expect(output.hookSpecificOutput.permissionDecision).toBe('allow');
       expect(output.hookSpecificOutput.permissionDecisionReason).toContain('Webhook 2');
     });
   });

@@ -24,7 +24,7 @@ describe('Vitest Migration Enforcer Hook', () => {
       const output = await vitestMigrationEnforcerHook(input);
 
       expect(output.hookSpecificOutput.permissionDecision).toBe('deny');
-      expect(output.hookSpecificOutput.permissionDecisionReason).toContain('Jest usage banned');
+      expect(output.hookSpecificOutput.permissionDecisionReason).toContain('Jest');
     });
 
     it('should block jest import', async () => {

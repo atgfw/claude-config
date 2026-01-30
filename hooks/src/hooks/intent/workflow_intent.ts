@@ -6,8 +6,8 @@
  * Behavior: Only fires in n8n projects, outputs mandatory skill instruction
  */
 
-import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
-import { join, dirname } from 'path';
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { join, dirname } from 'node:path';
 import { UserPromptSubmitInput, UserPromptSubmitOutput } from '../../types.js';
 import { detectProjectContext, isN8nProject } from '../../context/index.js';
 import { registerHook } from '../../runner.js';

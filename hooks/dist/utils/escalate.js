@@ -78,6 +78,8 @@ export function escalateWithProject(params, projectPath, projectName) {
     else if (existingEntries.length > 0) {
         // Same symptom from different project - cross-project pattern
         const primaryEntry = existingEntries[0];
+        if (!primaryEntry)
+            throw new Error('Unexpected: existingEntries not empty but first element undefined');
         addRelatedProject(registry, primaryEntry.id, projectPath);
         entry = primaryEntry;
         isNovel = false;

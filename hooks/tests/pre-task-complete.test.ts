@@ -4,13 +4,13 @@
  */
 
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
-import { preTaskCompleteHook } from '../src/hooks/pre-task-complete.js';
-import type { StopInput, StopOutput } from '../src/types.js';
+import { preTaskCompleteHook } from '../src/hooks/pre_task_complete.js';
+import type { StopInput } from '../src/types.js';
 import * as utils from '../src/utils.js';
 
 // Mock the utils module
 vi.mock('../src/utils.js', async () => {
-  const actual = (await vi.importActual('../src/utils.js')) as typeof utils;
+  const actual = await vi.importActual('../src/utils.js');
   return {
     ...actual,
     flagExists: vi.fn(),
@@ -39,7 +39,7 @@ describe('Pre-Task-Complete Hook', () => {
     });
 
     it('should block when frontend code was written but validation not done', async () => {
-      // visual-validation-needed exists, but validation-completed does not
+      // Visual-validation-needed exists, but validation-completed does not
       vi.mocked(utils.flagExists).mockImplementation((flag: string) => {
         if (flag === 'visual-validation-needed') return true;
         if (flag === 'validation-completed') return false;

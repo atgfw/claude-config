@@ -4,9 +4,9 @@
  * Blocks or allows MCP tools based on patterns defined in tool-filter-config.json.
  * This is the "usual whitelisting/blacklisting" mechanism for Claude Code tools.
  */
-import { readFileSync } from 'fs';
-import { join } from 'path';
-import { homedir } from 'os';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { homedir } from 'node:os';
 import { registerHook } from '../runner.js';
 const CONFIG_PATH = join(homedir(), '.claude', 'tool-filter-config.json');
 function loadConfig() {

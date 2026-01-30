@@ -2,11 +2,7 @@
  * Tests for Test Run Registry (Primordial Pipeline)
  */
 
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import * as fs from 'node:fs';
-import * as path from 'node:path';
-import * as os from 'node:os';
-
+import { describe, it, expect } from 'vitest';
 import {
   generateInputHash,
   generateEntityId,
@@ -19,7 +15,6 @@ import {
   getTestingSummary,
   formatEntityProgress,
   type TestRunRegistry,
-  type EntityType,
 } from '../src/ledger/test_run_registry.js';
 
 // Test with in-memory registry to avoid file system side effects
@@ -294,13 +289,13 @@ describe('Test Run Registry', () => {
     it('returns healthy for fully tested entity', () => {
       const registry = createTestRegistry();
 
-      for (let i = 0; i < 3; i++) {
+      for (let index = 0; index < 3; index++) {
         recordTestRun(registry, {
           entityType: 'code-node',
           entityPath: '/path/to/validate.ts',
           entityName: 'validateSchema',
-          input: { name: `Person${i}` },
-          inputDescription: `Run ${i + 1}`,
+          input: { name: `Person${index}` },
+          inputDescription: `Run ${index + 1}`,
           passed: true,
         });
       }
@@ -320,13 +315,13 @@ describe('Test Run Registry', () => {
       const parent = getOrCreateEntity(registry, 'subworkflow', '/path/workflow', 'MyWorkflow');
 
       // Create healthy child
-      for (let i = 0; i < 3; i++) {
+      for (let index = 0; index < 3; index++) {
         recordTestRun(registry, {
           entityType: 'code-node',
           entityPath: '/path/child1.ts',
           entityName: 'Child1',
-          input: { n: i },
-          inputDescription: `Run ${i}`,
+          input: { n: index },
+          inputDescription: `Run ${index}`,
           passed: true,
           parentEntityId: parent.entityId,
         });
@@ -361,13 +356,13 @@ describe('Test Run Registry', () => {
     it('marks healthy entity as stale', () => {
       const registry = createTestRegistry();
 
-      for (let i = 0; i < 3; i++) {
+      for (let index = 0; index < 3; index++) {
         recordTestRun(registry, {
           entityType: 'code-node',
           entityPath: '/path/to/validate.ts',
           entityName: 'validateSchema',
-          input: { name: `Person${i}` },
-          inputDescription: `Run ${i + 1}`,
+          input: { name: `Person${index}` },
+          inputDescription: `Run ${index + 1}`,
           passed: true,
         });
       }
@@ -454,13 +449,13 @@ describe('Test Run Registry', () => {
       });
 
       // Create healthy entity (3 runs)
-      for (let i = 0; i < 3; i++) {
+      for (let index = 0; index < 3; index++) {
         recordTestRun(registry, {
           entityType: 'code-node',
           entityPath: '/path3',
           entityName: 'Entity3',
-          input: { n: i },
-          inputDescription: `Run ${i}`,
+          input: { n: index },
+          inputDescription: `Run ${index}`,
           passed: true,
         });
       }

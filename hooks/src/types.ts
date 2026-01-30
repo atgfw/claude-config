@@ -140,6 +140,20 @@ export interface CorrectionLedger {
 }
 
 // ============================================================================
+// Session Check Types
+// ============================================================================
+
+export interface SessionCheckResult {
+  name: string;
+  passed: boolean;
+  severity: 'strict' | 'warning' | 'warn' | 'info';
+  message: string;
+  details?: string[];
+  selfHealed?: boolean;
+  selfHealAction?: string;
+}
+
+// ============================================================================
 // MCP Server Registry Types
 // ============================================================================
 
@@ -293,4 +307,24 @@ export interface EscalationResult {
   novelCount: number; // Count of unique escalations with this symptomHash
   escalation: EscalationEntry;
   patternDetected: boolean; // True if pattern threshold met
+}
+
+// ============================================================================
+// Context-Optimized Output Types
+// ============================================================================
+
+/**
+ * Verbosity levels for hook output
+ * Controls how much context is consumed by hook messages
+ */
+export type VerbosityLevel = 'silent' | 'terse' | 'normal' | 'verbose';
+
+/**
+ * Output optimization configuration
+ */
+export interface OutputConfig {
+  verbosity: VerbosityLevel;
+  batchThreshold: number; // Items before batching output
+  maxContextChars: number; // Max chars for additionalContext
+  suppressSuccessLogs: boolean; // Skip [OK] messages in terse mode
 }

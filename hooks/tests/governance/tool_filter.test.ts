@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { readFileSync, writeFileSync, existsSync, unlinkSync } from 'fs';
-import { join } from 'path';
-import { homedir } from 'os';
+import { readFileSync, writeFileSync, existsSync, unlinkSync } from 'node:fs';
+import { join } from 'node:path';
+import { homedir } from 'node:os';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { toolFilterHook } from '../../src/governance/tool_filter.js';
 import type { PreToolUseInput } from '../../src/types.js';
 
@@ -9,27 +9,27 @@ const CONFIG_PATH = join(homedir(), '.claude', 'tool-filter-config.json');
 const BACKUP_PATH = CONFIG_PATH + '.test-backup';
 
 describe('tool_filter hook', () => {
-  let originalConfig: string | null = null;
+  let originalConfig: string | undefined = null;
 
   beforeEach(() => {
     // Backup existing config if it exists
     if (existsSync(CONFIG_PATH)) {
-      originalConfig = readFileSync(CONFIG_PATH, 'utf-8');
+      originalConfig = readFileSync(CONFIG_PATH, 'utf8');
       writeFileSync(BACKUP_PATH, originalConfig);
     }
   });
 
   afterEach(() => {
     // Restore original config
-    if (originalConfig !== null) {
-      writeFileSync(CONFIG_PATH, originalConfig);
-      if (existsSync(BACKUP_PATH)) {
-        unlinkSync(BACKUP_PATH);
-      }
-    } else {
+    if (originalConfig === null) {
       // Remove test config if original didn't exist
       if (existsSync(CONFIG_PATH)) {
         unlinkSync(CONFIG_PATH);
+      }
+    } else {
+      writeFileSync(CONFIG_PATH, originalConfig);
+      if (existsSync(BACKUP_PATH)) {
+        unlinkSync(BACKUP_PATH);
       }
     }
   });

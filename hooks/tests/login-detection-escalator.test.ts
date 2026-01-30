@@ -5,7 +5,7 @@
 
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { loginDetectionEscalatorHook } from '../src/hooks/login_detection_escalator.js';
-import type { PostToolUseInput, PostToolUseOutput } from '../src/types.js';
+import type { PostToolUseInput } from '../src/types.js';
 
 describe('Login Detection Escalator Hook', () => {
   beforeEach(() => {

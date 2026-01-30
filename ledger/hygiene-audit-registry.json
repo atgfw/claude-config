@@ -138,5 +138,19 @@
         "severity": "warn"
       }
     ]
+  },
+  {
+    "timestamp": "2026-01-30T20:06:18.748Z",
+    "project": "C:\\Users\\codya\\.claude",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\.claude\\nul",
+        "filename": "nul",
+        "suggestion": "mv \"nul\" old/misc/",
+        "severity": "warn"
+      }
+    ]
   }
 ]

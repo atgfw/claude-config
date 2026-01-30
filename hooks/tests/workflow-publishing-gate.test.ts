@@ -24,7 +24,8 @@ describe('Workflow Publishing Gate Hook', () => {
       const output = await workflowPublishingGateHook(input);
 
       expect(output.hookSpecificOutput.permissionDecision).toBe('deny');
-      expect(output.hookSpecificOutput.permissionDecisionReason).toContain('must be published');
+      // Terse format: "publish first"
+      expect(output.hookSpecificOutput.permissionDecisionReason).toContain('publish');
     });
 
     it('should block webhook trigger on dev tagged workflow', async () => {

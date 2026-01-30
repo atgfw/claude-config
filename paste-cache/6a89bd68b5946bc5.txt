@@ -1,0 +1,31 @@
+**call_validity_type**
+
+Returns "TOO_SHORT" if call duration is under 10 seconds AND caller spoke at most once AND all caller utterances were empty or just ellipses.
+
+Returns "ABANDONED" if all caller utterances were empty or just ellipses AND caller had more than zero speaking turns.
+
+Returns "TRANSFER_ONLY" if caller's words contain any of "transfer", "speak to someone", "talk to someone", "real person", "live person", "human", "representative", "connect me", "put me through" AND no request summary was extracted AND no caller first name was extracted AND no contact phone was extracted.
+
+Returns "INSUFFICIENT_DATA" if call duration is under 30 seconds AND no request summary was extracted AND no caller first name was extracted AND no contact phone was extracted.
+
+Returns "VALID" otherwise.
+
+---
+
+**call_validity_reason**
+
+Returns "Call ended during greeting - no interaction" if TOO_SHORT conditions met.
+
+Returns "Caller disconnected without speaking" if ABANDONED conditions met.
+
+Returns "Caller requested transfer only - no issue details provided" if TRANSFER_ONLY conditions met.
+
+Returns "Call too brief to capture details" if INSUFFICIENT_DATA conditions met.
+
+Returns "Call completed normally" otherwise.
+
+---
+
+**is_valid_call**
+
+Returns true unless the call meets TOO_SHORT, ABANDONED, or INSUFFICIENT_DATA conditions. TRANSFER_ONLY calls return true.

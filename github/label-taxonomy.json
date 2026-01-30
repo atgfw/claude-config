@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "description": "Domain-specific label taxonomy for GitHub issue tracking",
+  "remove_defaults": ["bug", "documentation", "duplicate", "enhancement", "good first issue", "help wanted", "invalid", "question", "wontfix"],
+  "labels": [
+    { "name": "priority/p0-critical", "color": "b60205", "description": "Blocks all work, immediate fix" },
+    { "name": "priority/p1-high", "color": "d93f0b", "description": "Important, next session" },
+    { "name": "priority/p2-medium", "color": "e99695", "description": "Normal backlog" },
+    { "name": "priority/p3-low", "color": "f9d0c4", "description": "Nice to have" },
+
+    { "name": "system/hooks", "color": "0052cc", "description": "Hook infrastructure" },
+    { "name": "system/n8n", "color": "006b75", "description": "n8n workflows" },
+    { "name": "system/elevenlabs", "color": "1d76db", "description": "ElevenLabs agents" },
+    { "name": "system/servicetitan", "color": "0e8a16", "description": "ServiceTitan integration" },
+    { "name": "system/mcp", "color": "5319e7", "description": "MCP servers" },
+    { "name": "system/governance", "color": "bfd4f2", "description": "Governance rules" },
+    { "name": "system/infra", "color": "c2e0c6", "description": "Infrastructure and CI/CD" },
+
+    { "name": "type/feat", "color": "0e8a16", "description": "New feature" },
+    { "name": "type/fix", "color": "d73a4a", "description": "Bug fix" },
+    { "name": "type/chore", "color": "fef2c0", "description": "Maintenance" },
+    { "name": "type/docs", "color": "0075ca", "description": "Documentation" },
+    { "name": "type/refactor", "color": "e6e6e6", "description": "Code restructuring" },
+    { "name": "type/perf", "color": "fbca04", "description": "Performance improvement" },
+    { "name": "type/test", "color": "bfdadc", "description": "Testing" },
+
+    { "name": "lifecycle/triage", "color": "f9e076", "description": "Needs classification" },
+    { "name": "lifecycle/specced", "color": "c5def5", "description": "Has OpenSpec proposal" },
+    { "name": "lifecycle/in-progress", "color": "1d76db", "description": "Actively worked" },
+    { "name": "lifecycle/blocked", "color": "b60205", "description": "Waiting on dependency" },
+    { "name": "lifecycle/needs-review", "color": "fbca04", "description": "Awaiting review" },
+
+    { "name": "source/correction-ledger", "color": "d4c5f9", "description": "Created from human correction" },
+    { "name": "source/escalation", "color": "c5b3e6", "description": "Created from escalation detection" },
+    { "name": "source/openspec", "color": "b899d4", "description": "Created from OpenSpec proposal" },
+    { "name": "source/manual", "color": "a07fc2", "description": "Manually created" }
+  ]
+}

@@ -32,6 +32,8 @@ export function detectPatterns(registry) {
         }
         else {
             const pattern = patterns.get(entry.symptomHash);
+            if (!pattern)
+                continue;
             pattern.entries.push(entry);
             // Update with latest counts
             if (entry.occurrenceCount > pattern.occurrenceCount) {
@@ -57,6 +59,8 @@ export function shouldTriggerProposal(symptomHash, registry) {
     if (entries.length === 0)
         return false;
     const primary = entries[0];
+    if (!primary)
+        return false;
     // Skip if already has proposal generated
     if (primary.status === 'proposal-generated' || primary.generatedProposalPath) {
         return false;
@@ -113,6 +117,8 @@ export function groupByCategory(registry) {
             });
         }
         const group = groups.get(entry.category);
+        if (!group)
+            continue;
         group.entries.push(entry);
         group.totalOccurrences += entry.occurrenceCount;
         // Count unique projects
@@ -143,6 +149,8 @@ export function groupBySeverity(registry) {
             });
         }
         const group = groups.get(entry.severity);
+        if (!group)
+            continue;
         group.entries.push(entry);
         group.totalOccurrences += entry.occurrenceCount;
         // Count unique projects

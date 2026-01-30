@@ -2,23 +2,11 @@
  * Tests for Escalate Utility
  */
 
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as os from 'node:os';
-
-import {
-  getProjectPath,
-  getProjectName,
-  escalateWithProject,
-  escalateFromHook,
-  escalateGovernance,
-  escalateTesting,
-  escalateTooling,
-  escalateSecurity,
-  escalateMeta,
-} from '../../src/utils/escalate.js';
-
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { getProjectPath, getProjectName, escalateWithProject } from '../../src/utils/escalate.js';
 import {
   loadRegistry,
   saveRegistry,
@@ -26,17 +14,17 @@ import {
 } from '../../src/ledger/escalation_registry.js';
 
 // Setup temporary registry for tests
-let tempDir: string;
+let temporaryDir: string;
 let originalClaudeDir: string | undefined;
 
 beforeEach(() => {
   // Create temp directory for test registry
-  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'escalate-test-'));
-  fs.mkdirSync(path.join(tempDir, 'ledger'), { recursive: true });
+  temporaryDir = fs.mkdtempSync(path.join(os.tmpdir(), 'escalate-test-'));
+  fs.mkdirSync(path.join(temporaryDir, 'ledger'), { recursive: true });
 
   // Save original and set test CLAUDE_DIR
-  originalClaudeDir = process.env['CLAUDE_DIR'];
-  process.env['CLAUDE_DIR'] = tempDir;
+  originalClaudeDir = process.env.CLAUDE_DIR;
+  process.env.CLAUDE_DIR = temporaryDir;
 
   // Create empty registry
   const registry = createEmptyRegistry();
@@ -46,14 +34,14 @@ beforeEach(() => {
 afterEach(() => {
   // Restore original CLAUDE_DIR
   if (originalClaudeDir) {
-    process.env['CLAUDE_DIR'] = originalClaudeDir;
+    process.env.CLAUDE_DIR = originalClaudeDir;
   } else {
-    delete process.env['CLAUDE_DIR'];
+    delete process.env.CLAUDE_DIR;
   }
 
   // Clean up temp directory
   try {
-    fs.rmSync(tempDir, { recursive: true, force: true });
+    fs.rmSync(temporaryDir, { recursive: true, force: true });
   } catch {
     // Ignore cleanup errors
   }
@@ -199,7 +187,7 @@ describe('Escalate Utility', () => {
 
     it('triggers pattern detection at threshold', () => {
       // Create escalation and increment to threshold
-      const result1 = escalateWithProject(
+      escalateWithProject(
         {
           symptom: 'Pattern symptom',
           context: 'Test context',

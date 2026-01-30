@@ -11,7 +11,7 @@
  * 3. If Scrapling healthy -> DENY with redirect instructions
  * 4. If Scrapling not healthy -> ALLOW Playwright (fallback)
  */
-import { log, logAllowed, isScraplingAvailable, isScraplingConfigured, getMcpServerHealth, } from '../utils.js';
+import { logVerbose, logTerse, isScraplingAvailable, isScraplingConfigured, getMcpServerHealth, } from '../utils.js';
 import { registerHook } from '../runner.js';
 // ============================================================================
 // Tool Mapping
@@ -52,10 +52,9 @@ const INTERACTION_TOOLS = [
  */
 export async function browserAutomationGateHook(input) {
     const toolName = input.tool_name;
-    log(`[browser-automation-gate] Checking tool: ${toolName}`);
+    logVerbose(`[browser-automation-gate] Checking: ${toolName}`);
     // Only intercept Playwright tools
     if (!isPlaywrightTool(toolName)) {
-        logAllowed('Not a Playwright tool - passing through');
         return {
             hookSpecificOutput: {
                 hookEventName: 'PreToolUse',
@@ -63,45 +62,33 @@ export async function browserAutomationGateHook(input) {
             },
         };
     }
-    // Check if this is an interaction tool (click, type) - always allow Playwright for these
+    // Interaction tools (click, type) - always allow Playwright
     if (INTERACTION_TOOLS.includes(toolName)) {
-        log(`[browser-automation-gate] Interaction tool detected - Playwright required`);
-        logAllowed('Playwright allowed - interaction tools require Playwright MCP');
+        logVerbose(`[browser-automation-gate] Interaction tool - Playwright required`);
         return {
             hookSpecificOutput: {
                 hookEventName: 'PreToolUse',
                 permissionDecision: 'allow',
-                permissionDecisionReason: 'Interaction tools (click, type, screenshot) require Playwright MCP',
+                permissionDecisionReason: 'Interaction tools require Playwright',
             },
         };
     }
-    // For fetch-only tools, check if Scrapling is available
+    // For fetch-only tools, check Scrapling availability
     const scraplingHealth = getMcpServerHealth('scrapling');
     const scraplingConfigured = isScraplingConfigured();
     const scraplingAvailable = isScraplingAvailable();
-    log(`[browser-automation-gate] Fetch tool - checking Scrapling:`);
-    log(`  - Configured: ${scraplingConfigured}`);
-    log(`  - Health: ${scraplingHealth}`);
-    log(`  - Available: ${scraplingAvailable}`);
-    // If Scrapling is healthy, suggest it for fetch operations but allow Playwright
+    logVerbose(`[browser-automation-gate] Scrapling: configured=${scraplingConfigured} health=${scraplingHealth}`);
+    // If Scrapling healthy, suggest it but allow Playwright
     if (scraplingAvailable) {
-        log('');
-        log('SCRAPLING AVAILABLE - Consider using for anti-bot fetching:');
-        log('  MCP: mcp__scrapling__s-fetch-page(url, mode)');
-        log('  CLI: scrapling extract fetch "URL" output.md');
-        log('');
-        log('Allowing Playwright for full browser automation capabilities.');
-        logAllowed('Playwright allowed - Scrapling suggested for fetch-only operations');
+        logTerse('[!] Scrapling available - consider mcp__scrapling__s-fetch-page for anti-bot');
         return {
             hookSpecificOutput: {
                 hookEventName: 'PreToolUse',
                 permissionDecision: 'allow',
-                permissionDecisionReason: 'Playwright allowed. For anti-bot fetching, consider: mcp__scrapling__s-fetch-page or scrapling CLI',
+                permissionDecisionReason: 'For anti-bot fetching, consider Scrapling MCP',
             },
         };
     }
-    // Scrapling not available - allow Playwright
-    logAllowed('Playwright allowed - Scrapling not available');
     return {
         hookSpecificOutput: {
             hookEventName: 'PreToolUse',

@@ -6,7 +6,7 @@ import {
   validateWorkflowCodeNodes,
   codeNodeLintingGateHook,
 } from '../../src/governance/code_node_linting_gate.js';
-import { PreToolUseInput } from '../../src/types.js';
+import { type PreToolUseInput } from '../../src/types.js';
 
 describe('codeNodeLintingGate', () => {
   // =========================================================================

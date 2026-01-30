@@ -11,7 +11,7 @@ import {
   validateWorkflowPayload,
   n8nNamingValidatorHook,
 } from '../../src/governance/n8n_naming_validator.js';
-import { PreToolUseInput } from '../../src/types.js';
+import { type PreToolUseInput } from '../../src/types.js';
 
 describe('n8nNamingValidator', () => {
   // =========================================================================
@@ -268,7 +268,7 @@ describe('n8nNamingValidator', () => {
         nodes: [{ name: 'GetCustomerData', type: 'n8n-nodes-base.httpRequest' }],
       });
       expect(result.valid).toBe(false);
-      expect(result.errors.length).toBeGreaterThanOrEqual(2); // workflow + node errors
+      expect(result.errors.length).toBeGreaterThanOrEqual(2); // Workflow + node errors
     });
   });
 

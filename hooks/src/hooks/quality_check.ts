@@ -409,7 +409,14 @@ class QualityChecker {
             this.warnings.push('XO issues were auto-fixed - verify the changes');
           }
         } else {
-          this.errors.push(`XO found issues that could not be auto-fixed:\n${recheck.stdout}`);
+          const xoOutput = (recheck.stdout + recheck.stderr).trim();
+          if (xoOutput) {
+            this.errors.push(`XO found issues that could not be auto-fixed:\n${xoOutput}`);
+          } else {
+            this.warnings.push(
+              'XO exited with errors but produced no output (possible dependency issue)'
+            );
+          }
         }
       } else {
         this.errors.push(`XO linting issues found:\n${result.stdout}`);
@@ -506,7 +513,7 @@ class QualityChecker {
     const debuggerRule = this.config.rules.debugger;
     if (debuggerRule?.enabled !== false) {
       lines.forEach((line, index) => {
-        if (/\bdebugger\b/.test(line) && !line.trim().startsWith('//')) {
+        if (/^\s*debugger\s*;?\s*$/.test(line)) {
           const msg = `Debugger statement at line ${index + 1}: ${debuggerRule?.message ?? 'Remove before commit'}`;
           if (debuggerRule?.severity === 'error') {
             this.errors.push(msg);

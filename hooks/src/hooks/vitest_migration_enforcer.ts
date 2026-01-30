@@ -11,32 +11,40 @@ import { registerHook } from '../runner.js';
 /**
  * Patterns that indicate Jest usage (blocked)
  */
-const JEST_PATTERNS = [
+const JEST_PATTERNS: Array<{ pattern: RegExp; name: string }> = [
   // Import statements
-  /import\s+.*\s+from\s+['"]@jest\/globals['"]/i,
-  /import\s+.*\s+from\s+['"]jest['"]/i,
-  /import\s+\{\s*jest\s*\}/i,
+  { pattern: /import\s+.*\s+from\s+['"]@jest\/globals['"]/i, name: 'Jest import' },
+  { pattern: /import\s+.*\s+from\s+['"]jest['"]/i, name: 'Jest import' },
+  { pattern: /import\s+\{\s*jest\s*\}/i, name: 'Jest import' },
   // Require statements
-  /require\s*\(\s*['"]@jest\/globals['"]\s*\)/i,
-  /require\s*\(\s*['"]jest['"]\s*\)/i,
+  { pattern: /require\s*\(\s*['"]@jest\/globals['"]\s*\)/i, name: 'Jest require' },
+  { pattern: /require\s*\(\s*['"]jest['"]\s*\)/i, name: 'Jest require' },
   // Jest globals
-  /\bjest\.fn\s*\(/i,
-  /\btest\.each\s*\(/i,
-  /\btest\.concurrent\s*\(/i,
+  { pattern: /\bjest\.fn\s*\(/i, name: 'jest.fn' },
+  { pattern: /\bjest\.mock\s*\(/i, name: 'jest.mock' },
+  { pattern: /\bjest\.spyOn\s*\(/i, name: 'jest.spyOn' },
+  { pattern: /\btest\.each\s*\(/i, name: 'test.each' },
+  { pattern: /\btest\.concurrent\s*\(/i, name: 'test.concurrent' },
   // Jest config files
-  /jest\.config\.(js|ts|mjs|cjs)/i,
+  { pattern: /jest\.config\.(js|ts|mjs|cjs)/i, name: 'Jest configuration' },
   // Package.json with jest dependencies
-  /"jest":/i,
-  /"@jest\//i,
-  /"ts-jest":/i,
-  /"jest-environment-/i,
+  { pattern: /"jest":/i, name: 'Jest dependency' },
+  { pattern: /"@jest\//i, name: 'Jest dependency' },
+  { pattern: /"ts-jest":/i, name: 'ts-jest dependency' },
+  { pattern: /"jest-environment-/i, name: 'Jest environment' },
 ];
 
 /**
- * Check if content contains Jest usage
+ * Check if content contains Jest usage and return matched patterns
  */
-function containsJestUsage(content: string): boolean {
-  return JEST_PATTERNS.some((pattern) => pattern.test(content));
+function findJestUsage(content: string): string[] {
+  const matches: string[] = [];
+  for (const { pattern, name } of JEST_PATTERNS) {
+    if (pattern.test(content)) {
+      matches.push(name);
+    }
+  }
+  return matches;
 }
 
 /**
@@ -121,15 +129,18 @@ export async function vitestMigrationEnforcerHook(
       hookSpecificOutput: {
         hookEventName: 'PreToolUse',
         permissionDecision: 'deny',
-        permissionDecisionReason: 'Jest config file banned - migrate to Vitest per CLAUDE.md',
+        permissionDecisionReason:
+          'Jest configuration file detected. ' +
+          'Migrate to vitest.config.ts: vi.fn() replaces jest.fn(), vi.mock() replaces jest.mock()',
       },
     };
   }
 
   // Check content for Jest usage
-  if (content && containsJestUsage(content)) {
+  const jestMatches = content ? findJestUsage(content) : [];
+  if (jestMatches.length > 0) {
     logBlocked(
-      'Jest usage detected',
+      `Jest usage detected: ${jestMatches.join(', ')}`,
       'Vitest is the ONLY approved test framework. When test requests arise: If project has Jest: Migrate to Vitest first.'
     );
     log('');
@@ -159,7 +170,9 @@ export async function vitestMigrationEnforcerHook(
       hookSpecificOutput: {
         hookEventName: 'PreToolUse',
         permissionDecision: 'deny',
-        permissionDecisionReason: 'Jest usage banned - migrate to Vitest per CLAUDE.md',
+        permissionDecisionReason:
+          `Jest usage detected: ${jestMatches.join(', ')}. ` +
+          'Migrate to Vitest: vi.fn() replaces jest.fn(), vi.mock() replaces jest.mock()',
       },
     };
   }

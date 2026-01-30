@@ -3,8 +3,8 @@
  * Detects context threshold (4%) and instructs Claude to generate and save a conversation summary
  * before clearing context. This preserves continuity across sessions.
  */
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import { log, getClaudeDir } from '../utils.js';
 import { registerHook } from '../runner.js';
 /**

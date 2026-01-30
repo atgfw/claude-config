@@ -1,0 +1,57 @@
+1. Should department enum be hardcoded per-client or passed at runtime? The ElevenLabs agent has 8 fixed values. Do you want a
+  routing_config.departments input parameter, or should Selking's departments be baked into a client-specific category definition?
+  2. Is "Mobile Repair" a subset of "Service" or distinct? ElevenLabs lists both. Should the LLM ever output "Mobile Repair" or should
+  on-site technician requests resolve to "Service"?
+  3. What's the fallback if department can't be determined? ElevenLabs defaults to "General". Should the LLM extraction return null or
+  "General" when ambiguous?
+  4. Are the "fifth wheel = Service" rules Selking-specific or universal? Should equipment malfunction → Service be a global rule, or
+  injected via config?
+
+  Location Logic
+
+  5. Should location inference use area codes? ElevenLabs has 391 area code mappings. Do you want this embedded in the system or passed
+  as routing_config.area_code_mapping?
+  6. What happens when area code maps to multiple locations? ElevenLabs says "leave unknown". Should the LLM return null or prompt for
+  clarification in rationale?
+  7. Is the Toledo → Stony Ridge alias the only alias, or are there others? Should there be a generic location_aliases map?
+  8. Should location validation reject values not in the list? If caller says "Indianapolis" (not a Selking location), return null or the
+   literal value?
+
+  Routing Group Mapping
+
+  9. What is the structure of the M365 group mapping? Is it {location}_{department} → group name, or more complex with overrides?
+  10. Should routing_group_name be computed by the LLM or post-processed? Should the LLM infer the group, or should a Code Node resolve
+  it after extraction?
+  11. Are there "global overrides" that bypass location+department? ElevenLabs mentions global overrides first - what triggers those?
+
+  Missing Fields
+
+  12. Should existing_ticket (boolean) be added to request category? ElevenLabs tracks whether caller references an existing ticket.
+  13. Should requested_due_date be added? ElevenLabs extracts when the caller wants service completed.
+  14. Should contact_email be added to contact category? Currently missing from v5.2 schema.
+
+  Input/Output Format
+
+  15. Should routing_config be a top-level input parameter? Alongside categories, input_data, etc.?
+  16. Should extracted routing values be validated against the config? If department returns "Billing" but config only allows
+  "Accounting", should it auto-correct or flag error?
+  17. Should the rationale explain config-based decisions? e.g., "Classified as Service because fifth wheel issues map to Service per
+  routing rules."
+
+  Migration & Compatibility
+
+  18. Is this Selking-only or will other clients need similar configs? Should the architecture support N clients with different routing
+  configs?
+  19. Should ElevenLabs agent be updated to call the LLM extraction API? Or will they remain separate systems with manual parity?
+  20. What's the acceptance criteria for "perfect"? 100% field parity with ElevenLabs? Same enum values? Same business logic outcomes on
+  test transcripts?
+1. The department and location settings and all other client-specific settings MUST be accurately baked into the settings object
+  passed to the agent. I need you to verify all the settings are accurate. Which means they must be retrieved and analyzed from their source. 2. Mobile Repair can be an alias of Service for now. 3.
+  Either General or null is fine. 4. equip malfunction should be service. If extra more broad nuance ruling is needed then go ahead. 5.
+  Unnecessary for now, but the LLM prompts could potentially be on the lookout primed for future area code additions. 6. Handle it the
+  sensible way. 7. That's the only alias for now. Locations and other certain objects probably need aliases but ALL that should be in
+  the client-specific config object. 8. Pretty much, or at least with a warning. That ties into the enumeration strictness spectrum.
+  It's about whatever dynamically makes the most sense. 9. The Microsoft group names are to be statically defined from the config
+  object. 10. It must be extracted by the LLM statically from the closest matching exact group name in the input config according to
+  the entire context of the content. 11. They are baked into the incoming config object following an order of specificity in the config hierarchy of scopes. 12. Yes, existing_ticket AND existing_ticket_id. 13. Yes. 14. Yes. 15. No. raw input_data should be atomically for everything that gets passed to the LLM as context. 16. That ties into the enumeration strictness spectrum.
+  It's about whatever dynamically makes the most sense. 17. Yes. 18. Hundreds of clients from anywhere and everywhere. 19. Separate systems. Data collection from ElevenLabs will be REPLACED by this n8n workflow. 20. All the above. 

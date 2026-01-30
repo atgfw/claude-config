@@ -279,6 +279,8 @@ export function generateProposal(symptomHash, registry) {
         return null;
     }
     const primary = escalations[0];
+    if (!primary)
+        return null;
     // Skip meta-escalations
     if (primary.category === 'meta') {
         log(`[PROPOSAL] Skipping meta-escalation: ${primary.symptom.substring(0, 50)}...`);

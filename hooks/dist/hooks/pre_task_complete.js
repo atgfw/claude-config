@@ -12,6 +12,7 @@ import { log, logBlocked, logAllowed, flagExists, archiveFlag, getClaudeDir } fr
 import { registerHook } from '../runner.js';
 import { updateCriteriaStatus, formatCriteriaStatus } from '../ledger/success_criteria_tracker.js';
 import * as path from 'node:path';
+import * as fs from 'node:fs';
 const VALIDATION_FLAG = 'validation-completed';
 const VISUAL_VALIDATION_NEEDED_FLAG = 'visual-validation-needed';
 /**
@@ -24,14 +25,8 @@ function findProjectRoot() {
     const root = path.parse(current).root;
     while (current !== root) {
         for (const indicator of indicators) {
-            try {
-                const fs = require('node:fs');
-                if (fs.existsSync(path.join(current, indicator))) {
-                    return current;
-                }
-            }
-            catch {
-                // Ignore
+            if (fs.existsSync(path.join(current, indicator))) {
+                return current;
             }
         }
         current = path.dirname(current);

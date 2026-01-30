@@ -3,6 +3,8 @@
  * TDD: Tests for the conversation summary system
  */
 
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import {
   extractProjectName,
@@ -12,14 +14,11 @@ import {
   contextSummaryTrigger,
 } from '../src/hooks/context-summary-trigger.js';
 import type { UserPromptSubmitInput } from '../src/types.js';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as utils from '../src/utils.js';
 
 // Mock modules
 vi.mock('fs');
 vi.mock('../src/utils.js', async () => {
-  const actual = (await vi.importActual('../src/utils.js')) as typeof utils;
+  const actual = await vi.importActual('../src/utils.js');
   return {
     ...actual,
     log: vi.fn(),
@@ -118,22 +117,21 @@ describe('Context Summary Trigger', () => {
 
     it('should include summary template sections', () => {
       const instructions = generateSummaryInstructions('/home/user/test', 45);
-      expect(instructions).toContain('# Conversation Summary');
-      expect(instructions).toContain('## Executive Summary');
-      expect(instructions).toContain('## Key Decisions Made');
-      expect(instructions).toContain('## Work Completed');
-      expect(instructions).toContain('## Files Created/Modified');
+      expect(instructions).toContain('# Session Summary');
+      expect(instructions).toContain('## What We Did');
+      expect(instructions).toContain('## Key Decisions');
+      expect(instructions).toContain('## Files Changed');
       expect(instructions).toContain('## Current State');
-      expect(instructions).toContain('## Pending/Next Steps');
-      expect(instructions).toContain('## Technical Context');
+      expect(instructions).toContain('## Next Steps');
+      expect(instructions).toContain('## Resume Command');
     });
 
     it('should include clear instructions', () => {
       const instructions = generateSummaryInstructions('/home/user/test', 45);
       expect(instructions).toContain('/clear');
-      expect(instructions).toContain('Step 1');
-      expect(instructions).toContain('Step 2');
-      expect(instructions).toContain('Step 3');
+      expect(instructions).toContain('### Step 1');
+      expect(instructions).toContain('### Step 2');
+      expect(instructions).toContain('### Step 3');
     });
   });
 
@@ -173,7 +171,7 @@ describe('Context Summary Trigger', () => {
           pct: 45,
           session: 'test-session',
           cwd: '/test/project',
-          ts: Date.now() - 120000, // 2 minutes ago
+          ts: Date.now() - 120_000, // 2 minutes ago
           type: 'summary',
         })
       );
@@ -191,7 +189,7 @@ describe('Context Summary Trigger', () => {
           pct: 45,
           session: 'test-session',
           cwd: '/test/project',
-          ts: Date.now() - 30000, // 30 seconds ago
+          ts: Date.now() - 30_000, // 30 seconds ago
           type: 'summary',
         })
       );
@@ -200,7 +198,7 @@ describe('Context Summary Trigger', () => {
       const output = await contextSummaryTrigger(input);
 
       expect(output.hookEventName).toBe('UserPromptSubmit');
-      expect(output.additionalContext).toContain('AUTOMATIC CONTEXT MANAGEMENT');
+      expect(output.additionalContext).toContain('CONTEXT LIMIT REACHED');
       expect(output.additionalContext).toContain('45%');
     });
 
@@ -210,7 +208,7 @@ describe('Context Summary Trigger', () => {
         JSON.stringify({
           pct: 45,
           session: 'test-session',
-          // cwd missing
+          // Cwd missing
           ts: Date.now(),
           type: 'summary',
         })

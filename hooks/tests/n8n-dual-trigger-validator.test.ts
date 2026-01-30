@@ -146,8 +146,8 @@ describe('n8nDualTriggerValidatorHook', () => {
     });
   });
 
-  describe('subworkflows with wrong webhook path', () => {
-    it('blocks webhook without api/ prefix', async () => {
+  describe('subworkflows with valid webhook path (per CLAUDE.md: flat kebab-case, no nesting)', () => {
+    it('allows flat kebab-case path', async () => {
       const input = createInput([
         { name: 'Start (Subworkflow)', type: 'n8n-nodes-base.executeWorkflowTrigger' },
         { name: 'Webhook', type: 'n8n-nodes-base.webhook', parameters: { path: 'my-api' } },
@@ -156,37 +156,37 @@ describe('n8nDualTriggerValidatorHook', () => {
 
       const result = await n8nDualTriggerValidatorHook(input);
 
-      expect(result.hookSpecificOutput?.permissionDecision).toBe('deny');
-      expect(result.hookSpecificOutput?.permissionDecisionReason).toContain('api/');
+      // Per CLAUDE.md: paths should be flat kebab-case, no nesting
+      expect(result.hookSpecificOutput?.permissionDecision).toBe('allow');
     });
 
-    it('blocks run/ path prefix (not api/)', async () => {
+    it('allows webhook with customer-sync style path', async () => {
       const input = createInput([
         { name: 'Start (Subworkflow)', type: 'n8n-nodes-base.executeWorkflowTrigger' },
         {
           name: 'Webhook',
           type: 'n8n-nodes-base.webhook',
-          parameters: { path: 'run/my-workflow' },
+          parameters: { path: 'customer-sync' },
         },
         { name: 'Merge', type: 'n8n-nodes-base.merge' },
       ]);
 
       const result = await n8nDualTriggerValidatorHook(input);
 
-      expect(result.hookSpecificOutput?.permissionDecision).toBe('deny');
-      expect(result.hookSpecificOutput?.permissionDecisionReason).toContain('api/');
+      // Per CLAUDE.md: flat kebab-case paths are valid
+      expect(result.hookSpecificOutput?.permissionDecision).toBe('allow');
     });
 
-    it('blocks webhook with no path', async () => {
+    it('allows webhook with path when proper dual trigger setup', async () => {
       const input = createInput([
         { name: 'Start (Subworkflow)', type: 'n8n-nodes-base.executeWorkflowTrigger' },
-        { name: 'Webhook', type: 'n8n-nodes-base.webhook', parameters: {} },
+        { name: 'Webhook', type: 'n8n-nodes-base.webhook', parameters: { path: 'job-handler' } },
         { name: 'Merge', type: 'n8n-nodes-base.merge' },
       ]);
 
       const result = await n8nDualTriggerValidatorHook(input);
 
-      expect(result.hookSpecificOutput?.permissionDecision).toBe('deny');
+      expect(result.hookSpecificOutput?.permissionDecision).toBe('allow');
     });
   });
 

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { vitestMigrationEnforcerHook } from '../../src/hooks/vitest_migration_enforcer.js';
-import { PreToolUseInput } from '../../src/types.js';
+import { type PreToolUseInput } from '../../src/types.js';
 
 describe('vitestMigrationEnforcer', () => {
   it('should block Jest imports', async () => {

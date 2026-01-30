@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { ghostFileDetectorHook } from '../../src/governance/ghost_file_detector.js';
-import { PreToolUseInput } from '../../src/types.js';
+import { type PreToolUseInput } from '../../src/types.js';
 
 describe('ghostFileDetector', () => {
   it('should warn when reading governance.yaml', async () => {

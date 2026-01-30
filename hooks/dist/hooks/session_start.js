@@ -6,6 +6,10 @@
 import { log, logSeparator, loadEnv, hasApiKey, getClaudeDir, getEnvPath, markSessionValidated, } from '../utils.js';
 import { registerHook } from '../runner.js';
 import { syncApiKeys } from '../mcp/api_key_sync.js';
+import { buildKanbanContext } from '../github/issue_kanban.js';
+import { detectImplementedFile } from '../github/issue_file_detector.js';
+import { closeIssue } from '../github/issue_crud.js';
+import { auditFolderHygiene } from '../session/folder_hygiene_auditor.js';
 import { getStats as getLedgerStats } from '../ledger/correction_ledger.js';
 import { formatForSessionStart as formatEscalationReport } from '../escalation/reporter.js';
 import * as fs from 'node:fs';
@@ -93,8 +97,9 @@ async function loadConversationSummary(_issues, successes) {
             log('');
             return undefined;
         }
-        // Safe to access [0] since we checked length above
         const mostRecentFile = files[0];
+        if (!mostRecentFile)
+            return undefined;
         const content = fs.readFileSync(mostRecentFile.path, 'utf-8');
         // Validate it's a real summary (contains expected header)
         if (!content.includes('# Conversation Summary')) {
@@ -170,6 +175,16 @@ export async function sessionStartHook(_input) {
     markSessionValidated();
     log('');
     log('[COMPACT MODE] Session validation cached - pre-task checks will skip for 1 hour');
+    // Step 9: Auto-commit and push ~/.claude repo
+    await autoCommitAndPush(issues, successes);
+    // Step 10: Sync GitHub issues to local registry
+    await syncGitHubIssues(issues, successes);
+    // Step 11: Build kanban board for context injection
+    const kanbanContext = await buildKanbanStep(issues, successes);
+    // Step 12: Reconcile open issues against implemented files
+    await reconcileStaleIssues(issues, successes);
+    // Step 13: Folder hygiene audit
+    await runHygieneAudit(issues, successes);
     // Generate summary
     logSeparator('SESSION START COMPLETE');
     log('');
@@ -185,10 +200,13 @@ export async function sessionStartHook(_input) {
         `Issues: ${issues.length}`,
         issues.length > 0 ? `Action needed: ${issues.slice(0, 3).join('; ')}` : 'All systems ready',
     ].join(' | ');
-    // Combine status summary with previous conversation context if available
+    // Combine status summary with previous conversation context and kanban
     let additionalContext = summary;
     if (previousSummary) {
         additionalContext = `${summary}\n\n${previousSummary}`;
+    }
+    if (kanbanContext) {
+        additionalContext = `${additionalContext}\n\n${kanbanContext}`;
     }
     return {
         hookEventName: 'SessionStart',
@@ -437,6 +455,220 @@ async function checkEscalationStatus(issues, successes) {
     catch {
         log('[OK] Escalation registry not yet initialized');
     }
+}
+/**
+ * Auto-commit and push ~/.claude repo state (non-blocking)
+ */
+async function autoCommitAndPush(issues, successes) {
+    log('Step 9: Auto-commit and Push');
+    log('-'.repeat(30));
+    const claudeDir = getClaudeDir();
+    try {
+        // Check for uncommitted changes in tracked directories
+        const status = execSync('git status --porcelain ledger/ openspec/', {
+            cwd: claudeDir,
+            encoding: 'utf-8',
+            stdio: 'pipe',
+        }).trim();
+        if (!status) {
+            log('[--] No changes to push');
+            log('');
+            return;
+        }
+        // Stage ledger and openspec changes
+        execSync('git add ledger/ openspec/', {
+            cwd: claudeDir,
+            encoding: 'utf-8',
+            stdio: 'pipe',
+        });
+        // Check if there are staged changes
+        try {
+            execSync('git diff --cached --quiet', {
+                cwd: claudeDir,
+                encoding: 'utf-8',
+                stdio: 'pipe',
+            });
+            // No staged changes
+            log('[--] No staged changes');
+            log('');
+            return;
+        }
+        catch {
+            // diff --cached returns exit 1 when there ARE changes - this is expected
+        }
+        // Commit
+        execSync('git commit -m "chore(sync): session state sync"', {
+            cwd: claudeDir,
+            encoding: 'utf-8',
+            stdio: 'pipe',
+        });
+        // Pull with rebase before push
+        try {
+            execSync('git pull --rebase origin main', {
+                cwd: claudeDir,
+                encoding: 'utf-8',
+                stdio: 'pipe',
+                timeout: 15_000,
+            });
+        }
+        catch {
+            log('[!] Rebase conflict, skipping push');
+            issues.push('Git rebase conflict on auto-push');
+            log('');
+            return;
+        }
+        // Push
+        execSync('git push origin main', {
+            cwd: claudeDir,
+            encoding: 'utf-8',
+            stdio: 'pipe',
+            timeout: 15_000,
+        });
+        log('[+] Session state pushed');
+        successes.push('Session state auto-pushed');
+    }
+    catch (error) {
+        const msg = error instanceof Error ? error.message : 'Unknown error';
+        log(`[!] Push failed: ${msg}`);
+        // Non-blocking: warn but do not add to issues that block session
+    }
+    log('');
+}
+/**
+ * Build kanban board and return context string (non-blocking)
+ */
+async function buildKanbanStep(_issues, successes) {
+    log('Step 11: Issue Kanban Board');
+    log('-'.repeat(30));
+    try {
+        const context = buildKanbanContext();
+        if (context) {
+            successes.push('Kanban board built');
+        }
+        log('');
+        return context;
+    }
+    catch (error) {
+        const msg = error instanceof Error ? error.message : 'Unknown error';
+        log(`[!] Kanban failed: ${msg}`);
+        log('');
+        return '';
+    }
+}
+/**
+ * Sync GitHub issues to local registry (non-blocking)
+ */
+async function syncGitHubIssues(_issues, successes) {
+    log('Step 10: GitHub Issue Sync');
+    log('-'.repeat(30));
+    try {
+        const result = execSync('gh issue list --state all --json number,title,state,labels --limit 100', { encoding: 'utf-8', stdio: 'pipe', timeout: 15_000 });
+        const remoteIssues = JSON.parse(result);
+        // Load local registry
+        const registryPath = path.join(getClaudeDir(), 'ledger', 'issue-sync-registry.json');
+        let registry;
+        try {
+            registry = JSON.parse(fs.readFileSync(registryPath, 'utf-8'));
+        }
+        catch {
+            registry = { version: 1, entries: [] };
+        }
+        let created = 0;
+        let updated = 0;
+        for (const issue of remoteIssues) {
+            const existing = registry.entries.find((e) => e.github_issue === issue.number);
+            const remoteStatus = issue.state === 'OPEN' ? 'open' : 'closed';
+            if (!existing) {
+                registry.entries.push({
+                    unified_id: `unified-gh-${issue.number}`,
+                    github_issue: issue.number,
+                    status: remoteStatus,
+                    last_synced: new Date().toISOString(),
+                });
+                created++;
+            }
+            else if (existing.status !== remoteStatus) {
+                existing.status = remoteStatus;
+                existing.last_synced = new Date().toISOString();
+                updated++;
+            }
+        }
+        fs.writeFileSync(registryPath, JSON.stringify(registry, null, 2));
+        if (created > 0 || updated > 0) {
+            log(`[+] Sync: ${created} new, ${updated} updated`);
+            successes.push(`Issue sync: ${created} new, ${updated} updated`);
+        }
+        else {
+            log('[--] Issues in sync');
+        }
+    }
+    catch (error) {
+        const msg = error instanceof Error ? error.message : 'Unknown error';
+        log(`[!] Issue sync failed: ${msg}`);
+        // Non-blocking
+    }
+    log('');
+}
+/**
+ * Run folder hygiene audit (non-blocking)
+ */
+async function runHygieneAudit(_issues, successes) {
+    log('Step 13: Folder Hygiene Audit');
+    log('-'.repeat(30));
+    try {
+        const result = auditFolderHygiene();
+        if (result.issues.length > 0) {
+            log(`[!] ${result.issues.length} hygiene issues found`);
+        }
+        else {
+            successes.push('Folder hygiene clean');
+        }
+    }
+    catch (error) {
+        const message = error instanceof Error ? error.message : 'Unknown error';
+        log(`[!] Hygiene audit failed: ${message}`);
+    }
+    log('');
+}
+/**
+ * Reconcile open GitHub issues against implemented files (non-blocking)
+ */
+async function reconcileStaleIssues(_issues, successes) {
+    log('Step 12: Issue Reconciliation');
+    log('-'.repeat(30));
+    try {
+        const result = execSync('gh issue list --state open --json number,title,labels --limit 100', {
+            encoding: 'utf-8',
+            stdio: 'pipe',
+            timeout: 15_000,
+        });
+        const openIssues = JSON.parse(result);
+        let closedCount = 0;
+        for (const issue of openIssues) {
+            const labelNames = issue.labels.map((l) => l.name);
+            const isFeatOrFix = labelNames.some((l) => l === 'type/feat' || l === 'type/fix');
+            if (!isFeatOrFix)
+                continue;
+            const found = detectImplementedFile(issue.title);
+            if (found) {
+                log(`[+] #${issue.number} already implemented: ${path.basename(found)}`);
+                closeIssue(issue.number);
+                closedCount++;
+            }
+        }
+        if (closedCount > 0) {
+            log(`[+] Auto-closed ${closedCount} stale issues`);
+            successes.push(`Reconciled ${closedCount} stale issues`);
+        }
+        else {
+            log('[--] No stale issues found');
+        }
+    }
+    catch (error) {
+        const message = error instanceof Error ? error.message : 'Unknown error';
+        log(`[!] Reconciliation failed: ${message}`);
+    }
+    log('');
 }
 // Register the hook
 registerHook('session-start', 'SessionStart', sessionStartHook);

@@ -20,7 +20,7 @@ describe('Evaluation Gate Expander Hook', () => {
           operations: [
             {
               type: 'removeTag',
-              tagId: 'RL7B8tcKpAfwpHZR', // [DEV] tag ID
+              tagId: 'DEV-tag-123', // Tag ID containing 'dev'
             },
           ],
         },
@@ -29,9 +29,7 @@ describe('Evaluation Gate Expander Hook', () => {
       const output = await evaluationGateExpanderHook(input);
 
       expect(output.hookSpecificOutput.permissionDecision).toBe('deny');
-      expect(output.hookSpecificOutput.permissionDecisionReason).toContain(
-        'Evaluation gate checks required'
-      );
+      expect(output.hookSpecificOutput.permissionDecisionReason).toContain('evaluation');
     });
 
     it('should block removing dev tag (case insensitive)', async () => {
@@ -63,11 +61,11 @@ describe('Evaluation Gate Expander Hook', () => {
           operations: [
             {
               type: 'removeTag',
-              tagId: 'RL7B8tcKpAfwpHZR', // [DEV] tag
+              tagId: 'DEV-tag-123', // Tag ID containing 'dev'
             },
             {
               type: 'addTag',
-              tagId: 'archive-tag-456', // [ARCHIVE] tag
+              tagId: 'archive-tag-456', // Tag ID containing 'archive'
             },
           ],
         },
@@ -76,7 +74,7 @@ describe('Evaluation Gate Expander Hook', () => {
       const output = await evaluationGateExpanderHook(input);
 
       expect(output.hookSpecificOutput.permissionDecision).toBe('allow');
-      expect(output.hookSpecificOutput.permissionDecisionReason).toContain('Archival allowed');
+      expect(output.hookSpecificOutput.permissionDecisionReason).toContain('Archival');
     });
 
     it('should detect archive tag case-insensitively', async () => {

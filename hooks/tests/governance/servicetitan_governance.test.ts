@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { servicetitanGovernanceHook } from '../../src/governance/servicetitan_governance.js';
-import { PreToolUseInput } from '../../src/types.js';
+import { type PreToolUseInput } from '../../src/types.js';
 
 describe('servicetitanGovernance', () => {
   it('should block non-whitelisted ServiceTitan tool', async () => {

@@ -15,6 +15,7 @@ import {
   evaluationGateHook,
   defaultEvaluationGateConfig,
   EvaluationGateConfig,
+  Workflow,
 } from './evaluation_gate.js';
 
 /**
@@ -37,7 +38,7 @@ const TAG_IDS = {
 /**
  * Fetch workflow from n8n instance
  */
-async function fetchWorkflow(workflowId: string): Promise<any> {
+async function fetchWorkflow(workflowId: string): Promise<Workflow> {
   const response = await fetch(`${N8N_CONFIG.baseUrl}/api/v1/workflows/${workflowId}`, {
     headers: {
       'X-N8N-API-KEY': N8N_CONFIG.apiKey,
@@ -49,7 +50,7 @@ async function fetchWorkflow(workflowId: string): Promise<any> {
     throw new Error(`Failed to fetch workflow ${workflowId}: ${response.status}`);
   }
 
-  return response.json();
+  return response.json() as Promise<Workflow>;
 }
 
 /**

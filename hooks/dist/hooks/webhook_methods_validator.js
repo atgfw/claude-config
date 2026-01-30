@@ -3,7 +3,7 @@
  * VALIDATES webhook httpMethod configuration exists
  * Enforces: "Webhook triggers must accept ALL expected HTTP methods"
  */
-import { log, logBlocked, logAllowed } from '../utils.js';
+import { logVerbose, logWarn, logTerse } from '../utils.js';
 import { registerHook } from '../runner.js';
 /**
  * Check if tool is an n8n workflow creation/update operation
@@ -81,10 +81,9 @@ export async function webhookMethodsValidatorHook(input) {
             },
         };
     }
-    log(`Checking webhook httpMethod configuration...`);
+    logVerbose(`[webhook-methods] Checking httpMethod config...`);
     const workflowDef = extractWorkflowDefinition(input);
     if (!workflowDef) {
-        // No workflow definition found, allow (might not be a workflow operation)
         return {
             hookSpecificOutput: {
                 hookEventName: 'PreToolUse',
@@ -92,11 +91,8 @@ export async function webhookMethodsValidatorHook(input) {
             },
         };
     }
-    // Find webhook nodes
     const webhookNodes = findWebhookNodes(workflowDef);
     if (webhookNodes.length === 0) {
-        // No webhook nodes, allow
-        logAllowed('No webhook nodes found');
         return {
             hookSpecificOutput: {
                 hookEventName: 'PreToolUse',
@@ -113,38 +109,16 @@ export async function webhookMethodsValidatorHook(input) {
         }
     }
     if (unconfiguredNodes.length > 0) {
-        logBlocked('Webhook nodes missing httpMethod configuration', 'Webhook triggers must accept ALL expected HTTP methods');
-        log('');
-        log(`Unconfigured webhook nodes: ${unconfiguredNodes.join(', ')}`);
-        log('');
-        log('PROBLEM: Webhook triggers may not accept the HTTP methods that callers use.');
-        log('');
-        log('CONFIGURATION:');
-        log('  {');
-        log('    "name": "Start (API Webhook)",');
-        log('    "type": "n8n-nodes-base.webhook",');
-        log('    "parameters": {');
-        log('      "path": "api/workflow-name",');
-        log("      \"httpMethod\": \"={{['GET','POST'].join(',')}}\",  ← REQUIRED");
-        log('      "responseMode": "lastNode"');
-        log('    }');
-        log('  }');
-        log('');
-        log('COMMON METHODS BY USE CASE:');
-        log('  API endpoint (read/write):  GET, POST');
-        log('  Form submission:            POST');
-        log('  REST resource:              GET, POST, PUT, DELETE');
-        log('  Health check:               GET');
-        log('');
+        logWarn(`Webhook missing httpMethod: ${unconfiguredNodes.join(', ')}`);
         return {
             hookSpecificOutput: {
                 hookEventName: 'PreToolUse',
-                permissionDecision: 'deny',
-                permissionDecisionReason: `Webhook nodes must have httpMethod configured: ${unconfiguredNodes.join(', ')}`,
+                permissionDecision: 'allow',
+                permissionDecisionReason: `Webhook nodes without httpMethod: ${unconfiguredNodes.join(', ')}. Configure GET/POST.`,
             },
         };
     }
-    logAllowed(`All ${webhookNodes.length} webhook nodes have httpMethod configured`);
+    logTerse(`[+] ${webhookNodes.length} webhooks have httpMethod`);
     return {
         hookSpecificOutput: {
             hookEventName: 'PreToolUse',

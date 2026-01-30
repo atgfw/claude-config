@@ -328,7 +328,8 @@ export function generateProposal(
     return null;
   }
 
-  const primary = escalations[0]!;
+  const primary = escalations[0];
+  if (!primary) return null;
 
   // Skip meta-escalations
   if (primary.category === 'meta') {

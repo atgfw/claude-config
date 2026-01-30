@@ -7,8 +7,8 @@
  */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { evaluationGateHook, EvaluationGateConfig } from '../src/hooks/evaluation_gate.js';
-import type { PreToolUseInput, PreToolUseOutput } from '../src/types.js';
+import { evaluationGateHook, type EvaluationGateConfig } from '../src/hooks/evaluation_gate.js';
+import type { PreToolUseInput } from '../src/types.js';
 
 // Mock workflow data for testing
 const mockWorkflowWithEvaluation = {
@@ -162,12 +162,12 @@ describe('Evaluation Gate Hook', () => {
       };
 
       // Mock execution history with 98%+ success rate
-      const mockExecutions = {
-        executions: Array(25)
+      const _mockExecutions = {
+        executions: Array.from({ length: 25 })
           .fill(null)
-          .map((_, i) => ({
-            id: `exec-${i}`,
-            status: i < 24 ? 'success' : 'error', // 24/25 = 96% - will fail
+          .map((_, index) => ({
+            id: `exec-${index}`,
+            status: index < 24 ? 'success' : 'error', // 24/25 = 96% - will fail
             startedAt: new Date().toISOString(),
           })),
       };
@@ -178,7 +178,7 @@ describe('Evaluation Gate Hook', () => {
         async () => mockWorkflowWithEvaluation,
         {
           mockExecutions: {
-            executions: Array(25)
+            executions: Array.from({ length: 25 })
               .fill(null)
               .map(() => ({ status: 'success' })),
           },
@@ -202,11 +202,11 @@ describe('Evaluation Gate Hook', () => {
 
       // 90% success rate (below 98% threshold)
       const mockExecutions = {
-        executions: Array(100)
+        executions: Array.from({ length: 100 })
           .fill(null)
-          .map((_, i) => ({
-            id: `exec-${i}`,
-            status: i < 90 ? 'success' : 'error',
+          .map((_, index) => ({
+            id: `exec-${index}`,
+            status: index < 90 ? 'success' : 'error',
           })),
       };
 
@@ -233,11 +233,11 @@ describe('Evaluation Gate Hook', () => {
 
       // 99% success rate (above 98% threshold)
       const mockExecutions = {
-        executions: Array(100)
+        executions: Array.from({ length: 100 })
           .fill(null)
-          .map((_, i) => ({
-            id: `exec-${i}`,
-            status: i < 99 ? 'success' : 'error',
+          .map((_, index) => ({
+            id: `exec-${index}`,
+            status: index < 99 ? 'success' : 'error',
           })),
       };
 
@@ -262,10 +262,10 @@ describe('Evaluation Gate Hook', () => {
 
       // Only 10 executions (below 20 minimum)
       const mockExecutions = {
-        executions: Array(10)
+        executions: Array.from({ length: 10 })
           .fill(null)
-          .map((_, i) => ({
-            id: `exec-${i}`,
+          .map((_, index) => ({
+            id: `exec-${index}`,
             status: 'success',
           })),
       };
@@ -306,7 +306,7 @@ describe('Evaluation Gate Hook', () => {
         input,
         mockConfig,
         async () => workflowWithoutErrorWorkflow,
-        { mockExecutions: { executions: Array(25).fill({ status: 'success' }) } }
+        { mockExecutions: { executions: Array.from({ length: 25 }).fill({ status: 'success' }) } }
       );
 
       expect(output.hookSpecificOutput.permissionDecision).toBe('deny');
@@ -335,7 +335,7 @@ describe('Evaluation Gate Hook', () => {
         input,
         mockConfig,
         async () => workflowWithoutTimeSaved,
-        { mockExecutions: { executions: Array(25).fill({ status: 'success' }) } }
+        { mockExecutions: { executions: Array.from({ length: 25 }).fill({ status: 'success' }) } }
       );
 
       // Advisory only - should allow
@@ -364,7 +364,7 @@ describe('Evaluation Gate Hook', () => {
         input,
         mockConfig,
         async () => workflowWithoutMcpSetting,
-        { mockExecutions: { executions: Array(25).fill({ status: 'success' }) } }
+        { mockExecutions: { executions: Array.from({ length: 25 }).fill({ status: 'success' }) } }
       );
 
       // Advisory only - should allow
@@ -437,7 +437,7 @@ describe('Evaluation Gate Hook', () => {
         input,
         mockConfig,
         async () => mockWorkflowWithEvaluation,
-        { mockExecutions: { executions: Array(25).fill({ status: 'success' }) } }
+        { mockExecutions: { executions: Array.from({ length: 25 }).fill({ status: 'success' }) } }
       );
 
       expect(output.hookSpecificOutput.permissionDecision).toBe('allow');

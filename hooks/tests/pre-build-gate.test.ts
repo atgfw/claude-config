@@ -3,11 +3,10 @@
  * TDD: Verify governance pre-requisites before BUILD phase
  */
 
+import * as fs from 'node:fs';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { preBuildGateHook } from '../src/hooks/pre_build_gate.js';
 import type { PreToolUseInput } from '../src/types.js';
-import * as fs from 'node:fs';
-import * as path from 'node:path';
 
 // Mock fs module
 vi.mock('node:fs', async () => {
@@ -157,11 +156,13 @@ describe('Pre-Build Gate Hook', () => {
             { name: 'changes', isDirectory: () => true, isFile: () => false },
           ] as unknown as fs.Dirent[];
         }
+
         if (pathStr.includes('changes')) {
           return [
             { name: 'design.md', isDirectory: () => false, isFile: () => true },
           ] as unknown as fs.Dirent[];
         }
+
         return [];
       });
 
@@ -170,6 +171,7 @@ describe('Pre-Build Gate Hook', () => {
         if (pathStr.includes('design.md')) {
           return '## Node Spec\n- [ ] Plain English Check: PENDING\n- [ ] Input Completeness: PENDING';
         }
+
         return '';
       });
 
@@ -204,11 +206,13 @@ describe('Pre-Build Gate Hook', () => {
             { name: 'changes', isDirectory: () => true, isFile: () => false },
           ] as unknown as fs.Dirent[];
         }
+
         if (pathStr.includes('changes')) {
           return [
             { name: 'design.md', isDirectory: () => false, isFile: () => true },
           ] as unknown as fs.Dirent[];
         }
+
         return [];
       });
 
@@ -218,6 +222,7 @@ describe('Pre-Build Gate Hook', () => {
           // All audits complete (checked boxes)
           return '## Node Spec\n- [x] Plain English Check: COMPLETE\n- [x] Input Completeness: COMPLETE';
         }
+
         return '';
       });
 

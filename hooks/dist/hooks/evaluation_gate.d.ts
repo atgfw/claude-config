@@ -42,14 +42,14 @@ interface WorkflowTag {
     id: string;
     name: string;
 }
-interface Workflow {
+export interface Workflow {
     id: string;
     name: string;
     nodes: WorkflowNode[];
     settings: WorkflowSettings;
     tags: WorkflowTag[];
 }
-type WorkflowFetcher = (workflowId: string) => Promise<Workflow>;
+export type WorkflowFetcher = (workflowId: string) => Promise<Workflow>;
 /**
  * Evaluation Gate Hook
  *

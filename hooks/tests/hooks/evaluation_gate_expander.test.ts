@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { evaluationGateExpanderHook } from '../../src/hooks/evaluation_gate_expander.js';
-import { PreToolUseInput } from '../../src/types.js';
+import { type PreToolUseInput } from '../../src/types.js';
 
 describe('evaluationGateExpander', () => {
   it('should block workflow leaving DEV without evaluation trigger', async () => {

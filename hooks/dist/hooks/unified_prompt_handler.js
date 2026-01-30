@@ -1,8 +1,8 @@
 /**
  * Unified Prompt Handler - Consolidates UserPromptSubmit hooks into 1
  */
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import { log, getClaudeDir } from '../utils.js';
 import { registerHook } from '../runner.js';
 async function unifiedPromptHandler(input) {

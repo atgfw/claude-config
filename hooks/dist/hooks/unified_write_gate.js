@@ -1,8 +1,8 @@
 /**
  * Unified Write Gate - Consolidates 6 PreToolUse hooks into 1
  */
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import { logBlocked, logAllowed, isMorphAvailable, getClaudeDir } from '../utils.js';
 import { registerHook } from '../runner.js';
 function findProjectRoot(startDir) {

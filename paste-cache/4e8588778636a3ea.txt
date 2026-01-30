@@ -1,0 +1,18 @@
+{
+  "url": "https://n8n.atgfw.com/webhook/llm-data-extraction",
+  "body": "{\"categories\": [\"caller\", \"contact\", \"routing\", \"request\"], \"input_data\": \"Agent: ... ... Thanks for contacting Schlatter\\u0027s Plumbing \\u0026 Heating! I\\u2019m Shelly, our AI customer service agent and this conversation will be recorded. How can I help you?\\nCaller: Uh, uh.\\nAgent: One moment while I get things ready. What can I help you with today?\\nAgent: Mmhmm... No problem. What are you calling about today?\\nAgent: Mmhmm...\\nCaller: I don\\u0027t know.\\nAgent: I understand. If you\\u0027re not sure what the issue is, I can still have someone from our team reach out to you. Who am I speaking with?\\nCaller: Cody.\\nAgent: Got it, Cody. What\\u0027s a good callback number for you?\\nCaller: Here, two, two, one, seven, three, five, five.\\nAgent: I might have misheard that number, could you repeat it?\\nCaller: 260-217-3555.\\nAgent: Got it, two six zero... two one seven... three five five five. Is there a specific company you\\u0027re calling from?\", \"llm_config\": {\"model\": \"gpt-5.2\", \"temperature\": 0.1}, \"source_metadata\": {\"agent_id\": \"agent_0501kecpebg3e9p8skydse9sm1j4\", \"channel\": \"voice\", \"company_config\": {\"company_name\": \"Uncle Bob\\u0027s Heating \\u0026 Cooling\", \"departments\": [\"Service\", \"Installation\", \"Parts Counter\", \"Sales \\u0026 Estimates\", \"Parts Distribution\", \"IT Support\", \"Accounting\"], \"locations\": [\"Fort Wayne\", \"Decatur\", \"Elkhart\", \"Corporate / IT\"]}, \"conversation_id\": \"conv_6101kfkjha50eepbvesbe7chbdtw\", \"duration_secs\": 78, \"session_id\": \"3ee2d800-52f3-40b1-96d8-58f3552ef3b9\"}}",
+  "json": null,
+  "files": [],
+  "method": "POST",
+  "params": null,
+  "cookies": null,
+  "headers": {
+    "Content-Type": "application/json",
+    "x-rewst-secret": "asdasdasdasdasdasdasdasdjkyhvltycfiy57dr6976t"
+  },
+  "timeout": 5,
+  "auth_password": "*** REDACTED ***",
+  "auth_username": null,
+  "allow_redirects": true,
+  "require_2xx_status": null
+}

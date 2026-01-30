@@ -47,7 +47,7 @@ interface WorkflowTag {
   name: string;
 }
 
-interface Workflow {
+export interface Workflow {
   id: string;
   name: string;
   nodes: WorkflowNode[];
@@ -60,7 +60,7 @@ interface Operation {
   tagId?: string;
 }
 
-type WorkflowFetcher = (workflowId: string) => Promise<Workflow>;
+export type WorkflowFetcher = (workflowId: string) => Promise<Workflow>;
 
 /**
  * Check if a workflow has an Evaluation Trigger node

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { inlineScriptValidatorHook } from '../../src/hooks/inline_script_validator.js';
-import { PreToolUseInput } from '../../src/types.js';
+import { type PreToolUseInput } from '../../src/types.js';
 
 describe('inlineScriptValidator', () => {
   it('should block node -e with JSON', async () => {

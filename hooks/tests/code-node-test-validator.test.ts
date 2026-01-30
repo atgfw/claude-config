@@ -3,10 +3,10 @@
  * TDD: Verify code node tests follow Vitest + fixtures pattern
  */
 
+import * as fs from 'node:fs';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { codeNodeTestValidatorHook } from '../src/hooks/code_node_test_validator.js';
 import type { PreToolUseInput } from '../src/types.js';
-import * as fs from 'node:fs';
 
 // Mock fs module
 vi.mock('node:fs', async () => {

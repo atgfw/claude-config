@@ -38,23 +38,6 @@
       "failureHistory": []
     },
     {
-      "name": "servicetitan",
-      "package": "servicetitan-mcp (local)",
-      "healthCheck": "claude mcp list | grep servicetitan",
-      "recoveryProcedure": "cd C:/Users/codya/.claude/mcp/servicetitan-mcp && npm install && npm run build",
-      "env": {
-        "SERVICE_TITAN_CLIENT_ID": "",
-        "SERVICE_TITAN_CLIENT_SECRET": "",
-        "SERVICE_TITAN_APP_KEY": "",
-        "SERVICE_TITAN_TENANT_ID": ""
-      },
-      "health": {
-        "status": "healthy",
-        "lastCheck": "2026-01-15T12:00:00.000Z"
-      },
-      "failureHistory": []
-    },
-    {
       "name": "morph",
       "package": "@morph-llm/morph-fast-apply",
       "healthCheck": "claude mcp list | grep morph",

@@ -2,10 +2,9 @@
  * Quality Check Hook Tests
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
 import * as fs from 'node:fs';
-import * as path from 'node:path';
-import type { PostToolUseInput, PostToolUseOutput } from '../src/types.js';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import type { PostToolUseInput } from '../src/types.js';
 
 // Mock fs module
 vi.mock('node:fs', async () => {
@@ -23,17 +22,17 @@ vi.mock('node:fs', async () => {
 vi.mock('node:child_process', () => ({
   spawn: vi.fn(() => ({
     stdout: {
-      on: vi.fn((event, cb) => {
-        if (event === 'data') cb(Buffer.from(''));
+      on: vi.fn((event, callback) => {
+        if (event === 'data') callback(Buffer.from(''));
       }),
     },
     stderr: {
-      on: vi.fn((event, cb) => {
-        if (event === 'data') cb(Buffer.from(''));
+      on: vi.fn((event, callback) => {
+        if (event === 'data') callback(Buffer.from(''));
       }),
     },
-    on: vi.fn((event, cb) => {
-      if (event === 'close') cb(0);
+    on: vi.fn((event, callback) => {
+      if (event === 'close') callback(0);
     }),
   })),
 }));
@@ -100,7 +99,7 @@ describe('Quality Check Hook', () => {
       { name: 'NotebookEdit', pathKey: 'notebook_path' },
     ];
 
-    builtInTools.forEach(({ name, pathKey }) => {
+    for (const { name, pathKey } of builtInTools) {
       it(`should process ${name} tool`, async () => {
         const { qualityCheckHook } = await import('../src/hooks/quality_check.js');
 
@@ -116,7 +115,7 @@ describe('Quality Check Hook', () => {
         const result = await qualityCheckHook(input);
         expect(result.hookSpecificOutput.hookEventName).toBe('PostToolUse');
       });
-    });
+    }
 
     // MCP tools
     const mcpTools = [
@@ -130,7 +129,7 @@ describe('Quality Check Hook', () => {
       { name: 'mcp__filesystem__edit_file', pathKey: 'path' },
     ];
 
-    mcpTools.forEach(({ name, pathKey }) => {
+    for (const { name, pathKey } of mcpTools) {
       it(`should process MCP tool ${name}`, async () => {
         const { qualityCheckHook } = await import('../src/hooks/quality_check.js');
 
@@ -146,7 +145,7 @@ describe('Quality Check Hook', () => {
         const result = await qualityCheckHook(input);
         expect(result.hookSpecificOutput.hookEventName).toBe('PostToolUse');
       });
-    });
+    }
 
     // Pattern-matched MCP tools (dynamic naming)
     it('should match MCP tools via pattern', async () => {
@@ -178,8 +177,8 @@ describe('Quality Check Hook', () => {
   describe('Source File Detection', () => {
     const sourceExtensions = ['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs'];
 
-    sourceExtensions.forEach((ext) => {
-      it(`should recognize ${ext} as source file`, async () => {
+    for (const extension of sourceExtensions) {
+      it(`should recognize ${extension} as source file`, async () => {
         const { qualityCheckHook } = await import('../src/hooks/quality_check.js');
 
         vi.mocked(fs.existsSync).mockReturnValue(false);
@@ -187,7 +186,7 @@ describe('Quality Check Hook', () => {
         const input: PostToolUseInput = {
           tool_name: 'Write',
           tool_input: {
-            file_path: `/path/to/file${ext}`,
+            file_path: `/path/to/file${extension}`,
           },
         };
 
@@ -195,18 +194,18 @@ describe('Quality Check Hook', () => {
         const result = await qualityCheckHook(input);
         expect(result.hookSpecificOutput.hookEventName).toBe('PostToolUse');
       });
-    });
+    }
 
     const nonSourceExtensions = ['.md', '.json', '.yaml', '.html', '.css'];
 
-    nonSourceExtensions.forEach((ext) => {
-      it(`should skip ${ext} as non-source file`, async () => {
+    for (const extension of nonSourceExtensions) {
+      it(`should skip ${extension} as non-source file`, async () => {
         const { qualityCheckHook } = await import('../src/hooks/quality_check.js');
 
         const input: PostToolUseInput = {
           tool_name: 'Write',
           tool_input: {
-            file_path: `/path/to/file${ext}`,
+            file_path: `/path/to/file${extension}`,
           },
         };
 
@@ -215,6 +214,6 @@ describe('Quality Check Hook', () => {
         // Should not block non-source files
         expect(result.hookSpecificOutput.decision).toBeUndefined();
       });
-    });
+    }
   });
 });

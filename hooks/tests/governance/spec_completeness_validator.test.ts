@@ -1,24 +1,24 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { specCompletenessValidatorHook } from '../../src/governance/spec_completeness_validator.js';
-import { PreToolUseInput } from '../../src/types.js';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as os from 'node:os';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { specCompletenessValidatorHook } from '../../src/governance/spec_completeness_validator.js';
+import { type PreToolUseInput } from '../../src/types.js';
 
 describe('specCompletenessValidator', () => {
-  let tempDir: string;
+  let temporaryDir: string;
 
   beforeEach(() => {
-    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'spec-test-'));
+    temporaryDir = fs.mkdtempSync(path.join(os.tmpdir(), 'spec-test-'));
   });
 
   afterEach(() => {
-    fs.rmSync(tempDir, { recursive: true, force: true });
+    fs.rmSync(temporaryDir, { recursive: true, force: true });
   });
 
   it('should allow Write when complete spec exists', async () => {
-    const implPath = path.join(tempDir, 'transform.ts');
-    const specPath = path.join(tempDir, 'spec.md');
+    const implPath = path.join(temporaryDir, 'transform.ts');
+    const specPath = path.join(temporaryDir, 'spec.md');
 
     fs.writeFileSync(
       specPath,
@@ -55,8 +55,8 @@ test_cases:
   });
 
   it('should block Write when spec has PENDING markers', async () => {
-    const implPath = path.join(tempDir, 'transform.ts');
-    const specPath = path.join(tempDir, 'spec.md');
+    const implPath = path.join(temporaryDir, 'transform.ts');
+    const specPath = path.join(temporaryDir, 'spec.md');
 
     fs.writeFileSync(
       specPath,
@@ -88,8 +88,8 @@ inputs:
   });
 
   it('should block Write when spec has TODO markers', async () => {
-    const implPath = path.join(tempDir, 'transform.ts');
-    const specPath = path.join(tempDir, 'spec.md');
+    const implPath = path.join(temporaryDir, 'transform.ts');
+    const specPath = path.join(temporaryDir, 'spec.md');
 
     fs.writeFileSync(
       specPath,
@@ -117,7 +117,7 @@ inputs:
   });
 
   it('should warn when no spec file found', async () => {
-    const implPath = path.join(tempDir, 'transform.ts');
+    const implPath = path.join(temporaryDir, 'transform.ts');
 
     const input: PreToolUseInput = {
       tool_name: 'Write',
@@ -136,7 +136,7 @@ inputs:
     const input: PreToolUseInput = {
       tool_name: 'Write',
       tool_input: {
-        file_path: path.join(tempDir, 'README.md'),
+        file_path: path.join(temporaryDir, 'README.md'),
       },
     };
 
@@ -150,7 +150,7 @@ inputs:
     const input: PreToolUseInput = {
       tool_name: 'Write',
       tool_input: {
-        file_path: path.join(tempDir, 'test', 'transform.test.ts'),
+        file_path: path.join(temporaryDir, 'test', 'transform.test.ts'),
       },
     };
 

@@ -1,8 +1,8 @@
-import { describe, it, expect } from 'vitest';
-import { childProjectOverrideDetectorHook } from '../../src/governance/child_project_override_detector.js';
-import { PreToolUseInput } from '../../src/types.js';
 import * as path from 'node:path';
 import * as os from 'node:os';
+import { describe, it, expect } from 'vitest';
+import { childProjectOverrideDetectorHook } from '../../src/governance/child_project_override_detector.js';
+import { type PreToolUseInput } from '../../src/types.js';
 
 const CLAUDE_DIR = path.join(os.homedir(), '.claude');
 const CHILD_PROJECT = path.join(os.homedir(), 'projects', 'my-app');

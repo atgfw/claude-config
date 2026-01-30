@@ -43,6 +43,10 @@ Setup will:
     |   +-- escalation-registry.json
     |   +-- release-registry.json
     |   +-- changelog-registry.json
+    |   +-- tool-research-registry.json
+    |
+    +-- templates/         # Document templates
+    |   +-- TOOL-RESEARCH.template.md
     |
     +-- github/            # GitHub framework
     |   +-- templates/     # Repo templates (README, CONTRIBUTING, PR)
@@ -65,6 +69,7 @@ Setup will:
 | **Deletion is banned** | `pre_bash` | Move files to old/ directory instead |
 | **Never use emojis** | `pre_bash`, `pre_write` | Blocks emoji in code and output |
 | **Tool filtering** | `tool_filter` | Configurable MCP tool blocklist/allowlist via tool-filter-config.json |
+| **Tool research required** | `tool_research_gate` | TOOL-RESEARCH.md required before creating wrappers/integrations |
 | **Every correction becomes a hook** | `escalation_trigger` | Tracks in Correction Debt Ledger |
 | **Never use complex inline scripts** | `inline_script_validator` | Enforces temp file pattern for complex scripts |
 | **LIVE APIs are source of truth** | `ghost_file_detector` | Never trust local files for cloud object state |
@@ -87,6 +92,61 @@ Setup will:
 | **Commit Conventions** | `commit_message_validator` | WARN: Conventional Commits format recommended |
 | **Default Branch** | `branch_naming_validator` | STRICT: Blocks `master`, enforces `main` only |
 | **Branch Naming** | `branch_naming_validator` | WARN: prefix/description format recommended |
+| **Context-optimized output** | `utils.ts` verbosity system | Terse logging to minimize context consumption |
+
+## Context-Optimized Output Strategy
+
+**Problem:** Claude Code outputs consume context window space. Every character counts toward the limit, accelerating summarization and reducing session length.
+
+**Solution:** Systematic output optimization with configurable verbosity levels.
+
+### Verbosity Levels
+
+| Level | Env Var | Behavior |
+|-------|---------|----------|
+| `silent` | `HOOK_VERBOSITY=silent` | No output except critical errors |
+| `terse` | `HOOK_VERBOSITY=terse` | Single-line, minimal output (default) |
+| `normal` | `HOOK_VERBOSITY=normal` | Standard output with context |
+| `verbose` | `HOOK_VERBOSITY=verbose` | Detailed output for debugging |
+
+### Output Principles
+
+1. **Density over verbosity** - Maximum information in minimum characters
+2. **Batch, don't enumerate** - Show counts, not lists (in terse mode)
+3. **Skip obvious successes** - Only log notable/unexpected results
+4. **No redundancy** - Never restate what's already in context
+5. **Structured brevity** - Tables > prose, bullets > paragraphs
+
+### Terse Output Format
+
+| Prefix | Meaning | Example |
+|--------|---------|---------|
+| `[+]` | Success with info | `[+] 3 files updated` |
+| `[X]` | Blocked | `[X] Missing PROJECT-DIRECTIVE.md` |
+| `[!]` | Warning | `[!] Webhook missing auth` |
+| `[ERR]` | Error | `[ERR] Build failed: syntax error` |
+
+### Hook Output Functions
+
+```typescript
+import { logTerse, logBlocked, logAllowed, logWarn, logBatch } from '../utils.js';
+
+// Terse mode examples:
+logTerse('[+] Hook passed');           // Always shows (except silent)
+logBlocked('Missing spec');            // Shows as [X] in terse
+logAllowed('Tests pass');              // Skipped if obvious success
+logWarn('Deprecated pattern');         // Shows as [!]
+logBatch('Files checked', files, 3);   // Shows count in terse, list in normal
+```
+
+### Anti-Patterns (AVOID)
+
+| Bad | Better |
+|-----|--------|
+| `log('Starting to check files...')` | (skip entirely) |
+| `log('File 1: OK\nFile 2: OK\nFile 3: OK')` | `logBatch('Checked', files)` |
+| `log('[OK] Action allowed')` | (skip success confirmations) |
+| `log('From CLAUDE.md:\n> Rule text here')` | (skip in terse, show in verbose) |
 
 ## Hierarchical Development Governance
 
@@ -466,6 +526,73 @@ This table maps CLAUDE.md sections to their enforcement mechanisms:
 | API Key Architecture | 1331-1338 | `api_key_sync` module | Implemented |
 | Task Completion | 1340-1347 | Multiple hooks | Checklist format |
 
+## Tool Selection Protocol
+
+**Enforced by:** `tool_research_gate` hook
+
+### Purpose
+
+Before implementing automation wrappers, integrations, or client libraries, research existing tools to prevent reinventing the wheel. This gate blocks creation of code files in wrapper directories without a documented research process.
+
+### Detection Patterns
+
+The hook triggers when creating code files in these directories:
+
+| Directory Pattern | Description |
+|------------------|-------------|
+| `**/wrappers/**` | Wrapper modules for external APIs |
+| `**/integrations/**` | Third-party integrations |
+| `**/automation/**` | Automation scripts/modules |
+| `**/clients/**` | API client implementations |
+| `**/adapters/**` | Adapter pattern implementations |
+| `**/connectors/**` | Service connectors |
+
+### Research Document Requirement
+
+Before creating code files in these directories, create `TOOL-RESEARCH.md` in the same directory with:
+
+| Required Section | Description |
+|-----------------|-------------|
+| Problem Statement | What capability is needed |
+| Search Queries Executed | Document `gh search repos`, `npm search` queries |
+| Candidates Found | Evaluate tools with >1k stars |
+| Final Decision | BUILD or USE with rationale |
+
+### Validation Rules
+
+| Rule | Severity |
+|------|----------|
+| Missing TOOL-RESEARCH.md | BLOCK |
+| Missing required sections | BLOCK |
+| No tools evaluated | BLOCK |
+| Missing BUILD/USE decision | BLOCK |
+| Rejecting tool with >5k stars | WARN (logged to registry) |
+
+### Template Location
+
+```
+~/.claude/templates/TOOL-RESEARCH.template.md
+```
+
+### Registry Tracking
+
+All research decisions are recorded in:
+```
+~/.claude/ledger/tool-research-registry.json
+```
+
+### Automated Discovery
+
+The hook system provides automated tool discovery via:
+
+```bash
+# GitHub search (via gh CLI)
+gh search repos "browser automation" --sort stars --limit 10
+
+# npm search
+npm search browser-automation
+```
+
 ## Browser Automation Rules
 
 **Tool Architecture:**
@@ -515,25 +642,25 @@ When creating or modifying local files:
 | 1 | `mcp__morph__edit_file` | Morph MCP healthy |
 | 2 | `mcp__desktop-commander__edit_block` | Desktop Commander healthy |
 | 3 | `Edit` | Built-in tool |
-| 4 | `mcp__desktop-commander__start_process` (node.js) | Desktop Commander healthy |
+| 4 | `mcp__desktop-commander__start_process` (bun) | Desktop Commander healthy |
 | 5 | `mcp__desktop-commander__start_process` (raw) | Desktop Commander healthy |
 | 6 | `Bash` | Built-in tool |
 | 7 | `AskUserQuestion` | Last resort |
 
 ### Ad-Hoc Code Execution Hierarchy
 
-When executing ad-hoc code (prefer node.js, avoid Python, avoid full scripts):
+When executing ad-hoc code (prefer bun/JavaScript, avoid Python, avoid full scripts):
 
 | Priority | Tool | Condition |
 |----------|------|-----------|
-| 1 | `mcp__desktop-commander__start_process` with `node -e` | Desktop Commander healthy |
+| 1 | `mcp__desktop-commander__start_process` with `bun -e` | Desktop Commander healthy |
 | 2 | `Write` to temp file + execute | Built-in tool |
 | 3 | `mcp__desktop-commander__start_process` (raw) | Desktop Commander healthy |
 | 4 | `Bash` | Built-in tool |
 | 5 | `AskUserQuestion` | Last resort |
 
 **Constraints:**
-- Prefer node.js/JavaScript over Python
+- Prefer bun/JavaScript over Python
 - Avoid creating full script files
 - Use temp directory for any required files
 
@@ -718,6 +845,8 @@ On push to main/master:
 - Release registry: `~/.claude/ledger/release-registry.json`
 - Changelog registry: `~/.claude/ledger/changelog-registry.json`
 - Correction ledger: `~/.claude/ledger/correction-ledger.json`
+- Tool research registry: `~/.claude/ledger/tool-research-registry.json`
+- Tool research template: `~/.claude/templates/TOOL-RESEARCH.template.md`
 - GitHub templates: `~/.claude/github/templates/`
 - GitHub configs: `~/.claude/github/configs/`
 - OpenSpec proposal: `~/.claude/openspec/changes/add-global-github-framework/`

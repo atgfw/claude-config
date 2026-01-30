@@ -1,0 +1,182 @@
+{
+  "data": {
+    "success": true,
+    "extraction_id": "12cdc9a0-2344-420a-8eac-aac4c0b70025",
+    "timestamp": "2026-01-23T20:43:10.222Z",
+    "input_hash": "5ffba786",
+    "model_used": "gpt-5.2",
+    "categories_requested": [
+      "caller",
+      "contact",
+      "routing",
+      "request",
+      "consent_acknowledgement",
+      "call_validity",
+      "sales"
+    ],
+    "source_metadata": {
+      "channel": "oncall-connect-elevenlabs-inbound",
+      "session_id": "5fb7491d-63fc-46ef-a432-cba297c799dd"
+    },
+    "extracted": {
+      "caller": {
+        "caller_first_name": {
+          "value": "Brendan",
+          "rationale": "Caller stated his first name as Brendan."
+        },
+        "caller_last_name": {
+          "value": "Sullivan",
+          "rationale": "Caller provided last name as Sullivan after correction."
+        },
+        "company_name": {
+          "value": "",
+          "rationale": "Caller did not mention an employer/company name in the transcript."
+        }
+      },
+      "contact": {
+        "contact_first_name": {
+          "value": "Brendan",
+          "rationale": "No separate contact person was identified; contact is the caller."
+        },
+        "contact_last_name": {
+          "value": "Sullivan",
+          "rationale": "No separate contact person was identified; contact is the caller."
+        },
+        "contact_phone": {
+          "value": "+12603485113",
+          "rationale": "Callback number was not captured in the transcript; using structured routing_observation/inbound caller_id (+12603485113) per source priority."
+        },
+        "contact_email": {
+          "value": "",
+          "rationale": "No email address was provided in the transcript or metadata."
+        },
+        "contact_preferred_channel": {
+          "value": "phone",
+          "rationale": "Only a callback number was requested/usable; no SMS/email preference was stated."
+        },
+        "contact_preferred_time_window": {
+          "value": "",
+          "rationale": "No preferred time window was mentioned."
+        },
+        "caller_is_contact": {
+          "value": true,
+          "rationale": "No different contact person was named; defaulting to TRUE."
+        }
+      },
+      "routing": {
+        "routing_group_name": {
+          "value": "Fort Wayne Parts (Counter Only)",
+          "rationale": "Location inferred as Fort Wayne from routing_observation (FW Main AA / Fort Wayne) and department inferred as Parts because caller wants to buy a radiator; the matching routing group in config is Fort Wayne Parts (Counter Only)."
+        },
+        "department": {
+          "value": "Parts",
+          "rationale": "Caller intent is to purchase a radiator (buy/order parts) which maps to Parts per routing rules."
+        },
+        "requested_person": {
+          "value": "",
+          "rationale": "Caller did not request a specific person."
+        },
+        "site_location_name": {
+          "value": null,
+          "rationale": "No explicit location in the greeting; routing_observation indicates Fort Wayne (\"FW Main AA\" and \"3000 Fort Wayne\"). [WARNING: \"Fort Wayne\" not in valid locations list]"
+        },
+        "call_transferred": {
+          "value": false,
+          "rationale": "No live transfer occurred; call was forwarded/routed to an external number but not transferred to a named destination during the conversation."
+        },
+        "call_transfer_destination": {
+          "value": "",
+          "rationale": "No transfer destination was stated or completed."
+        },
+        "transfer_reason": {
+          "value": "",
+          "rationale": "No transfer occurred."
+        }
+      },
+      "request": {
+        "request_summary": {
+          "value": "Purchase request for radiator",
+          "rationale": "Caller explicitly stated he needs to buy a radiator."
+        },
+        "detailed_description": {
+          "value": "Caller contacted Selking International seeking to purchase a radiator. The caller initially said only \"Radiator\" and then clarified that he needs to buy a radiator, indicating a parts sales request rather than a repair appointment. The agent attempted to collect caller details, obtaining the name Brendan Sullivan, and then asked for the best callback number, but the caller did not provide a number within the call recording. No vehicle details, part numbers, make/model, VIN, or delivery/pickup preferences were provided.",
+          "rationale": "Summarizes the caller’s stated intent and the information successfully collected during the call."
+        },
+        "existing_ticket": {
+          "value": false,
+          "rationale": "Caller did not mention an existing ticket; defaulting to FALSE."
+        },
+        "existing_ticket_id": {
+          "value": "",
+          "rationale": "No ticket number was provided."
+        },
+        "affected_asset": {
+          "value": "",
+          "rationale": "No vehicle/unit/VIN or asset identifier was provided."
+        },
+        "requested_visit_type": {
+          "value": "other",
+          "rationale": "Request is for parts purchase, not a service visit type like emergency/routine/estimate."
+        },
+        "requested_due_date": {
+          "value": "",
+          "rationale": "No due date or timeframe was provided."
+        },
+        "service_address": {
+          "value": "",
+          "rationale": "No onsite service address was discussed."
+        }
+      },
+      "consent_acknowledgement": {
+        "sms_consent_verbatim": {
+          "value": "",
+          "rationale": "No SMS consent language or opt-in/opt-out exchange occurred."
+        }
+      },
+      "call_validity": {
+        "call_validity_type": {
+          "value": "VALID",
+          "rationale": "Call lasted ~75 seconds and included a clear request (buy a radiator) plus caller name; enough information to route and create a request."
+        },
+        "call_validity_reason": {
+          "value": "Caller provided a clear parts purchase request and identified himself, though callback number was not captured in the transcript.",
+          "rationale": "Explains why the call is considered actionable despite missing phone confirmation."
+        },
+        "is_valid_call": {
+          "value": true,
+          "rationale": "Meets minimum duration and contains sufficient intent and identity to proceed."
+        }
+      },
+      "sales": {
+        "opportunity_summary": {
+          "value": "Brendan Sullivan wants to buy a radiator (parts purchase)",
+          "rationale": "Caller intent is a parts purchase of a radiator."
+        },
+        "opportunity_type": {
+          "value": "",
+          "rationale": "Opportunity type enum/list was not provided; cannot assign confidently."
+        },
+        "interest_items": {
+          "value": [
+            "radiator"
+          ],
+          "rationale": "Caller specifically requested a radiator."
+        }
+      }
+    },
+    "route": "webhook_response"
+  },
+  "status_code": 200,
+  "headers": {
+    "Alt-Svc": "h3=\":443\"; ma=2592000",
+    "Content-Encoding": "gzip",
+    "Content-Security-Policy": "sandbox allow-downloads allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-presentation allow-scripts allow-top-navigation allow-top-navigation-by-user-activation allow-top-navigation-to-custom-protocols",
+    "Content-Type": "application/json; charset=utf-8",
+    "Date": "Fri, 23 Jan 2026 20:43:10 GMT",
+    "Etag": "W/\"14d3-Xu+L8xL3g7gvtjrE53ke6j9M9gw\"",
+    "Vary": "Accept-Encoding",
+    "Via": "1.1 Caddy",
+    "Transfer-Encoding": "chunked"
+  },
+  "cookies": {}
+}

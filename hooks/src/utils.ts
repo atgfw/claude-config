@@ -6,6 +6,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as os from 'node:os';
+import type { VerbosityLevel } from './types.js';
 
 // ============================================================================
 // Path Utilities
@@ -184,48 +185,117 @@ export function outputJson(data: unknown): void {
 
 // ============================================================================
 // Logging (stderr for diagnostics)
+// Context-Optimized Output Strategy
 // ============================================================================
+
+let currentVerbosity: VerbosityLevel = 'terse';
+
+/**
+ * Get current verbosity level from environment or config
+ */
+export function getVerbosity(): VerbosityLevel {
+  const envLevel = process.env['HOOK_VERBOSITY'] as VerbosityLevel | undefined;
+  if (envLevel && ['silent', 'terse', 'normal', 'verbose'].includes(envLevel)) {
+    return envLevel;
+  }
+  return currentVerbosity;
+}
+
+/**
+ * Set verbosity level programmatically
+ */
+export function setVerbosity(level: VerbosityLevel): void {
+  currentVerbosity = level;
+}
+
+/**
+ * Check if logging is enabled for given level
+ */
+function shouldLog(minLevel: VerbosityLevel): boolean {
+  const levels: VerbosityLevel[] = ['silent', 'terse', 'normal', 'verbose'];
+  const current = levels.indexOf(getVerbosity());
+  const required = levels.indexOf(minLevel);
+  return current >= required;
+}
 
 /**
  * Log diagnostic information to stderr
  * This is visible to users but doesn't interfere with JSON output
  */
 export function log(message: string): void {
-  console.error(message);
-}
-
-/**
- * Log a separator line
- */
-export function logSeparator(title: string): void {
-  const line = '='.repeat(50);
-  log(line);
-  log(title);
-  log(line);
-}
-
-/**
- * Log an error with context
- */
-export function logError(error: Error, context?: string): void {
-  log('');
-  log('[ERROR]' + (context ? ` ${context}` : ''));
-  log(`  Message: ${error.message}`);
-  if (error.stack) {
-    log(`  Stack: ${error.stack.split('\n').slice(1, 4).join('\n        ')}`);
+  if (shouldLog('normal')) {
+    console.error(message);
   }
 }
 
 /**
- * Log a blocked action
+ * Terse log - always outputs regardless of verbosity (except silent)
+ * Use for critical information only
+ */
+export function logTerse(message: string): void {
+  if (shouldLog('terse')) {
+    console.error(message);
+  }
+}
+
+/**
+ * Verbose log - only outputs in verbose mode
+ * Use for debugging details
+ */
+export function logVerbose(message: string): void {
+  if (shouldLog('verbose')) {
+    console.error(message);
+  }
+}
+
+/**
+ * Log a separator line (only in normal/verbose mode)
+ */
+export function logSeparator(title: string): void {
+  if (shouldLog('normal')) {
+    const line = '='.repeat(50);
+    log(line);
+    log(title);
+    log(line);
+  }
+}
+
+/**
+ * Log an error - terse format for production, detailed for verbose
+ */
+export function logError(error: Error, context?: string): void {
+  const verbosity = getVerbosity();
+  if (verbosity === 'silent') return;
+
+  if (verbosity === 'terse') {
+    logTerse(`[ERR] ${context ? context + ': ' : ''}${error.message}`);
+  } else {
+    log('');
+    log('[ERROR]' + (context ? ` ${context}` : ''));
+    log(`  Message: ${error.message}`);
+    if (error.stack && verbosity === 'verbose') {
+      log(`  Stack: ${error.stack.split('\n').slice(1, 4).join('\n        ')}`);
+    }
+  }
+}
+
+/**
+ * Log a blocked action - terse format minimizes context usage
  */
 export function logBlocked(reason: string, directive?: string): void {
-  log('');
-  log(`[BLOCKED] ${reason}`);
-  if (directive) {
+  const verbosity = getVerbosity();
+  if (verbosity === 'silent') return;
+
+  if (verbosity === 'terse') {
+    logTerse(`[X] ${reason}`);
+  } else {
     log('');
-    log('From CLAUDE.md:');
-    log(`> ${directive}`);
+    log(`[BLOCKED] ${reason}`);
+    if (directive && verbosity === 'verbose') {
+      log('');
+      log('From CLAUDE.md:');
+      log(`> ${directive}`);
+    }
   }
 }
 
@@ -233,7 +303,67 @@ export function logBlocked(reason: string, directive?: string): void {
  * Log an allowed action
  */
 export function logAllowed(message?: string): void {
-  log(`[OK] ${message ?? 'Action allowed'}`);
+  const verbosity = getVerbosity();
+  if (verbosity === 'silent') return;
+
+  if (verbosity === 'terse') {
+    // In terse mode, only log if there's something notable
+    if (message && message !== 'Action allowed') {
+      logTerse(`[+] ${message}`);
+    }
+  } else {
+    log(`[OK] ${message ?? 'Action allowed'}`);
+  }
+}
+
+/**
+ * Log a warning - always shows but format varies by verbosity
+ */
+export function logWarn(message: string, details?: string): void {
+  const verbosity = getVerbosity();
+  if (verbosity === 'silent') return;
+
+  if (verbosity === 'terse') {
+    logTerse(`[!] ${message}`);
+  } else {
+    log(`[WARN] ${message}`);
+    if (details && verbosity === 'verbose') {
+      log(`  ${details}`);
+    }
+  }
+}
+
+/**
+ * Log info - skipped in terse mode
+ */
+export function logInfo(message: string): void {
+  if (shouldLog('normal')) {
+    log(`[--] ${message}`);
+  }
+}
+
+/**
+ * Batch log multiple items efficiently
+ * In terse mode, outputs count only. In normal/verbose, lists items.
+ */
+export function logBatch(prefix: string, items: string[], maxShow = 3): void {
+  const verbosity = getVerbosity();
+  if (verbosity === 'silent') return;
+
+  if (items.length === 0) return;
+
+  if (verbosity === 'terse') {
+    logTerse(`${prefix}: ${items.length}`);
+  } else {
+    log(`${prefix} (${items.length}):`);
+    const show = verbosity === 'verbose' ? items : items.slice(0, maxShow);
+    for (const item of show) {
+      log(`  - ${item}`);
+    }
+    if (items.length > show.length) {
+      log(`  ... and ${items.length - show.length} more`);
+    }
+  }
 }
 
 // ============================================================================
@@ -336,6 +466,49 @@ export function markSessionValidated(): void {
 }
 
 // ============================================================================
+// File Archival
+// ============================================================================
+
+/**
+ * Archive a file to old/YYYY-MM-DD/ directory
+ * Never deletes - always moves to preserve history
+ * @param filePath - Path to file to archive
+ * @param baseDirectory - Optional base directory for relative old/ folder
+ * @returns Archive path if successful, null otherwise
+ */
+export function archiveToDateDir(filePath: string, baseDirectory?: string): string | null {
+  if (!fs.existsSync(filePath)) {
+    return null;
+  }
+
+  const directory = baseDirectory ?? path.dirname(filePath);
+  const filename = path.basename(filePath);
+  const date = new Date().toISOString().split('T')[0] ?? 'unknown';
+  const archiveDir = path.join(directory, 'old', date);
+
+  // Create archive directory if needed
+  if (!fs.existsSync(archiveDir)) {
+    fs.mkdirSync(archiveDir, { recursive: true });
+  }
+
+  const archivePath = path.join(archiveDir, filename);
+
+  // Handle collision by adding timestamp
+  let finalPath = archivePath;
+  if (fs.existsSync(archivePath)) {
+    const timestamp = Date.now();
+    const ext = path.extname(filename);
+    const base = path.basename(filename, ext);
+    finalPath = path.join(archiveDir, `${base}-${timestamp}${ext}`);
+  }
+
+  fs.renameSync(filePath, finalPath);
+  log(`[ARCHIVE] ${filePath} -> ${finalPath}`);
+
+  return finalPath;
+}
+
+// ============================================================================
 // MCP Detection
 // ============================================================================
 
@@ -386,7 +559,8 @@ export function isMorphAvailable(): boolean {
     try {
       const registry = JSON.parse(fs.readFileSync(registryPath, 'utf-8'));
       const morphServer = registry.servers?.find(
-        (s: any) => s.name === 'morph' || s.name === 'filesystem-with-morph'
+        (s: { name?: string; health?: { status?: string } }) =>
+          s.name === 'morph' || s.name === 'filesystem-with-morph'
       );
       if (morphServer && morphServer.health?.status === 'healthy') {
         return true;

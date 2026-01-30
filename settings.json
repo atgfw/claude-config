@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" pre-bash"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" pre-bash"
           }
         ]
       },
@@ -15,16 +15,56 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" unified-write-gate"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" unified-write-gate"
           }
         ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" tool-research-gate"
+          }
+        ],
+        "description": "BLOCK: Requires TOOL-RESEARCH.md before creating wrappers/integrations/automation files. See CLAUDE.md Tool Selection Protocol"
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" llm-model-validator"
+          }
+        ],
+        "description": "BLOCK: Prevents banned LLM model strings (gpt-4o, gpt-3.5, claude-2, etc.) in written files"
+      },
+      {
+        "matcher": "Read|Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" stale-workflow-json-detector"
+          }
+        ],
+        "description": "WARN: Detects n8n workflow JSON stored locally outside temp/old dirs. n8n API is source of truth. See Issue #19"
+      },
+      {
+        "matcher": "mcp__n8n-mcp__n8n_create_workflow|mcp__n8n-mcp__n8n_update_workflow|mcp__elevenlabs__.*|mcp__servicetitan__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" cloud-object-creation-gate"
+          }
+        ],
+        "description": "P0-CRITICAL: Blocks cloud object creation without PROJECT-DIRECTIVE.md, specs, 3 novel test runs, and local files"
       },
       {
         "matcher": "mcp__n8n-mcp__n8n_create_workflow|mcp__n8n-mcp__n8n_delete_workflow",
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-workflow-governance"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-workflow-governance"
           }
         ]
       },
@@ -33,7 +73,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-dual-trigger-validator"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-dual-trigger-validator"
           }
         ]
       },
@@ -42,7 +82,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-naming-validator"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-naming-validator"
           }
         ],
         "description": "Enforces naming conventions: snake_case nodes, no version numbers, full system prefixes. See CLAUDE.md 'n8n Naming Conventions'"
@@ -52,7 +92,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-node-note-validator"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-node-note-validator"
           }
         ],
         "description": "Enforces node documentation: 20+ char notes, Display Note enabled. See CLAUDE.md 'n8n Node Documentation'"
@@ -62,7 +102,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" code-node-linting-gate"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" code-node-linting-gate"
           }
         ],
         "description": "Enforces JS linting on code node content. See CLAUDE.md 'n8n Code Node Governance'"
@@ -72,7 +112,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-webhook-path-validator"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-webhook-path-validator"
           }
         ],
         "description": "Enforces webhook path naming: kebab-case, no nesting, no 'test', must authenticate. See CLAUDE.md 'Webhook Path Naming'"
@@ -82,7 +122,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-env-var-provisioner"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-env-var-provisioner"
           }
         ],
         "description": "Auto-detects environment variables in workflows and logs required configuration"
@@ -92,7 +132,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" elevenlabs-agent-governance"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" elevenlabs-agent-governance"
           }
         ]
       },
@@ -101,7 +141,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" browser-automation-gate"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" browser-automation-gate"
           }
         ]
       },
@@ -110,7 +150,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" secret-scanner"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" secret-scanner"
           }
         ],
         "description": "STRICT: Blocks git commit/push if secrets detected in staged files. See CLAUDE.md Security Scanning"
@@ -120,7 +160,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" commit-message-validator"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" commit-message-validator"
           }
         ],
         "description": "WARN: Validates commit messages follow Conventional Commits 1.0.0. See CLAUDE.md Commit Conventions"
@@ -130,10 +170,39 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" branch-naming-validator"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" branch-naming-validator"
           }
         ],
         "description": "WARN: Validates branch names follow naming conventions. See CLAUDE.md Branch Naming"
+      },
+      {
+        "matcher": "TaskUpdate",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" task-completion-gate"
+          }
+        ],
+        "description": "P0-CRITICAL: Blocks task completion without validation evidence (executionId, userConfirmed, testPassed, evidencePath)"
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" issue-convention-validator"
+          }
+        ],
+        "description": "WARN: Validates GitHub issue titles follow [system] type(scope): description format"
+      },
+      {
+        "matcher": "mcp__n8n-mcp__n8n_create_workflow|mcp__n8n-mcp__n8n_update_workflow|mcp__n8n-mcp__n8n_update_partial_workflow|mcp__n8n-mcp__n8n_update_full_workflow",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-node-reference-validator"
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -142,7 +211,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" unified-post-tool"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" unified-post-tool"
           }
         ]
       },
@@ -151,7 +220,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" quality-check"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" quality-check"
           }
         ],
         "description": "Runs TypeScript, XO (ESLint), and Prettier checks on edited source files. Supports built-in tools and MCP file operations."
@@ -161,7 +230,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" login-detection-escalator"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" login-detection-escalator"
           }
         ]
       },
@@ -170,7 +239,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" changelog-generator"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" changelog-generator"
           }
         ],
         "description": "Records conventional commits for changelog generation"
@@ -180,7 +249,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" semantic-version-calculator"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" semantic-version-calculator"
           }
         ],
         "description": "Tracks releases and version bumps"
@@ -191,7 +260,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" unified-prompt-handler"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" unified-prompt-handler"
           }
         ]
       },
@@ -199,18 +268,28 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" context-summary-trigger"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" context-summary-trigger"
           }
         ]
       }
     ],
-    "Stop": [],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run C:\\Users\\codya\\.claude\\hooks\\dist\\hooks\\auto_commit_push.js"
+          }
+        ],
+        "description": "Auto-commits and pushes all changes after each assistant turn"
+      }
+    ],
     "SessionStart": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" session-start"
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" session-start"
           }
         ]
       }
@@ -221,6 +300,6 @@
   "model": "opus",
   "statusLine": {
     "type": "command",
-    "command": "node C:\\Users\\codya\\.claude\\statusline.js"
+    "command": "bun C:\\Users\\codya\\.claude\\statusline.js"
   }
 }

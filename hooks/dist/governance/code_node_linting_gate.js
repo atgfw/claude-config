@@ -62,8 +62,7 @@ export const N8N_ALLOWED_PATTERNS = [
 function checkVarKeyword(code) {
     const errors = [];
     const lines = code.split('\n');
-    for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
+    for (const [i, line] of lines.entries()) {
         // Match 'var' as a keyword (not in string or comment)
         if (/\bvar\s+\w+/.test(line) && !line.trim().startsWith('//')) {
             errors.push({
@@ -83,8 +82,7 @@ function checkVarKeyword(code) {
 function checkConsoleStatements(code) {
     const errors = [];
     const lines = code.split('\n');
-    for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
+    for (const [i, line] of lines.entries()) {
         if (/\bconsole\.(log|warn|error|info|debug)\b/.test(line) && !line.trim().startsWith('//')) {
             errors.push({
                 line: i + 1,
@@ -103,8 +101,7 @@ function checkConsoleStatements(code) {
 function checkDebuggerStatements(code) {
     const errors = [];
     const lines = code.split('\n');
-    for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
+    for (const [i, line] of lines.entries()) {
         if (/\bdebugger\b/.test(line) && !line.trim().startsWith('//')) {
             errors.push({
                 line: i + 1,
@@ -123,8 +120,7 @@ function checkDebuggerStatements(code) {
 function checkEvalUsage(code) {
     const errors = [];
     const lines = code.split('\n');
-    for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
+    for (const [i, line] of lines.entries()) {
         if (/\beval\s*\(/.test(line) && !line.trim().startsWith('//')) {
             errors.push({
                 line: i + 1,

@@ -2,8 +2,7 @@
  * Tests for Escalation Registry
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
-
+import { describe, it, expect } from 'vitest';
 import {
   generateSymptomHash,
   generateId,
@@ -11,24 +10,18 @@ import {
   createEscalation,
   findBySymptomHash,
   findBySymptomHashAndProject,
-  getById,
-  getByProject,
   incrementOccurrence,
   addRelatedProject,
   updateStatus,
   linkToCorrection,
-  linkToHook,
   getPendingEscalations,
-  getPatternDetectedEscalations,
   getHighPriorityEscalations,
-  getActionableEscalations,
   checkPatternThreshold,
   isInCooldown,
   calculatePriority,
   getByPriority,
   getStats,
 } from '../../src/ledger/escalation_registry.js';
-
 import type { EscalationRegistry } from '../../src/types.js';
 
 // Test with in-memory registry to avoid file system side effects
@@ -89,14 +82,15 @@ describe('Escalation Registry', () => {
     it('generates 16 character hex ID', () => {
       const id = generateId();
       expect(id).toHaveLength(16);
-      expect(/^[a-f0-9]+$/.test(id)).toBe(true);
+      expect(/^[a-f\d]+$/.test(id)).toBe(true);
     });
 
     it('generates unique IDs', () => {
       const ids = new Set<string>();
-      for (let i = 0; i < 100; i++) {
+      for (let index = 0; index < 100; index++) {
         ids.add(generateId());
       }
+
       expect(ids.size).toBe(100);
     });
   });

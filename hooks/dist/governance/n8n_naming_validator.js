@@ -204,7 +204,7 @@ export function validateWorkflowName(name) {
     const bracketCheck = containsBracketTag(name);
     if (bracketCheck.found && bracketCheck.tag !== '[DEV]') {
         result.valid = false;
-        const suggestion = suggestSystemPrefix(bracketCheck.tag);
+        const suggestion = bracketCheck.tag ? suggestSystemPrefix(bracketCheck.tag) : null;
         if (suggestion) {
             result.errors.push(`Bracket tag "${bracketCheck.tag}" not allowed in n8n (use native tags)`);
             result.suggestions.push(`Replace "${bracketCheck.tag}" with prefix "${suggestion}"`);

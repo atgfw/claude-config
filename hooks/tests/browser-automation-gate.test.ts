@@ -10,7 +10,7 @@ import * as utils from '../src/utils.js';
 
 // Mock the utils module
 vi.mock('../src/utils.js', async () => {
-  const actual = (await vi.importActual('../src/utils.js')) as typeof utils;
+  const actual = await vi.importActual('../src/utils.js');
   return {
     ...actual,
     isScraplingAvailable: vi.fn(),

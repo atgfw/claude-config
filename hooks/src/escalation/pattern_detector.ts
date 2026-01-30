@@ -69,7 +69,8 @@ export function detectPatterns(registry?: EscalationRegistry): DetectedPattern[]
         shouldTriggerProposal: shouldTriggerProposal(entry.symptomHash, reg),
       });
     } else {
-      const pattern = patterns.get(entry.symptomHash)!;
+      const pattern = patterns.get(entry.symptomHash);
+      if (!pattern) continue;
       pattern.entries.push(entry);
       // Update with latest counts
       if (entry.occurrenceCount > pattern.occurrenceCount) {
@@ -97,7 +98,8 @@ export function shouldTriggerProposal(symptomHash: string, registry?: Escalation
 
   if (entries.length === 0) return false;
 
-  const primary = entries[0]!;
+  const primary = entries[0];
+  if (!primary) return false;
 
   // Skip if already has proposal generated
   if (primary.status === 'proposal-generated' || primary.generatedProposalPath) {
@@ -165,7 +167,8 @@ export function groupByCategory(registry?: EscalationRegistry): EscalationGroup[
       });
     }
 
-    const group = groups.get(entry.category)!;
+    const group = groups.get(entry.category);
+    if (!group) continue;
     group.entries.push(entry);
     group.totalOccurrences += entry.occurrenceCount;
 
@@ -200,7 +203,8 @@ export function groupBySeverity(registry?: EscalationRegistry): EscalationGroup[
       });
     }
 
-    const group = groups.get(entry.severity)!;
+    const group = groups.get(entry.severity);
+    if (!group) continue;
     group.entries.push(entry);
     group.totalOccurrences += entry.occurrenceCount;
 

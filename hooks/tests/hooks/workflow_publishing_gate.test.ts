@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { workflowPublishingGateHook } from '../../src/hooks/workflow_publishing_gate.js';
-import { PreToolUseInput } from '../../src/types.js';
+import { type PreToolUseInput } from '../../src/types.js';
 
 describe('workflowPublishingGate', () => {
   it('should block unpublished workflow with webhook trigger', async () => {
@@ -104,9 +104,10 @@ describe('workflowPublishingGate', () => {
 
     const result = await workflowPublishingGateHook(input);
 
-    expect(result.hookSpecificOutput.permissionDecisionReason).toContain('Save workflow');
-    expect(result.hookSpecificOutput.permissionDecisionReason).toContain('Click "Publish"');
-    expect(result.hookSpecificOutput.permissionDecisionReason).toContain('production path');
+    // Terse format: "Save > Publish button > Verify path"
+    expect(result.hookSpecificOutput.permissionDecisionReason).toContain('Save');
+    expect(result.hookSpecificOutput.permissionDecisionReason).toContain('Publish');
+    expect(result.hookSpecificOutput.permissionDecisionReason).toContain('path');
   });
 
   it('should allow non-n8n operations', async () => {

@@ -7,13 +7,9 @@ import type { PreToolUseInput, PreToolUseOutput } from '../types.js';
 /**
  * Evaluation Gate Expander Hook Implementation
  *
- * Blocks attempts to remove [DEV] tag from workflows without proper evaluation.
- * Requirements:
- * - BLOCKING: Evaluation Trigger node exists
- * - BLOCKING: Test dataset configured
- * - BLOCKING: 98%+ success rate
- * - ADVISORY: 20+ unique test cases
- * - BLOCKING: Error workflow configured
+ * Supports two input formats:
+ * 1. Operations array format (partial updates with addTag/removeTag)
+ * 2. Workflow object format (full workflow with tags array)
  */
 export declare function evaluationGateExpanderHook(input: PreToolUseInput): Promise<PreToolUseOutput>;
 export default evaluationGateExpanderHook;

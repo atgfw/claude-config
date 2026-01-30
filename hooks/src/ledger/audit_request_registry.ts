@@ -231,7 +231,8 @@ export function checkAuditStatus(artifactPath: string): {
     };
   }
 
-  const latest = requests[0]!;
+  const latest = requests[0];
+  if (!latest) return { hasRequest: false, status: null, verdict: null, findings: [] };
   return {
     hasRequest: true,
     status: latest.status,

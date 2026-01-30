@@ -1,0 +1,3487 @@
+{
+  "id": "019be72a-398e-7b25-8f56-918a2a50ccc6",
+  "conductor": {
+    "output": null,
+    "input": {
+      "agent_id": "agent_0501kecpebg3e9p8skydse9sm1j4",
+      "time_utc": "2026-01-22T19:23:58.311500+00:00",
+      "caller_id": "12604822844",
+      "recording_id": "",
+      "call_transcript": "{\"conversation_id\":\"conv_6101kfkjha50eepbvesbe7chbdtw\",\"agent_id\":\"agent_0501kecpebg3e9p8skydse9sm1j4\",\"status\":\"done\",\"call\":{\"call_sid\":\"SCL_8BXGmpNFvCZe\",\"direction\":\"inbound\",\"type\":\"sip_trunking\",\"agent_number\":\"+12602009359\",\"external_number\":\"12604822844\",\"phone_number_id\":\"phnum_2001kfkafcp6ez0rnafzn3zhnbja\",\"start_time_unix_secs\":1769109760,\"duration_secs\":78,\"timezone\":\"America/New_York\",\"language\":\"en\"},\"transcript\":[{\"turn_index\":0,\"role\":\"agent\",\"time_in_call_secs\":-1,\"source_medium\":null,\"text\":\"... ... Thanks for contacting Schlatter's Plumbing & Heating! I’m Shelly, our AI customer service agent and this conversation will be recorded. How can I help you?\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":1,\"role\":\"user\",\"time_in_call_secs\":13,\"source_medium\":\"audio\",\"text\":\"Uh, uh.\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":2,\"role\":\"agent\",\"time_in_call_secs\":17,\"source_medium\":null,\"text\":\"One moment while I get things ready. What can I help you with today?\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":3,\"role\":\"agent\",\"time_in_call_secs\":18,\"source_medium\":null,\"text\":\"None\",\"tool_calls\":[{\"tool_name\":\"client_initiation_data\",\"params\":{\"call_sid\":\"CA1234567890abcdef1234567890abcdef\",\"conversation_id\":\"0199ba73-c2fa-723b-a2f6-dad69e54e9b6\",\"time_utc\":\"2026-01-22T19:22:41.187551+00:00\",\"caller_id\":\"12604822844\",\"timezone\":\"America/New_York\",\"system__message_to_speak\":\"One moment while I get things ready. What can I help you with today?\",\"agent_id\":\"0199ba73-c2fa-723b-a2f6-dad69e54e9b6\",\"called_number\":\"+14195585611\"},\"called\":true}],\"tool_results\":[]},{\"turn_index\":4,\"role\":\"agent\",\"time_in_call_secs\":18,\"source_medium\":null,\"text\":\"None\",\"tool_calls\":[],\"tool_results\":[{\"tool_name\":\"client_initiation_data\",\"is_error\":false,\"called\":true}]},{\"turn_index\":5,\"role\":\"agent\",\"time_in_call_secs\":22,\"source_medium\":null,\"text\":\"Mmhmm... No problem. What are you calling about today?\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":6,\"role\":\"agent\",\"time_in_call_secs\":25,\"source_medium\":null,\"text\":\"None\",\"tool_calls\":[{\"tool_name\":\"client_initiation_data\",\"params\":{},\"called\":true}],\"tool_results\":[]},{\"turn_index\":7,\"role\":\"agent\",\"time_in_call_secs\":25,\"source_medium\":null,\"text\":\"None\",\"tool_calls\":[],\"tool_results\":[{\"tool_name\":\"client_initiation_data\",\"is_error\":false,\"called\":true}]},{\"turn_index\":8,\"role\":\"agent\",\"time_in_call_secs\":27,\"source_medium\":null,\"text\":\"Mmhmm...\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":9,\"role\":\"user\",\"time_in_call_secs\":27,\"source_medium\":\"audio\",\"text\":\"I don't know.\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":10,\"role\":\"agent\",\"time_in_call_secs\":30,\"source_medium\":null,\"text\":\"I understand. If you're not sure what the issue is, I can still have someone from our team reach out to you. Who am I speaking with?\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":11,\"role\":\"user\",\"time_in_call_secs\":38,\"source_medium\":\"audio\",\"text\":\"Cody.\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":12,\"role\":\"agent\",\"time_in_call_secs\":40,\"source_medium\":null,\"text\":\"Got it, Cody. What's a good callback number for you?\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":13,\"role\":\"user\",\"time_in_call_secs\":45,\"source_medium\":\"audio\",\"text\":\"Here, two, two, one, seven, three, five, five.\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":14,\"role\":\"agent\",\"time_in_call_secs\":50,\"source_medium\":null,\"text\":\"I might have misheard that number, could you repeat it?\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":15,\"role\":\"user\",\"time_in_call_secs\":54,\"source_medium\":\"audio\",\"text\":\"260-217-3555.\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":16,\"role\":\"agent\",\"time_in_call_secs\":60,\"source_medium\":null,\"text\":\"Got it, two six zero... two one seven... three five five five. Is there a specific company you're calling from?\",\"tool_calls\":[],\"tool_results\":[]}]}",
+      "conversation_id": "conv_6101kfkjha50eepbvesbe7chbdtw",
+      "sms_notifications_enabled": true,
+      "email_notifications_enabled": true,
+      "elevenlabs_body_data_analysis": "{\"evaluation_criteria_results\":{\"guardrails_obeyed\":{\"criteria_id\":\"guardrails_obeyed\",\"result\":\"success\",\"rationale\":\"The conversation does not contain any instances of the agent breaking any prompt guardrail rules. The agent is polite and professional.\"},\"proper_closure\":{\"criteria_id\":\"proper_closure\",\"result\":\"failure\",\"rationale\":\"The conversation ends abruptly after the agent confirms the phone number. The agent does not summarize the issue or let the user know that someone will follow up. Therefore, the conversation does not have a proper closure.\"}},\"data_collection_results\":{},\"evaluation_criteria_results_list\":[{\"criteria_id\":\"guardrails_obeyed\",\"result\":\"success\",\"rationale\":\"The conversation does not contain any instances of the agent breaking any prompt guardrail rules. The agent is polite and professional.\"},{\"criteria_id\":\"proper_closure\",\"result\":\"failure\",\"rationale\":\"The conversation ends abruptly after the agent confirms the phone number. The agent does not summarize the issue or let the user know that someone will follow up. Therefore, the conversation does not have a proper closure.\"}],\"data_collection_results_list\":[],\"call_successful\":\"failure\",\"transcript_summary\":\"Shelly, an AI agent for Schlatter's Plumbing & Heating, is assisting a user named Cody who is unsure of the reason for his call. Shelly gathers Cody's name and callback number (260-217-3555) to have someone from the team reach out. The agent also attempts to identify the company Cody is calling from. An error occurred during client initiation.\\n\",\"call_summary_title\":\"Plumbing Support: Unknown Issue\"}",
+      "elevenlabs_outbound_notifications_enabled": false
+    },
+    "errors": [],
+    "state": {
+      "contexts": [
+        {
+          "sentry_trace": "76c9002e564a46d5aeb6390a3a3f401a-995f876c72c07be5-0",
+          "execution_id": "019be72a-398e-7b25-8f56-918a2a50ccc6",
+          "originating_execution_id": "019be729-f141-70c0-bd2e-0eb424cc24cc",
+          "rewst": {
+            "app_url": "https://app.rewst.io"
+          },
+          "trigger_instance": {
+            "id": null,
+            "last_searched_at": null,
+            "org_id": null,
+            "organization": {
+              "id": "018c369f-9e69-7524-b7c3-fad2ce09a450",
+              "name": "Uncle Bob's",
+              "is_staff": null,
+              "managing_org_id": null,
+              "roc_site_id": null,
+              "is_enabled": null,
+              "domain": null
+            },
+            "trigger": {
+              "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+              "enabled": true,
+              "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+              "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+              "name": null,
+              "description": null,
+              "trigger_type": {
+                "id": "e9dca0d3-f93f-47ea-88fc-df2c9aee037b",
+                "ref": "core.Webhook",
+                "name": "Webhook",
+                "pack": null,
+                "sensor_type": null,
+                "webhook_url_template": "/webhooks/custom/trigger/{trigger_id}/{org_id}",
+                "can_run_for_managed_orgs": true,
+                "is_webhook": true,
+                "parameters_schema": {},
+                "enabled": true
+              },
+              "pack_overrides": [
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a86e7c06f5d",
+                  "pack": {
+                    "id": "c8fa170d-d022-40b1-879c-e182dbe3c777",
+                    "name": "Custom",
+                    "ref": "custom",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "c8fa170d-d022-40b1-879c-e182dbe3c777",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a8bf124d5fb",
+                  "pack": {
+                    "id": "b1cf1c99-6347-4b6b-a780-4cbd48c4de1a",
+                    "name": "Hudu Documentation",
+                    "ref": "hudu",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "hudu_company_id": {
+                        "type": "integer",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "b1cf1c99-6347-4b6b-a780-4cbd48c4de1a",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a8d97999583",
+                  "pack": {
+                    "id": "98158078-ead0-4f70-babc-eb1a894d1212",
+                    "name": "ImmyBot",
+                    "ref": "immybot",
+                    "is_multitenancy_enabled": false,
+                    "org_variables": {
+                      "immybot_tenant_id": {
+                        "type": "integer",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "98158078-ead0-4f70-babc-eb1a894d1212",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a959a10f888",
+                  "pack": {
+                    "id": "2eac28ee-b37d-415f-a3b7-2e80ca431130",
+                    "name": "Pax8",
+                    "ref": "pax8",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "pax_company_id": {
+                        "type": "string",
+                        "label": "Pax8 Company",
+                        "required": true,
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "2eac28ee-b37d-415f-a3b7-2e80ca431130",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a8ffb2642a4",
+                  "pack": {
+                    "id": "6ea25df4-04eb-4d9f-9b7b-bc5b265c3ae9",
+                    "name": "Microsoft CSP",
+                    "ref": "microsoft_csp",
+                    "is_multitenancy_enabled": false,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "6ea25df4-04eb-4d9f-9b7b-bc5b265c3ae9",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a87ce807776",
+                  "pack": {
+                    "id": "3c2aaa87-1efc-4182-89de-f2193410a5c5",
+                    "name": "Datto RMM",
+                    "ref": "datto_rmm",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "datto_rmm_site_id": {
+                        "type": "string",
+                        "label": "Site",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "3c2aaa87-1efc-4182-89de-f2193410a5c5",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a888bb823b7",
+                  "pack": {
+                    "id": "e45b3f35-63c9-4ce6-ba3f-d47c957683b3",
+                    "name": "Duo",
+                    "ref": "duo",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "duo_account_id": {
+                        "type": "string",
+                        "label": "Accounts API Account",
+                        "description": "This key can be added to link specific Duo Accounts to your actions",
+                        "org_match_field": "name"
+                      },
+                      "duo_admin_api_directory_key": {
+                        "type": "string",
+                        "label": "Admin API Directory Key",
+                        "description": "This key is used to run user syncs."
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "e45b3f35-63c9-4ce6-ba3f-d47c957683b3",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a90c79d1399",
+                  "pack": {
+                    "id": "9b8a9f4f-3924-442f-b204-bc8908bc1435",
+                    "name": "Microsoft Exchange Online",
+                    "ref": "microsoft_exo",
+                    "is_multitenancy_enabled": false,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "9b8a9f4f-3924-442f-b204-bc8908bc1435",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a92529b9617",
+                  "pack": {
+                    "id": "018c6ed2-98d6-76d4-b14c-a88b5027bf0d",
+                    "name": "N-able N-central",
+                    "ref": "nable",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "nable_customer_id": {
+                        "type": "integer",
+                        "label": "Customer ID",
+                        "description": "The ID of a customer managed by N-able",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "018c6ed2-98d6-76d4-b14c-a88b5027bf0d",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a972e7b50c5",
+                  "pack": {
+                    "id": "019976e7-6266-7989-8812-127b3a5856e3",
+                    "name": "Telnyx",
+                    "ref": "018c1bf05148760da6ccc81ba52a736c_telnyx",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "019976e7-6266-7989-8812-127b3a5856e3",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a8ce63b2d90",
+                  "pack": {
+                    "id": "0190a3a6-78ad-726c-a45c-d716add37859",
+                    "name": "ITPortal",
+                    "ref": "it_portal",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "it_portal_company_id": {
+                        "type": "string",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "0190a3a6-78ad-726c-a45c-d716add37859",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a93d594deb0",
+                  "pack": {
+                    "id": "aedf2ee4-89d3-4375-a4d1-077ea2dc6ddc",
+                    "name": "NinjaOne",
+                    "ref": "ninja_rmm",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "ninja_org_id": {
+                        "type": "string",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "aedf2ee4-89d3-4375-a4d1-077ea2dc6ddc",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a8ed813094a",
+                  "pack": {
+                    "id": "3fa7f368-077e-422a-9d1b-132d3d3eb434",
+                    "name": "Microsoft Azure",
+                    "ref": "microsoft_azure",
+                    "is_multitenancy_enabled": false,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "3fa7f368-077e-422a-9d1b-132d3d3eb434",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a99145a4a08",
+                  "pack": {
+                    "id": "0198d34b-b9e4-705d-87fc-ee8bd0742ff2",
+                    "name": "Unifi - Custom",
+                    "ref": "018c1bf05148760da6ccc81ba52a736c_unifi_custom",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "0198d34b-b9e4-705d-87fc-ee8bd0742ff2",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a838fe89a73",
+                  "pack": {
+                    "id": "8b13b89f-6df2-43e9-bb42-84f3ea473b3f",
+                    "name": "ConnectWise Control",
+                    "ref": "cw_control",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "cwControl_CompanyName": {
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "8b13b89f-6df2-43e9-bb42-84f3ea473b3f",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-9669-7e02-9c91-4c307fe87907",
+                  "pack": {
+                    "id": "0197a1c6-5ad6-7d0c-bd23-dec27c5613ab",
+                    "name": "Bandwidth Billing Reports",
+                    "ref": "018c1bf05148760da6ccc81ba52a736c_bandwidth_billing_reports",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "0197a1c6-5ad6-7d0c-bd23-dec27c5613ab",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a8498869694",
+                  "pack": {
+                    "id": "af7dc0be-d3d6-4eb1-830d-0f2b94b6bad1",
+                    "name": "ConnectWise PSA",
+                    "ref": "cw_manage",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "cw_manage_company_id": {
+                        "type": "integer",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "af7dc0be-d3d6-4eb1-830d-0f2b94b6bad1",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-9669-7e02-9c91-4c2fee85ee95",
+                  "pack": {
+                    "id": "01929c47-a6f8-7bb5-a40a-48487f6fb11c",
+                    "name": "BambooHR",
+                    "ref": "bamboohr",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "01929c47-a6f8-7bb5-a40a-48487f6fb11c",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a811ac67d05",
+                  "pack": {
+                    "id": "0195256d-8243-7957-98fc-a3a52e8cd9ee",
+                    "name": "Cisco Meraki",
+                    "ref": "cisco_meraki",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "cisco_meraki_org_id": {
+                        "type": "string",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "0195256d-8243-7957-98fc-a3a52e8cd9ee",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-9669-7e02-9c91-4c2e2014c866",
+                  "pack": {
+                    "id": "01904bc4-4d7d-76b9-9d46-8f200399d512",
+                    "name": "Addigy",
+                    "ref": "addigy",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "addigy_policy_id": {
+                        "type": "string",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "01904bc4-4d7d-76b9-9d46-8f200399d512",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a8253a9ca4e",
+                  "pack": {
+                    "id": "983d0651-a382-465f-9bf9-50b5299314c3",
+                    "name": "ConnectWise Automate",
+                    "ref": "cw_automate",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "cw_automate_client_id": {
+                        "type": "string",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "983d0651-a382-465f-9bf9-50b5299314c3",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a89ef7b7420",
+                  "pack": {
+                    "id": "019760e2-2def-77ec-ad86-811da176b3c3",
+                    "name": "ElevenLabs Conversational AI",
+                    "ref": "018c1bf05148760da6ccc81ba52a736c_elevenlabs_conversational_ai",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "019760e2-2def-77ec-ad86-811da176b3c3",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a916beb10d6",
+                  "pack": {
+                    "id": "5d6c8db9-ca60-4c4f-ac22-c91f80edd71d",
+                    "name": "Microsoft Graph",
+                    "ref": "microsoft_graph",
+                    "is_multitenancy_enabled": false,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "5d6c8db9-ca60-4c4f-ac22-c91f80edd71d",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a946a632919",
+                  "pack": {
+                    "id": "500c31be-818d-486b-9eca-9add1e1632cd",
+                    "name": "OpenAI",
+                    "ref": "openai",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "500c31be-818d-486b-9eca-9add1e1632cd",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a9663afec18",
+                  "pack": {
+                    "id": "9cfbbb20-8ea9-4ce7-9f3d-7f1c5e932562",
+                    "name": "SQL Database",
+                    "ref": "sql_database",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "9cfbbb20-8ea9-4ce7-9f3d-7f1c5e932562",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a9802237868",
+                  "pack": {
+                    "id": "019a5087-44e2-7636-8278-1ce8678cb5d1",
+                    "name": "Time Hour Clustering",
+                    "ref": "018c1bf05148760da6ccc81ba52a736c_time_hour_clustering",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "019a5087-44e2-7636-8278-1ce8678cb5d1",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a9a195d3dc6",
+                  "pack": {
+                    "id": "01966d6c-ae65-7d13-802f-53810de5eb0a",
+                    "name": "X360Recover",
+                    "ref": "018c1bf05148760da6ccc81ba52a736c_x360recover",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "01966d6c-ae65-7d13-802f-53810de5eb0a",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-9669-7e02-9c91-4c2da5dcf672",
+                  "pack": {
+                    "id": "0196822b-0de1-7af1-99d3-2a6f70738ec7",
+                    "name": "3CX Configuration (Web Admin / XAPI)",
+                    "ref": "018c1bf05148760da6ccc81ba52a736c_3cx",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "0196822b-0de1-7af1-99d3-2a6f70738ec7",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a806237eb9b",
+                  "pack": {
+                    "id": "01924370-a3e7-790d-a33c-f34fe1930d11",
+                    "name": "Bitdefender",
+                    "ref": "bitdefender",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "bitdefender_company_id": {
+                        "type": "string",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "01924370-a3e7-790d-a33c-f34fe1930d11",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a85a9f45fb5",
+                  "pack": {
+                    "id": "0196a737-b715-78b5-9974-ec024cb26ec7",
+                    "name": "Connectwise CPW",
+                    "ref": "018c1bf05148760da6ccc81ba52a736c_connectwise_cpw",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "0196a737-b715-78b5-9974-ec024cb26ec7",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a8a305b65e1",
+                  "pack": {
+                    "id": "019668a7-9ed6-73f8-80aa-be4bf338e731",
+                    "name": "GlassHive",
+                    "ref": "018c1bf05148760da6ccc81ba52a736c_glasshive",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "019668a7-9ed6-73f8-80aa-be4bf338e731",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                }
+              ],
+              "criteria": {
+                "condition": {}
+              },
+              "parameters": {
+                "secret_key": null,
+                "response_body": "{{ REQUEST() | json_dump }}",
+                "allowed_methods": [
+                  "POST"
+                ],
+                "response_status": "200",
+                "include_raw_body": true,
+                "response_headers": "{\"Content-Type\": \"application/json\"}",
+                "wait_for_results": false
+              },
+              "vars": [],
+              "org_instances": [
+                {
+                  "id": null,
+                  "last_searched_at": null,
+                  "org_id": null,
+                  "organization": {
+                    "id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": "Applied Technology Group, Inc.",
+                    "is_staff": null,
+                    "managing_org_id": null,
+                    "roc_site_id": null,
+                    "is_enabled": null,
+                    "domain": null
+                  },
+                  "trigger": null,
+                  "trigger_id": null,
+                  "state": {},
+                  "created_at": null,
+                  "updated_at": null,
+                  "is_manual_activation": false,
+                  "next_fire_time": null
+                }
+              ],
+              "organization": {}
+            },
+            "trigger_id": null,
+            "state": {},
+            "created_at": null,
+            "updated_at": null,
+            "is_manual_activation": false,
+            "next_fire_time": null
+          },
+          "organization": {
+            "id": "018c369f-9e69-7524-b7c3-fad2ce09a450",
+            "name": "Uncle Bob's",
+            "domain": null,
+            "managing_org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+            "roc_site_id": "19810",
+            "is_enabled": true
+          },
+          "agent_id": "agent_0501kecpebg3e9p8skydse9sm1j4",
+          "recording_id": "",
+          "call_transcript": "{\"conversation_id\":\"conv_6101kfkjha50eepbvesbe7chbdtw\",\"agent_id\":\"agent_0501kecpebg3e9p8skydse9sm1j4\",\"status\":\"done\",\"call\":{\"call_sid\":\"SCL_8BXGmpNFvCZe\",\"direction\":\"inbound\",\"type\":\"sip_trunking\",\"agent_number\":\"+12602009359\",\"external_number\":\"12604822844\",\"phone_number_id\":\"phnum_2001kfkafcp6ez0rnafzn3zhnbja\",\"start_time_unix_secs\":1769109760,\"duration_secs\":78,\"timezone\":\"America/New_York\",\"language\":\"en\"},\"transcript\":[{\"turn_index\":0,\"role\":\"agent\",\"time_in_call_secs\":-1,\"source_medium\":null,\"text\":\"... ... Thanks for contacting Schlatter's Plumbing & Heating! I’m Shelly, our AI customer service agent and this conversation will be recorded. How can I help you?\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":1,\"role\":\"user\",\"time_in_call_secs\":13,\"source_medium\":\"audio\",\"text\":\"Uh, uh.\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":2,\"role\":\"agent\",\"time_in_call_secs\":17,\"source_medium\":null,\"text\":\"One moment while I get things ready. What can I help you with today?\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":3,\"role\":\"agent\",\"time_in_call_secs\":18,\"source_medium\":null,\"text\":\"None\",\"tool_calls\":[{\"tool_name\":\"client_initiation_data\",\"params\":{\"call_sid\":\"CA1234567890abcdef1234567890abcdef\",\"conversation_id\":\"0199ba73-c2fa-723b-a2f6-dad69e54e9b6\",\"time_utc\":\"2026-01-22T19:22:41.187551+00:00\",\"caller_id\":\"12604822844\",\"timezone\":\"America/New_York\",\"system__message_to_speak\":\"One moment while I get things ready. What can I help you with today?\",\"agent_id\":\"0199ba73-c2fa-723b-a2f6-dad69e54e9b6\",\"called_number\":\"+14195585611\"},\"called\":true}],\"tool_results\":[]},{\"turn_index\":4,\"role\":\"agent\",\"time_in_call_secs\":18,\"source_medium\":null,\"text\":\"None\",\"tool_calls\":[],\"tool_results\":[{\"tool_name\":\"client_initiation_data\",\"is_error\":false,\"called\":true}]},{\"turn_index\":5,\"role\":\"agent\",\"time_in_call_secs\":22,\"source_medium\":null,\"text\":\"Mmhmm... No problem. What are you calling about today?\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":6,\"role\":\"agent\",\"time_in_call_secs\":25,\"source_medium\":null,\"text\":\"None\",\"tool_calls\":[{\"tool_name\":\"client_initiation_data\",\"params\":{},\"called\":true}],\"tool_results\":[]},{\"turn_index\":7,\"role\":\"agent\",\"time_in_call_secs\":25,\"source_medium\":null,\"text\":\"None\",\"tool_calls\":[],\"tool_results\":[{\"tool_name\":\"client_initiation_data\",\"is_error\":false,\"called\":true}]},{\"turn_index\":8,\"role\":\"agent\",\"time_in_call_secs\":27,\"source_medium\":null,\"text\":\"Mmhmm...\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":9,\"role\":\"user\",\"time_in_call_secs\":27,\"source_medium\":\"audio\",\"text\":\"I don't know.\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":10,\"role\":\"agent\",\"time_in_call_secs\":30,\"source_medium\":null,\"text\":\"I understand. If you're not sure what the issue is, I can still have someone from our team reach out to you. Who am I speaking with?\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":11,\"role\":\"user\",\"time_in_call_secs\":38,\"source_medium\":\"audio\",\"text\":\"Cody.\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":12,\"role\":\"agent\",\"time_in_call_secs\":40,\"source_medium\":null,\"text\":\"Got it, Cody. What's a good callback number for you?\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":13,\"role\":\"user\",\"time_in_call_secs\":45,\"source_medium\":\"audio\",\"text\":\"Here, two, two, one, seven, three, five, five.\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":14,\"role\":\"agent\",\"time_in_call_secs\":50,\"source_medium\":null,\"text\":\"I might have misheard that number, could you repeat it?\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":15,\"role\":\"user\",\"time_in_call_secs\":54,\"source_medium\":\"audio\",\"text\":\"260-217-3555.\",\"tool_calls\":[],\"tool_results\":[]},{\"turn_index\":16,\"role\":\"agent\",\"time_in_call_secs\":60,\"source_medium\":null,\"text\":\"Got it, two six zero... two one seven... three five five five. Is there a specific company you're calling from?\",\"tool_calls\":[],\"tool_results\":[]}]}",
+          "conversation_id": "conv_6101kfkjha50eepbvesbe7chbdtw",
+          "sms_notifications_enabled": true,
+          "email_notifications_enabled": true,
+          "elevenlabs_body_data_analysis": "{\"evaluation_criteria_results\":{\"guardrails_obeyed\":{\"criteria_id\":\"guardrails_obeyed\",\"result\":\"success\",\"rationale\":\"The conversation does not contain any instances of the agent breaking any prompt guardrail rules. The agent is polite and professional.\"},\"proper_closure\":{\"criteria_id\":\"proper_closure\",\"result\":\"failure\",\"rationale\":\"The conversation ends abruptly after the agent confirms the phone number. The agent does not summarize the issue or let the user know that someone will follow up. Therefore, the conversation does not have a proper closure.\"}},\"data_collection_results\":{},\"evaluation_criteria_results_list\":[{\"criteria_id\":\"guardrails_obeyed\",\"result\":\"success\",\"rationale\":\"The conversation does not contain any instances of the agent breaking any prompt guardrail rules. The agent is polite and professional.\"},{\"criteria_id\":\"proper_closure\",\"result\":\"failure\",\"rationale\":\"The conversation ends abruptly after the agent confirms the phone number. The agent does not summarize the issue or let the user know that someone will follow up. Therefore, the conversation does not have a proper closure.\"}],\"data_collection_results_list\":[],\"call_successful\":\"failure\",\"transcript_summary\":\"Shelly, an AI agent for Schlatter's Plumbing & Heating, is assisting a user named Cody who is unsure of the reason for his call. Shelly gathers Cody's name and callback number (260-217-3555) to have someone from the team reach out. The agent also attempts to identify the company Cody is calling from. An error occurred during client initiation.\\n\",\"call_summary_title\":\"Plumbing Support: Unknown Issue\"}",
+          "elevenlabs_outbound_notifications_enabled": false,
+          "caller_id": "12604822844",
+          "time_utc": "2026-01-22T19:23:58.311500+00:00"
+        },
+        {
+          "execution_url": "https://app.rewst.io/organizations/018c369f-9e69-7524-b7c3-fad2ce09a450/results/019be72a-398e-7b25-8f56-918a2a50ccc6",
+          "ms_tenant_id": "5d6c8db9-ca60-4c4f-ac22-c91f80edd71d",
+          "session_id": "f05552d2-53f3-4d68-9ed1-e24ef42b2bc2"
+        },
+        {
+          "get_threecx_call": {
+            "@odata.context": "https://atgintegrations.3cx.us/xapi/v1/$metadata#ReportCallLogData",
+            "value": []
+          }
+        },
+        {
+          "threecx_calls": {
+            "match_confidence": "none",
+            "matched_call": null,
+            "all_segments": [],
+            "inbound_leg": null,
+            "inbound_summary": null,
+            "answered_leg": null,
+            "answered_summary": null,
+            "correlation_details": {
+              "confidence": "none",
+              "match_method": "none",
+              "duration_delta_secs": null,
+              "elevenlabs_duration_secs": 78,
+              "agent_number_searched": "2602009359",
+              "total_calls_in_window": 0,
+              "segments_found": 0,
+              "candidates_evaluated": 0,
+              "has_inbound_leg": false,
+              "has_answered_leg": false,
+              "failed_trunks": []
+            },
+            "dialed_did": null,
+            "dialed_did_normalized": null,
+            "threecx_location_raw": null,
+            "threecx_location_name": null
+          }
+        },
+        {
+          "occ_settings": {
+            "vars": {
+              "occ_fallback_email_addresses": [
+                "oncallconnect@atgfw.com"
+              ],
+              "occ_alert_escalation_phone_number": 2602217355,
+              "occ_sla_mode": "nbd",
+              "occ_sql_config_name": "occ_sql_018c369f-9e69-7524-b7c3-fad2ce09a450",
+              "occ_notification_routing_preferences": {
+                "schema_name": "occ_notification_routing_preferences",
+                "schema_version": "13.0",
+                "description": "OnCall Connect routing configuration for Uncle Bob's Heating & Cooling - multi-location HVAC service company in Northeast Indiana.",
+                "generated_at": "2025-01-21T12:00:00-05:00",
+                "inheritance_model": {
+                  "description": "Policies cascade from most general to most specific. Child levels inherit from parent unless explicitly overridden.",
+                  "levels": [
+                    {
+                      "level": 1,
+                      "name": "global",
+                      "description": "System-wide defaults and integrations"
+                    },
+                    {
+                      "level": 2,
+                      "name": "company",
+                      "description": "Organization-wide policies and business info"
+                    },
+                    {
+                      "level": 3,
+                      "name": "location",
+                      "description": "Branch/site-specific overrides"
+                    },
+                    {
+                      "level": 4,
+                      "name": "department",
+                      "description": "Department or functional group overrides"
+                    },
+                    {
+                      "level": 5,
+                      "name": "contact",
+                      "description": "Individual contact preferences (resolved via contacts table)"
+                    }
+                  ],
+                  "resolution_rule": "Most specific defined value wins. Use 'inherit: true' or omit field to cascade from parent.",
+                  "inheritable_policies": [
+                    "business_info.hours",
+                    "business_info.timezone",
+                    "business_info.holidays",
+                    "quiet_hours",
+                    "channels",
+                    "retry_logic",
+                    "language",
+                    "fallback_contacts"
+                  ]
+                },
+                "global": {
+                  "policy": {
+                    "deployment_phase": "PROD",
+                    "default_contact_mode": "nbd",
+                    "sms_consent_default": "prompt_required",
+                    "contact_id_strategy": "email",
+                    "documentation_url": "https://kb.unclebobs.info/oncall-policy",
+                    "support_email": "support@unclebobs.info",
+                    "descriptions": {
+                      "deployment_phase": "Operating environment: DEV, STAGING, or PROD.",
+                      "default_contact_mode": "Behavior when no specific schedule is active. Options: nbd (next business day), after_hours, during_hours.",
+                      "sms_consent_default": "Policy for new numbers. Options: prompt_required, assume_implicit, never_sms.",
+                      "contact_id_strategy": "Primary key for identity merging across sources."
+                    },
+                    "test_mode": {
+                      "enabled": false,
+                      "suppress_outbound_calls": true,
+                      "suppress_sms": true,
+                      "suppress_crm_tickets": false,
+                      "redirect_all_to": null,
+                      "description": "When enabled, simulates alert flow without triggering external notifications."
+                    },
+                    "transfer_policy": {
+                      "enabled": true,
+                      "allow_live_transfer_when_open": true,
+                      "allow_live_transfer_when_closed": false,
+                      "transfer_destination": "77",
+                      "transfer_announcement": "Please hold while I connect you with a team member.",
+                      "max_hold_time_seconds": 120,
+                      "description": "Controls when AI agent can attempt live call transfers."
+                    },
+                    "spam_filter": {
+                      "enabled": true,
+                      "min_call_duration_secs": 5,
+                      "block_known_spam_numbers": true,
+                      "blocked_area_codes": [
+                        "900",
+                        "976"
+                      ],
+                      "description": "Filter criteria for ignoring spam or very short calls."
+                    },
+                    "rate_limiting": {
+                      "enabled": true,
+                      "max_alerts_per_hour": 25,
+                      "max_notifications_per_contact_per_hour": 8,
+                      "cooldown_after_acknowledgement_min": 5,
+                      "burst_detection_threshold": 10,
+                      "burst_detection_window_min": 5,
+                      "description": "Prevents notification flooding during incident storms."
+                    },
+                    "language": {
+                      "primary": "en",
+                      "supported": [
+                        "en",
+                        "es"
+                      ],
+                      "auto_detect": true,
+                      "spanish_agent_id": "agent_9901k7es2m47fk98r4dw5zfp1k3k",
+                      "description": "Language preferences for AI agent interactions."
+                    },
+                    "temporal_logic": {
+                      "business_timezone_default": "America/Indiana/Indianapolis",
+                      "when_open_states": [
+                        "open",
+                        "appointment_only",
+                        "holiday_hours"
+                      ],
+                      "when_closed_states": [
+                        "closed",
+                        "holiday"
+                      ],
+                      "grace_period_minutes": 15,
+                      "description": "Defines which business states trigger which routing path."
+                    },
+                    "quiet_hours_defaults": {
+                      "enabled": true,
+                      "window_start": "22:00",
+                      "window_end": "06:30",
+                      "timezone": "America/Indiana/Indianapolis",
+                      "bypass_for_critical_alerts": true,
+                      "bypass_for_active_oncall_shifts": true,
+                      "channels_affected": [
+                        "email",
+                        "sms",
+                        "voice",
+                        "teams"
+                      ],
+                      "description": "Global default for suppressing non-critical notifications during overnight hours."
+                    },
+                    "retry_logic": {
+                      "max_call_attempts": 5,
+                      "call_attempt_interval_min": 2,
+                      "loop_limit": 5,
+                      "skip_initial_call_delay": true,
+                      "exponential_backoff": false,
+                      "description": "Controls outbound call retry behavior."
+                    },
+                    "escalation": {
+                      "enabled": true,
+                      "phone_number": "+12602217355",
+                      "email_addresses": [
+                        "escalation@unclebobs.info",
+                        "ownersgroup@unclebobs.info"
+                      ],
+                      "trigger_after_failed_attempts": 3,
+                      "trigger_after_no_ack_minutes": 30,
+                      "description": "Global safety net when contact pool is exhausted or unresponsive."
+                    },
+                    "acknowledgement": {
+                      "required": true,
+                      "timeout_minutes": 15,
+                      "reminder_intervals_minutes": [
+                        5,
+                        10
+                      ],
+                      "auto_escalate_on_timeout": true,
+                      "channels": [
+                        "teams",
+                        "sms"
+                      ],
+                      "description": "Controls how alerts must be acknowledged."
+                    }
+                  },
+                  "fallback_contacts": {
+                    "emails": [
+                      "oncall-fallback@unclebobs.info",
+                      "servicemanagers@unclebobs.info"
+                    ],
+                    "phone_numbers": [
+                      "+12602009018",
+                      "+12602217355"
+                    ],
+                    "contact_sources": [
+                      {
+                        "system": "3cx",
+                        "source_type": "queue",
+                        "queue_id": "77",
+                        "queue_name": "OnCall Connect",
+                        "role": "backup"
+                      }
+                    ],
+                    "description": "Global fallback used when department/location contacts unavailable."
+                  },
+                  "on_call_contacts": {
+                    "enabled": true,
+                    "purpose": "Global on-call fallback for when location/department specific on-call is unavailable.",
+                    "contact_sources": [
+                      {
+                        "system": "microsoft",
+                        "source_type": "group_membership",
+                        "group_id": "6fab670f-34ec-4409-ad5b-0fc01e01894d",
+                        "group_name": "OnCall Connect",
+                        "role": "primary",
+                        "notes": "Global OnCall Connect distribution group"
+                      },
+                      {
+                        "system": "3cx",
+                        "source_type": "queue",
+                        "queue_id": "77",
+                        "queue_name": "OnCall Connect",
+                        "role": "backup"
+                      }
+                    ]
+                  },
+                  "integrations": {
+                    "schedule_database": {
+                      "enabled": true,
+                      "config_name": "unclebobs_sql",
+                      "view_name": "vw_oncall_assignments",
+                      "employee_table": "employees",
+                      "description": "MySQL database for on-call schedule lookups."
+                    },
+                    "3cx": {
+                      "enabled": true,
+                      "api_base_url": "https://pbx.unclebobs.info",
+                      "default_queue_id": "77",
+                      "default_queue_name": "OnCall Connect",
+                      "user_sync_enabled": true,
+                      "description": "3CX PBX integration for queue-based contact resolution."
+                    },
+                    "microsoft_teams": {
+                      "enabled": true,
+                      "tenant_id": "d487f34b-51b0-4841-9390-fb3ae164ea5b",
+                      "bot_display_name": "OnCall Connect",
+                      "bot_app_reg_id": "c82707ce-decc-4570-8549-d16faecf61b5",
+                      "bot_app_catalog_id": "78d2c74c-e5a6-496d-8da5-06d73ce07899",
+                      "default_team_id": "3db49160-c8aa-40c3-bf18-f4d6bfa476c3",
+                      "default_channel_id": "19:Nm3ILNaJfb3hKnh0bdaZfQiODO9tdFheyh4k6uBsrMk1@thread.tacv2",
+                      "adaptive_card_version": "1.5",
+                      "description": "Microsoft Teams bot and channel configuration."
+                    },
+                    "elevenlabs": {
+                      "enabled": true,
+                      "inbound_agent_id": "agent_9901k6zq4g39fk98r4dw5zfp1k3k",
+                      "inbound_phone_id": "phnum_1501k6zq9tvpfystfk13e9q70kf6",
+                      "inbound_phone_number": "+12602009018",
+                      "outbound_agent_id": "agent_9901k6zq4g39fk98r4dw5zfp1k3k",
+                      "outbound_phone_id": "phnum_1501k6zq9tvpfystfk13e9q70kf6",
+                      "outbound_phone_number": "+12602009018",
+                      "webhook_secret": "whsec_unclebobs_prod_xxxxxxxxxxxx",
+                      "voice_id": "pNInz6obpgDQGcFmaJgB",
+                      "transcription_hints": [
+                        "Uncle Bob's",
+                        "HVAC",
+                        "furnace",
+                        "AC",
+                        "air conditioning",
+                        "heat pump",
+                        "thermostat",
+                        "Carrier",
+                        "Lennox",
+                        "Trane",
+                        "Goodman",
+                        "ductwork",
+                        "compressor",
+                        "refrigerant",
+                        "R-410A"
+                      ],
+                      "description": "ElevenLabs Conversational AI voice agent configuration."
+                    },
+                    "bandwidth": {
+                      "enabled": true,
+                      "sms_from_number": "+12602031287",
+                      "application_id": "bw-app-unclebobs-prod",
+                      "campaign_id": "CAMP-UB-HVAC-001",
+                      "sub_account_id": "sa-unclebobs",
+                      "inbound_webhook_url": "https://hooks.unclebobs.info/bandwidth/sms/inbound",
+                      "opt_out_keywords": [
+                        "STOP",
+                        "UNSUBSCRIBE",
+                        "CANCEL",
+                        "END",
+                        "QUIT"
+                      ],
+                      "opt_in_keywords": [
+                        "START",
+                        "YES",
+                        "UNSTOP",
+                        "SUBSCRIBE"
+                      ],
+                      "description": "Bandwidth SMS provider configuration for TCPA-compliant messaging."
+                    },
+                    "telnyx": {
+                      "enabled": false,
+                      "recording_permalink_base": null,
+                      "description": "Telnyx SIP trunk integration (not currently used)."
+                    },
+                    "connectwise": {
+                      "enabled": true,
+                      "company_id": "UncleBobs",
+                      "company_rec_id": 250,
+                      "service_board_id": "24",
+                      "service_board_name": "Service",
+                      "new_ticket_status": "New",
+                      "source_id": "11",
+                      "source_name": "Phone",
+                      "default_priority_id": "3",
+                      "agreement_id": null,
+                      "custom_fields": {
+                        "call_recording_url": "CallRecording_c",
+                        "ai_summary": "AISummary_c",
+                        "conversation_id": "ConversationID_c"
+                      },
+                      "description": "ConnectWise Manage PSA integration for ticket creation."
+                    },
+                    "servicetitan": {
+                      "enabled": false,
+                      "tenant_name": null,
+                      "description": "ServiceTitan CRM integration (disabled - using ConnectWise)."
+                    },
+                    "google_calendar": {
+                      "enabled": false,
+                      "calendar_id": null,
+                      "description": "Google Calendar integration for schedule sync (not configured)."
+                    }
+                  }
+                },
+                "company": {
+                  "company_id": "uncle_bobs",
+                  "company_name": "Uncle Bob's Heating & Cooling",
+                  "description": "Multi-location HVAC service company in Northeast Indiana",
+                  "industry": "hvac",
+                  "business_info": {
+                    "inherit": false,
+                    "timezone": "America/Indiana/Indianapolis",
+                    "website": "https://www.unclebobs.info",
+                    "hours": [
+                      {
+                        "days": [
+                          "mon",
+                          "tue",
+                          "wed",
+                          "thu",
+                          "fri"
+                        ],
+                        "start_time": "08:00",
+                        "end_time": "17:00",
+                        "status": "open"
+                      },
+                      {
+                        "days": [
+                          "sat"
+                        ],
+                        "status": "closed"
+                      },
+                      {
+                        "days": [
+                          "sun"
+                        ],
+                        "status": "closed"
+                      }
+                    ],
+                    "holidays": [
+                      {
+                        "date": "2025-01-01",
+                        "name": "New Year's Day",
+                        "status": "closed"
+                      },
+                      {
+                        "date": "2025-05-26",
+                        "name": "Memorial Day",
+                        "status": "closed"
+                      },
+                      {
+                        "date": "2025-07-04",
+                        "name": "Independence Day",
+                        "status": "closed"
+                      },
+                      {
+                        "date": "2025-09-01",
+                        "name": "Labor Day",
+                        "status": "closed"
+                      },
+                      {
+                        "date": "2025-11-27",
+                        "name": "Thanksgiving Day",
+                        "status": "closed"
+                      },
+                      {
+                        "date": "2025-12-25",
+                        "name": "Christmas Day",
+                        "status": "closed"
+                      }
+                    ],
+                    "emergency_after_hours": {
+                      "enabled": true,
+                      "keywords": [
+                        "no heat",
+                        "no cooling",
+                        "water leak",
+                        "gas smell",
+                        "emergency",
+                        "frozen pipes"
+                      ],
+                      "surcharge_disclaimer": "After-hours emergency service may incur additional charges."
+                    }
+                  },
+                  "policy": {
+                    "inherit": true,
+                    "overrides": {}
+                  },
+                  "fallback_contacts": {
+                    "inherit": true
+                  },
+                  "channels": {
+                    "inherit": false,
+                    "email": true,
+                    "sms": true,
+                    "teams": true,
+                    "voice": true,
+                    "ai_callback": true,
+                    "crm": true,
+                    "push": false
+                  }
+                },
+                "locations": [
+                  {
+                    "location_id": "fort_wayne",
+                    "location_name": "Fort Wayne",
+                    "enabled": true,
+                    "is_default": true,
+                    "state": "IN",
+                    "inbound_phone_numbers": [
+                      "+12602009018"
+                    ],
+                    "teams_channel_id": "19:Nm3ILNaJfb3hKnh0bdaZfQiODO9tdFheyh4k6uBsrMk1@thread.tacv2",
+                    "source_system_ids": {
+                      "microsoft_team_id": "3db49160-c8aa-40c3-bf18-f4d6bfa476c3",
+                      "3cx_group_id": "10",
+                      "servicetitan_location_id": null,
+                      "connectwise_site_id": "1",
+                      "_description": "Primary operating location - headquarters."
+                    },
+                    "channels": {
+                      "inherit": false,
+                      "email": true,
+                      "sms": true,
+                      "teams": true,
+                      "voice": true,
+                      "ai_callback": true,
+                      "crm": true,
+                      "push": false
+                    },
+                    "cc_emails": [
+                      "fwmanager@unclebobs.info"
+                    ],
+                    "bcc_emails": [
+                      "oncallconnect@atgfw.com"
+                    ],
+                    "quiet_hours": {
+                      "inherit": false,
+                      "enabled": true,
+                      "window_start": "21:00",
+                      "window_end": "06:00",
+                      "timezone": "America/Indiana/Fort_Wayne",
+                      "description": "Fort Wayne has slightly earlier quiet hours due to earlier service start times."
+                    },
+                    "fallback_contacts": {
+                      "inherit": false,
+                      "emails": [
+                        "fwmanager@unclebobs.info",
+                        "servicecoordinator@unclebobs.info"
+                      ],
+                      "phone_numbers": [
+                        "+12602009018",
+                        "+12602217355"
+                      ],
+                      "contact_sources": [],
+                      "description": "Fort Wayne location-specific fallback before global escalation."
+                    },
+                    "business_info": {
+                      "inherit": false,
+                      "timezone": "America/Indiana/Fort_Wayne",
+                      "address": "4018 New Haven Ave, Fort Wayne, IN 46803",
+                      "public_phone": "+12604822844",
+                      "website": "https://www.unclebobs.info",
+                      "hours": [
+                        {
+                          "days": [
+                            "mon",
+                            "tue",
+                            "wed",
+                            "thu",
+                            "fri"
+                          ],
+                          "start_time": "07:00",
+                          "end_time": "18:00",
+                          "status": "open"
+                        },
+                        {
+                          "days": [
+                            "sat"
+                          ],
+                          "start_time": "08:00",
+                          "end_time": "12:00",
+                          "status": "appointment_only"
+                        },
+                        {
+                          "days": [
+                            "sun"
+                          ],
+                          "status": "closed"
+                        }
+                      ],
+                      "holidays": [
+                        {
+                          "date": "2025-01-01",
+                          "name": "New Year's Day",
+                          "status": "closed"
+                        },
+                        {
+                          "date": "2025-05-26",
+                          "name": "Memorial Day",
+                          "status": "closed"
+                        },
+                        {
+                          "date": "2025-07-04",
+                          "name": "Independence Day",
+                          "status": "closed"
+                        },
+                        {
+                          "date": "2025-09-01",
+                          "name": "Labor Day",
+                          "status": "closed"
+                        },
+                        {
+                          "date": "2025-11-27",
+                          "name": "Thanksgiving Day",
+                          "status": "closed"
+                        },
+                        {
+                          "date": "2025-11-28",
+                          "name": "Day After Thanksgiving",
+                          "start_time": "08:00",
+                          "end_time": "12:00",
+                          "status": "holiday_hours"
+                        },
+                        {
+                          "date": "2025-12-24",
+                          "name": "Christmas Eve",
+                          "start_time": "07:00",
+                          "end_time": "12:00",
+                          "status": "holiday_hours"
+                        },
+                        {
+                          "date": "2025-12-25",
+                          "name": "Christmas Day",
+                          "status": "closed"
+                        },
+                        {
+                          "date": "2025-12-31",
+                          "name": "New Year's Eve",
+                          "start_time": "07:00",
+                          "end_time": "15:00",
+                          "status": "holiday_hours"
+                        }
+                      ],
+                      "emergency_after_hours": {
+                        "inherit": true
+                      }
+                    },
+                    "policy": {
+                      "inherit": true,
+                      "overrides": {
+                        "retry_logic": {
+                          "max_call_attempts": 5
+                        },
+                        "language": {
+                          "primary": "en",
+                          "supported": [
+                            "en",
+                            "es"
+                          ]
+                        }
+                      }
+                    },
+                    "departments": [
+                      {
+                        "department_id": "service",
+                        "department_name": "Service",
+                        "enabled": true,
+                        "is_default": true,
+                        "inbound_phone_numbers": [
+                          "+12602009018"
+                        ],
+                        "teams_channel_id": "19:Nm3ILNaJfb3hKnh0bdaZfQiODO9tdFheyh4k6uBsrMk1@thread.tacv2",
+                        "source_system_ids": {
+                          "microsoft_group_id": "063918dd-e478-4b0d-8ddd-30b66796fa58",
+                          "microsoft_group_name": "DL Uncle Bob's Fort Wayne Service",
+                          "3cx_queue_id": "77",
+                          "3cx_queue_name": "OnCall Connect",
+                          "connectwise_board_id": "24",
+                          "_description": "Residential and commercial HVAC service department."
+                        },
+                        "channels": {
+                          "inherit": false,
+                          "email": true,
+                          "sms": true,
+                          "teams": true,
+                          "voice": true,
+                          "ai_callback": true,
+                          "crm": true,
+                          "push": false
+                        },
+                        "cc_emails": [
+                          "servicecoordinator@unclebobs.info"
+                        ],
+                        "bcc_emails": [],
+                        "quiet_hours": {
+                          "inherit": true,
+                          "description": "Inherits from Fort Wayne location."
+                        },
+                        "fallback_contacts": {
+                          "inherit": false,
+                          "emails": [
+                            "fwmanager@unclebobs.info"
+                          ],
+                          "phone_numbers": [
+                            "+12602009018"
+                          ],
+                          "contact_sources": [],
+                          "description": "FW Service department fallback."
+                        },
+                        "business_info": {
+                          "inherit": true,
+                          "description": "Inherits hours from Fort Wayne location."
+                        },
+                        "when_open": {
+                          "description": "Contacts used during business hours (open, appointment_only, holiday_hours states).",
+                          "contact_sources": [
+                            {
+                              "system": "microsoft",
+                              "source_type": "group_membership",
+                              "group_id": "063918dd-e478-4b0d-8ddd-30b66796fa58",
+                              "group_name": "DL Uncle Bob's Fort Wayne Service",
+                              "role": "primary",
+                              "notes": "All FW service techs and dispatchers"
+                            }
+                          ],
+                          "additional_emails": [
+                            "fwmanager@unclebobs.info",
+                            "servicecoordinator@unclebobs.info"
+                          ],
+                          "additional_sms_numbers": [
+                            "+12602009018"
+                          ]
+                        },
+                        "when_closed": {
+                          "description": "After-hours routing to on-call technician.",
+                          "contact_sources": [
+                            {
+                              "system": "schedule",
+                              "source_type": "oncall_assignment",
+                              "role": "primary",
+                              "filter": {
+                                "department": "SERVICE",
+                                "site_location": "Fort Wayne"
+                              },
+                              "notes": "Primary on-call tech from rotation schedule"
+                            },
+                            {
+                              "system": "3cx",
+                              "source_type": "queue",
+                              "queue_id": "77",
+                              "queue_name": "OnCall Connect",
+                              "role": "backup",
+                              "notes": "Backup if schedule lookup fails"
+                            }
+                          ],
+                          "additional_emails": [],
+                          "additional_sms_numbers": [
+                            "+12602009018"
+                          ],
+                          "rotation": {
+                            "frequency": "weekly",
+                            "change_point": {
+                              "day": "mon",
+                              "time": "07:00"
+                            },
+                            "rotation_start": "2024-01-01",
+                            "contact_order": [
+                              "c_alex_thompson",
+                              "c_jordan_martinez",
+                              "c_sam_wilson",
+                              "c_taylor_chen"
+                            ],
+                            "handoff_notifications": {
+                              "notify_incoming": true,
+                              "notify_outgoing": true,
+                              "hours_before": 24,
+                              "channels": [
+                                "email",
+                                "sms",
+                                "teams"
+                              ]
+                            }
+                          },
+                          "modifications": [
+                            {
+                              "id": "mod_2025_001",
+                              "type": "swap",
+                              "period": {
+                                "start": "2025-01-13",
+                                "end": "2025-01-20"
+                              },
+                              "original_contact": "c_alex_thompson",
+                              "replacement_contact": "c_jordan_martinez",
+                              "reason": "vacation - family trip",
+                              "created_at": "2024-12-20T09:30:00-05:00",
+                              "created_by": "admin@unclebobs.info"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "department_id": "install",
+                        "department_name": "Installation",
+                        "enabled": true,
+                        "is_default": false,
+                        "inbound_phone_numbers": [
+                          "+12602009018"
+                        ],
+                        "teams_channel_id": "19:Nm3ILNaJfb3hKnh0bdaZfQiODO9tdFheyh4k6uBsrMk1@thread.tacv2",
+                        "source_system_ids": {
+                          "microsoft_group_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                          "microsoft_group_name": "DL Uncle Bob's Fort Wayne Install",
+                          "3cx_queue_id": "78",
+                          "connectwise_board_id": "25",
+                          "_description": "New equipment installation department."
+                        },
+                        "channels": {
+                          "inherit": false,
+                          "email": true,
+                          "sms": true,
+                          "teams": true,
+                          "voice": true,
+                          "ai_callback": false,
+                          "crm": true,
+                          "push": false
+                        },
+                        "cc_emails": [
+                          "installmanager@unclebobs.info"
+                        ],
+                        "bcc_emails": [],
+                        "quiet_hours": {
+                          "inherit": true
+                        },
+                        "fallback_contacts": {
+                          "inherit": false,
+                          "emails": [
+                            "installmanager@unclebobs.info"
+                          ],
+                          "phone_numbers": [],
+                          "contact_sources": [],
+                          "description": "Installation department fallback."
+                        },
+                        "business_info": {
+                          "inherit": true,
+                          "description": "Inherits hours from Fort Wayne location."
+                        },
+                        "when_open": {
+                          "description": "Installation scheduling during business hours.",
+                          "contact_sources": [
+                            {
+                              "system": "microsoft",
+                              "source_type": "group_membership",
+                              "group_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                              "role": "primary"
+                            }
+                          ],
+                          "additional_emails": [
+                            "installmanager@unclebobs.info"
+                          ],
+                          "additional_sms_numbers": []
+                        },
+                        "when_closed": {
+                          "description": "Installation is next-business-day only - no after-hours.",
+                          "contact_sources": [],
+                          "additional_emails": [
+                            "installmanager@unclebobs.info"
+                          ],
+                          "additional_sms_numbers": [],
+                          "message": "Installation scheduling is available Monday through Friday, 7 AM to 6 PM. Please call back during business hours or leave a message."
+                        }
+                      },
+                      {
+                        "department_id": "parts",
+                        "department_name": "Parts Counter",
+                        "enabled": true,
+                        "is_default": false,
+                        "inbound_phone_numbers": [
+                          "+12602009018"
+                        ],
+                        "teams_channel_id": "19:Nm3ILNaJfb3hKnh0bdaZfQiODO9tdFheyh4k6uBsrMk1@thread.tacv2",
+                        "source_system_ids": {
+                          "microsoft_group_id": "03d77735-20f7-4bbc-9366-b612c73c05a3",
+                          "microsoft_group_name": "DL Uncle Bob's Parts",
+                          "3cx_queue_id": "79",
+                          "_description": "Walk-in and phone parts counter."
+                        },
+                        "channels": {
+                          "inherit": false,
+                          "email": true,
+                          "sms": false,
+                          "teams": true,
+                          "voice": true,
+                          "ai_callback": false,
+                          "crm": true,
+                          "push": false
+                        },
+                        "cc_emails": [],
+                        "bcc_emails": [],
+                        "quiet_hours": {
+                          "inherit": true
+                        },
+                        "fallback_contacts": {
+                          "inherit": false,
+                          "emails": [
+                            "partsmanager@unclebobs.info"
+                          ],
+                          "phone_numbers": [],
+                          "contact_sources": [],
+                          "description": "Parts department fallback."
+                        },
+                        "business_info": {
+                          "inherit": true,
+                          "description": "Inherits hours from Fort Wayne location."
+                        },
+                        "when_open": {
+                          "description": "Parts counter during business hours.",
+                          "contact_sources": [
+                            {
+                              "system": "microsoft",
+                              "source_type": "group_membership",
+                              "group_id": "03d77735-20f7-4bbc-9366-b612c73c05a3",
+                              "role": "primary"
+                            }
+                          ],
+                          "additional_emails": [
+                            "partsmanager@unclebobs.info"
+                          ],
+                          "additional_sms_numbers": []
+                        },
+                        "when_closed": {
+                          "description": "Parts is next-business-day only.",
+                          "contact_sources": [],
+                          "additional_emails": [
+                            "partsmanager@unclebobs.info"
+                          ],
+                          "additional_sms_numbers": [],
+                          "message": "Our parts counter is open Monday through Friday, 7 AM to 6 PM, and Saturday 8 AM to noon. Please call back during business hours."
+                        }
+                      },
+                      {
+                        "department_id": "sales",
+                        "department_name": "Sales & Estimates",
+                        "enabled": true,
+                        "is_default": false,
+                        "inbound_phone_numbers": [
+                          "+12602009018"
+                        ],
+                        "teams_channel_id": "19:SalesChannel12345@thread.tacv2",
+                        "source_system_ids": {
+                          "microsoft_group_id": "b2c3d4e5-f6a7-8901-bcde-f23456789012",
+                          "microsoft_group_name": "DL Uncle Bob's Sales",
+                          "connectwise_board_id": "26",
+                          "_description": "Comfort consultants and estimates."
+                        },
+                        "channels": {
+                          "inherit": false,
+                          "email": true,
+                          "sms": true,
+                          "teams": true,
+                          "voice": true,
+                          "ai_callback": true,
+                          "crm": true,
+                          "push": false
+                        },
+                        "cc_emails": [
+                          "salesmanager@unclebobs.info"
+                        ],
+                        "bcc_emails": [],
+                        "quiet_hours": {
+                          "inherit": false,
+                          "enabled": true,
+                          "window_start": "20:00",
+                          "window_end": "08:00",
+                          "description": "Sales has earlier quiet hours - no calls after 8 PM."
+                        },
+                        "fallback_contacts": {
+                          "inherit": false,
+                          "emails": [
+                            "salesmanager@unclebobs.info"
+                          ],
+                          "phone_numbers": [],
+                          "contact_sources": [],
+                          "description": "Sales department fallback."
+                        },
+                        "business_info": {
+                          "inherit": true,
+                          "description": "Inherits hours from Fort Wayne location."
+                        },
+                        "when_open": {
+                          "description": "Sales inquiries and estimate scheduling.",
+                          "contact_sources": [
+                            {
+                              "system": "microsoft",
+                              "source_type": "group_membership",
+                              "group_id": "b2c3d4e5-f6a7-8901-bcde-f23456789012",
+                              "role": "primary"
+                            }
+                          ],
+                          "additional_emails": [
+                            "salesmanager@unclebobs.info"
+                          ],
+                          "additional_sms_numbers": []
+                        },
+                        "when_closed": {
+                          "description": "Sales leads captured for next-day follow-up.",
+                          "contact_sources": [],
+                          "additional_emails": [
+                            "salesleads@unclebobs.info"
+                          ],
+                          "additional_sms_numbers": [],
+                          "message": "Thank you for your interest in a new system! A comfort consultant will contact you the next business day."
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "location_id": "decatur",
+                    "location_name": "Decatur",
+                    "enabled": true,
+                    "is_default": false,
+                    "state": "IN",
+                    "inbound_phone_numbers": [
+                      "+12602009018"
+                    ],
+                    "teams_channel_id": "19:Nm3ILNaJfb3hKnh0bdaZfQiODO9tdFheyh4k6uBsrMk1@thread.tacv2",
+                    "source_system_ids": {
+                      "microsoft_team_id": "3db49160-c8aa-40c3-bf18-f4d6bfa476c3",
+                      "3cx_group_id": "20",
+                      "connectwise_site_id": "2",
+                      "_description": "Decatur branch - serves Adams County."
+                    },
+                    "channels": {
+                      "inherit": false,
+                      "email": true,
+                      "sms": true,
+                      "teams": true,
+                      "voice": true,
+                      "ai_callback": true,
+                      "crm": true,
+                      "push": false
+                    },
+                    "cc_emails": [
+                      "decaturmanager@unclebobs.info"
+                    ],
+                    "bcc_emails": [
+                      "oncallconnect@atgfw.com"
+                    ],
+                    "quiet_hours": {
+                      "inherit": true,
+                      "description": "Inherits global quiet hours."
+                    },
+                    "fallback_contacts": {
+                      "inherit": false,
+                      "emails": [
+                        "decaturmanager@unclebobs.info"
+                      ],
+                      "phone_numbers": [
+                        "+12602009018"
+                      ],
+                      "contact_sources": [],
+                      "description": "Decatur location fallback."
+                    },
+                    "business_info": {
+                      "inherit": false,
+                      "timezone": "America/Indiana/Indianapolis",
+                      "address": "123 Main St, Decatur, IN 46733",
+                      "public_phone": "+12607241234",
+                      "hours": [
+                        {
+                          "days": [
+                            "mon",
+                            "tue",
+                            "wed",
+                            "thu",
+                            "fri"
+                          ],
+                          "start_time": "08:00",
+                          "end_time": "17:00",
+                          "status": "open"
+                        },
+                        {
+                          "days": [
+                            "sat",
+                            "sun"
+                          ],
+                          "status": "closed"
+                        }
+                      ],
+                      "holidays": [
+                        {
+                          "date": "2025-01-01",
+                          "name": "New Year's Day",
+                          "status": "closed"
+                        },
+                        {
+                          "date": "2025-12-25",
+                          "name": "Christmas Day",
+                          "status": "closed"
+                        }
+                      ],
+                      "emergency_after_hours": {
+                        "inherit": true
+                      }
+                    },
+                    "policy": {
+                      "inherit": true
+                    },
+                    "departments": [
+                      {
+                        "department_id": "service",
+                        "department_name": "Service",
+                        "enabled": true,
+                        "is_default": true,
+                        "inbound_phone_numbers": [
+                          "+12602009018"
+                        ],
+                        "teams_channel_id": "19:Nm3ILNaJfb3hKnh0bdaZfQiODO9tdFheyh4k6uBsrMk1@thread.tacv2",
+                        "source_system_ids": {
+                          "microsoft_group_id": "0da338b6-23d3-41d1-aa72-78886641fcd4",
+                          "microsoft_group_name": "DL Uncle Bob's Decatur Service",
+                          "3cx_queue_id": "77",
+                          "_description": "Decatur service department."
+                        },
+                        "channels": {
+                          "inherit": false,
+                          "email": true,
+                          "sms": true,
+                          "teams": true,
+                          "voice": true,
+                          "ai_callback": true,
+                          "crm": true,
+                          "push": false
+                        },
+                        "cc_emails": [],
+                        "bcc_emails": [],
+                        "quiet_hours": {
+                          "inherit": true
+                        },
+                        "fallback_contacts": {
+                          "inherit": false,
+                          "emails": [
+                            "decaturmanager@unclebobs.info"
+                          ],
+                          "phone_numbers": [
+                            "+12602009018"
+                          ],
+                          "contact_sources": [],
+                          "description": "Decatur Service fallback."
+                        },
+                        "business_info": {
+                          "inherit": true,
+                          "description": "Inherits hours from Decatur location."
+                        },
+                        "when_open": {
+                          "description": "Decatur service during business hours.",
+                          "contact_sources": [
+                            {
+                              "system": "microsoft",
+                              "source_type": "group_membership",
+                              "group_id": "0da338b6-23d3-41d1-aa72-78886641fcd4",
+                              "role": "primary"
+                            },
+                            {
+                              "system": "microsoft",
+                              "source_type": "group_membership",
+                              "group_id": "44ff2bf4-ed22-4117-86ea-f218c4103179",
+                              "group_name": "DL Uncle Bob's Regional Dispatchers",
+                              "role": "cc"
+                            }
+                          ],
+                          "additional_emails": [
+                            "decaturmanager@unclebobs.info"
+                          ],
+                          "additional_sms_numbers": [
+                            "+12602009018"
+                          ]
+                        },
+                        "when_closed": {
+                          "description": "Decatur shares on-call rotation with Fort Wayne.",
+                          "contact_sources": [
+                            {
+                              "system": "schedule",
+                              "source_type": "oncall_assignment",
+                              "role": "primary",
+                              "filter": {
+                                "department": "SERVICE",
+                                "site_location": "Decatur"
+                              }
+                            }
+                          ],
+                          "additional_emails": [],
+                          "additional_sms_numbers": [
+                            "+12602009018"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "location_id": "elkhart",
+                    "location_name": "Elkhart",
+                    "enabled": true,
+                    "is_default": false,
+                    "state": "IN",
+                    "inbound_phone_numbers": [
+                      "+12602009018"
+                    ],
+                    "teams_channel_id": "19:Nm3ILNaJfb3hKnh0bdaZfQiODO9tdFheyh4k6uBsrMk1@thread.tacv2",
+                    "source_system_ids": {
+                      "microsoft_team_id": "3db49160-c8aa-40c3-bf18-f4d6bfa476c3",
+                      "3cx_group_id": "30",
+                      "connectwise_site_id": "3",
+                      "_description": "Elkhart branch - parts distribution focus."
+                    },
+                    "channels": {
+                      "inherit": false,
+                      "email": true,
+                      "sms": true,
+                      "teams": true,
+                      "voice": true,
+                      "ai_callback": false,
+                      "crm": true,
+                      "push": false
+                    },
+                    "cc_emails": [],
+                    "bcc_emails": [
+                      "oncallconnect@atgfw.com"
+                    ],
+                    "quiet_hours": {
+                      "inherit": true
+                    },
+                    "fallback_contacts": {
+                      "inherit": false,
+                      "emails": [
+                        "elkhartparts@unclebobs.info"
+                      ],
+                      "phone_numbers": [
+                        "+12602009018"
+                      ],
+                      "contact_sources": [],
+                      "description": "Elkhart location fallback."
+                    },
+                    "business_info": {
+                      "inherit": false,
+                      "timezone": "America/Indiana/Indianapolis",
+                      "address": "456 Industrial Pkwy, Elkhart, IN 46516",
+                      "public_phone": "+15742931234",
+                      "hours": [
+                        {
+                          "days": [
+                            "mon",
+                            "tue",
+                            "wed",
+                            "thu",
+                            "fri"
+                          ],
+                          "start_time": "07:30",
+                          "end_time": "17:30",
+                          "status": "open"
+                        },
+                        {
+                          "days": [
+                            "sat"
+                          ],
+                          "start_time": "08:00",
+                          "end_time": "12:00",
+                          "status": "appointment_only"
+                        },
+                        {
+                          "days": [
+                            "sun"
+                          ],
+                          "status": "closed"
+                        }
+                      ],
+                      "holidays": [],
+                      "emergency_after_hours": {
+                        "inherit": true
+                      }
+                    },
+                    "policy": {
+                      "inherit": true
+                    },
+                    "departments": [
+                      {
+                        "department_id": "parts",
+                        "department_name": "Parts Distribution",
+                        "enabled": true,
+                        "is_default": true,
+                        "inbound_phone_numbers": [
+                          "+12602009018"
+                        ],
+                        "teams_channel_id": "19:Nm3ILNaJfb3hKnh0bdaZfQiODO9tdFheyh4k6uBsrMk1@thread.tacv2",
+                        "source_system_ids": {
+                          "microsoft_group_id": "ce9c85f3-927c-4aed-9e45-7a9e1bb62e21",
+                          "microsoft_group_name": "DL Uncle Bob's Elkhart Parts",
+                          "3cx_queue_id": "80",
+                          "_description": "Elkhart parts distribution warehouse."
+                        },
+                        "channels": {
+                          "inherit": false,
+                          "email": true,
+                          "sms": true,
+                          "teams": true,
+                          "voice": true,
+                          "ai_callback": false,
+                          "crm": true,
+                          "push": false
+                        },
+                        "cc_emails": [],
+                        "bcc_emails": [],
+                        "quiet_hours": {
+                          "inherit": true
+                        },
+                        "fallback_contacts": {
+                          "inherit": false,
+                          "emails": [
+                            "elkhartparts@unclebobs.info"
+                          ],
+                          "phone_numbers": [
+                            "+12602009018"
+                          ],
+                          "contact_sources": []
+                        },
+                        "business_info": {
+                          "inherit": true,
+                          "description": "Inherits hours from Elkhart location."
+                        },
+                        "when_open": {
+                          "description": "Elkhart parts warehouse during business hours.",
+                          "contact_sources": [
+                            {
+                              "system": "microsoft",
+                              "source_type": "group_membership",
+                              "group_id": "ce9c85f3-927c-4aed-9e45-7a9e1bb62e21",
+                              "role": "primary"
+                            },
+                            {
+                              "system": "microsoft",
+                              "source_type": "group_membership",
+                              "group_id": "03d77735-20f7-4bbc-9366-b612c73c05a3",
+                              "group_name": "DL Uncle Bob's Parts (All Locations)",
+                              "role": "cc"
+                            }
+                          ],
+                          "additional_emails": [
+                            "elkhartparts@unclebobs.info"
+                          ],
+                          "additional_sms_numbers": [
+                            "+12602009018"
+                          ]
+                        },
+                        "when_closed": {
+                          "description": "Parts warehouse is next-business-day only.",
+                          "contact_sources": [],
+                          "additional_emails": [
+                            "elkhartparts@unclebobs.info"
+                          ],
+                          "additional_sms_numbers": [],
+                          "message": "Elkhart parts distribution is open Monday through Friday. For urgent contractor needs, please contact our Fort Wayne location."
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "location_id": "corporate",
+                    "location_name": "Corporate / IT",
+                    "enabled": true,
+                    "is_default": false,
+                    "state": "IN",
+                    "inbound_phone_numbers": [
+                      "+12602009018"
+                    ],
+                    "teams_channel_id": "19:ITSupportChannel@thread.tacv2",
+                    "source_system_ids": {
+                      "microsoft_team_id": "3db49160-c8aa-40c3-bf18-f4d6bfa476c3",
+                      "3cx_group_id": "40",
+                      "_description": "Corporate headquarters and IT support."
+                    },
+                    "channels": {
+                      "inherit": false,
+                      "email": true,
+                      "sms": true,
+                      "teams": true,
+                      "voice": true,
+                      "ai_callback": true,
+                      "crm": true,
+                      "push": false
+                    },
+                    "cc_emails": [],
+                    "bcc_emails": [
+                      "oncallconnect@atgfw.com"
+                    ],
+                    "quiet_hours": {
+                      "inherit": false,
+                      "enabled": false,
+                      "description": "IT Support has no quiet hours - critical systems monitored 24/7."
+                    },
+                    "fallback_contacts": {
+                      "inherit": false,
+                      "emails": [
+                        "itsupport@unclebobs.info"
+                      ],
+                      "phone_numbers": [],
+                      "contact_sources": []
+                    },
+                    "business_info": {
+                      "inherit": false,
+                      "timezone": "America/Indiana/Indianapolis",
+                      "address": "4018 New Haven Ave, Fort Wayne, IN 46803",
+                      "public_phone": "+12604822844",
+                      "hours": [
+                        {
+                          "days": [
+                            "mon",
+                            "tue",
+                            "wed",
+                            "thu",
+                            "fri"
+                          ],
+                          "start_time": "08:00",
+                          "end_time": "17:00",
+                          "status": "open"
+                        },
+                        {
+                          "days": [
+                            "sat",
+                            "sun"
+                          ],
+                          "status": "closed"
+                        }
+                      ],
+                      "holidays": [],
+                      "emergency_after_hours": {
+                        "inherit": true
+                      }
+                    },
+                    "policy": {
+                      "inherit": true
+                    },
+                    "departments": [
+                      {
+                        "department_id": "it_support",
+                        "department_name": "IT Support",
+                        "enabled": true,
+                        "is_default": true,
+                        "inbound_phone_numbers": [
+                          "+12602009018"
+                        ],
+                        "teams_channel_id": "19:ITSupportChannel@thread.tacv2",
+                        "source_system_ids": {
+                          "microsoft_group_id": "6fab670f-34ec-4409-ad5b-0fc01e01894d",
+                          "microsoft_group_name": "DL Uncle Bob's IT Support",
+                          "3cx_queue_id": "77",
+                          "_description": "Internal IT support and infrastructure."
+                        },
+                        "channels": {
+                          "inherit": false,
+                          "email": true,
+                          "sms": true,
+                          "teams": true,
+                          "voice": true,
+                          "ai_callback": true,
+                          "crm": true,
+                          "push": false
+                        },
+                        "cc_emails": [
+                          "helpdesk@unclebobs.info"
+                        ],
+                        "bcc_emails": [],
+                        "quiet_hours": {
+                          "inherit": true,
+                          "description": "Inherits from Corporate (disabled)."
+                        },
+                        "fallback_contacts": {
+                          "inherit": false,
+                          "emails": [
+                            "itsupport@unclebobs.info",
+                            "helpdesk@unclebobs.info"
+                          ],
+                          "phone_numbers": [],
+                          "contact_sources": []
+                        },
+                        "business_info": {
+                          "inherit": true,
+                          "description": "Inherits hours from Corporate location."
+                        },
+                        "when_open": {
+                          "description": "IT Support during business hours.",
+                          "contact_sources": [
+                            {
+                              "system": "microsoft",
+                              "source_type": "group_membership",
+                              "group_id": "6fab670f-34ec-4409-ad5b-0fc01e01894d",
+                              "role": "primary"
+                            }
+                          ],
+                          "additional_emails": [
+                            "itsupport@unclebobs.info",
+                            "helpdesk@unclebobs.info"
+                          ],
+                          "additional_sms_numbers": []
+                        },
+                        "when_closed": {
+                          "description": "Critical IT issues escalate to on-call IT staff.",
+                          "contact_sources": [
+                            {
+                              "system": "schedule",
+                              "source_type": "oncall_assignment",
+                              "role": "primary",
+                              "filter": {
+                                "department": "IT",
+                                "site_location": "Corporate"
+                              }
+                            }
+                          ],
+                          "additional_emails": [
+                            "itsupport@unclebobs.info"
+                          ],
+                          "additional_sms_numbers": [],
+                          "escalation_keywords": [
+                            "server down",
+                            "network outage",
+                            "email down",
+                            "internet down",
+                            "phone system",
+                            "ransomware",
+                            "security breach"
+                          ]
+                        }
+                      },
+                      {
+                        "department_id": "accounting",
+                        "department_name": "Accounting",
+                        "enabled": true,
+                        "is_default": false,
+                        "inbound_phone_numbers": [
+                          "+12602009018"
+                        ],
+                        "teams_channel_id": "19:AccountingChannel@thread.tacv2",
+                        "source_system_ids": {
+                          "microsoft_group_id": "d4e5f6a7-b8c9-0123-defg-h45678901234",
+                          "microsoft_group_name": "DL Uncle Bob's Accounting",
+                          "_description": "Finance and accounting department."
+                        },
+                        "channels": {
+                          "inherit": false,
+                          "email": true,
+                          "sms": false,
+                          "teams": true,
+                          "voice": true,
+                          "ai_callback": false,
+                          "crm": false,
+                          "push": false
+                        },
+                        "cc_emails": [],
+                        "bcc_emails": [],
+                        "quiet_hours": {
+                          "inherit": false,
+                          "enabled": true,
+                          "window_start": "17:00",
+                          "window_end": "08:00",
+                          "description": "Accounting strictly business hours only."
+                        },
+                        "fallback_contacts": {
+                          "inherit": false,
+                          "emails": [
+                            "accounting@unclebobs.info"
+                          ],
+                          "phone_numbers": [],
+                          "contact_sources": []
+                        },
+                        "business_info": {
+                          "inherit": true,
+                          "description": "Inherits hours from Corporate location."
+                        },
+                        "when_open": {
+                          "description": "Billing and payment inquiries during business hours.",
+                          "contact_sources": [
+                            {
+                              "system": "microsoft",
+                              "source_type": "group_membership",
+                              "group_id": "d4e5f6a7-b8c9-0123-defg-h45678901234",
+                              "role": "primary"
+                            }
+                          ],
+                          "additional_emails": [
+                            "accounting@unclebobs.info"
+                          ],
+                          "additional_sms_numbers": []
+                        },
+                        "when_closed": {
+                          "description": "Accounting is strictly next-business-day.",
+                          "contact_sources": [],
+                          "additional_emails": [
+                            "accounting@unclebobs.info"
+                          ],
+                          "additional_sms_numbers": [],
+                          "message": "For billing inquiries, please call back Monday through Friday between 8 AM and 5 PM."
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "contacts": {
+                  "description": "Named contact definitions referenced by rotation schedules. Individual contact preferences override department/location policies.",
+                  "c_alex_thompson": {
+                    "display_name": "Alex Thompson",
+                    "email": "athompson@unclebobs.info",
+                    "phone": "+12605551001",
+                    "employee_id": "EMP001",
+                    "certifications": [
+                      "EPA 608",
+                      "NATE"
+                    ],
+                    "notes": "Senior tech, 15 years experience. Prefers text over calls.",
+                    "preferences": {
+                      "inherit": true,
+                      "overrides": {
+                        "preferred_channel": "sms"
+                      }
+                    }
+                  },
+                  "c_jordan_martinez": {
+                    "display_name": "Jordan Martinez",
+                    "email": "jmartinez@unclebobs.info",
+                    "phone": "+12605551002",
+                    "employee_id": "EMP002",
+                    "certifications": [
+                      "EPA 608",
+                      "NATE",
+                      "Carrier Factory Authorized"
+                    ],
+                    "notes": "Bilingual English/Spanish. Commercial specialist.",
+                    "preferences": {
+                      "inherit": true,
+                      "overrides": {
+                        "language": {
+                          "primary": "en",
+                          "supported": [
+                            "en",
+                            "es"
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "c_sam_wilson": {
+                    "display_name": "Sam Wilson",
+                    "email": "swilson@unclebobs.info",
+                    "phone": "+12605551003",
+                    "employee_id": "EMP003",
+                    "certifications": [
+                      "EPA 608"
+                    ],
+                    "notes": "Residential focus. New to on-call rotation.",
+                    "preferences": {
+                      "inherit": true
+                    }
+                  },
+                  "c_taylor_chen": {
+                    "display_name": "Taylor Chen",
+                    "email": "tchen@unclebobs.info",
+                    "phone": "+12605551004",
+                    "employee_id": "EMP004",
+                    "certifications": [
+                      "EPA 608",
+                      "NATE",
+                      "Lennox Premier"
+                    ],
+                    "notes": "Heat pump and geothermal specialist.",
+                    "preferences": {
+                      "inherit": true
+                    }
+                  }
+                },
+                "legacy_variable_mapping": {
+                  "_description": "Maps legacy flat org variables to new nested paths for backward compatibility.",
+                  "occ_teams_channel_id": "global.integrations.microsoft_teams.default_channel_id",
+                  "occ_teams_app_catalog_id": "global.integrations.microsoft_teams.bot_app_catalog_id",
+                  "occ_team_id": "global.integrations.microsoft_teams.default_team_id",
+                  "occ_sla_mode": "global.policy.default_contact_mode",
+                  "occ_skip_initial_call_delay": "global.policy.retry_logic.skip_initial_call_delay",
+                  "occ_queue_id": "global.integrations.3cx.default_queue_id",
+                  "occ_ms_tenant_id": "global.integrations.microsoft_teams.tenant_id",
+                  "occ_ms_bot_framework_display_name": "global.integrations.microsoft_teams.bot_display_name",
+                  "occ_ms_bot_framework_app_registration_id": "global.integrations.microsoft_teams.bot_app_reg_id",
+                  "occ_max_call_attempts": "global.policy.retry_logic.max_call_attempts",
+                  "occ_elevenlabs_ai_agent_phone_number_id": "global.integrations.elevenlabs.outbound_phone_id",
+                  "occ_elevenlabs_agent_id": "global.integrations.elevenlabs.outbound_agent_id",
+                  "occ_call_attempt_interval_min": "global.policy.retry_logic.call_attempt_interval_min",
+                  "occ_alert_escalation_phone_number": "global.policy.escalation.phone_number",
+                  "occ_alert_escalation": "global.policy.escalation.enabled",
+                  "occ_deployment_phase": "global.policy.deployment_phase",
+                  "occ_fallback_email_addresses": "global.fallback_contacts.emails",
+                  "occ_fallback_phone_number": "global.fallback_contacts.phone_numbers[0]",
+                  "occ_bandwidth_from_sms_phone_number": "global.integrations.bandwidth.sms_from_number"
+                }
+              },
+              "occ_team_id": "3db49160-c8aa-40c3-bf18-f4d6bfa476c3",
+              "occ_queue_id": 77,
+              "occ_ms_tenant_id": "d487f34b-51b0-4841-9390-fb3ae164ea5b",
+              "occ_teams_channel_id": "19:Nm3ILNaJfb3hKnh0bdaZfQiODO9tdFheyh4k6uBsrMk1@thread.tacv2",
+              "occ_alert_escalation": false,
+              "occ_max_call_attempts": 5,
+              "occ_call_attempt_interval_min": 1,
+              "occ_elevenlabs_agent_id": "agent_9901k6zq4g39fk98r4dw5zfp1k3k",
+              "occ_elevenlabs_ai_agent_phone_number_id": "phnum_1501k6zq9tvpfystfk13e9q70kf6",
+              "occ_teams_app_catalog_id": "78d2c74c-e5a6-496d-8da5-06d73ce07899",
+              "occ_ms_bot_framework_display_name": "OnCall Connect",
+              "occ_ms_bot_framework_app_registration_id": "c82707ce-decc-4570-8549-d16faecf61b5",
+              "occ_skip_initial_call_delay": true,
+              "occ_bandwidth_from_sms_phone_number": "+12602031287"
+            },
+            "integrations": {
+              "schedule_database": {
+                "config_name": "occ_sql_018c369f-9e69-7524-b7c3-fad2ce09a450"
+              }
+            },
+            "runtime": {
+              "org_id": "018c369f-9e69-7524-b7c3-fad2ce09a450",
+              "session_id": "f05552d2-53f3-4d68-9ed1-e24ef42b2bc2",
+              "current_execution_id": "019be72a-398e-7b25-8f56-918a2a50ccc6",
+              "execution_url": "https://app.rewst.io/organizations/018c369f-9e69-7524-b7c3-fad2ce09a450/results/019be72a-398e-7b25-8f56-918a2a50ccc6",
+              "now": "2026-01-22 19:24:25"
+            }
+          },
+          "sla_start_time_friendly": "Thursday, January 22, 2026 at 2:23 PM",
+          "response_sla_goal": "Next Business Day"
+        },
+        {
+          "elevenlabs_body_data_analysis": {
+            "evaluation_criteria_results": {
+              "guardrails_obeyed": {
+                "criteria_id": "guardrails_obeyed",
+                "result": "success",
+                "rationale": "The conversation does not contain any instances of the agent breaking any prompt guardrail rules. The agent is polite and professional."
+              },
+              "proper_closure": {
+                "criteria_id": "proper_closure",
+                "result": "failure",
+                "rationale": "The conversation ends abruptly after the agent confirms the phone number. The agent does not summarize the issue or let the user know that someone will follow up. Therefore, the conversation does not have a proper closure."
+              }
+            },
+            "data_collection_results": {},
+            "evaluation_criteria_results_list": [
+              {
+                "criteria_id": "guardrails_obeyed",
+                "result": "success",
+                "rationale": "The conversation does not contain any instances of the agent breaking any prompt guardrail rules. The agent is polite and professional."
+              },
+              {
+                "criteria_id": "proper_closure",
+                "result": "failure",
+                "rationale": "The conversation ends abruptly after the agent confirms the phone number. The agent does not summarize the issue or let the user know that someone will follow up. Therefore, the conversation does not have a proper closure."
+              }
+            ],
+            "data_collection_results_list": [],
+            "call_successful": "failure",
+            "transcript_summary": "Shelly, an AI agent for Schlatter's Plumbing & Heating, is assisting a user named Cody who is unsure of the reason for his call. Shelly gathers Cody's name and callback number (260-217-3555) to have someone from the team reach out. The agent also attempts to identify the company Cody is calling from. An error occurred during client initiation.\n",
+            "call_summary_title": "Plumbing Support: Unknown Issue"
+          },
+          "affected_asset": null,
+          "caller_first_name": null,
+          "caller_last_name": null,
+          "caller_phone_number": "260-482-2844",
+          "company_name": "Unspecified",
+          "contact_phone": null,
+          "contact_email": null,
+          "contact_first_name": null,
+          "contact_last_name": null,
+          "department": null,
+          "detailed_description": null,
+          "contact_group_name": null,
+          "sms_recap": {
+            "text": null,
+            "sent": false,
+            "error": false
+          },
+          "site_location": null,
+          "request_summary": null,
+          "requested_due_date": null,
+          "recording_url": null,
+          "call_duration_secs": 78,
+          "call_validity_type": "VALID",
+          "call_validity_reason": "Call completed normally",
+          "is_valid_call": true,
+          "call_transferred": false,
+          "call_transfer_destination": null,
+          "transfer_reason": null,
+          "event_time_call_start": "2:22 PM",
+          "event_time_details_captured": "2:23 PM",
+          "event_time_sms_sent": null,
+          "event_time_transfer": null,
+          "event_time_call_end": "2:23 PM",
+          "agent_phone_number": "260-200-9359",
+          "call_direction": "Inbound",
+          "call_type": "Sip Trunking",
+          "sms_consent_status": "Not Requested"
+        },
+        {
+          "contact_group_name": null
+        },
+        {
+          "occ_contacts": {
+            "workflow_output": {
+              "schema_name": "workflow_output",
+              "runtime_version": "8.1",
+              "generated_at": "2026-01-22T19:24:33+0000",
+              "description": "The computed runtime state for OnCall Connect.",
+              "resolution_context": {
+                "scope_input": {
+                  "location_id": null,
+                  "department_id": null,
+                  "inbound_did": null
+                },
+                "input_classification": {
+                  "raw_input": "OnCall Connect",
+                  "kind": "group",
+                  "resolved_key": null,
+                  "prefix_used": null
+                },
+                "effective_policy": {
+                  "deployment_phase": "PROD",
+                  "contact_mode": "nbd",
+                  "test_mode": false,
+                  "active_channels": [
+                    "email",
+                    "sms",
+                    "teams",
+                    "voice"
+                  ]
+                }
+              },
+              "temporal_context": {
+                "timezone": "America/Indiana/Indianapolis",
+                "local_wall_time": "2026-01-22T14:24:33-0500",
+                "business_state": {
+                  "status": "calculated_externally",
+                  "is_open_now": false,
+                  "description": "Temporal state not evaluated in this flow context."
+                }
+              },
+              "active_schedule": {
+                "rotation_id": "sch_dynamic",
+                "current_period": {
+                  "start": "2026-01-22T19:24:33+0000",
+                  "end": "2026-01-22T19:24:33+0000"
+                },
+                "base_contact": null,
+                "effective_contact": null,
+                "modification_applied": null
+              },
+              "resolved_contacts": [
+                {
+                  "contact_type": "person",
+                  "contact_id": "atgadmin@unclebobs.info",
+                  "tenant_key": "d487f34b-51b0-4841-9390-fb3ae164ea5b",
+                  "contact_id_source": "email",
+                  "display_name": "atgadmin",
+                  "active": 1,
+                  "source": "group_lookup",
+                  "channels": [
+                    "email",
+                    "sms",
+                    "voice",
+                    "teams"
+                  ],
+                  "resolution_reason": "group_membership",
+                  "contact_groups": [
+                    {
+                      "location_id": null,
+                      "department_id": null,
+                      "name": "OnCall Connect",
+                      "membership": "synced",
+                      "role": "member"
+                    }
+                  ],
+                  "identities": [
+                    {
+                      "system": "microsoft",
+                      "id": "160cefd9-8978-4b8c-81a0-a6ab5aada1c9",
+                      "source_type": "group_membership",
+                      "entity_type": "user",
+                      "status": "active"
+                    },
+                    {
+                      "system": "3cx",
+                      "id": 64,
+                      "source_type": "queue_agent",
+                      "entity_type": "user",
+                      "status": "active"
+                    }
+                  ],
+                  "notification_logic": {
+                    "quiet_hours_window": {
+                      "start": "21:00",
+                      "end": "06:00",
+                      "timezone": "America/Indiana/Indianapolis"
+                    },
+                    "is_in_quiet_hours": false,
+                    "action": "deliver_immediately",
+                    "bypass_evaluated": true,
+                    "bypass_applied": false,
+                    "bypass_reason": null,
+                    "description": "Outside quiet hours window"
+                  },
+                  "contact_info": {
+                    "phone_numbers": [
+                      {
+                        "value": "2602217355",
+                        "type": "mobile",
+                        "sms_consent": {
+                          "status": "unknown",
+                          "campaign_id": null,
+                          "consent_date": null
+                        },
+                        "sources": [
+                          {
+                            "system": "aggregated",
+                            "original_value": "2602217355"
+                          }
+                        ]
+                      },
+                      {
+                        "value": "+2604509431",
+                        "type": "mobile",
+                        "sms_consent": {
+                          "status": "unknown",
+                          "campaign_id": null,
+                          "consent_date": null
+                        },
+                        "sources": [
+                          {
+                            "system": "aggregated",
+                            "original_value": "+2604509431"
+                          }
+                        ]
+                      }
+                    ],
+                    "emails": [
+                      {
+                        "value": "atgadmin@unclebobs.info",
+                        "is_primary": true,
+                        "sources": [
+                          {
+                            "system": "aggregated",
+                            "field": "email"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "contact_type": "person",
+                  "contact_id": "gradya@unclebobs.info",
+                  "tenant_key": "d487f34b-51b0-4841-9390-fb3ae164ea5b",
+                  "contact_id_source": "email",
+                  "display_name": "Archie, Grady",
+                  "active": 1,
+                  "source": "group_lookup",
+                  "channels": [
+                    "email",
+                    "sms",
+                    "voice",
+                    "teams"
+                  ],
+                  "resolution_reason": "group_membership",
+                  "contact_groups": [
+                    {
+                      "location_id": null,
+                      "department_id": null,
+                      "name": "OnCall Connect",
+                      "membership": "synced",
+                      "role": "member"
+                    }
+                  ],
+                  "identities": [
+                    {
+                      "system": "microsoft",
+                      "id": "9fe3a44d-1c67-4588-b621-737e7c541513",
+                      "source_type": "group_membership",
+                      "entity_type": "user",
+                      "status": "active"
+                    }
+                  ],
+                  "notification_logic": {
+                    "quiet_hours_window": {
+                      "start": "21:00",
+                      "end": "06:00",
+                      "timezone": "America/Indiana/Indianapolis"
+                    },
+                    "is_in_quiet_hours": false,
+                    "action": "deliver_immediately",
+                    "bypass_evaluated": true,
+                    "bypass_applied": false,
+                    "bypass_reason": null,
+                    "description": "Outside quiet hours window"
+                  },
+                  "contact_info": {
+                    "phone_numbers": [
+                      {
+                        "value": "2602009018",
+                        "type": "mobile",
+                        "sms_consent": {
+                          "status": "unknown",
+                          "campaign_id": null,
+                          "consent_date": null
+                        },
+                        "sources": [
+                          {
+                            "system": "aggregated",
+                            "original_value": "2602009018"
+                          }
+                        ]
+                      }
+                    ],
+                    "emails": [
+                      {
+                        "value": "gradya@unclebobs.info",
+                        "is_primary": true,
+                        "sources": [
+                          {
+                            "system": "aggregated",
+                            "field": "email"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "contact_type": "person",
+                  "contact_id": "jonis@unclebobs.info",
+                  "tenant_key": "d487f34b-51b0-4841-9390-fb3ae164ea5b",
+                  "contact_id_source": "email",
+                  "display_name": "Sherman, Joni",
+                  "active": 1,
+                  "source": "group_lookup",
+                  "channels": [
+                    "email",
+                    "sms",
+                    "voice",
+                    "teams"
+                  ],
+                  "resolution_reason": "group_membership",
+                  "contact_groups": [
+                    {
+                      "location_id": null,
+                      "department_id": null,
+                      "name": "OnCall Connect",
+                      "membership": "synced",
+                      "role": "member"
+                    }
+                  ],
+                  "identities": [
+                    {
+                      "system": "microsoft",
+                      "id": "b6ae7d47-4334-47d0-8101-be073527a94e",
+                      "source_type": "group_membership",
+                      "entity_type": "user",
+                      "status": "active"
+                    }
+                  ],
+                  "notification_logic": {
+                    "quiet_hours_window": {
+                      "start": "21:00",
+                      "end": "06:00",
+                      "timezone": "America/Indiana/Indianapolis"
+                    },
+                    "is_in_quiet_hours": false,
+                    "action": "deliver_immediately",
+                    "bypass_evaluated": true,
+                    "bypass_applied": false,
+                    "bypass_reason": null,
+                    "description": "Outside quiet hours window"
+                  },
+                  "contact_info": {
+                    "phone_numbers": [
+                      {
+                        "value": "2602009018",
+                        "type": "mobile",
+                        "sms_consent": {
+                          "status": "unknown",
+                          "campaign_id": null,
+                          "consent_date": null
+                        },
+                        "sources": [
+                          {
+                            "system": "aggregated",
+                            "original_value": "2602009018"
+                          }
+                        ]
+                      }
+                    ],
+                    "emails": [
+                      {
+                        "value": "jonis@unclebobs.info",
+                        "is_primary": true,
+                        "sources": [
+                          {
+                            "system": "aggregated",
+                            "field": "email"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "contact_stats": {
+                "total": 3,
+                "in_rotation": 0,
+                "with_groups": 3,
+                "by_source": {
+                  "microsoft": 3,
+                  "3cx": 1
+                }
+              },
+              "_debug_qh_resolution": {
+                "qh_enabled": true,
+                "qh_start": "21:00",
+                "qh_end": "06:00",
+                "qh_tz": "America/Indiana/Indianapolis",
+                "qh_resolved_from": "location:fort_wayne",
+                "qh_bypass_critical": true,
+                "qh_bypass_oncall": true,
+                "resolution_context": {
+                  "location_id_input": null,
+                  "department_id_input": null,
+                  "matched_location": "fort_wayne",
+                  "matched_department": "service"
+                }
+              },
+              "distribution_summary": {
+                "total_contacts_resolved": 3,
+                "unique_sms_recipients": [],
+                "unique_email_recipients": [
+                  "atgadmin@unclebobs.info",
+                  "gradya@unclebobs.info",
+                  "jonis@unclebobs.info"
+                ],
+                "teams_channel_target": "19:Nm3ILNaJfb3hKnh0bdaZfQiODO9tdFheyh4k6uBsrMk1@thread.tacv2",
+                "cc_targets": [
+                  "fwmanager@unclebobs.info"
+                ],
+                "bcc_targets": [
+                  "oncallconnect@atgfw.com"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "email_to_list": [
+            "atgadmin@unclebobs.info",
+            "gradya@unclebobs.info",
+            "jonis@unclebobs.info"
+          ],
+          "email_cc_list": [
+            "fwmanager@unclebobs.info"
+          ],
+          "email_bcc_list": [
+            "oncallconnect@atgfw.com"
+          ],
+          "sms_consented_numbers": [
+            "+12602217355"
+          ],
+          "notified_contacts": [
+            {
+              "name": "atgadmin",
+              "email": "atgadmin@unclebobs.info",
+              "phone": "2602217355",
+              "sms_consent": false,
+              "sms_consent_label": "Unknown",
+              "job_title": "",
+              "department": null,
+              "source": "group_lookup",
+              "source_group": "OnCall Connect",
+              "quiet_hours": {
+                "is_active": false,
+                "action": "deliver_immediately",
+                "description": "Outside quiet hours window"
+              }
+            },
+            {
+              "name": "Archie, Grady",
+              "email": "gradya@unclebobs.info",
+              "phone": "2602009018",
+              "sms_consent": false,
+              "sms_consent_label": "Unknown",
+              "job_title": "",
+              "department": null,
+              "source": "group_lookup",
+              "source_group": "OnCall Connect",
+              "quiet_hours": {
+                "is_active": false,
+                "action": "deliver_immediately",
+                "description": "Outside quiet hours window"
+              }
+            },
+            {
+              "name": "Sherman, Joni",
+              "email": "jonis@unclebobs.info",
+              "phone": "2602009018",
+              "sms_consent": false,
+              "sms_consent_label": "Unknown",
+              "job_title": "",
+              "department": null,
+              "source": "group_lookup",
+              "source_group": "OnCall Connect",
+              "quiet_hours": {
+                "is_active": false,
+                "action": "deliver_immediately",
+                "description": "Outside quiet hours window"
+              }
+            }
+          ]
+        },
+        {
+          "sms_alert_text": "Uncle Bob's: ALERT\nCallback: 260-482-2844\n\nReply ACK F42B2BC2 to acknowledge\nor REJECT F42B2BC2 to reject"
+        }
+      ]
+    }
+  }
+}

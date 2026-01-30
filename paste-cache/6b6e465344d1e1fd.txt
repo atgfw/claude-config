@@ -1,0 +1,182 @@
+{
+  "data": {
+    "success": true,
+    "extraction_id": "b520d2a1-d434-4c5d-b02b-74ca6ec27f5d",
+    "timestamp": "2026-01-23T20:33:34.077Z",
+    "input_hash": "5ffba786",
+    "model_used": "gpt-5.2",
+    "categories_requested": [
+      "caller",
+      "contact",
+      "routing",
+      "request",
+      "consent_acknowledgement",
+      "call_validity",
+      "sales"
+    ],
+    "source_metadata": {
+      "channel": "oncall-connect-elevenlabs-inbound",
+      "session_id": "9f3bfb70-7cb7-45dd-8d0b-94e6e6f70b4d"
+    },
+    "extracted": {
+      "caller": {
+        "caller_first_name": {
+          "value": "Brendan",
+          "rationale": "Caller stated first name as \"Brendan\" in the transcript."
+        },
+        "caller_last_name": {
+          "value": "Sullivan",
+          "rationale": "Caller provided last name as \"Sullivan\" after clarification in the transcript."
+        },
+        "company_name": {
+          "value": "",
+          "rationale": "Caller did not mention an employer/company name in the transcript, and no structured company field was provided."
+        }
+      },
+      "contact": {
+        "contact_first_name": {
+          "value": "Brendan",
+          "rationale": "No separate contact person was named; contact defaults to caller first name from the transcript."
+        },
+        "contact_last_name": {
+          "value": "Sullivan",
+          "rationale": "No separate contact person was named; contact defaults to caller last name from the transcript."
+        },
+        "contact_phone": {
+          "value": "+12603485113",
+          "rationale": "Structured routing_observation shows SourceCallerId and inbound_summary.caller_id as +12603485113, which has priority over transcript and is already in E.164 format."
+        },
+        "contact_email": {
+          "value": "",
+          "rationale": "No email address was provided in the transcript or structured data."
+        },
+        "contact_preferred_channel": {
+          "value": "phone",
+          "rationale": "Caller asked for a purchase and was asked for a callback number; no preference for sms/email was stated, so phone is the most supported channel."
+        },
+        "contact_preferred_time_window": {
+          "value": "",
+          "rationale": "No preferred time window was mentioned in the transcript or structured data."
+        },
+        "caller_is_contact": {
+          "value": true,
+          "rationale": "No different contact person was identified; per instruction default caller_is_contact is TRUE."
+        }
+      },
+      "routing": {
+        "routing_group_name": {
+          "value": "OnCall Connect",
+          "rationale": "Routing config global fallback queue/group is named \"OnCall Connect\" and the 3CX queue referenced is \"OnCall Connect\"."
+        },
+        "department": {
+          "value": "Parts",
+          "rationale": "Caller explicitly said they need to buy a radiator, which is a parts purchase request; department inferred from context."
+        },
+        "requested_person": {
+          "value": "",
+          "rationale": "Caller did not request a specific person by name."
+        },
+        "site_location_name": {
+          "value": null,
+          "rationale": "Structured routing_observation indicates Fort Wayne (threecx_location_raw \"FW Main AA (800)\" and call path references \"Fort Wayne\"), and structured data has priority for locations. [WARNING: \"Fort Wayne\" not in valid locations list]"
+        },
+        "call_transferred": {
+          "value": false,
+          "rationale": "No explicit agent-to-agent/live transfer occurred; call was forwarded/outed to an external destination number rather than transferred to a department/person."
+        },
+        "call_transfer_destination": {
+          "value": "",
+          "rationale": "No live transfer destination was identified."
+        },
+        "transfer_reason": {
+          "value": "",
+          "rationale": "No live transfer was performed, so no transfer reason applies."
+        }
+      },
+      "request": {
+        "request_summary": {
+          "value": "Request to purchase a radiator",
+          "rationale": "Caller stated they need to buy a radiator."
+        },
+        "detailed_description": {
+          "value": "Caller Brendan Sullivan contacted Selking International seeking to purchase a radiator. The caller initially said “Radiator” and clarified that they “need to buy a radiator,” indicating a parts sales request rather than a service appointment. The agent attempted to collect contact details and requested the best callback number, but the caller did not provide a phone number verbally before the call ended. No vehicle details, part numbers, make/model, VIN, or delivery/pickup preference were provided, and no service address or timeframe was discussed.",
+          "rationale": "Based on transcript content; expanded to a complete 80–120 word description while keeping facts consistent."
+        },
+        "existing_ticket": {
+          "value": false,
+          "rationale": "No mention of an existing ticket, case, or reference number; per instruction default existing_ticket is FALSE."
+        },
+        "existing_ticket_id": {
+          "value": "",
+          "rationale": "No ticket number was provided."
+        },
+        "affected_asset": {
+          "value": "",
+          "rationale": "No asset identifier (VIN/unit number) was provided."
+        },
+        "requested_visit_type": {
+          "value": "other",
+          "rationale": "This is a parts purchase request, not a service visit; therefore visit type is best categorized as other."
+        },
+        "requested_due_date": {
+          "value": "",
+          "rationale": "No due date or follow-up deadline was requested."
+        },
+        "service_address": {
+          "value": "",
+          "rationale": "No onsite service address was discussed; request appears to be for parts purchase."
+        }
+      },
+      "consent_acknowledgement": {
+        "sms_consent_verbatim": {
+          "value": "",
+          "rationale": "No SMS consent language or opt-in/opt-out exchange occurred in the transcript."
+        }
+      },
+      "call_validity": {
+        "call_validity_type": {
+          "value": "INSUFFICIENT_DATA",
+          "rationale": "The caller’s intent (buy a radiator) is clear, but the agent could not obtain a callback number or any identifying part/vehicle details needed to fulfill the request."
+        },
+        "call_validity_reason": {
+          "value": "Caller requested to buy a radiator but did not provide callback number or vehicle/part details before disconnecting.",
+          "rationale": "Derived from the transcript where the agent repeatedly asked for the callback number and it was not provided."
+        },
+        "is_valid_call": {
+          "value": false,
+          "rationale": "Per rules, insufficient data calls are not valid for completion without required contact/request details."
+        }
+      },
+      "sales": {
+        "opportunity_summary": {
+          "value": "Radiator purchase inquiry",
+          "rationale": "Caller stated they want to buy a radiator, which is a sales opportunity for parts."
+        },
+        "opportunity_type": {
+          "value": "REPLACEMENT",
+          "rationale": "A radiator purchase typically implies replacing an existing radiator; no indication of a new vehicle purchase."
+        },
+        "interest_items": {
+          "value": [
+            "Radiator"
+          ],
+          "rationale": "Caller explicitly mentioned needing to buy a radiator."
+        }
+      }
+    },
+    "route": "webhook_response"
+  },
+  "status_code": 200,
+  "headers": {
+    "Alt-Svc": "h3=\":443\"; ma=2592000",
+    "Content-Encoding": "gzip",
+    "Content-Security-Policy": "sandbox allow-downloads allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-presentation allow-scripts allow-top-navigation allow-top-navigation-by-user-activation allow-top-navigation-to-custom-protocols",
+    "Content-Type": "application/json; charset=utf-8",
+    "Date": "Fri, 23 Jan 2026 20:33:34 GMT",
+    "Etag": "W/\"1768-YtLUD3moL/eZ18i3K5z2QMlV8LA\"",
+    "Vary": "Accept-Encoding",
+    "Via": "1.1 Caddy",
+    "Transfer-Encoding": "chunked"
+  },
+  "cookies": {}
+}

@@ -1,0 +1,66 @@
+Picture
+Home
+Docs
+API Reference
+FAQs
+Release Notes
+Request Access
+My Apps
+Sign out
+ Back to all apps
+Phone System Integration
+App ID: rqemie2o4a7vz
+
+Developer Details     All fields are required
+Organization
+Schlatter's LLC
+Homepage
+https://schlattersplumbingheating.com
+Email Address
+Who can ServiceTitan contact about this app if needed?
+data+scphac@atgfw.com
+
+App Details     All fields are required
+Application Name
+Phone System Integration
+Description
+Describe your app in 100 words and provide a use case to showcase how it benefits ServiceTitan customers.
+Internal integration for syncing phone system data with ServiceTitan. Enables customer lookup and call logging for dispatch.
+124/10000
+App Category
+Other
+Application Key
+ak1.9c8viyhgpx9skaoonawms66vl
+  Copy
+External Data Application GUID
+b1295f28-53ea-4ff2-b738-a341b9b53bfc
+  Copy
+Tenant(s)
++ Add Tenant
+916865082
+Default
+Customer Global Network(s)
++ Add Network
+API Scopes
+
+Version 1 (Current)
+Created on 1/14/2026 at 1:11:39 PM by Cody Arnold
+Read AP Bills, AP Credits, AP Payments, Bank Deposits, Credit Memos, GL Accounts, Inventory Adjustments, Inventory Bills, Inventory Receipts, Inventory Transfers, Invoice Items, Invoices, Journal Entries, Payments, Payment Terms, Payment Types, Purchase Orders, Purchase Returns, Remittance Vendors, Tax Zones, Booking Provider Tags, Bookings, Contacts, Customers, Leads, Locations, Tags, Technician Rating, Appointment Assignments, Arrival Windows, Business Hours, Capacity, GPS Pings, Non-Job Appointments, Teams, Technician Shifts, Technician Tracking, Zones, Forms, Job Forms, Form Submissions, Appointments, Budget Codes, Job Canceled Logs, Job Cancel Reasons, Job History, Job Hold Reasons, Job Notes, Jobs, Job Types, Project Notes, Projects, Project Statuses, Project Sub-Statuses, Project Types, Budget Code Segments, Campaign Cost Summary, Campaigns, Campaign Categories, Campaign Costs, Email Channel Cost, Suppressions, Service Agreements, Estimates, Opportunities, Business Units, Employees, Tag Types, Technicians, User Roles, Calls, Opt Out, Activities, Activity Categories, Activity Types, Task Management Data, Tasks data
+Write AP Bills, AP Credits, AP Payments, Bank Deposits, Credit Memos, GL Accounts, Inventory Adjustments, Inventory Bills, Inventory Receipts, Inventory Transfers, Invoice Items, Invoices, Journal Entries, Payments, Payment Terms, Payment Types, Purchase Orders, Purchase Returns, Remittance Vendors, Tax Zones, Booking Provider Tags, Bookings, Contacts, Customers, Leads, Locations, Tags, Technician Rating, Appointment Assignments, Arrival Windows, Business Hours, Capacity, GPS Pings, Non-Job Appointments, Teams, Technician Shifts, Technician Tracking, Zones, Forms, Job Forms, Form Submissions, Appointments, Budget Codes, Job Canceled Logs, Job Cancel Reasons, Job History, Job Hold Reasons, Job Notes, Jobs, Job Types, Project Notes, Projects, Project Statuses, Project Sub-Statuses, Project Types, Budget Code Segments, Campaign Cost Summary, Campaigns, Campaign Categories, Campaign Costs, Email Channel Cost, Suppressions, Service Agreements, Estimates, Opportunities, Business Units, Employees, Tag Types, Technicians, User Roles, Calls, Opt Out, Activities, Activity Categories, Activity Types, Task Management Data, Tasks data
+Change API Scopes
+Client Credentials Management
+To access ServiceTitan APIs, your app must supply a client ID and client secret. Who will configure these credentials within the app?
+
+I, the app developer, will configure the credentials on behalf of each tenant
+Select this option if you will securely store the credentials in a file, database, or key vault. After a tenant connects your app, you can view the client ID and generate the client secret by going to “My Apps” and clicking “View Connections”.
+
+Tenants will configure the credentials themselves
+Select this option if tenants will input the credentials through your app’s configuration screen. Tenants can obtain these credentials by signing in to ServiceTitan and going to Settings > Integrations > API Application Access.
+⚠
+Security Note
+You must keep client IDs and client secrets confidential. Never publish them with your source code, embed them within web pages, or distribute them via an app store.
+Delete Application
+Permanently delete this application.
+Delete
+Cancel Save
+• ServiceTitan Inc • Privacy Policy • API Terms •

@@ -3,18 +3,17 @@
  * Tests for Step 0: Loading previous conversation summaries
  */
 
+import * as fs from 'node:fs';
+import * as childProcess from 'node:child_process';
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { sessionStartHook } from '../src/hooks/session_start.js';
 import type { SessionStartInput } from '../src/types.js';
-import * as fs from 'node:fs';
-import * as childProcess from 'node:child_process';
-import * as utils from '../src/utils.js';
 
 // Mock modules
 vi.mock('node:fs');
 vi.mock('node:child_process');
 vi.mock('../src/utils.js', async () => {
-  const actual = (await vi.importActual('../src/utils.js')) as typeof utils;
+  const actual = await vi.importActual('../src/utils.js');
   return {
     ...actual,
     loadEnv: vi.fn(),
@@ -24,6 +23,29 @@ vi.mock('../src/utils.js', async () => {
     markSessionValidated: vi.fn(),
   };
 });
+
+// Mock session validation functions to pass
+vi.mock('../src/session/index.js', () => ({
+  validateHookCompilation: vi.fn(() => ({ passed: true, message: 'Hooks compiled' })),
+  synchronizeGit: vi.fn(() => ({ synced: true, message: 'Git synced' })),
+  validateChildProject: vi.fn(() => ({ passed: true, message: 'No overrides' })),
+  checkDocumentationDrift: vi.fn(() => ({ drifted: false, message: 'No drift' })),
+  cleanupProject: vi.fn(() => ({ cleaned: true, message: 'Cleaned' })),
+  auditFolderHygiene: vi.fn(() => ({ passed: true, issues: [] })),
+}));
+
+// Mock other dependencies
+vi.mock('../src/mcp/api_key_sync.js', () => ({
+  syncApiKeys: vi.fn(async () => ({ synced: true })),
+}));
+
+vi.mock('../src/ledger/correction_ledger.js', () => ({
+  getStats: vi.fn(() => ({ total: 0, open: 0, closed: 0 })),
+}));
+
+vi.mock('../src/escalation/reporter.js', () => ({
+  formatForSessionStart: vi.fn(() => ''),
+}));
 
 // Mock process.cwd for testing
 const originalCwd = process.cwd;
@@ -68,6 +90,7 @@ describe('Session Start - Conversation Summary Loading', () => {
         if (String(path).includes('conversation_history')) {
           return [] as string[];
         }
+
         return [];
       });
 
@@ -94,9 +117,11 @@ Test summary content.`;
             'test-project_2026-01-15.md',
           ] as unknown as fs.Dirent[];
         }
+
         if (String(path).includes('agents')) {
           return [];
         }
+
         return [];
       });
       vi.mocked(fs.statSync).mockImplementation((path) => {
@@ -104,15 +129,18 @@ Test summary content.`;
         if (pathStr.includes('2026-01-15')) {
           return { mtime: new Date('2026-01-15T12:00:00Z') } as fs.Stats;
         }
+
         if (pathStr.includes('2026-01-14')) {
           return { mtime: new Date('2026-01-14T12:00:00Z') } as fs.Stats;
         }
+
         return { mtime: new Date() } as fs.Stats;
       });
       vi.mocked(fs.readFileSync).mockImplementation((path) => {
         if (String(path).includes('2026-01-15.md')) {
           return summaryContent;
         }
+
         return '';
       });
 
@@ -129,6 +157,7 @@ Test summary content.`;
         if (String(path).includes('conversation_history')) {
           return ['notes.md'] as unknown as fs.Dirent[];
         }
+
         return [];
       });
       vi.mocked(fs.statSync).mockReturnValue({ mtime: new Date() } as fs.Stats);
@@ -146,6 +175,7 @@ Test summary content.`;
         if (String(path).includes('conversation_history')) {
           return ['summary.md'] as unknown as fs.Dirent[];
         }
+
         return [];
       });
       vi.mocked(fs.statSync).mockReturnValue({ mtime: new Date() } as fs.Stats);
@@ -153,6 +183,7 @@ Test summary content.`;
         if (String(path).includes('summary.md')) {
           throw new Error('Permission denied');
         }
+
         return '';
       });
 
@@ -174,6 +205,7 @@ Test content.`;
         if (String(path).includes('conversation_history')) {
           return ['test_2026-01-15.md'] as unknown as fs.Dirent[];
         }
+
         return [];
       });
       vi.mocked(fs.statSync).mockReturnValue({ mtime: new Date() } as fs.Stats);
@@ -181,6 +213,7 @@ Test content.`;
         if (String(path).includes('.md') && String(path).includes('conversation_history')) {
           return summaryContent;
         }
+
         return '';
       });
 
@@ -201,6 +234,7 @@ Previous work content.`;
         if (String(path).includes('conversation_history')) {
           return ['test_2026-01-15.md'] as unknown as fs.Dirent[];
         }
+
         return [];
       });
       vi.mocked(fs.statSync).mockReturnValue({ mtime: new Date() } as fs.Stats);
@@ -208,6 +242,7 @@ Previous work content.`;
         if (String(path).includes('.md') && String(path).includes('conversation_history')) {
           return summaryContent;
         }
+
         return '';
       });
 

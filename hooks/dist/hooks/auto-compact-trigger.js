@@ -2,8 +2,8 @@
  * Auto-Compact Trigger
  * Reads context alert from statusline and instructs Claude to run /compact at 90%
  */
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import { log, getClaudeDir } from '../utils.js';
 import { registerHook } from '../runner.js';
 async function autoCompactTrigger(_input) {

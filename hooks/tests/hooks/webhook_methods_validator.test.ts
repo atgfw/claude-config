@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { webhookMethodsValidatorHook } from '../../src/hooks/webhook_methods_validator.js';
-import { PreToolUseInput } from '../../src/types.js';
+import { type PreToolUseInput } from '../../src/types.js';
 
 describe('webhookMethodsValidator', () => {
   it('should warn when webhook has no httpMethod', async () => {
@@ -125,7 +125,7 @@ describe('webhookMethodsValidator', () => {
     expect(result.hookSpecificOutput.permissionDecisionReason).toContain('Webhook 2');
   });
 
-  it('should provide configuration examples', async () => {
+  it('should provide configuration guidance', async () => {
     const input: PreToolUseInput = {
       tool_name: 'mcp__n8n-mcp__n8n_create_workflow',
       tool_input: {
@@ -144,9 +144,10 @@ describe('webhookMethodsValidator', () => {
 
     const result = await webhookMethodsValidatorHook(input);
 
-    expect(result.hookSpecificOutput.permissionDecisionReason).toContain('API endpoints');
-    expect(result.hookSpecificOutput.permissionDecisionReason).toContain('form submissions');
-    expect(result.hookSpecificOutput.permissionDecisionReason).toContain('REST resources');
+    // Terse format: "Configure GET/POST"
+    expect(result.hookSpecificOutput.permissionDecisionReason).toContain('Configure');
+    expect(result.hookSpecificOutput.permissionDecisionReason).toContain('GET');
+    expect(result.hookSpecificOutput.permissionDecisionReason).toContain('POST');
   });
 
   it('should allow non-n8n operations', async () => {

@@ -1,0 +1,85 @@
+Skip to main content
+Skip Navigation Links
+dialpad
+Numbers
+expand_more
+receipt_long
+Orders
+Applications
+expand_more
+campaign
+Campaigns
+expand_more
+Insights
+expand_more
+Account
+expand_more
+Log out
+© 2026 Bandwidth Inc.
+Home
+Orders
+TN Option Orders
+efbb93fd-e3b0-415a-9184-eedde94e3761
+Telephone Number Option Order details
+Bandwidth order ID:
+efbb93fd-e3b0-415a-9184-eedde94e3761
+
+Account:
+APPLIED TECHNOLOGY GROUP, INC. - WHOLESALE [5009913]
+
+Order type:
+TN Option
+
+Order status:
+check_circle
+Complete
+Order by:
+codya@atgfw.com
+
+Order date:
+Jan 30, 2026 at 9:01 AM ET
+
+Last updated:
+Jan 30, 2026 at 9:01 AM ET
+
+Customer order ID:
+none
+
+Option Groups (1)
+View all numbers
+1 Phone number. 1 complete, 0 failed, 0 processing
+Group
+Option Group 1
+SMS:
+ON
+
+A2P Action:
+Unchanged
+
+Number
+arrow_drop_up
+arrow_drop_down
+Status
+arrow_drop_up
+arrow_drop_down
+Notes
+arrow_drop_up
+arrow_drop_down
+(260) 203-1287
+check_circle
+Complete
+(none)
+
+Notifications
+Get an email whenever there are updates to this order. To subscribe to updates for all telephone number option orders, go to the 
+Notifications
+ page.
+Email
+Frequency
+
+
+Order History & Notes
+Order statuses and updates from Bandwidth
+
+Notes are disabled for this order
+Note *

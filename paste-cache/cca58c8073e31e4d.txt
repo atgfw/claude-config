@@ -1,0 +1,271 @@
+{
+  "data": {
+    "success": true,
+    "extraction_id": "928cac8e-6f9b-4a64-a4cd-8423a6d0706d",
+    "timestamp": "2026-01-22T23:15:00.919Z",
+    "input_hash": "7b1c87cd",
+    "model_used": "gpt-5.2",
+    "categories_requested": [
+      "caller",
+      "contact",
+      "routing",
+      "request"
+    ],
+    "source_metadata": {
+      "agent_id": "agent_0501k319b0q3f86bfg6f97rkhb25",
+      "channel": "voice",
+      "company_config": {
+        "company_name": "Selking International",
+        "departments": [
+          "Service",
+          "Parts",
+          "Sales",
+          "Leasing",
+          "Body Shop"
+        ],
+        "locations": [
+          "Fort Wayne",
+          "Bryan",
+          "Decatur",
+          "Elkhart",
+          "Greensburg",
+          "LaGrange",
+          "Monroe",
+          "Muncie",
+          "Richmond",
+          "South Bend",
+          "Stony Ridge"
+        ]
+      },
+      "conversation_id": "conv_9501kedmctbbenx8p3vq36yh1m0q",
+      "duration_secs": 59,
+      "session_id": "e94ed870-0c95-4051-83ff-784780da1d97"
+    },
+    "extracted": {
+      "caller": {
+        "caller_first_name": {
+          "value": null,
+          "rationale": null
+        },
+        "caller_last_name": {
+          "value": null,
+          "rationale": null
+        },
+        "company_name": {
+          "value": null,
+          "rationale": null
+        }
+      },
+      "contact": {
+        "contact_first_name": {
+          "value": null,
+          "rationale": null
+        },
+        "contact_last_name": {
+          "value": null,
+          "rationale": null
+        },
+        "contact_phone": {
+          "value": null,
+          "rationale": null
+        },
+        "contact_email": {
+          "value": null,
+          "rationale": null
+        },
+        "contact_preferred_channel": {
+          "value": "phone",
+          "rationale": null
+        },
+        "contact_preferred_time_window": {
+          "value": null,
+          "rationale": null
+        },
+        "caller_is_contact": {
+          "value": true,
+          "rationale": null
+        }
+      },
+      "routing": {
+        "routing_group_name": {
+          "value": null,
+          "rationale": null
+        },
+        "department": {
+          "value": "Service",
+          "rationale": null
+        },
+        "requested_person": {
+          "value": null,
+          "rationale": null
+        },
+        "site_location_name": {
+          "value": null,
+          "rationale": null
+        },
+        "call_transferred": {
+          "value": false,
+          "rationale": null
+        },
+        "call_transfer_destination": {
+          "value": null,
+          "rationale": null
+        },
+        "transfer_reason": {
+          "value": "not specified",
+          "rationale": null
+        }
+      },
+      "request": {
+        "request_summary": {
+          "value": "Roadside service inquiry - Unknown location",
+          "rationale": null
+        },
+        "detailed_description": {
+          "value": "The caller contacted Selking International after hours to ask whether roadside service is available. The agent attempted multiple times to obtain the caller’s name for follow-up, but the caller did not provide identifying details or contact information before the interaction ended. No equipment details, unit number, or service location were provided, and no specific symptoms or breakdown information was described. Callback: not provided.",
+          "rationale": null
+        },
+        "existing_ticket": {
+          "value": false,
+          "rationale": null
+        },
+        "affected_asset": {
+          "value": null,
+          "rationale": null
+        },
+        "requested_visit_type": {
+          "value": "routine",
+          "rationale": null
+        },
+        "requested_due_date": {
+          "value": null,
+          "rationale": null
+        },
+        "service_address": {
+          "value": null,
+          "rationale": null
+        }
+      }
+    },
+    "data": {
+      "caller": {
+        "caller_first_name": {
+          "value": null,
+          "rationale": null
+        },
+        "caller_last_name": {
+          "value": null,
+          "rationale": null
+        },
+        "company_name": {
+          "value": null,
+          "rationale": null
+        }
+      },
+      "contact": {
+        "contact_first_name": {
+          "value": null,
+          "rationale": null
+        },
+        "contact_last_name": {
+          "value": null,
+          "rationale": null
+        },
+        "contact_phone": {
+          "value": null,
+          "rationale": null
+        },
+        "contact_email": {
+          "value": null,
+          "rationale": null
+        },
+        "contact_preferred_channel": {
+          "value": "phone",
+          "rationale": null
+        },
+        "contact_preferred_time_window": {
+          "value": null,
+          "rationale": null
+        },
+        "caller_is_contact": {
+          "value": true,
+          "rationale": null
+        }
+      },
+      "routing": {
+        "routing_group_name": {
+          "value": null,
+          "rationale": null
+        },
+        "department": {
+          "value": "Service",
+          "rationale": null
+        },
+        "requested_person": {
+          "value": null,
+          "rationale": null
+        },
+        "site_location_name": {
+          "value": null,
+          "rationale": null
+        },
+        "call_transferred": {
+          "value": false,
+          "rationale": null
+        },
+        "call_transfer_destination": {
+          "value": null,
+          "rationale": null
+        },
+        "transfer_reason": {
+          "value": "not specified",
+          "rationale": null
+        }
+      },
+      "request": {
+        "request_summary": {
+          "value": "Roadside service inquiry - Unknown location",
+          "rationale": null
+        },
+        "detailed_description": {
+          "value": "The caller contacted Selking International after hours to ask whether roadside service is available. The agent attempted multiple times to obtain the caller’s name for follow-up, but the caller did not provide identifying details or contact information before the interaction ended. No equipment details, unit number, or service location were provided, and no specific symptoms or breakdown information was described. Callback: not provided.",
+          "rationale": null
+        },
+        "existing_ticket": {
+          "value": false,
+          "rationale": null
+        },
+        "affected_asset": {
+          "value": null,
+          "rationale": null
+        },
+        "requested_visit_type": {
+          "value": "routine",
+          "rationale": null
+        },
+        "requested_due_date": {
+          "value": null,
+          "rationale": null
+        },
+        "service_address": {
+          "value": null,
+          "rationale": null
+        }
+      }
+    },
+    "route": "webhook_response"
+  },
+  "status_code": 200,
+  "headers": {
+    "Alt-Svc": "h3=\":443\"; ma=2592000",
+    "Content-Encoding": "gzip",
+    "Content-Security-Policy": "sandbox allow-downloads allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-presentation allow-scripts allow-top-navigation allow-top-navigation-by-user-activation allow-top-navigation-to-custom-protocols",
+    "Content-Type": "application/json; charset=utf-8",
+    "Date": "Thu, 22 Jan 2026 23:15:00 GMT",
+    "Etag": "W/\"1101-wLX3avtv5Enq7vns0R4lof42YuQ\"",
+    "Vary": "Accept-Encoding",
+    "Via": "1.1 Caddy",
+    "Transfer-Encoding": "chunked"
+  },
+  "cookies": {}
+}

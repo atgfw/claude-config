@@ -81,6 +81,15 @@ export interface CorrectionLedger {
     entries: CorrectionEntry[];
     lastUpdated: string;
 }
+export interface SessionCheckResult {
+    name: string;
+    passed: boolean;
+    severity: 'strict' | 'warning' | 'warn' | 'info';
+    message: string;
+    details?: string[];
+    selfHealed?: boolean;
+    selfHealAction?: string;
+}
 export interface MCPServerHealth {
     status: 'healthy' | 'degraded' | 'failed' | 'unknown';
     lastCheck: string;
@@ -179,5 +188,19 @@ export interface EscalationResult {
     novelCount: number;
     escalation: EscalationEntry;
     patternDetected: boolean;
+}
+/**
+ * Verbosity levels for hook output
+ * Controls how much context is consumed by hook messages
+ */
+export type VerbosityLevel = 'silent' | 'terse' | 'normal' | 'verbose';
+/**
+ * Output optimization configuration
+ */
+export interface OutputConfig {
+    verbosity: VerbosityLevel;
+    batchThreshold: number;
+    maxContextChars: number;
+    suppressSuccessLogs: boolean;
 }
 //# sourceMappingURL=types.d.ts.map

@@ -3,13 +3,14 @@
  * BLOCKS webhook triggers on unpublished [DEV] workflows
  * Enforces: "Unpublished workflows have webhook triggers that only work in test mode"
  */
-import { log, logBlocked, logAllowed } from '../utils.js';
+import { logVerbose, logBlocked } from '../utils.js';
 import { registerHook } from '../runner.js';
 /**
- * Check if tool is an n8n webhook trigger
+ * Check if tool is an n8n workflow operation
  */
-function isN8nWebhookTrigger(toolName) {
-    return toolName.toLowerCase().includes('n8n') && toolName.toLowerCase().includes('webhook');
+function isN8nWorkflowOperation(toolName) {
+    const lower = toolName.toLowerCase();
+    return lower.includes('n8n') && (lower.includes('workflow') || lower.includes('webhook'));
 }
 /**
  * Extract workflow info from tool input
@@ -19,6 +20,10 @@ function extractWorkflowInfo(input) {
     if (!toolInput || typeof toolInput !== 'object') {
         return {};
     }
+    // Check for nested workflow object (common in create/update operations)
+    const workflow = 'workflow' in toolInput && typeof toolInput['workflow'] === 'object'
+        ? toolInput['workflow']
+        : toolInput;
     // Try to find workflow_id
     let workflowId;
     if ('workflow_id' in toolInput && typeof toolInput['workflow_id'] === 'string') {
@@ -30,12 +35,28 @@ function extractWorkflowInfo(input) {
     else if ('id' in toolInput && typeof toolInput['id'] === 'string') {
         workflowId = toolInput['id'];
     }
-    // Try to find tags
+    // Try to find tags from workflow object
     let tags;
-    if ('tags' in toolInput && Array.isArray(toolInput['tags'])) {
-        tags = toolInput['tags'];
+    if ('tags' in workflow && Array.isArray(workflow['tags'])) {
+        tags = workflow['tags'].map((t) => {
+            if (typeof t === 'string')
+                return t;
+            if (typeof t === 'object' && t !== null && 'name' in t)
+                return String(t.name);
+            return String(t);
+        });
     }
-    return { workflowId, tags };
+    // Check for webhook nodes
+    let hasWebhookNode = false;
+    if ('nodes' in workflow && Array.isArray(workflow['nodes'])) {
+        hasWebhookNode = workflow['nodes'].some((node) => {
+            if (typeof node !== 'object' || node === null)
+                return false;
+            const nodeType = node.type || '';
+            return nodeType.toLowerCase().includes('webhook');
+        });
+    }
+    return { workflowId, tags, hasWebhookNode };
 }
 /**
  * Check if workflow has [DEV] tag (unpublished)
@@ -59,8 +80,8 @@ function isDevWorkflow(tags) {
  */
 export async function workflowPublishingGateHook(input) {
     const toolName = input.tool_name;
-    // Only check n8n webhook-related operations
-    if (!isN8nWebhookTrigger(toolName)) {
+    // Only check n8n workflow-related operations
+    if (!isN8nWorkflowOperation(toolName)) {
         return {
             hookSpecificOutput: {
                 hookEventName: 'PreToolUse',
@@ -68,38 +89,19 @@ export async function workflowPublishingGateHook(input) {
             },
         };
     }
-    log(`Checking workflow publishing status...`);
-    const { workflowId, tags } = extractWorkflowInfo(input);
-    // If we detect [DEV] tag, block the operation
-    if (isDevWorkflow(tags)) {
-        logBlocked('Unpublished [DEV] workflow detected', 'All workflows with webhook triggers MUST be published before production use');
-        log('');
-        log('PROBLEM: Unpublished workflows ([DEV] tag) have webhook triggers that only work in test mode.');
-        log('');
-        log('PUBLISHING CHECKLIST:');
-        log('  1. Workflow is saved (no unsaved changes)');
-        log('  2. Click "Publish" button (removes [DEV] tag)');
-        log('  3. Verify webhook URL uses production path (not test path)');
-        log('  4. Test production webhook endpoint');
-        log('');
-        log('WEBHOOK URL MODES:');
-        log('  Test (DEV):   .../webhook-test/...  (before publishing)');
-        log('  Production:   .../webhook/...       (after publishing)');
-        log('');
+    logVerbose(`[workflow-publishing] Checking status...`);
+    const { tags, hasWebhookNode } = extractWorkflowInfo(input);
+    const isWebhookOperation = toolName.toLowerCase().includes('webhook');
+    const shouldBlock = isDevWorkflow(tags) && (isWebhookOperation || hasWebhookNode);
+    if (shouldBlock) {
+        logBlocked('[DEV] workflow with webhook - must publish first');
         return {
             hookSpecificOutput: {
                 hookEventName: 'PreToolUse',
                 permissionDecision: 'deny',
-                permissionDecisionReason: 'Workflow must be published - remove [DEV] tag first',
+                permissionDecisionReason: '[DEV] workflow has webhook - publish first: Save > Publish button > Verify path',
             },
         };
-    }
-    // Workflow appears published or no tag info available
-    if (workflowId) {
-        logAllowed(`Workflow ${workflowId} appears published`);
-    }
-    else {
-        logAllowed('Webhook trigger operation allowed');
     }
     return {
         hookSpecificOutput: {

@@ -2,14 +2,13 @@
  * Project Detector Tests
  */
 
+import * as fs from 'node:fs';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import {
   detectProjectContext,
   isN8nProject,
   isElevenLabsProject,
-} from '../../src/context/project-detector';
-import * as fs from 'fs';
-import * as path from 'path';
+} from '../../src/context/project_detector.js';
 
 // Mock fs module
 vi.mock('fs');

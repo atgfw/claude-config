@@ -7,7 +7,7 @@ import {
   validateWorkflowNotes,
   n8nNodeNoteValidatorHook,
 } from '../../src/governance/n8n_node_note_validator.js';
-import { PreToolUseInput } from '../../src/types.js';
+import { type PreToolUseInput } from '../../src/types.js';
 
 describe('n8nNodeNoteValidator', () => {
   // =========================================================================

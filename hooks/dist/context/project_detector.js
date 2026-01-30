@@ -2,8 +2,8 @@
  * Project Context Detection System
  * Detects project type and configuration from working directory
  */
-import { existsSync, readFileSync } from 'fs';
-import { join } from 'path';
+import { existsSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 const N8N_MARKERS = [
     'workflows/governance.yaml',
     'workflows/registry.yaml',

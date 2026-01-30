@@ -14,7 +14,7 @@
  */
 
 import type { PreToolUseInput, PreToolUseOutput } from '../types.js';
-import { log, logBlocked, logAllowed } from '../utils.js';
+import { logVerbose, logBlocked, logWarn, logBatch } from '../utils.js';
 import { registerHook } from '../runner.js';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
@@ -221,34 +221,6 @@ function extractInput(input: PreToolUseInput): { filePath: string | null; conten
 }
 
 /**
- * Generate the correct test template
- */
-function generateCorrectTemplate(nodeName: string): string {
-  return `
-// Correct Code Node Test Template:
-
-import { describe, it, expect } from 'vitest';
-import { ${nodeName} } from './${nodeName}.js';
-
-// Import fixtures
-import validInput from './fixtures/valid-input.json';
-import validExpected from './fixtures/valid-expected.json';
-import errorInput from './fixtures/error-input.json';
-
-describe('${nodeName}', () => {
-  it('processes valid input correctly', () => {
-    const result = ${nodeName}(validInput);
-    expect(result).toEqual(validExpected);
-  });
-
-  it('throws on invalid input', () => {
-    expect(() => ${nodeName}(errorInput)).toThrow();
-  });
-});
-`.trim();
-}
-
-/**
  * Code Node Test Validator Hook Implementation
  */
 export async function codeNodeTestValidatorHook(input: PreToolUseInput): Promise<PreToolUseOutput> {
@@ -273,11 +245,10 @@ export async function codeNodeTestValidatorHook(input: PreToolUseInput): Promise
     };
   }
 
-  log(`[CODE NODE TEST] Validating: ${filePath}`);
+  logVerbose(`[code-node-test] Validating: ${filePath}`);
 
   // If no content (e.g., file deletion), allow
   if (!content) {
-    logAllowed('No content to validate');
     return {
       hookSpecificOutput: {
         hookEventName: 'PreToolUse',
@@ -290,62 +261,24 @@ export async function codeNodeTestValidatorHook(input: PreToolUseInput): Promise
   const validation = validateCodeNodeTest(filePath, content);
 
   if (!validation.valid) {
-    log('');
-    log('[CODE NODE TEST BLOCKED]');
-    log('');
-    log('ERRORS:');
-    for (const error of validation.errors) {
-      log(`  - ${error}`);
-    }
-
-    if (validation.warnings.length > 0) {
-      log('');
-      log('WARNINGS:');
-      for (const warning of validation.warnings) {
-        log(`  - ${warning}`);
-      }
-    }
-
-    log('');
-    log('SUGGESTIONS:');
-    for (const suggestion of validation.suggestions) {
-      log(`  - ${suggestion}`);
-    }
-
-    // Extract node name for template
-    const nodeNameMatch = filePath.match(/[/\\]([^/\\]+)\.test\.(js|ts)$/);
-    const nodeName =
-      nodeNameMatch && nodeNameMatch[1] ? nodeNameMatch[1].replace(/-/g, '') : 'nodeFunction';
-
-    log('');
-    log('CORRECT TEMPLATE:');
-    log(generateCorrectTemplate(nodeName));
-
-    logBlocked(
-      'Code node test does not follow mandated Vitest + fixtures pattern',
-      'Code nodes MUST be developed locally first with Vitest tests and external fixture files'
-    );
+    logBlocked(`Code node test: ${validation.errors.join('; ')}`);
+    logBatch('Suggestions', validation.suggestions);
 
     return {
       hookSpecificOutput: {
         hookEventName: 'PreToolUse',
         permissionDecision: 'deny',
-        permissionDecisionReason: `CODE NODE TEST BLOCKED: ${validation.errors.join('; ')}. Use Vitest with external fixture files.`,
+        permissionDecisionReason: `${validation.errors.join('; ')}. Use Vitest + fixtures.`,
       },
     };
   }
 
   // Valid but may have warnings
   if (validation.warnings.length > 0) {
-    log('');
-    log('[CODE NODE TEST WARNINGS]');
     for (const warning of validation.warnings) {
-      log(`  - ${warning}`);
+      logWarn(warning);
     }
-    log('');
   }
-
-  logAllowed('Code node test follows Vitest + fixtures pattern');
 
   return {
     hookSpecificOutput: {

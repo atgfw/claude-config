@@ -103,8 +103,7 @@ function checkVarKeyword(code: string): LintError[] {
   const errors: LintError[] = [];
   const lines = code.split('\n');
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i]!;
+  for (const [i, line] of lines.entries()) {
     // Match 'var' as a keyword (not in string or comment)
     if (/\bvar\s+\w+/.test(line) && !line.trim().startsWith('//')) {
       errors.push({
@@ -127,8 +126,7 @@ function checkConsoleStatements(code: string): LintError[] {
   const errors: LintError[] = [];
   const lines = code.split('\n');
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i]!;
+  for (const [i, line] of lines.entries()) {
     if (/\bconsole\.(log|warn|error|info|debug)\b/.test(line) && !line.trim().startsWith('//')) {
       errors.push({
         line: i + 1,
@@ -150,8 +148,7 @@ function checkDebuggerStatements(code: string): LintError[] {
   const errors: LintError[] = [];
   const lines = code.split('\n');
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i]!;
+  for (const [i, line] of lines.entries()) {
     if (/\bdebugger\b/.test(line) && !line.trim().startsWith('//')) {
       errors.push({
         line: i + 1,
@@ -173,8 +170,7 @@ function checkEvalUsage(code: string): LintError[] {
   const errors: LintError[] = [];
   const lines = code.split('\n');
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i]!;
+  for (const [i, line] of lines.entries()) {
     if (/\beval\s*\(/.test(line) && !line.trim().startsWith('//')) {
       errors.push({
         line: i + 1,

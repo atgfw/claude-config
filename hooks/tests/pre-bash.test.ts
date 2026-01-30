@@ -4,8 +4,8 @@
  */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { preBashHook } from '../src/hooks/pre-bash.js';
-import type { PreToolUseInput, PreToolUseOutput } from '../src/types.js';
+import { preBashHook } from '../src/hooks/pre_bash.js';
+import type { PreToolUseInput } from '../src/types.js';
 
 describe('Pre-Bash Hook', () => {
   beforeEach(() => {

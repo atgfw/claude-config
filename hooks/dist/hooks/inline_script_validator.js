@@ -9,23 +9,36 @@ import { registerHook } from '../runner.js';
  * Patterns for complex inline scripts that WILL fail
  */
 const COMPLEX_INLINE_PATTERNS = [
-    // node -e with JSON, template literals, or mixed quotes
-    /node\s+(-e|--eval)\s+["'][^"']*[{}\[\]`$][^"']*["']/i,
+    // node -e with JSON
+    { pattern: /node\s+(-e|--eval)\s+["'][^"']*[{}\[\]][^"']*["']/i, name: 'node -e with JSON' },
     // node -e with template literals
-    /node\s+(-e|--eval)\s+["'][^"']*`[^"']*["']/i,
+    {
+        pattern: /node\s+(-e|--eval)\s+["'][^"']*`[^"']*["']/i,
+        name: 'node -e with template literals',
+    },
     // powershell -Command with $ variables or complex expressions
-    /powershell\s+(-Command|-C)\s+["'][^"']*\$[^"']*["']/i,
-    // heredoc with backticks or $() substitution
-    /<<\s*['"]?EOF['"]?.*`/s,
-    /<<\s*['"]?EOF['"]?.*\$\(/s,
+    {
+        pattern: /powershell\s+(-Command|-C)\s+["'][^"']*\$[^"']*["']/i,
+        name: 'powershell -Command with $ variables',
+    },
+    // heredoc with backticks
+    { pattern: /<<\s*['"]?EOF['"]?.*`/s, name: 'heredoc with backticks' },
+    // heredoc with $() substitution
+    { pattern: /<<\s*['"]?EOF['"]?.*\$\(/s, name: 'heredoc with $() substitution' },
     // Multiple quote levels (triple nesting or more)
-    /["'].*["'].*["'].*["']/,
+    { pattern: /["'].*["'].*["'].*["']/, name: 'nested quotes' },
 ];
 /**
- * Check if command contains complex inline script patterns
+ * Find complex inline script patterns in command
  */
-function containsComplexInlineScript(command) {
-    return COMPLEX_INLINE_PATTERNS.some((pattern) => pattern.test(command));
+function findComplexPatterns(command) {
+    const matches = [];
+    for (const { pattern, name } of COMPLEX_INLINE_PATTERNS) {
+        if (pattern.test(command)) {
+            matches.push(name);
+        }
+    }
+    return matches;
 }
 /**
  * Inline Script Validator Hook Implementation
@@ -49,8 +62,9 @@ export async function inlineScriptValidatorHook(input) {
     }
     log(`Checking for complex inline scripts in: ${command.substring(0, 100)}...`);
     // Check for complex inline scripts
-    if (containsComplexInlineScript(command)) {
-        logBlocked('Complex inline script detected', 'Never use complex inline scripts - They WILL fail. Use temp file pattern instead.');
+    const complexMatches = findComplexPatterns(command);
+    if (complexMatches.length > 0) {
+        logBlocked(`Complex inline script detected: ${complexMatches.join(', ')}`, 'Never use complex inline scripts - They WILL fail. Use temp file pattern instead.');
         log('');
         log('WRONG (will fail):');
         log('  node -e "console.log(JSON.stringify({ key: \\"value\\" }))"');
@@ -71,7 +85,7 @@ export async function inlineScriptValidatorHook(input) {
             hookSpecificOutput: {
                 hookEventName: 'PreToolUse',
                 permissionDecision: 'deny',
-                permissionDecisionReason: 'Complex inline scripts banned - use temp file pattern per CLAUDE.md',
+                permissionDecisionReason: `Complex inline script detected: ${complexMatches.join(', ')}. Use temp file pattern instead.`,
             },
         };
     }

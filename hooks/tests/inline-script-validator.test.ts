@@ -21,9 +21,8 @@ describe('Inline Script Validator Hook', () => {
       const output = await inlineScriptValidatorHook(input);
 
       expect(output.hookSpecificOutput.permissionDecision).toBe('deny');
-      expect(output.hookSpecificOutput.permissionDecisionReason).toContain(
-        'Complex inline scripts banned'
-      );
+      expect(output.hookSpecificOutput.permissionDecisionReason).toContain('JSON');
+      expect(output.hookSpecificOutput.permissionDecisionReason).toContain('temp file');
     });
 
     it('should block node --eval with template literals', async () => {

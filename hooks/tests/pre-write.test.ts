@@ -4,16 +4,17 @@
  */
 
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
-import { preWriteHook } from '../src/hooks/pre-write.js';
-import type { PreToolUseInput, PreToolUseOutput } from '../src/types.js';
+import { preWriteHook } from '../src/hooks/pre_write.js';
+import type { PreToolUseInput } from '../src/types.js';
 import * as utils from '../src/utils.js';
 
 // Mock the utils module
 vi.mock('../src/utils.js', async () => {
-  const actual = (await vi.importActual('../src/utils.js')) as typeof utils;
+  const actual = await vi.importActual('../src/utils.js');
   return {
     ...actual,
     isMorphAvailable: vi.fn(),
+    getMcpServerHealth: vi.fn().mockReturnValue('unhealthy'),
   };
 });
 

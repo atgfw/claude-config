@@ -1,5 +1,5 @@
 /**
- * n8n Webhook Path Validator Tests
+ * N8n Webhook Path Validator Tests
  * TDD: Write tests first, then implementation
  *
  * Rules enforced:
@@ -27,7 +27,7 @@ import {
   n8nWebhookPathValidatorHook,
   generateSecretKeyName,
 } from '../../src/governance/n8n_webhook_path_validator.js';
-import { PreToolUseInput } from '../../src/types.js';
+import { type PreToolUseInput } from '../../src/types.js';
 
 describe('n8nWebhookPathValidator', () => {
   // =========================================================================
@@ -269,7 +269,7 @@ describe('n8nWebhookPathValidator', () => {
 
     it('should warn for path not matching workflow name', () => {
       const result = validateWebhookPath('random-path', 'customer_sync');
-      expect(result.valid).toBe(true); // warning only
+      expect(result.valid).toBe(true); // Warning only
       expect(result.warnings.some((w) => w.includes('match'))).toBe(true);
     });
   });
@@ -373,10 +373,10 @@ describe('n8nWebhookPathValidator', () => {
         name: 'customer_sync',
         nodes: [
           {
-            name: 'api_webhook', // wrong name
+            name: 'api_webhook', // Wrong name
             type: 'n8n-nodes-base.webhook',
             parameters: {
-              path: 'api/test-sync', // nested and contains test
+              path: 'api/test-sync', // Nested and contains test
             },
           },
         ],

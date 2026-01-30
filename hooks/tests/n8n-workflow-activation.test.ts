@@ -1,16 +1,15 @@
 /**
- * n8n Workflow Activation Hook Tests
+ * N8n Workflow Activation Hook Tests
  * TDD: Tests for auto-activation of n8n workflows for MCP access
  */
 
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { n8nWorkflowActivationHook } from '../src/hooks/n8n_workflow_activation.js';
 import type { PostToolUseInput } from '../src/types.js';
-import * as utils from '../src/utils.js';
 
 // Mock the utils module
 vi.mock('../src/utils.js', async () => {
-  const actual = (await vi.importActual('../src/utils.js')) as typeof utils;
+  const actual = await vi.importActual('../src/utils.js');
   return {
     ...actual,
     loadEnv: vi.fn(),
@@ -21,14 +20,14 @@ describe('n8n Workflow Activation Hook', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     // Default: no API key (prevents actual API calls in tests)
-    delete process.env['N8N_API_KEY'];
-    delete process.env['N8N_BASE_URL'];
+    delete process.env.N8N_API_KEY;
+    delete process.env.N8N_BASE_URL;
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
-    delete process.env['N8N_API_KEY'];
-    delete process.env['N8N_BASE_URL'];
+    delete process.env.N8N_API_KEY;
+    delete process.env.N8N_BASE_URL;
   });
 
   describe('Non-n8n Tools Pass Through', () => {
