@@ -6,6 +6,12 @@
  */
 
 import * as crypto from 'node:crypto';
+import { getActiveGoalContext } from '../hooks/goal_injector.js';
+
+export interface GoalContext {
+  summary: string;
+  fields: Record<string, string>;
+}
 
 export interface UnifiedChecklistItem {
   id: string;
@@ -21,6 +27,7 @@ export interface UnifiedChecklistItem {
     plan_step: number | null;
   };
   acceptance_criteria: Array<{ text: string; done: boolean }>;
+  goal_context?: GoalContext | null;
   created: string;
   updated: string;
 }

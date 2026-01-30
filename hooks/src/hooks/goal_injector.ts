@@ -146,6 +146,22 @@ async function goalInjector(input: UserPromptSubmitInput): Promise<UserPromptSub
   return { hookEventName: 'UserPromptSubmit' };
 }
 
+/**
+ * Get active goal context for embedding in other systems.
+ * Returns null if no goal is active.
+ */
+export function getActiveGoalContext(): {
+  summary: string;
+  fields: Record<string, string>;
+} | null {
+  const goal = loadGoal();
+  if (!goal.goal && !goal.summary) return null;
+  return {
+    summary: goal.summary ?? goal.goal!,
+    fields: { ...goal.fields },
+  };
+}
+
 registerHook('goal-injector', 'UserPromptSubmit', goalInjector);
 export { goalInjector as goalInjectorHook };
 export default goalInjector;
