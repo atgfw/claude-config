@@ -136,9 +136,9 @@ Static rules like "always use X over Y" are insufficient. The routing must be in
 ## Tech Stack
 
 - **TypeScript/JavaScript** - All hooks, automation, tool routing
-- **Node.js** - Runtime for hooks and MCP management
+- **Bun** - Runtime for hooks (>=1.1.0 required); npm/npx preserved for MCP management
 - **ESLint** - Strict linting for all code
-- **Jest/Vitest** - TDD for hooks
+- **Vitest** - TDD for hooks (Jest is banned)
 - **Markdown** - Agent definitions, documentation
 - **JSON** - Settings, MCP configuration
 - **Claude Code CLI** - Primary runtime environment

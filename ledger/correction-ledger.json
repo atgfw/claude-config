@@ -167,5 +167,39 @@
       "severity": "CRITICAL"
     }
   ],
-  "lastUpdated": "2026-01-15T18:00:00.000Z"
+  "lastUpdated": "2026-01-23T12:00:00.000Z"
+},
+  {
+    "id": "42d8992b894c27b7",
+    "timestamp": "2026-01-23T12:00:00.000Z",
+    "symptom": "Developer manually created GitHub issues from GITHUB-ISSUES.md; issues documented but not automatically filed to GitHub repository; friction documentation required manual gh issue create commands",
+    "rootCause": "No automation rule to detect GITHUB-ISSUES.md or FRICTIONS.md files and automatically create corresponding GitHub issues in the project repository",
+    "hookToPrevent": "Auto-issue-creation hook that: (1) Detects GITHUB-ISSUES.md or FRICTIONS.md files in project, (2) Parses issue structure (title, description, priority, labels), (3) Checks if issue already exists in repo (prevent duplicates), (4) Automatically creates GitHub issues via gh CLI, (5) Updates markdown file with issue URLs after creation",
+    "hookImplemented": false,
+    "hooksRequired": [
+      {
+        "name": "github_issue_auto_creator.ts",
+        "event": "PostToolUse",
+        "matcher": "Write|Edit",
+        "priority": "P1-HIGH",
+        "logic": "After Write/Edit to **/GITHUB-ISSUES.md or **/FRICTIONS.md: (1) Parse markdown for issue blocks (### headers with Priority/Description/Evidence), (2) Extract repo from git remote, (3) Check existing issues for duplicates via gh issue list, (4) Create new issues via gh issue create, (5) Append issue URLs to source markdown"
+      }
+    ],
+    "triggeringSession": "rewst_redirect_gateway hardening - 10 issues manually created",
+    "issuesCreated": [
+      "https://github.com/dlronray/n8n/issues/8",
+      "https://github.com/dlronray/n8n/issues/9",
+      "https://github.com/dlronray/n8n/issues/10",
+      "https://github.com/dlronray/n8n/issues/11",
+      "https://github.com/dlronray/n8n/issues/12",
+      "https://github.com/dlronray/n8n/issues/13",
+      "https://github.com/dlronray/n8n/issues/14",
+      "https://github.com/dlronray/n8n/issues/15",
+      "https://github.com/dlronray/n8n/issues/16",
+      "https://github.com/dlronray/n8n/issues/17"
+    ],
+    "recurrenceCount": 0,
+    "severity": "MEDIUM"
+  }
+]
 }

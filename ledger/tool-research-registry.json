@@ -1,0 +1,979 @@
+{
+  "version": "1.0.0",
+  "description": "Tracks tool research decisions for pre-implementation validation",
+  "lastUpdated": "2026-01-23T21:09:48.903Z",
+  "entries": [
+    {
+      "id": "a1c86e41b82d4d1e",
+      "timestamp": "2026-01-21T21:51:41.792Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-MybEn3\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-MybEn3\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": []
+    },
+    {
+      "id": "08cf76e536e3f104",
+      "timestamp": "2026-01-22T12:55:46.358Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-tURDUX\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-tURDUX\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "8d2cc2a2b3f52747",
+      "timestamp": "2026-01-23T16:26:50.857Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-I6DEZi\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-I6DEZi\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "f3ceb9b108d8c0a7",
+      "timestamp": "2026-01-23T16:27:12.913Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-LM66Gl\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-LM66Gl\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "834dbd71602d423a",
+      "timestamp": "2026-01-23T16:41:52.692Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-1RqjJV\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-1RqjJV\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "26cfffe3e1314245",
+      "timestamp": "2026-01-23T16:42:22.668Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-3uvs0W\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-3uvs0W\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "fd4ea78d740f9391",
+      "timestamp": "2026-01-23T16:47:49.937Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-0lk9Vo\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-0lk9Vo\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "57081f3d00368823",
+      "timestamp": "2026-01-23T16:48:27.588Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-I6tKOO\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-I6tKOO\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "0d681919f12dbe47",
+      "timestamp": "2026-01-23T16:52:44.992Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-KFt7Iz\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-KFt7Iz\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "7686485e7e2266ca",
+      "timestamp": "2026-01-23T16:53:11.093Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-iyMnDB\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-iyMnDB\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "e69c2abf5b65044c",
+      "timestamp": "2026-01-23T16:56:04.815Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-9uiatu\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-9uiatu\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "f3fe58034a89de01",
+      "timestamp": "2026-01-23T16:56:43.447Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-fcZNBr\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-fcZNBr\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "2193b1f135416606",
+      "timestamp": "2026-01-23T16:59:13.978Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-EU0zqO\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-EU0zqO\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "c230eba784f45163",
+      "timestamp": "2026-01-23T17:03:01.334Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-ExsMEK\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-ExsMEK\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "57e048e0e7ac6da9",
+      "timestamp": "2026-01-23T17:06:34.197Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-UH3ZOs\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-UH3ZOs\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "b1e5eeab836a6017",
+      "timestamp": "2026-01-23T17:07:49.683Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-T1siFq\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-T1siFq\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "f1197b295852af7c",
+      "timestamp": "2026-01-23T17:09:06.093Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-CseepM\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-CseepM\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "02282f974bbbd1f4",
+      "timestamp": "2026-01-23T17:11:50.630Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-4WDgJl\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-4WDgJl\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "7f3a1a809bdc9c00",
+      "timestamp": "2026-01-23T17:12:45.812Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-kcyV8n\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-kcyV8n\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "2ef5590fcfd50af8",
+      "timestamp": "2026-01-23T17:14:38.730Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-4Rny8M\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-4Rny8M\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "0f610a63ffc4d8b3",
+      "timestamp": "2026-01-23T17:16:35.755Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-sDYnPQ\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-sDYnPQ\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "f67a4c7a1d372782",
+      "timestamp": "2026-01-23T17:18:24.619Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-AJY9AS\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-AJY9AS\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "b07f9d2cb81b8e6a",
+      "timestamp": "2026-01-23T17:20:35.527Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-yKUefK\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-yKUefK\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "ec3d2af4a11b53a1",
+      "timestamp": "2026-01-23T17:23:30.283Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-60m3IG\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-60m3IG\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "8beb46c685563fab",
+      "timestamp": "2026-01-23T17:24:30.869Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-vzDr3x\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-vzDr3x\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "2b55040337360b68",
+      "timestamp": "2026-01-23T18:16:45.725Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-Evlgoa\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-Evlgoa\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "1a3e3eaacbf1220f",
+      "timestamp": "2026-01-23T18:34:23.370Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-8YDUtn\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-8YDUtn\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "0f997b1e4168b89c",
+      "timestamp": "2026-01-23T18:46:33.829Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-zkEnQO\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-zkEnQO\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "5c35f7529822ee6f",
+      "timestamp": "2026-01-23T18:47:06.485Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-Mif8qZ\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-Mif8qZ\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "9fb723403b53cd74",
+      "timestamp": "2026-01-23T18:52:55.245Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-p38TGP\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-p38TGP\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "5d7aabd0a5a285a2",
+      "timestamp": "2026-01-23T18:57:05.069Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-fxq0Mq\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-fxq0Mq\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "d909ef60298319e8",
+      "timestamp": "2026-01-23T18:57:39.482Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-oD4X0E\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-oD4X0E\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "2803acc827775539",
+      "timestamp": "2026-01-23T19:22:51.262Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-NnDHU9\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-NnDHU9\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "171242a6bdf9c80a",
+      "timestamp": "2026-01-23T19:33:02.509Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-f1SP4j\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-f1SP4j\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "386168428b2ee8ec",
+      "timestamp": "2026-01-23T19:36:28.735Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-gScvmj\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-gScvmj\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "b1f843f71f5d94e3",
+      "timestamp": "2026-01-23T19:37:06.391Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-I5KogZ\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-I5KogZ\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "3d897c4549c7d824",
+      "timestamp": "2026-01-23T19:42:12.828Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-jrWpN1\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-jrWpN1\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "ed2ff7473bbcc05b",
+      "timestamp": "2026-01-23T19:42:49.607Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-MWitw2\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-MWitw2\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "30ceee04b90107bf",
+      "timestamp": "2026-01-23T19:48:00.926Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-ul0m12\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-ul0m12\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "65be0570fd129789",
+      "timestamp": "2026-01-23T19:55:33.653Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-eiYaDF\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-eiYaDF\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "b2143e83232492c3",
+      "timestamp": "2026-01-23T19:56:13.047Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-C4knvt\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-C4knvt\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "d6405dc7753faa0e",
+      "timestamp": "2026-01-23T20:01:04.589Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-8ULdyA\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-8ULdyA\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "a7dd16b93978b4bd",
+      "timestamp": "2026-01-23T20:28:54.241Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-7tutLy\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-7tutLy\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "d324cbbd9d24ea25",
+      "timestamp": "2026-01-23T20:37:56.669Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-kImnNY\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-kImnNY\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "da5b2b0025bc4894",
+      "timestamp": "2026-01-23T20:39:20.636Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-v6Mo5w\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-v6Mo5w\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "26855d11950afdf2",
+      "timestamp": "2026-01-23T20:51:27.072Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-kprjmO\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-kprjmO\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "921c8a290815da8c",
+      "timestamp": "2026-01-23T20:51:54.750Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-77YPX3\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-77YPX3\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "fdc27240689933c2",
+      "timestamp": "2026-01-23T20:56:07.047Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-4QBsTx\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-4QBsTx\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "30bde6d282ab430f",
+      "timestamp": "2026-01-23T21:09:18.525Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-U6ROIi\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-U6ROIi\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "ac19290cb3e0368c",
+      "timestamp": "2026-01-23T21:09:48.902Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-Mvld5A\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-Mvld5A\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    }
+  ],
+  "schema": {
+    "entry": {
+      "id": "string - SHA-256 prefix (16 chars)",
+      "timestamp": "string - ISO timestamp",
+      "problemDomain": "string - what capability is needed",
+      "projectPath": "string - path to project requesting wrapper",
+      "researchDocPath": "string - path to TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "string - tool name",
+          "url": "string - repository URL",
+          "stars": "number - GitHub stars",
+          "weeklyDownloads": "number - npm weekly downloads (optional)",
+          "decision": "ACCEPTED | REJECTED",
+          "reason": "string - rationale for decision"
+        }
+      ],
+      "finalDecision": "BUILD | USE",
+      "chosenTool": "string - name of chosen tool (if USE)",
+      "rationale": "string - explanation of final decision",
+      "warnings": [
+        "string - any warnings generated (e.g., rejected high-star tool)"
+      ]
+    }
+  }
+}

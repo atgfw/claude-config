@@ -1,0 +1,100 @@
+[
+  {
+    "timestamp": "2026-01-22T19:45:41.109Z",
+    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\rewst_redirect_gateway",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "organization",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\rewst_redirect_gateway",
+        "filename": "3 scripts",
+        "suggestion": "mkdir -p scripts && mv *.py *.js *.ts *.ps1 *.sh scripts/",
+        "severity": "warn"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-01-22T21:37:15.595Z",
+    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\rewst_redirect_gateway",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "organization",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\rewst_redirect_gateway",
+        "filename": "6 scripts",
+        "suggestion": "mkdir -p scripts && mv *.py *.js *.ts *.ps1 *.sh scripts/",
+        "severity": "warn"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-01-23T15:05:38.113Z",
+    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\rewst_redirect_gateway",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "organization",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\rewst_redirect_gateway",
+        "filename": "6 scripts",
+        "suggestion": "mkdir -p scripts && mv *.py *.js *.ts *.ps1 *.sh scripts/",
+        "severity": "warn"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-01-23T16:25:23.717Z",
+    "project": "C:\\Users\\codya\\.claude",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\.claude\\nul",
+        "filename": "nul",
+        "suggestion": "mv \"nul\" old/misc/",
+        "severity": "warn"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-01-23T16:25:41.398Z",
+    "project": "C:\\Users\\codya\\.claude",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\.claude\\nul",
+        "filename": "nul",
+        "suggestion": "mv \"nul\" old/misc/",
+        "severity": "warn"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-01-23T17:02:31.061Z",
+    "project": "C:\\Users\\codya\\.claude",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\.claude\\nul",
+        "filename": "nul",
+        "suggestion": "mv \"nul\" old/misc/",
+        "severity": "warn"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-01-23T17:21:45.620Z",
+    "project": "C:\\Users\\codya\\.claude",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\.claude\\nul",
+        "filename": "nul",
+        "suggestion": "mv \"nul\" old/misc/",
+        "severity": "warn"
+      }
+    ]
+  }
+]

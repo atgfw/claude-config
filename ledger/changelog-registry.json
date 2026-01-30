@@ -10,11 +10,51 @@
           "description": "add global GitHub framework for automated releases",
           "breaking": false,
           "timestamp": "2026-01-20T18:47:13.051Z"
+        },
+        {
+          "hash": "5dc9d65",
+          "type": "chore",
+          "description": "add runtime directories to gitignore",
+          "breaking": false,
+          "timestamp": "2026-01-22T14:21:18.011Z"
+        }
+      ]
+    },
+    "C:/Users/codya/OneDrive - Applied Technology Group/Documents/oncall_connect_frontend": {
+      "lastRelease": "0.0.0",
+      "unreleased": [
+        {
+          "hash": "fa32070",
+          "type": "feat",
+          "description": "initial OnCall Connect Frontend with pending changes system",
+          "breaking": false,
+          "timestamp": "2026-01-22T15:20:42.005Z"
+        }
+      ]
+    },
+    "C:/Users/codya/coding/n8n_n8n": {
+      "lastRelease": "0.0.0",
+      "unreleased": [
+        {
+          "hash": "b3931b5",
+          "type": "feat",
+          "scope": "rewst-gateway",
+          "description": "add hardened n8n workflow and test orchestrator",
+          "breaking": false,
+          "timestamp": "2026-01-23T16:48:13.076Z"
+        },
+        {
+          "hash": "5e9c551",
+          "type": "feat",
+          "scope": "llm-extraction",
+          "description": "v5.4 routing_config + contact enrichment",
+          "breaking": false,
+          "timestamp": "2026-01-23T21:43:00.774Z"
         }
       ]
     }
   },
-  "lastUpdated": "2026-01-20T18:47:13.057Z",
+  "lastUpdated": "2026-01-23T21:43:00.776Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"
