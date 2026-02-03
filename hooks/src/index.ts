@@ -201,7 +201,7 @@ export {
   parseFilePath,
 } from './hooks/checklist_sync_hooks.js';
 export { taskCompletionGateHook } from './hooks/task_completion_gate.js';
-export { taskGoalSyncCreate, taskGoalSyncUpdate } from './hooks/task_goal_sync.js';
+export { taskGoalSync, getCurrentTaskGoal, isTaskCurrentFocus } from './hooks/task_goal_sync.js';
 export { cloudObjectCreationGateHook } from './governance/cloud_object_creation_gate.js';
 export { llmModelValidatorHook } from './governance/llm_model_validator.js';
 

@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Add error handling to Call Association API nodes",
+  "description": "P1 High: Add try/catch error handling to search_customer and create_note nodes in Call Association workflow.",
+  "activeForm": "Adding error handling",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

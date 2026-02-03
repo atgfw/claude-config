@@ -1,0 +1,26 @@
+{
+  "session_id": "session-7905e186e266a980",
+  "working_directory": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan",
+  "stack": [
+    {
+      "id": "task-task-Rml4IEF1",
+      "type": "task",
+      "summary": "Fix Auth Token Manager hardcoded credentials",
+      "fields": {
+        "who": "Claude Code session",
+        "what": "P0 Critical: Move client_id, client_secret, tenant_id, app_key from hardcoded values in workflow nod",
+        "when": "Current task",
+        "where": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan",
+        "why": "Task in progress",
+        "how": "Following implementation plan"
+      },
+      "source": {
+        "claude_task_id": "task-Rml4IEF1"
+      },
+      "pushedAt": "2026-02-03T17:38:17.416Z",
+      "pushedBy": "TaskUpdate"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-03T17:38:17.418Z"
+}
