@@ -201,7 +201,7 @@
       "plan_step": null,
       "goal_summary": null,
       "status": "open",
-      "last_synced": "2026-02-03T17:15:54.895Z",
+      "last_synced": "2026-02-03T17:38:21.897Z",
       "sync_hash": "",
       "plan_file": null,
       "checklist_items": [
@@ -554,7 +554,7 @@
         {
           "type": "openspec",
           "artifact_id": "refactor-session-scoped-goals",
-          "last_read": "2026-02-03T17:15:54.896Z",
+          "last_read": "2026-02-03T17:38:21.897Z",
           "content_hash": "73756718d27f6a37"
         }
       ]
