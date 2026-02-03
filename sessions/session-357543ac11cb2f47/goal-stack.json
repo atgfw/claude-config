@@ -1,0 +1,26 @@
+{
+  "session_id": "session-357543ac11cb2f47",
+  "working_directory": "C:\\Users\\codya\\.claude",
+  "stack": [
+    {
+      "id": "task-task-Q3JlYXRl",
+      "type": "task",
+      "summary": "Create checklist read/write hooks",
+      "fields": {
+        "who": "Claude Code session",
+        "what": "Create PostToolUse hooks that trigger reconciliation:",
+        "when": "Current task",
+        "where": "C:\\Users\\codya\\.claude",
+        "why": "Task in progress",
+        "how": "Following implementation plan"
+      },
+      "source": {
+        "claude_task_id": "task-Q3JlYXRl"
+      },
+      "pushedAt": "2026-02-03T16:48:58.728Z",
+      "pushedBy": "TaskUpdate"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-03T16:48:58.731Z"
+}

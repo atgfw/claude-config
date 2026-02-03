@@ -90,11 +90,19 @@
           "description": "v5.6 request category enrichment for ServiceTitan",
           "breaking": false,
           "timestamp": "2026-02-03T14:36:07.931Z"
+        },
+        {
+          "hash": "40bfca7",
+          "type": "chore",
+          "scope": "llm-extraction",
+          "description": "cleanup docs and stale temp_nodes",
+          "breaking": false,
+          "timestamp": "2026-02-03T16:53:31.062Z"
         }
       ]
     }
   },
-  "lastUpdated": "2026-02-03T14:36:07.960Z",
+  "lastUpdated": "2026-02-03T16:53:31.081Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"

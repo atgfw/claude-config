@@ -282,6 +282,36 @@
           }
         ],
         "description": "Injects active goal context after every tool use"
+      },
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" checklist-read"
+          }
+        ],
+        "description": "Reconciles checklist state when tasks.md or plan files are read"
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" checklist-write"
+          }
+        ],
+        "description": "Reconciles and propagates checklist changes when tasks.md or plan files are written"
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" artifact-goal-injector"
+          }
+        ],
+        "description": "Validates goal context in OpenSpec proposals and plan files"
       }
     ],
     "UserPromptSubmit": [
@@ -320,6 +350,15 @@
           }
         ],
         "description": "Auto-commits and pushes all changes after each assistant turn"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" goal-injector-stop"
+          }
+        ],
+        "description": "Injects goal context at session stop for summary"
       }
     ],
     "SessionStart": [

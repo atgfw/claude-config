@@ -1,0 +1,143 @@
+/**
+ * Checklist Sync Hooks
+ *
+ * PostToolUse hooks that trigger checklist reconciliation on file operations.
+ * - Read triggers: reconcile when tasks.md or plan files are read
+ * - Write triggers: reconcile and propagate when files are written
+ */
+
+import type { PostToolUseInput, PostToolUseOutput } from '../types.js';
+import { registerHook } from '../runner.js';
+import { reconcileArtifact } from '../sync/checklist_reconciler.js';
+import { propagateToLinkedArtifacts } from '../sync/checklist_propagator.js';
+import type { SyncSourceType } from '../github/task_source_sync.js';
+
+// Patterns to match checklist-containing files
+const OPENSPEC_TASKS_PATTERN = /[/\\]openspec[/\\]changes[/\\]([^/\\]+)[/\\]tasks\.md$/i;
+const PLAN_FILE_PATTERN = /[/\\]plans?[/\\]([^/\\]+\.md)$/i;
+
+/**
+ * Determine artifact type and ID from file path.
+ */
+function parseFilePath(filePath: string): { type: SyncSourceType; id: string } | null {
+  const openspecMatch = OPENSPEC_TASKS_PATTERN.exec(filePath);
+  if (openspecMatch?.[1]) {
+    return { type: 'openspec', id: openspecMatch[1] };
+  }
+
+  const planMatch = PLAN_FILE_PATTERN.exec(filePath);
+  if (planMatch) {
+    return { type: 'plan', id: filePath };
+  }
+
+  return null;
+}
+
+/**
+ * PostToolUse hook for Read operations.
+ * Triggers reconciliation when tasks.md or plan files are read.
+ */
+async function checklistReadHook(input: PostToolUseInput): Promise<PostToolUseOutput> {
+  if (input.tool_name !== 'Read') {
+    return { hookSpecificOutput: { hookEventName: 'PostToolUse' } };
+  }
+
+  const filePath = input.tool_input['file_path'] as string | undefined;
+  if (!filePath) {
+    return { hookSpecificOutput: { hookEventName: 'PostToolUse' } };
+  }
+
+  const parsed = parseFilePath(filePath);
+  if (!parsed) {
+    return { hookSpecificOutput: { hookEventName: 'PostToolUse' } };
+  }
+
+  // Get file content from tool output
+  const content = input.tool_output as string | undefined;
+  if (!content) {
+    return { hookSpecificOutput: { hookEventName: 'PostToolUse' } };
+  }
+
+  // Reconcile with registry
+  const result = reconcileArtifact(parsed.type, parsed.id, content);
+
+  if (result.driftDetected) {
+    return {
+      hookSpecificOutput: {
+        hookEventName: 'PostToolUse',
+        additionalContext: `Checklist drift detected in ${parsed.type}: +${result.itemsAdded} added, -${result.itemsRemoved} removed, ~${result.statusChanges} status changes`,
+      },
+    };
+  }
+
+  return { hookSpecificOutput: { hookEventName: 'PostToolUse' } };
+}
+
+/**
+ * PostToolUse hook for Write/Edit operations.
+ * Triggers reconciliation and propagation when checklist files are written.
+ */
+async function checklistWriteHook(input: PostToolUseInput): Promise<PostToolUseOutput> {
+  if (input.tool_name !== 'Write' && input.tool_name !== 'Edit') {
+    return { hookSpecificOutput: { hookEventName: 'PostToolUse' } };
+  }
+
+  const filePath = input.tool_input['file_path'] as string | undefined;
+  if (!filePath) {
+    return { hookSpecificOutput: { hookEventName: 'PostToolUse' } };
+  }
+
+  const parsed = parseFilePath(filePath);
+  if (!parsed) {
+    return { hookSpecificOutput: { hookEventName: 'PostToolUse' } };
+  }
+
+  // Get content - for Write it's in tool_input, for Edit we need the result
+  let content: string | undefined;
+  if (input.tool_name === 'Write') {
+    content = input.tool_input['content'] as string | undefined;
+  }
+  // For Edit, we don't have full content easily available, skip reconciliation
+  if (!content) {
+    return { hookSpecificOutput: { hookEventName: 'PostToolUse' } };
+  }
+
+  // Reconcile with registry
+  const result = reconcileArtifact(parsed.type, parsed.id, content);
+
+  // Propagate changes to linked artifacts
+  const propagated = await propagateToLinkedArtifacts(parsed.type, parsed.id);
+
+  const messages: string[] = [];
+  if (result.driftDetected) {
+    messages.push(
+      `Checklist reconciled: +${result.itemsAdded} added, -${result.itemsRemoved} removed, ~${result.statusChanges} changed`
+    );
+  }
+  if (propagated.length > 0) {
+    messages.push(`Propagated to: ${propagated.join(', ')}`);
+  }
+
+  if (messages.length > 0) {
+    return {
+      hookSpecificOutput: {
+        hookEventName: 'PostToolUse',
+        additionalContext: messages.join('. '),
+      },
+    };
+  }
+
+  return { hookSpecificOutput: { hookEventName: 'PostToolUse' } };
+}
+
+// Register hooks
+registerHook('checklist-read', 'PostToolUse', checklistReadHook);
+registerHook('checklist-write', 'PostToolUse', checklistWriteHook);
+
+export {
+  checklistReadHook,
+  checklistWriteHook,
+  parseFilePath,
+  OPENSPEC_TASKS_PATTERN,
+  PLAN_FILE_PATTERN,
+};
