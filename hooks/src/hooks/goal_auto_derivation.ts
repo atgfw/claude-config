@@ -306,7 +306,6 @@ function extractFieldsFromGitHubIssue(
 
   // Check if there are REAL explicit fields (not fallback garbage like "## Problem")
   // A real explicit field would be from WHO:/WHAT:/etc markers in the text
-  const passingFields: string[] = [];
   const hasRealExplicitFields = Object.entries(explicitFields).some(([key, v]) => {
     // Reject all placeholder patterns
     if (
@@ -337,25 +336,17 @@ function extractFieldsFromGitHubIssue(
     if (key === 'how' && v === 'Following implementation plan') {
       return false;
     }
-    passingFields.push(`${key}=${v.substring(0, 30)}`);
     return true;
   });
-  console.error(`[extractFieldsFromGitHubIssue] passingFields: ${passingFields.join(', ')}`);
-
-  console.error(
-    `[extractFieldsFromGitHubIssue] hasRealExplicitFields=${hasRealExplicitFields}, explicitWhat=${explicitFields.what}`
-  );
 
   if (hasRealExplicitFields) {
     // Fill in any remaining unknowns from parsed sections
     const sections = parseIssueSections(body);
-    console.error(`[extractFieldsFromGitHubIssue] using enrichFieldsFromSections path`);
     return enrichFieldsFromSections(explicitFields, sections, issueNumber, title, labels);
   }
 
   // Parse structured sections
   const sections = parseIssueSections(body);
-  console.error(`[extractFieldsFromGitHubIssue] using fresh derive path`);
 
   // Build fields from sections intelligently
   const fields: GoalFields = {
