@@ -104,7 +104,7 @@ export { sessionHydrator } from './hooks/session_hydrator.js';
 export { artifactGoalInjector } from './hooks/artifact_goal_injector.js';
 export { checklistReadHook, checklistWriteHook, parseFilePath, } from './hooks/checklist_sync_hooks.js';
 export { taskCompletionGateHook } from './hooks/task_completion_gate.js';
-export { taskGoalSyncCreate, taskGoalSyncUpdate } from './hooks/task_goal_sync.js';
+export { taskGoalSync, getCurrentTaskGoal, isTaskCurrentFocus } from './hooks/task_goal_sync.js';
 export { cloudObjectCreationGateHook } from './governance/cloud_object_creation_gate.js';
 export { llmModelValidatorHook } from './governance/llm_model_validator.js';
 // Import governance hooks to register them

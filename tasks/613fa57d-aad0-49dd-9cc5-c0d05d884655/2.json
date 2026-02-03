@@ -3,7 +3,7 @@
   "subject": "Fix Call Association Authorization header",
   "description": "P0 Critical: Change 'Authorization: Bearer ${token}' to 'Authorization: ${token}' in search_customer, create_note, create_task, create_lead nodes. ServiceTitan API requires raw token without Bearer prefix.",
   "activeForm": "Fixing Call Association auth header",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
