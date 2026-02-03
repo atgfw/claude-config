@@ -8,6 +8,9 @@
 // Export types
 export * from './types.js';
 
+// Export task specification schema
+export * from './schema/task_specification.js';
+
 // Export utilities
 export * from './utils.js';
 
@@ -202,6 +205,12 @@ export {
 } from './hooks/checklist_sync_hooks.js';
 export { taskCompletionGateHook } from './hooks/task_completion_gate.js';
 export { taskGoalSync, getCurrentTaskGoal, isTaskCurrentFocus } from './hooks/task_goal_sync.js';
+export {
+  taskSpecValidatorHook,
+  validateTaskSpec,
+  validateMinimalSpec,
+  formatValidationIssues,
+} from './hooks/task_spec_validator.js';
 export { cloudObjectCreationGateHook } from './governance/cloud_object_creation_gate.js';
 export { llmModelValidatorHook } from './governance/llm_model_validator.js';
 
@@ -244,6 +253,9 @@ import './hooks/checklist_sync_hooks.js';
 
 // Task-goal synchronization (session-scoped goals from tasks)
 import './hooks/task_goal_sync.js';
+
+// Task specification validator (enforces 11-section schema)
+import './hooks/task_spec_validator.js';
 
 // Context summary trigger (replaces auto-compact)
 import './hooks/context-summary-trigger.js';
