@@ -253,6 +253,15 @@
           }
         ],
         "description": "Tracks releases and version bumps"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" goal-injector-post"
+          }
+        ],
+        "description": "Injects active goal context after every tool use"
       }
     ],
     "UserPromptSubmit": [
@@ -301,6 +310,15 @@
             "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" session-start"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" goal-injector-session"
+          }
+        ],
+        "description": "Injects active goal context at session start"
       }
     ]
   },
