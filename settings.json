@@ -335,6 +335,15 @@
         "hooks": [
           {
             "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" goal-auto-derivation-prompt"
+          }
+        ],
+        "description": "Detects context changes in prompt that affect goal (issue references, OpenSpec mentions)"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
             "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" goal-injector"
           }
         ],
@@ -378,6 +387,15 @@
             "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" session-start"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" goal-auto-derivation-session"
+          }
+        ],
+        "description": "Auto-derives goal from work context (git branch, OpenSpec, active-goal.json)"
       },
       {
         "hooks": [
