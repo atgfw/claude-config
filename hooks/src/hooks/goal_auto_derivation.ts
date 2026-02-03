@@ -445,7 +445,7 @@ function deriveWhich(sections: ParsedIssueSection, title: string): string {
 
   // Look for hook names
   const hookMatch = title.match(/`([^`]+)`/);
-  if (hookMatch) {
+  if (hookMatch?.[1]) {
     titleTargets.push(hookMatch[1]);
   }
 
@@ -457,9 +457,9 @@ function deriveWhich(sections: ParsedIssueSection, title: string): string {
   // Extract from implementation tasks
   if (sections.implementation) {
     for (const task of sections.implementation) {
-      const hookMatch = task.match(/hook[:\s]+`?(\w+)`?/i);
-      if (hookMatch) {
-        titleTargets.push(hookMatch[1]);
+      const taskHookMatch = task.match(/hook[:\s]+`?(\w+)`?/i);
+      if (taskHookMatch?.[1]) {
+        titleTargets.push(taskHookMatch[1]);
       }
     }
   }
