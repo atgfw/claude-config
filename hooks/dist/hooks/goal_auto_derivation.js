@@ -330,7 +330,7 @@ function deriveWhat(sections, title) {
     // If goal section exists and is clean (not a section header)
     if (sections.goal) {
         const cleanGoal = sections.goal.trim();
-        // Skip if it starts with ## (grabbed wrong content)
+        // Skip if it starts with ## or # (grabbed markdown header)
         if (!cleanGoal.startsWith('##') && !cleanGoal.startsWith('#')) {
             // Get first meaningful line
             const firstLine = cleanGoal.split('\n').find((l) => l.trim() && !l.startsWith('-'));
@@ -360,7 +360,25 @@ function deriveWhat(sections, title) {
             }
         }
     }
-    // Fall back to title (strip [system] prefix if present)
+    // Try problem section content (not the header, the actual content)
+    if (sections.problem) {
+        const lines = sections.problem.split('\n');
+        for (const line of lines) {
+            const trimmed = line.trim();
+            // Skip empty, headers, list markers
+            if (trimmed &&
+                !trimmed.startsWith('#') &&
+                !trimmed.startsWith('- ') &&
+                !trimmed.startsWith('* ') &&
+                !/^\d+\.\s/.test(trimmed)) {
+                if (trimmed.length > 20) {
+                    log(`[deriveWhat] returning from problem: ${trimmed.substring(0, 50)}`);
+                    return trimmed.substring(0, 200);
+                }
+            }
+        }
+    }
+    // Fall back to title (strip [system] prefix and conventional commit prefix if present)
     const cleanTitle = title.replace(/^\[[^\]]+\]\s*/, '').replace(/^[a-z]+\([^)]+\):\s*/i, '');
     log(`[deriveWhat] returning from title: ${cleanTitle}`);
     return cleanTitle || title;

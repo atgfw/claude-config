@@ -457,6 +457,60 @@
         }
       }
     },
+    "subworkflow_experiment_parent": {
+      "entityId": "subworkflow_experiment_parent",
+      "entityType": "n8n-workflow",
+      "entityPath": "workflows/servicetitan/specs/subworkflow_experiment_parent/",
+      "entityName": "subworkflow_experiment_parent",
+      "workflowId": null,
+      "status": "local-tested",
+      "version": "1.0.0",
+      "novelInputHashes": [
+        "exp_parent_hash_001",
+        "exp_parent_hash_002",
+        "exp_parent_hash_003"
+      ],
+      "testRuns": [
+        {
+          "run": 1,
+          "inputHash": "exp_parent_hash_001",
+          "passed": true,
+          "timestamp": "2026-02-03T21:45:00.000Z",
+          "executionId": "bun-test-004",
+          "description": "Empty input - verifies subworkflow response structure"
+        },
+        {
+          "run": 2,
+          "inputHash": "exp_parent_hash_002",
+          "passed": true,
+          "timestamp": "2026-02-03T21:45:01.000Z",
+          "executionId": "bun-test-005",
+          "description": "Test payload - verifies data passthrough"
+        },
+        {
+          "run": 3,
+          "inputHash": "exp_parent_hash_003",
+          "passed": true,
+          "timestamp": "2026-02-03T21:45:02.000Z",
+          "executionId": "bun-test-006",
+          "description": "Nested data - verifies complex structure handling"
+        }
+      ],
+      "totalNovelRuns": 3,
+      "healthyAt": null,
+      "selfAuditCompleted": {
+        "completed": false,
+        "checklist": {
+          "spec_phase": true,
+          "enforcer_audit": false,
+          "build_phase": false,
+          "local_tests": true,
+          "primordial_pipeline": true,
+          "research_quota": false,
+          "quality_audit": false
+        }
+      }
+    },
     "subworkflow_experiment_alpha": {
       "entityId": "subworkflow_experiment_alpha",
       "entityType": "n8n-workflow",
@@ -542,6 +596,10 @@
       "children": []
     },
     "subworkflow_experiment_alpha": {
+      "parent": null,
+      "children": []
+    },
+    "subworkflow_experiment_parent": {
       "parent": null,
       "children": []
     }
