@@ -9,14 +9,25 @@ import {
   OPENSPEC_PATTERN,
   PLAN_PATTERN,
 } from '../../src/hooks/artifact_goal_injector.js';
-import { saveGoal, createEmptyGoal, type ActiveGoal } from '../../src/hooks/goal_injector.js';
+import { saveGoal, createEmptyGoal } from '../../src/hooks/goal_injector.js';
+import {
+  pushGoal,
+  saveGoalStack,
+  createEmptyStack,
+  type GoalLevel,
+} from '../../src/session/goal_stack.js';
 
 let tempDir: string;
 let origClaudeDir: string | undefined;
+let origSessionId: string | undefined;
+const TEST_SESSION_ID = 'test-session-artifact-goal';
 
 function setTestGoal(): void {
-  const goal: ActiveGoal = {
-    goal: 'Build unified checklist system',
+  // Use session-scoped goal
+  const goal: GoalLevel = {
+    id: 'test-goal',
+    type: 'task',
+    summary: 'Build unified checklist system',
     fields: {
       who: 'Claude Code sessions',
       what: 'unified checklist reconciliation',
@@ -25,18 +36,22 @@ function setTestGoal(): void {
       why: 'maintain traceability',
       how: 'shared formatGoalContext',
     },
-    summary: 'Build unified checklist system',
-    updatedAt: new Date().toISOString(),
-    history: [],
+    source: { manual: true },
+    pushedAt: new Date().toISOString(),
+    pushedBy: 'Manual',
   };
-  saveGoal(goal);
+  saveGoalStack(createEmptyStack(TEST_SESSION_ID));
+  pushGoal(TEST_SESSION_ID, goal);
 }
 
 beforeAll(() => {
   origClaudeDir = process.env['CLAUDE_DIR'];
+  origSessionId = process.env['CLAUDE_SESSION_ID'];
   tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'artifact-goal-test-'));
   fs.mkdirSync(path.join(tempDir, 'ledger'), { recursive: true });
+  fs.mkdirSync(path.join(tempDir, 'sessions', TEST_SESSION_ID), { recursive: true });
   process.env['CLAUDE_DIR'] = tempDir;
+  process.env['CLAUDE_SESSION_ID'] = TEST_SESSION_ID;
 });
 
 afterAll(() => {
@@ -45,11 +60,17 @@ afterAll(() => {
   } else {
     delete process.env['CLAUDE_DIR'];
   }
+  if (origSessionId !== undefined) {
+    process.env['CLAUDE_SESSION_ID'] = origSessionId;
+  } else {
+    delete process.env['CLAUDE_SESSION_ID'];
+  }
   fs.rmSync(tempDir, { recursive: true, force: true });
 });
 
 beforeEach(() => {
   saveGoal(createEmptyGoal());
+  saveGoalStack(createEmptyStack(TEST_SESSION_ID));
 });
 
 describe('OPENSPEC_PATTERN', () => {
