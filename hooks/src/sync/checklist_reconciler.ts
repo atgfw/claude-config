@@ -6,14 +6,16 @@
  */
 
 import * as crypto from 'node:crypto';
-import type {
-  ChecklistItem,
-  SyncEntry,
-  SyncRegistry,
-  SyncSource,
-  SyncSourceType,
+import {
+  type ChecklistItem,
+  type SyncEntry,
+  type SyncRegistry,
+  type SyncSource,
+  type SyncSourceType,
+  loadRegistry,
+  saveRegistry,
+  findEntry,
 } from '../github/task_source_sync.js';
-import { loadRegistry, saveRegistry, findEntry } from '../github/task_source_sync.js';
 import {
   computeChecklistHash,
   mergeChecklists,
@@ -65,8 +67,6 @@ export function parseByType(
       return parsePlanChecklist(content as string);
     case 'claude_task':
       return parseClaudeTasks(content as ClaudeTask[]);
-    default:
-      return [];
   }
 }
 
