@@ -1,14 +1,14 @@
 {
-  "goal": null,
+  "goal": "Unify goal injection across all Claude Code message types and external systems",
   "fields": {
-    "who": "unknown",
-    "what": "unknown",
-    "when": "unknown",
-    "where": "unknown",
-    "why": "unknown",
-    "how": "unknown"
+    "who": "Claude Code sessions, GitHub issues, OpenSpec proposals, plans, tasks",
+    "what": "Inject identical structured goal context into every message and artifact",
+    "when": "every turn, every hook, every created artifact",
+    "where": "UserPromptSubmit, PostToolUse, Stop, SessionStart, issue bodies, task descriptions, plan headers",
+    "why": "maintain focus and traceability across all systems uniformly",
+    "how": "shared formatGoalContext() injected via additionalContext in all hook event types"
   },
-  "summary": null,
-  "updatedAt": null,
+  "summary": "Unify goal injection across all Claude Code message types and external systems",
+  "updatedAt": "2026-02-03T00:00:00.000Z",
   "history": []
 }
