@@ -12,6 +12,18 @@
 import type { UserPromptSubmitInput, UserPromptSubmitOutput, PostToolUseInput, PostToolUseOutput, SessionStartInput, SessionStartOutput, StopInput, StopOutput } from '../types.js';
 declare const GOAL_FIELDS: readonly ["who", "what", "when", "where", "why", "how"];
 type GoalField = (typeof GOAL_FIELDS)[number];
+/**
+ * Linked artifacts that should be auto-hydrated on session start.
+ * These connect the goal to its implementation artifacts.
+ */
+export interface LinkedArtifacts {
+    /** OpenSpec change ID (e.g., "add-goal-injection") */
+    openspec?: string;
+    /** GitHub issue numbers */
+    github_issues?: number[];
+    /** Plan file paths (relative to ~/.claude or absolute) */
+    plan_files?: string[];
+}
 export interface ActiveGoal {
     goal: string | null;
     fields: Record<GoalField, string>;
@@ -21,6 +33,8 @@ export interface ActiveGoal {
         summary: string;
         clearedAt: string;
     }>;
+    /** Linked artifacts for auto-hydration on session start */
+    linkedArtifacts?: LinkedArtifacts;
 }
 export declare function getGoalPath(): string;
 export declare function loadGoal(): ActiveGoal;
