@@ -1,5 +1,5 @@
 {
-  "goal": "Enforce full file paths in all Claude Code operations",
+  "goal": "Implement full path validation for all Claude Code file operations",
   "fields": {
     "who": "Claude Code sessions and file operation tools",
     "what": "Enforce all file paths in Claude Code operations are absolute (not relative)",
@@ -12,7 +12,7 @@
     "with": "TypeScript, hooks framework, path validation utilities",
     "measuredBy": "Hook implemented for all file operation tools; cross-platform support (Unix/Windows); helpful error messages; CLAUDE.md updated"
   },
-  "summary": "Enforce full file paths in all Claude Code operations",
+  "summary": "Implement full path validation for all Claude Code file operations",
   "updatedAt": "2026-02-03T21:15:00.000Z",
   "linkedArtifacts": {
     "openspec": null,
