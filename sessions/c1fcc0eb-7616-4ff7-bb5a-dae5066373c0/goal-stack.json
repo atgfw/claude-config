@@ -1,0 +1,30 @@
+{
+  "session_id": "c1fcc0eb-7616-4ff7-bb5a-dae5066373c0",
+  "working_directory": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan",
+  "stack": [
+    {
+      "id": "openspec-refactor-session-scoped-goals",
+      "type": "epic",
+      "summary": "Change: Refactor Goal Injection to Session-Scoped Hierarchical System",
+      "fields": {
+        "who": "Spinal Cord governance system",
+        "what": "# Change: Refactor Goal Injection to Session-Scoped Hierarchical System",
+        "when": "Current task",
+        "where": "OpenSpec: refactor-session-scoped-goals",
+        "why": "Task in progress",
+        "how": "Following implementation plan",
+        "which": "Target object not specified",
+        "lest": "Failure modes not defined",
+        "with": "Dependencies not enumerated",
+        "measuredBy": "Success metrics not defined"
+      },
+      "source": {
+        "openspec_change": "refactor-session-scoped-goals"
+      },
+      "pushedAt": "2026-02-03T20:14:49.408Z",
+      "pushedBy": "SessionStart"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-03T20:14:49.409Z"
+}
