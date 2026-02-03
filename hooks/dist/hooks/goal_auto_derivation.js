@@ -958,10 +958,80 @@ function hydrateGoalStack(sessionId, workingDir, derived) {
     };
 }
 // ============================================================================
+// Self-Healing Detection (Simple - LLM does the work)
+// ============================================================================
+/**
+ * Check if goal fields are mostly placeholders that need LLM enrichment.
+ * Returns true if 4+ fields are garbage.
+ */
+function needsLLMEnrichment(fields) {
+    let placeholderCount = 0;
+    const placeholderPatterns = [
+        'not specified',
+        'not defined',
+        'not enumerated',
+        'Target object',
+        'Failure modes',
+        'Dependencies',
+        'Success metrics',
+    ];
+    for (const value of Object.values(fields)) {
+        const lower = value.toLowerCase();
+        if (placeholderPatterns.some((p) => lower.includes(p.toLowerCase()))) {
+            placeholderCount++;
+        }
+        // Markdown headers grabbed as values = garbage
+        if (value.startsWith('##') || value.startsWith('# ')) {
+            placeholderCount++;
+        }
+    }
+    return placeholderCount >= 4;
+}
+/**
+ * Generate a prompt for Claude Code to extract goal fields from issue context.
+ * The LLM does the semantic understanding, not regex parsing.
+ */
+function generateFieldExtractionPrompt(issueNumber, issueTitle, currentFields) {
+    return `GOAL FIELD ENRICHMENT NEEDED (Issue #${issueNumber})
+
+The current goal "${issueTitle}" has placeholder fields that need extraction from the issue body.
+
+CURRENT STATE (mostly placeholders):
+- WHO: ${currentFields.who}
+- WHAT: ${currentFields.what}
+- WHEN: ${currentFields.when}
+- WHERE: ${currentFields.where}
+- WHY: ${currentFields.why}
+- HOW: ${currentFields.how}
+- WHICH: ${currentFields.which}
+- LEST: ${currentFields.lest}
+- WITH: ${currentFields.with}
+- MEASURED BY: ${currentFields.measuredBy}
+
+ACTION REQUIRED: Read the GitHub issue body and extract meaningful values for each field:
+1. Run: gh issue view ${issueNumber} --json body
+2. For each field, extract the relevant content:
+   - WHO: Who benefits or is affected (stakeholders)
+   - WHAT: The declarative outcome (from ## Goal or ## Solution)
+   - WHEN: Timeline or priority (from labels or ## Priority)
+   - WHERE: File paths or systems affected (from ## Implementation)
+   - WHY: The problem being solved (from ## Problem)
+   - HOW: The approach/solution (from ## Solution)
+   - WHICH: Specific target files/objects (backticked paths in implementation)
+   - LEST: Failure modes to prevent (constraint phrases like "must not")
+   - WITH: Tools and dependencies mentioned
+   - MEASURED BY: Success criteria (from ## Acceptance Criteria)
+3. Update ~/.claude/ledger/active-goal.json with extracted values
+4. Update ~/.claude/sessions/{session}/goal-stack.json
+
+This is a ONE-TIME enrichment task. Complete it before proceeding with other work.`;
+}
+// ============================================================================
 // Hook Implementations
 // ============================================================================
 /**
  * SessionStart hook - auto-derive and hydrate goal on session start.
+ * Now includes LLM-based self-healing prompt for goals with garbage fields.
  */
 async function goalAutoDerivationSessionStart(input) {
     const sessionId = getSessionId(input);
@@ -973,10 +1043,34 @@ async function goalAutoDerivationSessionStart(input) {
     const result = hydrateGoalStack(sessionId, workingDir, derived);
     if (result.hydrated) {
         log(`[goal-auto-derivation] ${result.message}`);
+        // Check if the newly hydrated goal needs LLM enrichment
+        if (derived.goal && needsLLMEnrichment(derived.goal.fields)) {
+            const issueNumber = derived.goal.source.github_issue;
+            if (issueNumber) {
+                const enrichmentPrompt = generateFieldExtractionPrompt(issueNumber, derived.goal.summary, derived.goal.fields);
+                return {
+                    hookEventName: 'SessionStart',
+                    additionalContext: enrichmentPrompt,
+                };
+            }
+        }
         return {
             hookEventName: 'SessionStart',
             additionalContext: `Goal auto-derived from ${derived.source}: "${derived.goal?.summary}"\nConfidence: ${derived.confidence}\nReason: ${derived.reason}`,
         };
+    }
+    // Check existing goal for enrichment needs
+    const stack = loadGoalStack(sessionId);
+    const currentFocus = stack.stack[0];
+    if (currentFocus && needsLLMEnrichment(currentFocus.fields)) {
+        const issueNumber = currentFocus.source.github_issue;
+        if (issueNumber) {
+            const enrichmentPrompt = generateFieldExtractionPrompt(issueNumber, currentFocus.summary, currentFocus.fields);
+            return {
+                hookEventName: 'SessionStart',
+                additionalContext: enrichmentPrompt,
+            };
+        }
     }
     if (derived.source === 'none') {
         return {

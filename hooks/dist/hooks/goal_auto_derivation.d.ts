@@ -65,6 +65,7 @@ declare function hydrateGoalStack(sessionId: string, workingDir: string, derived
 };
 /**
  * SessionStart hook - auto-derive and hydrate goal on session start.
+ * Now includes LLM-based self-healing prompt for goals with garbage fields.
  */
 declare function goalAutoDerivationSessionStart(input: SessionStartInput): Promise<SessionStartOutput>;
 /**
