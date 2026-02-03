@@ -61,6 +61,11 @@ afterAll(() => {
   } else {
     delete process.env['CLAUDE_DIR'];
   }
+  if (origSessionId !== undefined) {
+    process.env['CLAUDE_SESSION_ID'] = origSessionId;
+  } else {
+    delete process.env['CLAUDE_SESSION_ID'];
+  }
   fs.rmSync(tempDir, { recursive: true, force: true });
 });
 
