@@ -430,19 +430,19 @@ export function extractFieldsFromDescription(description: string): GoalFields {
   // Patterns to match field definitions (handles **WHO:** and WHO: formats)
   // Using greedy .+ with explicit boundary to capture full line
   const patterns: Array<[keyof GoalFields, RegExp]> = [
-    ['who', /\*{0,2}WHO\*{0,2}:\s*(.+)$/im],
-    ['what', /\*{0,2}WHAT\*{0,2}:\s*(.+)$/im],
-    ['when', /\*{0,2}WHEN\*{0,2}:\s*(.+)$/im],
-    ['where', /\*{0,2}WHERE\*{0,2}:\s*(.+)$/im],
-    ['why', /\*{0,2}WHY\*{0,2}:\s*(.+)$/im],
-    ['how', /\*{0,2}HOW\*{0,2}:\s*(.+)$/im],
+    ['who', /\*{0,2}WHO\*{0,2}:\*{0,2}\s*(.+)$/im],
+    ['what', /\*{0,2}WHAT\*{0,2}:\*{0,2}\s*(.+)$/im],
+    ['when', /\*{0,2}WHEN\*{0,2}:\*{0,2}\s*(.+)$/im],
+    ['where', /\*{0,2}WHERE\*{0,2}:\*{0,2}\s*(.+)$/im],
+    ['why', /\*{0,2}WHY\*{0,2}:\*{0,2}\s*(.+)$/im],
+    ['how', /\*{0,2}HOW\*{0,2}:\*{0,2}\s*(.+)$/im],
   ];
 
   for (const [field, pattern] of patterns) {
     const match = description.match(pattern);
     if (match?.[1]) {
-      // Strip any remaining markdown formatting from the value
-      fields[field] = match[1].trim().replace(/^\*{1,2}|\*{1,2}$/g, '');
+      // Strip any remaining markdown formatting and trim whitespace
+      fields[field] = match[1].replace(/^\*+\s*|\s*\*+$/g, '').trim();
     }
   }
 
