@@ -192,6 +192,372 @@
       "github_issue": 32,
       "status": "closed",
       "last_synced": "2026-02-03T16:58:11.566Z"
+    },
+    {
+      "unified_id": "openspec-refactor-session-scoped-goals",
+      "github_issue": null,
+      "claude_task_id": null,
+      "openspec_change_id": "refactor-session-scoped-goals",
+      "plan_step": null,
+      "goal_summary": null,
+      "status": "open",
+      "last_synced": "2026-02-03T17:10:16.531Z",
+      "sync_hash": "",
+      "plan_file": null,
+      "checklist_items": [
+        {
+          "id": "066903e8ad05",
+          "text": "3.3 Update `goalInjector` (UserPromptSubmit) to use new hierarchical format",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "0c857db0bdc9",
+          "text": "8.4 Update hook implementation table in CLAUDE.md",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.525Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "19298eaac3d8",
+          "text": "6.3 Highlight current focus with visual indicator",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "2636a385bb11",
+          "text": "3.4 Update `goalInjectorPostToolUse` to re-inject from session state",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "28b76cd71658",
+          "text": "9.2 Run `npm run lint` to ensure code quality",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.525Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "345b50715260",
+          "text": "2.4 Implement `getCurrentFocus()` to return deepest goal in stack",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.521Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "3a488bcf128e",
+          "text": "5.2 Implement `detectIssueContext()` to find associated issue from cwd or prompt",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "3eb845ae488b",
+          "text": "6.5 Handle empty goal stack with \"NO GOAL SET\" message",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.524Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "3f6bd3a53166",
+          "text": "7.4 Test session isolation with multiple concurrent sessions (mock)",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.524Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "40df297412fe",
+          "text": "7.5 Test backward compatibility with existing active-goal.json workflows",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.524Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "432a8c459305",
+          "text": "7.2 Test full flow: task completed > goal pops > parent visible",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.524Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "46677e0bfee0",
+          "text": "6.1 Create `formatGoalHierarchy()` function with new multi-level format",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "4ad5f231dac6",
+          "text": "4.4 Extract goal fields (who/what/why) from task description if available",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "4c2d98729183",
+          "text": "1.1 Create `hooks/src/session/goal_state.ts` with session-scoped goal storage using process.ppid",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.521Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "546bf8f74348",
+          "text": "8.1 Update CLAUDE.md \"Active Goal Display\" section with new behavior",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.524Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "5e3f787b69ae",
+          "text": "4.6 Write tests for task-to-goal synchronization",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "672472432902",
+          "text": "2.2 Implement `popGoal(id)` to remove specific goal when task completes",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.521Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "673795191f83",
+          "text": "3.5 Update `goalInjectorSessionStart` to initialize session state",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "69a60d026612",
+          "text": "4.5 Register hook in settings.json for TaskUpdate PreToolUse",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "69c5a66a546a",
+          "text": "1.2 Define GoalStack interface with level, source, id, summary fields",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.521Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "6dfc4379a960",
+          "text": "4.2 Detect `status: \"in_progress\"` and push task to goal stack",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "6f8979d8c5a0",
+          "text": "1.5 Add session ID discovery with fallback chain (env var > ppid > cwd hash)",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.521Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "702432aea737",
+          "text": "1.4 Implement `getSessionGoalState()` and `setSessionGoalState()` accessors",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.521Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "70f712ad8b8c",
+          "text": "2.6 Write tests for push/pop/hierarchy operations",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "7b85eaf7d854",
+          "text": "9.4 Manual testing: complete task, verify goal pops",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.525Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "808a8035b6da",
+          "text": "2.1 Implement `pushGoal(level, source, id, summary)` to add goal to stack",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.521Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "84a0d7ae7a70",
+          "text": "9.3 Manual testing: start session, create task, verify goal injection",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.525Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "8794afeaf647",
+          "text": "2.5 Add stack depth limit (max 4 levels)",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.521Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "8b74911d2a3c",
+          "text": "1.3 Implement `initializeGoalState()` called from session_start hook",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.521Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "8bc6ec1d621d",
+          "text": "8.2 Document goal hierarchy format",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.525Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "8f62bb13cf46",
+          "text": "3.2 Modify `formatGoalContext()` to read from session state first, then fallback to active-goal.json",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "8fc3168b0935",
+          "text": "7.3 Test explicit goal override takes priority",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.524Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "93db75129b80",
+          "text": "6.6 Write tests for all display scenarios",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.524Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "a23a210c6239",
+          "text": "9.1 Run `npm test` for all new tests",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.525Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "a3f90a8670ab",
+          "text": "4.3 Detect `status: \"completed\"` and pop task from goal stack",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "a7cafebc028b",
+          "text": "5.4 Integrate with session_start to auto-detect issue context",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "ad13ad00caf3",
+          "text": "1.6 Write tests for session isolation (two different ppids get different state)",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.521Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "ad70db9d45e7",
+          "text": "4.1 Create `hooks/src/hooks/task_goal_sync.ts` hook for TaskUpdate events",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "b26f7bf9fed5",
+          "text": "5.3 Add issue-to-goal linking when issue detected",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "b4327a9e2ea5",
+          "text": "3.7 Update tests for new behavior",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "b6b8e6adc5e5",
+          "text": "7.1 Test full flow: session start > task in_progress > goal appears",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.524Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "bf7836e3b18f",
+          "text": "5.1 Extend `issue_kanban.ts` to expose issue context for goal system",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "cb866c5b5317",
+          "text": "2.3 Implement `getGoalHierarchy()` to return formatted goal display",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.521Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "d8d08dd3f0a5",
+          "text": "8.3 Add migration notes for users relying on global active-goal.json",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.525Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "da7c25fde60b",
+          "text": "6.2 Include level labels (EPIC, ISSUE, TASK, SUBTASK)",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "ed864cfd47f3",
+          "text": "6.4 Include 5W1H fields for the focused goal",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.524Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "ef31ec23b556",
+          "text": "5.5 Write tests for issue detection and linking",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "f047e5946018",
+          "text": "3.6 Add explicit goal override detection from active-goal.json",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "f172e134d347",
+          "text": "3.1 Import session goal state module",
+          "status": "pending",
+          "last_modified": "2026-02-03T17:10:16.522Z",
+          "modified_by": "openspec"
+        }
+      ],
+      "checklist_hash": "77bb0ea2959b3d24",
+      "sync_sources": [
+        {
+          "type": "openspec",
+          "artifact_id": "refactor-session-scoped-goals",
+          "last_read": "2026-02-03T17:10:16.531Z",
+          "content_hash": "73756718d27f6a37"
+        }
+      ]
     }
   ]
 }
