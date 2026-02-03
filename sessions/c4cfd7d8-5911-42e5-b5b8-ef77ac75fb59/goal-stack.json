@@ -5,7 +5,7 @@
     {
       "id": "issue-31",
       "type": "issue",
-      "summary": "[spinal-cord] fix(hooks): Enforce full file paths in all Claude Code operations",
+      "summary": "Implement full path validation for all Claude Code file operations",
       "fields": {
         "who": "Claude Code sessions and file operation tools",
         "what": "Enforce all file paths in Claude Code operations are absolute (not relative)",
