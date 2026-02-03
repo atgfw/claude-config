@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "Modify goal_injector.ts to use session stack",
+  "description": "Update goal_injector.ts to:\n- Import goal_stack.ts functions\n- Check global override first (backward compat)\n- Fall back to session stack\n- Update formatGoalContext() for hierarchy",
+  "activeForm": "Modifying goal_injector.ts",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

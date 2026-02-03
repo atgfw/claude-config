@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Create goal_stack.ts session state module",
+  "description": "Create `hooks/src/session/goal_stack.ts` with:\n- GoalLevel and SessionGoalStack interfaces\n- getSessionId() - resolve from input/env/ppid\n- loadGoalStack() / saveGoalStack() - persist to ~/.claude/sessions/{id}/\n- pushGoal() / popGoal() - stack operations\n- formatGoalHierarchy() - hierarchical display\n- hasGlobalOverride() - check active-goal.json",
+  "activeForm": "Creating goal_stack.ts module",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
