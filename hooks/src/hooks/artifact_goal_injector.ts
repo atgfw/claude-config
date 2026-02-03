@@ -1,13 +1,13 @@
 /**
- * Artifact Goal Injector - Injects goal context into OpenSpec proposals and plan files
+ * Artifact Goal Injector - Validates goal context in OpenSpec proposals and plan files
  *
- * Intercepts Write operations to openspec/ and plan .md files to inject
- * a ## Goal section with the current active goal hierarchy.
+ * Uses PostToolUse to check Write operations to openspec/ and plan .md files.
+ * If goal section is missing, adds additionalContext instructing inclusion.
  *
  * This ensures all artifacts have embedded goal context for traceability.
  */
 
-import type { PreToolUseInput, PreToolUseOutput } from '../types.js';
+import type { PostToolUseInput, PostToolUseOutput } from '../types.js';
 import { registerHook } from '../runner.js';
 import { getActiveGoalContext } from './goal_injector.js';
 
@@ -42,46 +42,14 @@ function hasGoalSection(content: string): boolean {
 }
 
 /**
- * Inject goal section into markdown content.
- * Inserts after the first # heading or at the beginning.
+ * PostToolUse hook - check goal presence in OpenSpec and plan files after write
  */
-function injectGoalSection(content: string, goalSection: string): string {
-  // If already has goal section, don't inject
-  if (hasGoalSection(content)) {
-    return content;
-  }
-
-  // Find the first # heading line
-  const lines = content.split('\n');
-  let insertIndex = 0;
-
-  for (let i = 0; i < lines.length; i++) {
-    if (lines[i]?.startsWith('# ')) {
-      insertIndex = i + 1;
-      // Skip any blank lines after the heading
-      while (insertIndex < lines.length && lines[insertIndex]?.trim() === '') {
-        insertIndex++;
-      }
-      break;
-    }
-  }
-
-  // Insert goal section with blank lines for spacing
-  lines.splice(insertIndex, 0, '', goalSection, '');
-
-  return lines.join('\n');
-}
-
-/**
- * PreToolUse hook - inject goal into OpenSpec and plan file writes
- */
-async function artifactGoalInjector(input: PreToolUseInput): Promise<PreToolUseOutput> {
-  // Only intercept Write tool
+async function artifactGoalInjector(input: PostToolUseInput): Promise<PostToolUseOutput> {
+  // Only check Write tool
   if (input.tool_name !== 'Write') {
     return {
       hookSpecificOutput: {
-        hookEventName: 'PreToolUse',
-        permissionDecision: 'allow',
+        hookEventName: 'PostToolUse',
       },
     };
   }
@@ -92,8 +60,7 @@ async function artifactGoalInjector(input: PreToolUseInput): Promise<PreToolUseO
   if (!filePath || !content) {
     return {
       hookSpecificOutput: {
-        hookEventName: 'PreToolUse',
-        permissionDecision: 'allow',
+        hookEventName: 'PostToolUse',
       },
     };
   }
@@ -105,8 +72,16 @@ async function artifactGoalInjector(input: PreToolUseInput): Promise<PreToolUseO
   if (!isOpenSpec && !isPlan) {
     return {
       hookSpecificOutput: {
-        hookEventName: 'PreToolUse',
-        permissionDecision: 'allow',
+        hookEventName: 'PostToolUse',
+      },
+    };
+  }
+
+  // Check if content has goal section
+  if (hasGoalSection(content)) {
+    return {
+      hookSpecificOutput: {
+        hookEventName: 'PostToolUse',
       },
     };
   }
@@ -114,52 +89,27 @@ async function artifactGoalInjector(input: PreToolUseInput): Promise<PreToolUseO
   // Get active goal context
   const goalContext = getActiveGoalContext();
   if (!goalContext) {
-    // No goal set - allow write but add context suggesting goal should be set
+    // No goal set - suggest defining one
     return {
       hookSpecificOutput: {
-        hookEventName: 'PreToolUse',
-        permissionDecision: 'allow',
-        permissionDecisionReason:
-          'No active goal set. Consider defining a goal before creating artifacts.',
+        hookEventName: 'PostToolUse',
+        additionalContext: `WARNING: ${isOpenSpec ? 'OpenSpec' : 'Plan'} file written without ## Goal section and no active goal is set. Define a goal before creating artifacts to ensure traceability.`,
       },
     };
   }
 
-  // Check if content already has goal section
-  if (hasGoalSection(content)) {
-    return {
-      hookSpecificOutput: {
-        hookEventName: 'PreToolUse',
-        permissionDecision: 'allow',
-      },
-    };
-  }
-
-  // Inject goal section into content
+  // Goal exists but file doesn't have section - provide context with suggested section
   const goalSection = formatGoalSection(goalContext);
-  const modifiedContent = injectGoalSection(content, goalSection);
+  const fileType = isOpenSpec ? 'OpenSpec' : 'plan';
 
-  // Return modified tool input
   return {
     hookSpecificOutput: {
-      hookEventName: 'PreToolUse',
-      permissionDecision: 'allow',
-      permissionDecisionReason: `Injected goal context into ${isOpenSpec ? 'OpenSpec' : 'plan'} file`,
-    },
-    modifiedToolInput: {
-      ...input.tool_input,
-      content: modifiedContent,
+      hookEventName: 'PostToolUse',
+      additionalContext: `NOTE: ${fileType} file written without ## Goal section. Add the following section after the title:\n\n${goalSection}\n\nEdit the file to include this goal context for traceability.`,
     },
   };
 }
 
-registerHook('artifact-goal-injector', 'PreToolUse', artifactGoalInjector);
+registerHook('artifact-goal-injector', 'PostToolUse', artifactGoalInjector);
 
-export {
-  artifactGoalInjector,
-  formatGoalSection,
-  hasGoalSection,
-  injectGoalSection,
-  OPENSPEC_PATTERN,
-  PLAN_PATTERN,
-};
+export { artifactGoalInjector, formatGoalSection, hasGoalSection, OPENSPEC_PATTERN, PLAN_PATTERN };
