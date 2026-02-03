@@ -307,14 +307,20 @@ function extractFieldsFromGitHubIssue(
     (v) => v !== 'unknown' && !v.includes('not specified') && !v.includes('not defined')
   );
 
+  console.error(
+    `[extractFieldsFromGitHubIssue] hasExplicitFields=${hasExplicitFields}, explicitWhat=${explicitFields.what}`
+  );
+
   if (hasExplicitFields) {
     // Fill in any remaining unknowns from parsed sections
     const sections = parseIssueSections(body);
+    console.error(`[extractFieldsFromGitHubIssue] using enrichFieldsFromSections path`);
     return enrichFieldsFromSections(explicitFields, sections, issueNumber, title, labels);
   }
 
   // Parse structured sections
   const sections = parseIssueSections(body);
+  console.error(`[extractFieldsFromGitHubIssue] using fresh derive path`);
 
   // Build fields from sections intelligently
   const fields: GoalFields = {
@@ -350,6 +356,54 @@ function extractFieldsFromGitHubIssue(
   };
 
   return fields;
+}
+
+function deriveWhat(sections: ParsedIssueSection, title: string): string {
+  console.error(
+    `[deriveWhat] goal=${sections.goal?.substring(0, 50)}, solution=${sections.solution?.substring(0, 50)}`
+  );
+
+  // If goal section exists and is clean (not a section header)
+  if (sections.goal) {
+    const cleanGoal = sections.goal.trim();
+    // Skip if it starts with ## (grabbed wrong content)
+    if (!cleanGoal.startsWith('##') && !cleanGoal.startsWith('#')) {
+      // Get first meaningful line
+      const firstLine = cleanGoal.split('\n').find((l) => l.trim() && !l.startsWith('-'));
+      if (firstLine && firstLine.length > 10) {
+        log(`[deriveWhat] returning from goal: ${firstLine.trim()}`);
+        return firstLine.trim();
+      }
+    }
+  }
+
+  // Try first line of solution (skip headers and list items only)
+  if (sections.solution) {
+    const lines = sections.solution.split('\n');
+    for (const line of lines) {
+      const trimmed = line.trim();
+      // Skip empty, headers, and list items (but allow bold **text**)
+      if (
+        trimmed &&
+        !trimmed.startsWith('#') &&
+        !trimmed.startsWith('- ') &&
+        !trimmed.startsWith('* ') &&
+        !/^\d+\.\s/.test(trimmed)
+      ) {
+        if (trimmed.length > 15) {
+          // Strip markdown bold markers for cleaner output
+          const cleaned = trimmed.replace(/\*\*/g, '');
+          log(`[deriveWhat] returning from solution: ${cleaned.substring(0, 50)}`);
+          return cleaned.substring(0, 200);
+        }
+      }
+    }
+  }
+
+  // Fall back to title (strip [system] prefix if present)
+  const cleanTitle = title.replace(/^\[[^\]]+\]\s*/, '').replace(/^[a-z]+\([^)]+\):\s*/i, '');
+  log(`[deriveWhat] returning from title: ${cleanTitle}`);
+  return cleanTitle || title;
 }
 
 function deriveWho(sections: ParsedIssueSection, labels: string[], issueNumber: number): string {
@@ -541,7 +595,7 @@ function enrichFieldsFromSections(
     fields.who = deriveWho(sections, labels, issueNumber);
   }
   if (fields.what === 'unknown' || fields.what === '') {
-    fields.what = sections.goal ?? title;
+    fields.what = deriveWhat(sections, title);
   }
   if (fields.when === 'unknown' || fields.when === 'Current task') {
     fields.when = deriveWhen(sections, labels);

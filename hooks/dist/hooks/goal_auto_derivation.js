@@ -206,19 +206,22 @@ function extractFieldsFromGitHubIssue(issueNumber, title, body, labels) {
     // First try explicit field extraction (if issue uses WHO/WHAT format)
     const explicitFields = extractFieldsFromDescription(body);
     const hasExplicitFields = Object.values(explicitFields).some((v) => v !== 'unknown' && !v.includes('not specified') && !v.includes('not defined'));
+    log(`[extractFieldsFromGitHubIssue] hasExplicitFields=${hasExplicitFields}, explicitWhat=${explicitFields.what}`);
     if (hasExplicitFields) {
         // Fill in any remaining unknowns from parsed sections
         const sections = parseIssueSections(body);
+        log(`[extractFieldsFromGitHubIssue] using enrichFieldsFromSections path`);
         return enrichFieldsFromSections(explicitFields, sections, issueNumber, title, labels);
     }
     // Parse structured sections
     const sections = parseIssueSections(body);
+    log(`[extractFieldsFromGitHubIssue] using fresh derive path`);
     // Build fields from sections intelligently
     const fields = {
         // WHO: Derive from context or labels
         who: deriveWho(sections, labels, issueNumber),
         // WHAT: Use goal section, solution, or title
-        what: sections.goal ?? sections.solution?.split('\n').at(0) ?? title,
+        what: deriveWhat(sections, title),
         // WHEN: Derive from priority or default to "current session"
         when: deriveWhen(sections, labels),
         // WHERE: List affected files/systems from implementation tasks
@@ -237,6 +240,46 @@ function extractFieldsFromGitHubIssue(issueNumber, title, body, labels) {
         measuredBy: deriveMeasuredBy(sections),
     };
     return fields;
+}
+function deriveWhat(sections, title) {
+    log(`[deriveWhat] goal=${sections.goal?.substring(0, 50)}, solution=${sections.solution?.substring(0, 50)}`);
+    // If goal section exists and is clean (not a section header)
+    if (sections.goal) {
+        const cleanGoal = sections.goal.trim();
+        // Skip if it starts with ## (grabbed wrong content)
+        if (!cleanGoal.startsWith('##') && !cleanGoal.startsWith('#')) {
+            // Get first meaningful line
+            const firstLine = cleanGoal.split('\n').find((l) => l.trim() && !l.startsWith('-'));
+            if (firstLine && firstLine.length > 10) {
+                log(`[deriveWhat] returning from goal: ${firstLine.trim()}`);
+                return firstLine.trim();
+            }
+        }
+    }
+    // Try first line of solution (skip headers and list items only)
+    if (sections.solution) {
+        const lines = sections.solution.split('\n');
+        for (const line of lines) {
+            const trimmed = line.trim();
+            // Skip empty, headers, and list items (but allow bold **text**)
+            if (trimmed &&
+                !trimmed.startsWith('#') &&
+                !trimmed.startsWith('- ') &&
+                !trimmed.startsWith('* ') &&
+                !/^\d+\.\s/.test(trimmed)) {
+                if (trimmed.length > 15) {
+                    // Strip markdown bold markers for cleaner output
+                    const cleaned = trimmed.replace(/\*\*/g, '');
+                    log(`[deriveWhat] returning from solution: ${cleaned.substring(0, 50)}`);
+                    return cleaned.substring(0, 200);
+                }
+            }
+        }
+    }
+    // Fall back to title (strip [system] prefix if present)
+    const cleanTitle = title.replace(/^\[[^\]]+\]\s*/, '').replace(/^[a-z]+\([^)]+\):\s*/i, '');
+    log(`[deriveWhat] returning from title: ${cleanTitle}`);
+    return cleanTitle || title;
 }
 function deriveWho(sections, labels, issueNumber) {
     // Check for system labels
@@ -401,7 +444,7 @@ function enrichFieldsFromSections(fields, sections, issueNumber, title, labels) 
         fields.who = deriveWho(sections, labels, issueNumber);
     }
     if (fields.what === 'unknown' || fields.what === '') {
-        fields.what = sections.goal ?? title;
+        fields.what = deriveWhat(sections, title);
     }
     if (fields.when === 'unknown' || fields.when === 'Current task') {
         fields.when = deriveWhen(sections, labels);
