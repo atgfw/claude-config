@@ -1,19 +1,19 @@
 {
-  "goal": "Enforce full file paths in all Claude Code operations - file operations must use absolute paths",
+  "goal": "[spinal-cord] fix(hooks): Enforce full file paths in all Claude Code operations",
   "fields": {
-    "who": "Claude Code file operation tools (Read, Write, Edit, Glob, Grep)",
-    "what": "All file paths in Claude Code operations MUST be absolute (full) paths, not relative",
-    "when": "Every file operation (Read, Write, Edit, Glob, Grep)",
-    "where": "hooks/src/hooks/full_path_validator.ts; CLAUDE.md",
-    "why": "Relative paths cause ambiguity when cwd changes and make audit logs inconsistent",
-    "how": "PreToolUse hook validates file_path parameters start with / (Unix) or drive letter (Windows)",
-    "which": "Read, Write, Edit, Glob, Grep tools; file_path parameter",
-    "lest": "Must not allow relative paths; must not break legitimate absolute path operations",
-    "with": "TypeScript, bun, vitest, hooks framework",
-    "measuredBy": "Hook blocks relative paths; tests pass; CLAUDE.md updated"
+    "who": "Claude Code session",
+    "what": "## Problem",
+    "when": "Current task",
+    "where": "C:\\Users\\codya\\.claude",
+    "why": "Task in progress",
+    "how": "Following implementation plan",
+    "which": "Target object not specified",
+    "lest": "Failure modes not defined",
+    "with": "Dependencies not enumerated",
+    "measuredBy": "Success metrics not defined"
   },
-  "summary": "Enforce full file paths in all Claude Code operations - file operations must use absolute paths",
-  "updatedAt": "2026-02-03T20:45:40.309Z",
+  "summary": "[spinal-cord] fix(hooks): Enforce full file paths in all Claude Code operations",
+  "updatedAt": "2026-02-03T20:48:37.803Z",
   "linkedArtifacts": {
     "openspec": null,
     "plan_files": [],
