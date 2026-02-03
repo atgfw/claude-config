@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "Fix Auth Token Manager hardcoded credentials",
-  "description": "P0 Critical: Move client_id, client_secret, tenant_id, app_key from hardcoded values in workflow nodes to n8n credentials or environment variables. Query live API, develop fix ad-hoc, test, push.",
-  "activeForm": "Fixing Auth Token Manager credentials",
-  "status": "pending",
-  "blocks": [],
-  "blockedBy": []
-}
