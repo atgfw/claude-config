@@ -1,9 +1,0 @@
-{
-  "id": "10",
-  "subject": "Register hooks in settings.json",
-  "description": "Add new hooks to settings.json:\n- checklist_read_hook for PostToolUse on Read\n- checklist_write_hook for PostToolUse on Write/Edit\n- artifact_goal_injector for PostToolUse on Write",
-  "activeForm": "Registering hooks in settings.json",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
