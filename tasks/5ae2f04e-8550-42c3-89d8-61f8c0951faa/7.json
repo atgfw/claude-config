@@ -1,0 +1,9 @@
+{
+  "id": "7",
+  "subject": "Implement core checklist reconciliation engine",
+  "description": "Create the main reconciliation logic:\n- reconcileArtifact(artifactType, content) - main entry\n- detectDrift(entry, artifactType, content) - hash comparison\n- compareItems(registryItems, artifactItems) - item diff\n- resolveConflicts(conflicts) - newest-wins logic\n\nLocation: hooks/src/sync/checklist_reconciler.ts",
+  "activeForm": "Implementing reconciliation engine",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

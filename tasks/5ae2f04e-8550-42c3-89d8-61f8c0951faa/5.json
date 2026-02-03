@@ -1,0 +1,9 @@
+{
+  "id": "5",
+  "subject": "Implement checklist hash and ID generation utilities",
+  "description": "Create core utilities for checklist reconciliation:\n- computeChecklistHash(items) - stable hash for drift detection\n- generateItemId(text) - stable ID from text hash\n- normalizeItemText(text) - strip formatting for comparison\n\nLocation: hooks/src/sync/checklist_utils.ts",
+  "activeForm": "Implementing checklist hash utilities",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

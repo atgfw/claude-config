@@ -1,0 +1,9 @@
+{
+  "id": "6",
+  "subject": "Implement artifact parsers for checklist items",
+  "description": "Create parsers to extract checklist items from each artifact type:\n- parseGitHubChecklist(body) - from issue body markdown\n- parseOpenSpecTasks(content) - from tasks.md files\n- parsePlanChecklist(content) - from plan .md files\n- parseClaudeTasks(tasks) - from TaskList output\n\nLocation: hooks/src/sync/checklist_parsers.ts",
+  "activeForm": "Implementing artifact parsers",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

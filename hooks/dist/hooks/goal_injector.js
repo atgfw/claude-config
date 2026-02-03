@@ -102,6 +102,10 @@ function getGoalContextForHook(sessionId) {
 export function hasDehydratedFields(goal) {
     return GOAL_FIELDS.some((f) => goal.fields[f] === 'unknown');
 }
+const NO_GOAL_SOFT_PROMPT = `NO ACTIVE GOAL SET. Consider defining a goal before proceeding:
+  - Use "set goal: <description>" to define what you're working toward
+  - Goals provide focus and traceability across sessions
+  - Include WHO/WHAT/WHEN/WHERE/WHY/HOW for complete context`;
 /**
  * UserPromptSubmit hook - inject goal context on every user prompt
  * READ-ONLY: Does not modify goal file
@@ -112,7 +116,8 @@ async function goalInjector(input) {
     if (context) {
         return { hookEventName: 'UserPromptSubmit', additionalContext: context };
     }
-    return { hookEventName: 'UserPromptSubmit' };
+    // No goal set - inject soft prompt suggestion
+    return { hookEventName: 'UserPromptSubmit', additionalContext: NO_GOAL_SOFT_PROMPT };
 }
 /**
  * Get active goal context for embedding in other systems.
@@ -175,7 +180,8 @@ async function goalInjectorSessionStart(input) {
     if (context) {
         return { hookEventName: 'SessionStart', additionalContext: context };
     }
-    return { hookEventName: 'SessionStart' };
+    // No goal set - inject soft prompt suggestion
+    return { hookEventName: 'SessionStart', additionalContext: NO_GOAL_SOFT_PROMPT };
 }
 /**
  * Stop hook - inject goal context at session stop

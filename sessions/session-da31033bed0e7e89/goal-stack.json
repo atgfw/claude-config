@@ -1,0 +1,26 @@
+{
+  "session_id": "session-da31033bed0e7e89",
+  "working_directory": "C:\\Users\\codya\\.claude",
+  "stack": [
+    {
+      "id": "task-task-SW1wbGVt",
+      "type": "task",
+      "summary": "Implement checklist hash and ID generation utilities",
+      "fields": {
+        "who": "Claude Code session",
+        "what": "Create core utilities for checklist reconciliation:",
+        "when": "Current task",
+        "where": "C:\\Users\\codya\\.claude",
+        "why": "Task in progress",
+        "how": "Following implementation plan"
+      },
+      "source": {
+        "claude_task_id": "task-SW1wbGVt"
+      },
+      "pushedAt": "2026-02-03T16:36:14.647Z",
+      "pushedBy": "TaskUpdate"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-03T16:36:14.651Z"
+}

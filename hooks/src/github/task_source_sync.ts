@@ -151,6 +151,11 @@ export function upsertEntry(
       status: entry.status ?? 'open',
       last_synced: now,
       sync_hash: entry.sync_hash ?? '',
+      // Checklist reconciliation fields
+      plan_file: entry.plan_file ?? null,
+      checklist_items: entry.checklist_items ?? [],
+      checklist_hash: entry.checklist_hash ?? '',
+      sync_sources: entry.sync_sources ?? [],
     });
   }
 
