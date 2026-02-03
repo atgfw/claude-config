@@ -13,7 +13,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { getClaudeDir } from '../utils.js';
 import { registerHook } from '../runner.js';
-import { getSessionId, formatGoalHierarchy, hasGlobalOverride, loadGlobalOverride, loadGoalStack, } from '../session/goal_stack.js';
+import { getSessionId, formatGoalHierarchy, loadGoalStack } from '../session/goal_stack.js';
 const GOAL_FIELDS = ['who', 'what', 'when', 'where', 'why', 'how'];
 export function getGoalPath() {
     return path.join(getClaudeDir(), 'ledger', 'active-goal.json');
@@ -49,54 +49,31 @@ export function saveGoal(goal) {
     fs.writeFileSync(goalPath, JSON.stringify(goal, null, 2) + '\n', 'utf-8');
 }
 /**
- * Format goal context using the new hierarchical session-scoped system.
- * Falls back to global override if no session goals exist.
+ * Format goal context using the session-scoped system.
+ * NO GLOBAL FALLBACK - each session has its own goals.
  */
-export function formatGoalContext(goal, sessionId) {
-    // Try session-scoped hierarchy first
-    if (sessionId) {
-        const stack = loadGoalStack(sessionId);
-        if (stack.stack.length > 0 || hasGlobalOverride()) {
-            return formatGoalHierarchy(sessionId);
-        }
+export function formatGoalContext(_goal, sessionId) {
+    // Session-scoped hierarchy only (legacy goal param ignored)
+    const resolvedSessionId = sessionId ?? getSessionId();
+    const stack = loadGoalStack(resolvedSessionId);
+    if (stack.stack.length > 0) {
+        return formatGoalHierarchy(resolvedSessionId);
     }
-    // Fall back to legacy global goal format
-    if (!goal.goal && !goal.summary)
-        return '';
-    const lines = [`ACTIVE GOAL: ${goal.summary ?? goal.goal}`];
-    for (const field of GOAL_FIELDS) {
-        const value = goal.fields[field];
-        const display = value === 'unknown' ? 'UNKNOWN - rehydrate' : value;
-        lines.push(`  ${field.toUpperCase()}: ${display}`);
-    }
-    return lines.join('\n');
+    // No session goals - return empty
+    return '';
 }
 /**
  * Get the best available goal context.
- * Prefers session-scoped hierarchy, falls back to global.
+ * SESSION-SCOPED ONLY - no global fallback to prevent cross-project/session bleeding.
  */
 function getGoalContextForHook(sessionId) {
-    // Check session stack first
-    if (sessionId) {
-        const stack = loadGoalStack(sessionId);
-        if (stack.stack.length > 0) {
-            return formatGoalHierarchy(sessionId);
-        }
+    // Session-scoped goals ONLY - no global fallback
+    const resolvedSessionId = sessionId ?? getSessionId();
+    const stack = loadGoalStack(resolvedSessionId);
+    if (stack.stack.length > 0) {
+        return formatGoalHierarchy(resolvedSessionId);
     }
-    // Check global override
-    if (hasGlobalOverride()) {
-        const globalGoal = loadGlobalOverride();
-        if (globalGoal) {
-            // Format as simple hierarchy with just the global goal
-            const sessionIdToUse = sessionId ?? getSessionId();
-            return formatGoalHierarchy(sessionIdToUse);
-        }
-    }
-    // Legacy fallback
-    const goal = loadGoal();
-    if (goal.goal || goal.summary) {
-        return formatGoalContext(goal, sessionId);
-    }
+    // No session goal - return empty (will trigger soft prompt)
     return '';
 }
 export function hasDehydratedFields(goal) {
@@ -121,10 +98,10 @@ async function goalInjector(input) {
 }
 /**
  * Get active goal context for embedding in other systems.
- * Returns null if no goal is active.
+ * SESSION-SCOPED ONLY - returns null if no session goal is active.
  */
 export function getActiveGoalContext() {
-    // Check session stack first
+    // Session stack only - no global fallback
     const sessionId = getSessionId();
     const stack = loadGoalStack(sessionId);
     if (stack.stack.length > 0) {
@@ -136,23 +113,8 @@ export function getActiveGoalContext() {
             };
         }
     }
-    // Check global override
-    const globalGoal = loadGlobalOverride();
-    if (globalGoal) {
-        return {
-            summary: globalGoal.summary,
-            fields: { ...globalGoal.fields },
-        };
-    }
-    // Legacy fallback
-    const goal = loadGoal();
-    if (!goal.goal && !goal.summary)
-        return null;
-    const summary = goal.summary ?? goal.goal ?? '';
-    return {
-        summary,
-        fields: { ...goal.fields },
-    };
+    // No session goal - return null
+    return null;
 }
 /**
  * PostToolUse hook - inject goal context after every tool use

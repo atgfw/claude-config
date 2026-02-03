@@ -233,18 +233,17 @@ const TYPE_LABELS = {
 };
 /**
  * Format the goal hierarchy for display in additionalContext.
+ * Now project-scoped: only shows goals relevant to current working directory.
  */
 export function formatGoalHierarchy(sessionId) {
     const stack = loadGoalStack(sessionId);
-    const globalOverride = loadGlobalOverride();
     // Build hierarchy (epic at top, subtask at bottom)
     const hierarchy = [...stack.stack].reverse();
-    // If global override exists and not already in hierarchy, prepend it
-    if (globalOverride && !hierarchy.some((g) => g.id === 'global-override')) {
-        hierarchy.unshift(globalOverride);
-    }
+    // IMPORTANT: Do NOT include global override by default anymore.
+    // Global goals should only apply to the specific project they were set for.
+    // Session-scoped goals take full precedence.
     if (hierarchy.length === 0) {
-        return 'NO ACTIVE GOAL SET. Define one before proceeding with work.';
+        return 'NO ACTIVE GOAL SET. Define a session goal using TaskCreate or set focus with "set goal: <description>"';
     }
     const lines = ['ACTIVE GOAL HIERARCHY:'];
     // Render hierarchy with tree structure

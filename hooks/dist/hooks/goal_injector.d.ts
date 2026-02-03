@@ -41,10 +41,10 @@ export declare function loadGoal(): ActiveGoal;
 export declare function createEmptyGoal(): ActiveGoal;
 export declare function saveGoal(goal: ActiveGoal): void;
 /**
- * Format goal context using the new hierarchical session-scoped system.
- * Falls back to global override if no session goals exist.
+ * Format goal context using the session-scoped system.
+ * NO GLOBAL FALLBACK - each session has its own goals.
  */
-export declare function formatGoalContext(goal: ActiveGoal, sessionId?: string): string;
+export declare function formatGoalContext(_goal: ActiveGoal, sessionId?: string): string;
 export declare function hasDehydratedFields(goal: ActiveGoal): boolean;
 /**
  * UserPromptSubmit hook - inject goal context on every user prompt
@@ -53,7 +53,7 @@ export declare function hasDehydratedFields(goal: ActiveGoal): boolean;
 declare function goalInjector(input: UserPromptSubmitInput): Promise<UserPromptSubmitOutput>;
 /**
  * Get active goal context for embedding in other systems.
- * Returns null if no goal is active.
+ * SESSION-SCOPED ONLY - returns null if no session goal is active.
  */
 export declare function getActiveGoalContext(): {
     summary: string;

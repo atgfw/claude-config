@@ -115,6 +115,7 @@ export declare function hasGlobalOverride(): boolean;
 export declare function loadGlobalOverride(): GoalLevel | null;
 /**
  * Format the goal hierarchy for display in additionalContext.
+ * Now project-scoped: only shows goals relevant to current working directory.
  */
 export declare function formatGoalHierarchy(sessionId: string): string;
 /**

@@ -92,8 +92,8 @@ export function saveGoal(goal: ActiveGoal): void {
  * Format goal context using the session-scoped system.
  * NO GLOBAL FALLBACK - each session has its own goals.
  */
-export function formatGoalContext(goal: ActiveGoal, sessionId?: string): string {
-  // Session-scoped hierarchy only
+export function formatGoalContext(_goal: ActiveGoal, sessionId?: string): string {
+  // Session-scoped hierarchy only (legacy goal param ignored)
   const resolvedSessionId = sessionId ?? getSessionId();
   const stack = loadGoalStack(resolvedSessionId);
 
@@ -149,15 +149,16 @@ async function goalInjector(input: UserPromptSubmitInput): Promise<UserPromptSub
 
 /**
  * Get active goal context for embedding in other systems.
- * Returns null if no goal is active.
+ * SESSION-SCOPED ONLY - returns null if no session goal is active.
  */
 export function getActiveGoalContext(): {
   summary: string;
   fields: Record<string, string>;
 } | null {
-  // Check session stack first
+  // Session stack only - no global fallback
   const sessionId = getSessionId();
   const stack = loadGoalStack(sessionId);
+
   if (stack.stack.length > 0) {
     const current = stack.stack[0];
     if (current) {
@@ -168,23 +169,8 @@ export function getActiveGoalContext(): {
     }
   }
 
-  // Check global override
-  const globalGoal = loadGlobalOverride();
-  if (globalGoal) {
-    return {
-      summary: globalGoal.summary,
-      fields: { ...globalGoal.fields },
-    };
-  }
-
-  // Legacy fallback
-  const goal = loadGoal();
-  if (!goal.goal && !goal.summary) return null;
-  const summary = goal.summary ?? goal.goal ?? '';
-  return {
-    summary,
-    fields: { ...goal.fields },
-  };
+  // No session goal - return null
+  return null;
 }
 
 /**
