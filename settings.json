@@ -11,6 +11,16 @@
         ]
       },
       {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" bun-enforcer"
+          }
+        ],
+        "description": "BLOCK: Enforces bun over npm/node/npx. Use bun install, bun run, bunx instead."
+      },
+      {
         "matcher": "Write|Edit",
         "hooks": [
           {

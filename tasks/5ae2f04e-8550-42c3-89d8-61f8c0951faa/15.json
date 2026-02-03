@@ -3,7 +3,7 @@
   "subject": "Enforce bun over npm/node/npx in all Bash commands",
   "description": "Create a PreToolUse hook that blocks npm, node, and npx commands, requiring bun equivalents instead. Add to settings.json for Bash matcher.",
   "activeForm": "Enforcing bun over npm/node",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }

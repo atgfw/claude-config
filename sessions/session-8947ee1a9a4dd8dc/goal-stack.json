@@ -1,0 +1,26 @@
+{
+  "session_id": "session-8947ee1a9a4dd8dc",
+  "working_directory": "C:\\Users\\codya\\.claude",
+  "stack": [
+    {
+      "id": "task-15",
+      "type": "task",
+      "summary": "Task #15",
+      "fields": {
+        "who": "Claude Code session",
+        "what": "Task #15",
+        "when": "Current task",
+        "where": "C:\\Users\\codya\\.claude",
+        "why": "Task in progress",
+        "how": "Following implementation plan"
+      },
+      "source": {
+        "claude_task_id": "15"
+      },
+      "pushedAt": "2026-02-03T18:32:28.334Z",
+      "pushedBy": "TaskUpdate"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-03T18:32:28.335Z"
+}

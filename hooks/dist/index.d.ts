@@ -87,6 +87,7 @@ export { checklistReadHook, checklistWriteHook, parseFilePath, } from './hooks/c
 export { taskCompletionGateHook } from './hooks/task_completion_gate.js';
 export { taskGoalSync, getCurrentTaskGoal, isTaskCurrentFocus } from './hooks/task_goal_sync.js';
 export { taskSpecValidatorHook, validateTaskSpec, validateMinimalSpec, formatValidationIssues, } from './hooks/task_spec_validator.js';
+export { bunEnforcerHook, detectBlockedCommands } from './hooks/bun_enforcer.js';
 export { cloudObjectCreationGateHook } from './governance/cloud_object_creation_gate.js';
 export { llmModelValidatorHook } from './governance/llm_model_validator.js';
 import './governance/n8n_workflow_governance.js';
@@ -116,6 +117,7 @@ import './hooks/artifact_goal_injector.js';
 import './hooks/checklist_sync_hooks.js';
 import './hooks/task_goal_sync.js';
 import './hooks/task_spec_validator.js';
+import './hooks/bun_enforcer.js';
 import './hooks/context-summary-trigger.js';
 import './git/secret_scanner.js';
 import './git/commit_message_validator.js';

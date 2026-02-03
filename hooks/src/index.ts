@@ -211,6 +211,7 @@ export {
   validateMinimalSpec,
   formatValidationIssues,
 } from './hooks/task_spec_validator.js';
+export { bunEnforcerHook, detectBlockedCommands } from './hooks/bun_enforcer.js';
 export { cloudObjectCreationGateHook } from './governance/cloud_object_creation_gate.js';
 export { llmModelValidatorHook } from './governance/llm_model_validator.js';
 
@@ -256,6 +257,9 @@ import './hooks/task_goal_sync.js';
 
 // Task specification validator (enforces 11-section schema)
 import './hooks/task_spec_validator.js';
+
+// Bun enforcer (blocks npm/node/npx, requires bun)
+import './hooks/bun_enforcer.js';
 
 // Context summary trigger (replaces auto-compact)
 import './hooks/context-summary-trigger.js';
