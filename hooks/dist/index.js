@@ -107,6 +107,7 @@ export { artifactGoalInjector } from './hooks/artifact_goal_injector.js';
 export { checklistReadHook, checklistWriteHook, parseFilePath, } from './hooks/checklist_sync_hooks.js';
 export { taskCompletionGateHook } from './hooks/task_completion_gate.js';
 export { taskGoalSync, getCurrentTaskGoal, isTaskCurrentFocus } from './hooks/task_goal_sync.js';
+export { goalAutoDerivationSessionStart, goalAutoDerivationPromptSubmit, deriveGoalFromContext, hydrateGoalStack, parseGitBranch, } from './hooks/goal_auto_derivation.js';
 export { taskSpecValidatorHook, validateTaskSpec, validateMinimalSpec, formatValidationIssues, } from './hooks/task_spec_validator.js';
 export { bunEnforcerHook, detectBlockedCommands } from './hooks/bun_enforcer.js';
 export { goalComplianceGateHook, validateGoalCompliance, formatComplianceResult, } from './hooks/goal_compliance_gate.js';
@@ -145,6 +146,8 @@ import './hooks/artifact_goal_injector.js';
 import './hooks/checklist_sync_hooks.js';
 // Task-goal synchronization (session-scoped goals from tasks)
 import './hooks/task_goal_sync.js';
+// Goal auto-derivation (auto-populates goals from work context)
+import './hooks/goal_auto_derivation.js';
 // Task specification validator (enforces 11-section schema)
 import './hooks/task_spec_validator.js';
 // Bun enforcer (blocks npm/node/npx, requires bun)
