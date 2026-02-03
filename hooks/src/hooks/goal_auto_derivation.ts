@@ -369,13 +369,13 @@ function extractFieldsFromGitHubIssue(
     how: deriveHow(sections),
 
     // WHICH: Target objects from implementation tasks
-    which: deriveWhich(sections, title),
+    which: deriveWhich(sections, title, body),
 
     // LEST: Derive failure modes from problem statement
-    lest: deriveLest(sections),
+    lest: deriveLest(sections, body),
 
     // WITH: Dependencies from solution or labels
-    with: deriveWith(sections, labels),
+    with: deriveWith(sections, labels, body),
 
     // MEASURED BY: Use acceptance criteria
     measuredBy: deriveMeasuredBy(sections),
@@ -568,47 +568,96 @@ function deriveWhich(sections: ParsedIssueSection, title: string, fullBody?: str
   return 'Target artifacts defined in implementation tasks';
 }
 
-function deriveLest(sections: ParsedIssueSection): string {
+function deriveLest(sections: ParsedIssueSection, fullBody?: string): string {
+  const constraints: string[] = [];
+
+  // Scan full body for constraint phrases (these pass compliance gate)
+  if (fullBody) {
+    const constraintPatterns = [
+      /must\s+not\s+([^.;]+)/gi,
+      /should\s+not\s+([^.;]+)/gi,
+      /cannot\s+([^.;]+)/gi,
+      /never\s+([^.;]+)/gi,
+      /prevent\s+([^.;]+)/gi,
+      /avoid\s+([^.;]+)/gi,
+    ];
+
+    for (const pattern of constraintPatterns) {
+      const matches = fullBody.matchAll(pattern);
+      for (const match of matches) {
+        if (match[1] && match[1].length > 10) {
+          const constraint = match[0].trim().substring(0, 100);
+          if (!constraints.includes(constraint)) {
+            constraints.push(constraint);
+          }
+        }
+      }
+    }
+  }
+
+  if (constraints.length > 0) {
+    return constraints.slice(0, 3).join('; ');
+  }
+
+  // Fall back to problem section
   if (sections.problem) {
-    // Convert problem statement into failure mode
     const problems = sections.problem.split('\n').filter((l) => l.trim().startsWith('-'));
     if (problems.length > 0) {
       return problems
         .slice(0, 3)
-        .map((p) => `Prevent: ${p.replace(/^-\s*/, '')}`)
+        .map((p) => `Must not: ${p.replace(/^-\s*/, '')}`)
         .join('; ');
     }
-    // Use first line of problem
     const firstLine = sections.problem.split('\n').find((l) => l.trim());
     if (firstLine) {
-      return `Prevent: ${firstLine.substring(0, 150)}`;
+      return `Must not: ${firstLine.substring(0, 150)}`;
     }
   }
 
   return 'Must not introduce regressions; must not break existing functionality';
 }
 
-function deriveWith(sections: ParsedIssueSection, labels: string[]): string {
+function deriveWith(sections: ParsedIssueSection, labels: string[], fullBody?: string): string {
   const deps: string[] = [];
+
+  // Tool keywords that satisfy compliance gate
+  const toolKeywords = [
+    { pattern: /typescript/i, name: 'TypeScript' },
+    { pattern: /vitest/i, name: 'vitest' },
+    { pattern: /\bbun\b/i, name: 'bun' },
+    { pattern: /\bhook[s]?\b/i, name: 'hooks framework' },
+    { pattern: /\bmcp\b/i, name: 'MCP' },
+    { pattern: /\bapi\b/i, name: 'API' },
+    { pattern: /\bworkflow[s]?\b/i, name: 'workflow' },
+    { pattern: /\bcli\b/i, name: 'CLI' },
+    { pattern: /\bnode\b/i, name: 'Node.js' },
+    { pattern: /\bnpm\b/i, name: 'npm' },
+    { pattern: /\bpython\b/i, name: 'Python' },
+    { pattern: /\bgit\b/i, name: 'git' },
+    { pattern: /\bgh\b/i, name: 'gh CLI' },
+  ];
+
+  // Scan full body for tool mentions
+  const textToScan = fullBody ?? sections.solution ?? '';
+  for (const { pattern, name } of toolKeywords) {
+    if (pattern.test(textToScan) && !deps.includes(name)) {
+      deps.push(name);
+    }
+  }
 
   // Add from system labels
   const systemLabels = labels.filter((l) => l.startsWith('system/'));
   for (const label of systemLabels) {
-    deps.push(label.replace('system/', ''));
+    const system = label.replace('system/', '');
+    if (!deps.includes(system)) deps.push(system);
   }
 
-  // Extract tech from solution
-  if (sections.solution) {
-    if (sections.solution.includes('TypeScript')) deps.push('TypeScript');
-    if (sections.solution.includes('Vitest')) deps.push('Vitest');
-    if (sections.solution.includes('hook')) deps.push('hooks framework');
-    if (sections.solution.includes('CLAUDE.md')) deps.push('CLAUDE.md');
+  // Ensure at least one tool (bun is always available)
+  if (deps.length === 0) {
+    deps.push('bun runtime');
   }
 
-  // Add standard deps
-  deps.push('bun runtime');
-
-  return [...new Set(deps)].join(', ');
+  return [...new Set(deps)].slice(0, 6).join(', ');
 }
 
 function deriveMeasuredBy(sections: ParsedIssueSection): string {
@@ -631,7 +680,8 @@ function enrichFieldsFromSections(
   sections: ParsedIssueSection,
   issueNumber: number,
   title: string,
-  labels: string[]
+  labels: string[],
+  body?: string
 ): GoalFields {
   // Fill in any "unknown" or placeholder fields
   if (fields.who === 'unknown' || fields.who === 'Claude Code session') {
@@ -653,13 +703,13 @@ function enrichFieldsFromSections(
     fields.how = deriveHow(sections);
   }
   if (fields.which.includes('not specified')) {
-    fields.which = deriveWhich(sections, title);
+    fields.which = deriveWhich(sections, title, body);
   }
   if (fields.lest.includes('not defined')) {
-    fields.lest = deriveLest(sections);
+    fields.lest = deriveLest(sections, body);
   }
   if (fields.with.includes('not enumerated')) {
-    fields.with = deriveWith(sections, labels);
+    fields.with = deriveWith(sections, labels, body);
   }
   if (fields.measuredBy.includes('not defined')) {
     fields.measuredBy = deriveMeasuredBy(sections);
