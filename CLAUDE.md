@@ -21,6 +21,8 @@ Format (append to end of every message):
 - **WHERE:** {fields.where}
 - **WHY:** {fields.why}
 - **HOW:** {fields.how}
+- **LEST:** {fields.lest}
+- **MEASURED BY:** {fields.measuredBy}
 ```
 
 If no goal is set (goal is null), append instead:
