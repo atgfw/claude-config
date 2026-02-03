@@ -8,7 +8,7 @@
  * - Claude Task tool output
  */
 
-import type { ChecklistItem, ChecklistModifiedBy } from '../github/task_source_sync.js';
+import type { ChecklistItem } from '../github/task_source_sync.js';
 import { createChecklistItem, parseCheckboxStatus } from './checklist_utils.js';
 
 /**
@@ -16,12 +16,6 @@ import { createChecklistItem, parseCheckboxStatus } from './checklist_utils.js';
  * Captures: [1] checkbox mark, [2] item text
  */
 const CHECKBOX_REGEX = /^(?:\s*)[-*]\s*\[([ xX-])\]\s*(.+)$/gm;
-
-/**
- * Regex to match numbered task items (e.g., "1.1 Task text" or "- [ ] 1.1 Task")
- * Captures: [1] task number, [2] task text
- */
-const NUMBERED_TASK_REGEX = /^(?:\s*)(?:[-*]\s*\[([ xX-])\]\s*)?(\d+(?:\.\d+)?)\s+(.+)$/gm;
 
 /**
  * Parse checklist items from a GitHub issue body.
