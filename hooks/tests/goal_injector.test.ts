@@ -9,6 +9,8 @@ import {
   formatGoalContext,
   hasDehydratedFields,
   goalInjectorStop,
+  goalInjectorHook,
+  goalInjectorSessionStart,
   type ActiveGoal,
 } from '../src/hooks/goal_injector.js';
 
@@ -133,5 +135,42 @@ describe('goalInjectorStop', () => {
     const result = await goalInjectorStop({ reason: 'session end' });
     expect(result.decision).toBe('approve');
     expect(result.reason).toBeUndefined();
+  });
+});
+
+describe('soft prompt when no goal', () => {
+  it('goalInjectorHook returns soft prompt when no goal set', async () => {
+    saveGoal(createEmptyGoal());
+    const result = await goalInjectorHook({ prompt: 'do something' });
+    expect(result.additionalContext).toContain('NO ACTIVE GOAL SET');
+    expect(result.additionalContext).toContain('Consider defining a goal');
+  });
+
+  it('goalInjectorHook returns goal context when goal is set', async () => {
+    const g = createEmptyGoal();
+    g.goal = 'Test goal';
+    g.summary = 'Test goal';
+    saveGoal(g);
+
+    const result = await goalInjectorHook({ prompt: 'do something' });
+    expect(result.additionalContext).toContain('Test goal');
+    expect(result.additionalContext).not.toContain('NO ACTIVE GOAL SET');
+  });
+
+  it('goalInjectorSessionStart returns soft prompt when no goal set', async () => {
+    saveGoal(createEmptyGoal());
+    const result = await goalInjectorSessionStart({});
+    expect(result.additionalContext).toContain('NO ACTIVE GOAL SET');
+  });
+
+  it('goalInjectorSessionStart returns goal context when goal is set', async () => {
+    const g = createEmptyGoal();
+    g.goal = 'Session goal';
+    g.summary = 'Session goal';
+    saveGoal(g);
+
+    const result = await goalInjectorSessionStart({});
+    expect(result.additionalContext).toContain('Session goal');
+    expect(result.additionalContext).not.toContain('NO ACTIVE GOAL SET');
   });
 });

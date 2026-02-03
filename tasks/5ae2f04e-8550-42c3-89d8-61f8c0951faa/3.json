@@ -3,7 +3,13 @@
   "subject": "Create plan file goal injection",
   "description": "Claude Code .md plan files need goal context embedded. When creating/updating plan files, inject the current goal hierarchy.\n\nAcceptance:\n- [ ] PreToolUse hook intercepts Write to plan .md files\n- [ ] Injects goal header into plan markdown\n- [ ] Test coverage added",
   "activeForm": "Creating plan file goal injection",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "testPassed": {
+      "testId": "artifact_goal_injector.test.ts:plan files",
+      "timestamp": "2026-02-03T08:29:16Z"
+    }
+  }
 }

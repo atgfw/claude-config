@@ -3,7 +3,13 @@
   "subject": "Create OpenSpec proposal goal injection",
   "description": "OpenSpec proposals need goal context embedded. When creating/updating OpenSpec proposals, inject the current goal hierarchy.\n\nAcceptance:\n- [ ] PreToolUse hook intercepts Write to openspec/ paths\n- [ ] Injects goal section into proposal markdown\n- [ ] Test coverage added",
   "activeForm": "Creating OpenSpec goal injection",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "testPassed": {
+      "testId": "artifact_goal_injector.test.ts",
+      "timestamp": "2026-02-03T08:29:16Z"
+    }
+  }
 }
