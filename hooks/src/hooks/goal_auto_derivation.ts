@@ -322,7 +322,7 @@ function extractFieldsFromGitHubIssue(
     who: deriveWho(sections, labels, issueNumber),
 
     // WHAT: Use goal section, solution, or title
-    what: sections.goal ?? sections.solution?.split('\n').at(0) ?? title,
+    what: deriveWhat(sections, title),
 
     // WHEN: Derive from priority or default to "current session"
     when: deriveWhen(sections, labels),
