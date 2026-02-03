@@ -408,10 +408,8 @@ class QualityChecker {
 
     if (result.code !== 0) {
       // Check for npx/glob cache issues - treat as warning not error
-      if (
-        result.stderr.includes('NoFilesFoundError') ||
-        result.stderr.includes('glob was disabled')
-      ) {
+      const output = result.stdout + result.stderr;
+      if (output.includes('NoFilesFoundError') || output.includes('glob was disabled')) {
         this.warnings.push('XO check skipped due to npx cache issue - run manually: npm run lint');
         return;
       }
