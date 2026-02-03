@@ -1,0 +1,9 @@
+{
+  "id": "8",
+  "subject": "Create artifact parsers",
+  "description": "Create hooks/src/sync/parsers.ts with parseGitHubChecklist(), parseOpenSpecTasks(), parsePlanChecklist(), and parseClaudeTasks() functions to extract checklist items from each artifact format.",
+  "activeForm": "Creating artifact parsers",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

@@ -1,0 +1,9 @@
+{
+  "id": "6",
+  "subject": "Extend SyncEntry schema with checklist fields",
+  "description": "Add ChecklistItem[], checklist_hash, plan_file, and SyncSource[] fields to SyncEntry interface in task_source_sync.ts. Create the ChecklistItem and SyncSource interfaces. Write migration logic for existing registry entries.",
+  "activeForm": "Extending SyncEntry schema",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

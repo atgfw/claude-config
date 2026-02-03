@@ -1,0 +1,9 @@
+{
+  "id": "15",
+  "subject": "Write tests and validate",
+  "description": "Create comprehensive tests for all new modules. Run npm test, npm run lint, and openspec validate add-checklist-reconciliation --strict.",
+  "activeForm": "Writing tests",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

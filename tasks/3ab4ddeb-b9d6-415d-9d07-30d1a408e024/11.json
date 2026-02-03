@@ -1,0 +1,9 @@
+{
+  "id": "11",
+  "subject": "Create propagation engine",
+  "description": "Create hooks/src/sync/checklist_propagator.ts with propagateToGitHub(), propagateToOpenSpec(), propagateToPlan(), and propagateToClaudeTasks() functions to push changes to all linked artifacts.",
+  "activeForm": "Creating propagation engine",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

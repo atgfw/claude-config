@@ -1,0 +1,9 @@
+{
+  "id": "10",
+  "subject": "Create core reconciliation engine",
+  "description": "Create hooks/src/sync/checklist_reconciler.ts with reconcileArtifact(), detectDrift(), compareItems(), resolveConflicts(), and updateRegistry() functions. Implement newest-wins conflict resolution.",
+  "activeForm": "Creating reconciliation engine",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

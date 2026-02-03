@@ -12,6 +12,41 @@ import { logTerse, logWarn, getClaudeDir } from '../utils.js';
 // Types
 // ---------------------------------------------------------------------------
 
+export type ChecklistItemStatus = 'pending' | 'in_progress' | 'completed';
+export type ChecklistModifiedBy = 'claude_task' | 'github_issue' | 'openspec' | 'plan';
+export type SyncSourceType = 'github_issue' | 'claude_task' | 'openspec' | 'plan';
+
+/**
+ * A single checklist item tracked across all artifact types.
+ * Text is stored VERBATIM - no normalization except for ID generation.
+ */
+export interface ChecklistItem {
+  /** Stable ID based on hash of normalized text */
+  id: string;
+  /** Verbatim task text (e.g., "1.1 Add checklist_items field") */
+  text: string;
+  /** Current status */
+  status: ChecklistItemStatus;
+  /** ISO timestamp of last modification */
+  last_modified: string;
+  /** Which artifact type last modified this item */
+  modified_by: ChecklistModifiedBy;
+}
+
+/**
+ * Tracks the sync state of a specific artifact type.
+ */
+export interface SyncSource {
+  /** Artifact type */
+  type: SyncSourceType;
+  /** Artifact identifier (issue number, file path, task ID) */
+  artifact_id: string;
+  /** ISO timestamp of last read */
+  last_read: string;
+  /** Hash of content at last read (for drift detection) */
+  content_hash: string;
+}
+
 export interface SyncEntry {
   unified_id: string;
   github_issue: number | null;
@@ -22,6 +57,16 @@ export interface SyncEntry {
   status: 'open' | 'closed';
   last_synced: string;
   sync_hash: string;
+
+  // Checklist reconciliation fields
+  /** Path to linked plan file (e.g., "~/.claude/plans/my-plan.md") */
+  plan_file: string | null;
+  /** Verbatim checklist items tracked across all artifacts */
+  checklist_items: ChecklistItem[];
+  /** Hash of checklist_items for quick drift detection */
+  checklist_hash: string;
+  /** Per-artifact sync state for drift detection */
+  sync_sources: SyncSource[];
 }
 
 export interface SyncRegistry {

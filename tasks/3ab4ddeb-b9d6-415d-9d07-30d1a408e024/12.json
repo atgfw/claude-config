@@ -1,0 +1,9 @@
+{
+  "id": "12",
+  "subject": "Create Read hook for reconciliation",
+  "description": "Create hooks/src/hooks/checklist_read_reconciler.ts PostToolUse hook. Add matchers for tasks.md and plans/*.md patterns in settings.json. Trigger reconciliation on matched reads.",
+  "activeForm": "Creating Read hook",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

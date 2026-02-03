@@ -1,0 +1,9 @@
+{
+  "id": "9",
+  "subject": "Create artifact renderers",
+  "description": "Create hooks/src/sync/renderers.ts with renderToGitHubChecklist(), renderToOpenSpecTasks(), renderToPlanChecklist(), and renderToClaudeTasks() functions to convert checklist items back to each artifact format.",
+  "activeForm": "Creating artifact renderers",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

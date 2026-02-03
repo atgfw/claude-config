@@ -1,0 +1,9 @@
+{
+  "id": "7",
+  "subject": "Create checklist hash and ID utilities",
+  "description": "Create hooks/src/sync/checklist_utils.ts with computeChecklistHash(), generateItemId(), and normalizeItemText() functions. Include tests for hash stability.",
+  "activeForm": "Creating checklist utilities",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

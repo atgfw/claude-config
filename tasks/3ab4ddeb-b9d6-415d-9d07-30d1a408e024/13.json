@@ -1,0 +1,9 @@
+{
+  "id": "13",
+  "subject": "Create Write hook for propagation",
+  "description": "Create hooks/src/hooks/checklist_write_propagator.ts PostToolUse hook. Add matchers for tasks.md and plans/*.md patterns in settings.json. Trigger propagation on matched writes.",
+  "activeForm": "Creating Write hook",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

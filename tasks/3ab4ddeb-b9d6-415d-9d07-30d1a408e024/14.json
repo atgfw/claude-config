@@ -1,0 +1,9 @@
+{
+  "id": "14",
+  "subject": "Integrate with task_goal_sync and session_start",
+  "description": "Modify task_goal_sync.ts to call reconciliation on TaskUpdate. Modify session_start.ts to add drift detection and auto-reconciliation on session start.",
+  "activeForm": "Integrating hooks",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
