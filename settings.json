@@ -378,6 +378,15 @@
           }
         ],
         "description": "Injects active goal context at session start"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" session-hydrator"
+          }
+        ],
+        "description": "Auto-hydrates checklist state from linked artifacts on session start"
       }
     ]
   },
