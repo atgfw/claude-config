@@ -1,9 +1,0 @@
-{
-  "id": "16",
-  "subject": "Enforce goal compliance before session stop",
-  "description": "Create a Stop hook that validates the active goal against Task Specification v1.0 schema. Block stop if goal is non-compliant (missing required sections: Focus, Which, Lest, With, MeasuredBy).",
-  "activeForm": "Enforcing goal compliance",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
