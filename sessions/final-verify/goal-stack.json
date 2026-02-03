@@ -1,0 +1,30 @@
+{
+  "session_id": "final-verify",
+  "working_directory": "C:/Users/codya/.claude",
+  "stack": [
+    {
+      "id": "issue-31",
+      "type": "issue",
+      "summary": "[spinal-cord] fix(hooks): Enforce full file paths in all Claude Code operations",
+      "fields": {
+        "who": "Issue #31 stakeholders",
+        "what": "All file paths in Claude Code operations MUST be absolute (full) paths.",
+        "when": "Current session focus",
+        "where": "GitHub Issue #31",
+        "why": "Claude Code file operations sometimes use relative paths instead of absolute paths. This causes:\n\n- Ambiguity about which file is being referenced\n- Potential for operating on wrong files when cwd changes\n- Inconsistent path formats in logs and error messages\n- Difficulty tracing file operations in audit logs",
+        "how": "All file paths in Claude Code operations MUST be absolute (full) paths.; This applies to:",
+        "which": "PreToolUse/PostToolUse hooks",
+        "lest": "Prevent: Ambiguity about which file is being referenced; Prevent: Potential for operating on wrong files when cwd changes; Prevent: Inconsistent path formats in logs and error messages",
+        "with": "bun runtime",
+        "measuredBy": "Hook implemented for all file operation tools; Cross-platform support (Unix and Windows paths); Helpful error message with suggested absolute path; CLAUDE.md updated with full path requirement"
+      },
+      "source": {
+        "github_issue": 31
+      },
+      "pushedAt": "2026-02-03T19:59:38.180Z",
+      "pushedBy": "SessionStart"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-03T19:59:38.199Z"
+}

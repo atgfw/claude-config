@@ -41,6 +41,14 @@
           "description": "add full-path-validator hook for #31",
           "breaking": false,
           "timestamp": "2026-02-03T19:35:31.987Z"
+        },
+        {
+          "hash": "114cdc2",
+          "type": "fix",
+          "scope": "hooks",
+          "description": "improve goal auto-derivation field extraction",
+          "breaking": false,
+          "timestamp": "2026-02-03T20:00:00.443Z"
         }
       ]
     },
@@ -110,7 +118,7 @@
       ]
     }
   },
-  "lastUpdated": "2026-02-03T19:35:32.009Z",
+  "lastUpdated": "2026-02-03T20:00:00.464Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"
