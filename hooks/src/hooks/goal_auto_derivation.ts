@@ -211,6 +211,69 @@ function getRecentCommitIntent(workingDir: string): string | null {
   }
 }
 
+/**
+ * Infer goal fields from git context when issue body is sparse.
+ * Uses git diff, modified files, and package.json to fill gaps.
+ */
+function inferFieldsFromGitContext(workingDir: string): Partial<GoalFields> {
+  const inferred: Partial<GoalFields> = {};
+
+  try {
+    // Get modified files from git diff
+    const diffFiles = execSync('git diff --name-only HEAD~5 2>/dev/null || git diff --name-only', {
+      cwd: workingDir,
+      encoding: 'utf-8',
+      timeout: 5000,
+    })
+      .trim()
+      .split('\n')
+      .filter(Boolean);
+
+    if (diffFiles.length > 0) {
+      // Extract file paths for 'which' field
+      const relevantFiles = diffFiles.filter((f) => /\.(ts|js|json|md|py)$/.test(f)).slice(0, 5);
+      if (relevantFiles.length > 0) {
+        inferred.which = relevantFiles.join('; ');
+      }
+
+      // Extract directories for 'where' field
+      const dirs = [...new Set(diffFiles.map((f) => f.split('/').slice(0, 2).join('/')))];
+      if (dirs.length > 0) {
+        inferred.where = dirs.slice(0, 3).join(', ');
+      }
+
+      // Check for test files to infer 'measuredBy'
+      const hasTestFiles = diffFiles.some(
+        (f) => /\.test\.(ts|js)$/.test(f) || f.includes('/tests/')
+      );
+      if (hasTestFiles) {
+        inferred.measuredBy = 'Tests passing; modified test files validate changes';
+      }
+    }
+
+    // Try to read package.json for 'with' field
+    try {
+      const pkgPath = path.join(workingDir, 'package.json');
+      const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
+      const deps: string[] = [];
+
+      if (pkg.devDependencies?.vitest) deps.push('vitest');
+      if (pkg.devDependencies?.typescript || pkg.dependencies?.typescript) deps.push('TypeScript');
+      if (pkg.scripts?.test?.includes('bun')) deps.push('bun');
+
+      if (deps.length > 0) {
+        inferred.with = deps.join(', ');
+      }
+    } catch {
+      // No package.json or parse error - that's fine
+    }
+  } catch {
+    // Git commands failed - return empty
+  }
+
+  return inferred;
+}
+
 // ============================================================================
 // Intelligent GitHub Issue Field Extraction
 // ============================================================================
@@ -342,7 +405,7 @@ function extractFieldsFromGitHubIssue(
   if (hasRealExplicitFields) {
     // Fill in any remaining unknowns from parsed sections
     const sections = parseIssueSections(body);
-    return enrichFieldsFromSections(explicitFields, sections, issueNumber, title, labels);
+    return enrichFieldsFromSections(explicitFields, sections, issueNumber, title, labels, body);
   }
 
   // Parse structured sections
@@ -725,14 +788,38 @@ function enrichFieldsFromSections(
 /**
  * Create a goal from GitHub issue data.
  * Uses intelligent field extraction from issue structure.
+ * Falls back to git context inference for sparse issue bodies.
  */
 function goalFromGitHubIssue(
   issueNumber: number,
-  issue: { title: string; body: string; labels: string[] }
+  issue: { title: string; body: string; labels: string[] },
+  workingDir?: string
 ): GoalLevel {
   const fields = issue.body
     ? extractFieldsFromGitHubIssue(issueNumber, issue.title, issue.body, issue.labels)
     : createDefaultFields(issue.title);
+
+  // If issue body was sparse, try to fill gaps from git context
+  if (workingDir) {
+    const gitContext = inferFieldsFromGitContext(workingDir);
+
+    // Fill in placeholder fields with git-inferred values
+    if (fields.which.includes('not specified') || fields.which.includes('implementation tasks')) {
+      if (gitContext.which) fields.which = gitContext.which;
+    }
+    if (fields.where.includes('Issue #') || fields.where === process.cwd()) {
+      if (gitContext.where) fields.where = gitContext.where;
+    }
+    if (
+      fields.measuredBy.includes('not defined') ||
+      fields.measuredBy.includes('completed and tested')
+    ) {
+      if (gitContext.measuredBy) fields.measuredBy = gitContext.measuredBy;
+    }
+    if (fields.with.includes('not enumerated') || fields.with === 'bun runtime') {
+      if (gitContext.with) fields.with = gitContext.with;
+    }
+  }
 
   return {
     id: `issue-${issueNumber}`,
@@ -808,7 +895,7 @@ function deriveGoalFromContext(workingDir: string): DerivedGoal {
     if (issue) {
       return {
         source: 'git-branch',
-        goal: goalFromGitHubIssue(branchInfo.issueNumber, issue),
+        goal: goalFromGitHubIssue(branchInfo.issueNumber, issue, workingDir),
         confidence: 'high',
         reason: `Derived from git branch: ${branchInfo.branch} → Issue #${branchInfo.issueNumber}`,
       };
@@ -816,11 +903,15 @@ function deriveGoalFromContext(workingDir: string): DerivedGoal {
     // Issue number found but couldn't fetch - still use it
     return {
       source: 'git-branch',
-      goal: goalFromGitHubIssue(branchInfo.issueNumber, {
-        title: `Issue #${branchInfo.issueNumber}`,
-        body: '',
-        labels: [],
-      }),
+      goal: goalFromGitHubIssue(
+        branchInfo.issueNumber,
+        {
+          title: `Issue #${branchInfo.issueNumber}`,
+          body: '',
+          labels: [],
+        },
+        workingDir
+      ),
       confidence: 'medium',
       reason: `Branch references issue #${branchInfo.issueNumber} (could not fetch details)`,
     };
@@ -848,7 +939,7 @@ function deriveGoalFromContext(workingDir: string): DerivedGoal {
       if (issue) {
         return {
           source: 'active-goal',
-          goal: goalFromGitHubIssue(issueNumber, issue),
+          goal: goalFromGitHubIssue(issueNumber, issue, workingDir),
           confidence: 'high',
           reason: `Linked GitHub issue from active-goal.json: #${issueNumber}`,
         };

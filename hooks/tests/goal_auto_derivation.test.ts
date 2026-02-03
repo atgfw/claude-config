@@ -23,17 +23,19 @@ vi.mock('node:child_process', () => ({
   execSync: vi.fn(),
 }));
 
-// Mock fs for controlled testing
-vi.mock('node:fs', async () => {
-  const actual = await vi.importActual<typeof import('node:fs')>('node:fs');
-  return {
-    ...actual,
-    readFileSync: vi.fn(actual.readFileSync),
-    writeFileSync: vi.fn(actual.writeFileSync),
-    existsSync: vi.fn(actual.existsSync),
-    mkdirSync: vi.fn(actual.mkdirSync),
-  };
-});
+// Mock fs for controlled testing - use simple mocks without importActual
+vi.mock('node:fs', () => ({
+  readFileSync: vi.fn(),
+  writeFileSync: vi.fn(),
+  existsSync: vi.fn(() => true),
+  mkdirSync: vi.fn(),
+  default: {
+    readFileSync: vi.fn(),
+    writeFileSync: vi.fn(),
+    existsSync: vi.fn(() => true),
+    mkdirSync: vi.fn(),
+  },
+}));
 
 describe('parseGitBranch', () => {
   const mockExecSync = vi.mocked(execSync);
