@@ -24,13 +24,7 @@ import type {
 } from '../types.js';
 import { getClaudeDir } from '../utils.js';
 import { registerHook } from '../runner.js';
-import {
-  getSessionId,
-  formatGoalHierarchy,
-  hasGlobalOverride,
-  loadGlobalOverride,
-  loadGoalStack,
-} from '../session/goal_stack.js';
+import { getSessionId, formatGoalHierarchy, loadGoalStack } from '../session/goal_stack.js';
 
 const GOAL_FIELDS = ['who', 'what', 'when', 'where', 'why', 'how'] as const;
 type GoalField = (typeof GOAL_FIELDS)[number];
@@ -95,59 +89,36 @@ export function saveGoal(goal: ActiveGoal): void {
 }
 
 /**
- * Format goal context using the new hierarchical session-scoped system.
- * Falls back to global override if no session goals exist.
+ * Format goal context using the session-scoped system.
+ * NO GLOBAL FALLBACK - each session has its own goals.
  */
 export function formatGoalContext(goal: ActiveGoal, sessionId?: string): string {
-  // Try session-scoped hierarchy first
-  if (sessionId) {
-    const stack = loadGoalStack(sessionId);
-    if (stack.stack.length > 0 || hasGlobalOverride()) {
-      return formatGoalHierarchy(sessionId);
-    }
+  // Session-scoped hierarchy only
+  const resolvedSessionId = sessionId ?? getSessionId();
+  const stack = loadGoalStack(resolvedSessionId);
+
+  if (stack.stack.length > 0) {
+    return formatGoalHierarchy(resolvedSessionId);
   }
 
-  // Fall back to legacy global goal format
-  if (!goal.goal && !goal.summary) return '';
-
-  const lines: string[] = [`ACTIVE GOAL: ${goal.summary ?? goal.goal}`];
-  for (const field of GOAL_FIELDS) {
-    const value = goal.fields[field];
-    const display = value === 'unknown' ? 'UNKNOWN - rehydrate' : value;
-    lines.push(`  ${field.toUpperCase()}: ${display}`);
-  }
-  return lines.join('\n');
+  // No session goals - return empty
+  return '';
 }
 
 /**
  * Get the best available goal context.
- * Prefers session-scoped hierarchy, falls back to global.
+ * SESSION-SCOPED ONLY - no global fallback to prevent cross-project/session bleeding.
  */
 function getGoalContextForHook(sessionId?: string): string {
-  // Check session stack first
-  if (sessionId) {
-    const stack = loadGoalStack(sessionId);
-    if (stack.stack.length > 0) {
-      return formatGoalHierarchy(sessionId);
-    }
+  // Session-scoped goals ONLY - no global fallback
+  const resolvedSessionId = sessionId ?? getSessionId();
+  const stack = loadGoalStack(resolvedSessionId);
+
+  if (stack.stack.length > 0) {
+    return formatGoalHierarchy(resolvedSessionId);
   }
 
-  // Check global override
-  if (hasGlobalOverride()) {
-    const globalGoal = loadGlobalOverride();
-    if (globalGoal) {
-      // Format as simple hierarchy with just the global goal
-      const sessionIdToUse = sessionId ?? getSessionId();
-      return formatGoalHierarchy(sessionIdToUse);
-    }
-  }
-
-  // Legacy fallback
-  const goal = loadGoal();
-  if (goal.goal || goal.summary) {
-    return formatGoalContext(goal, sessionId);
-  }
-
+  // No session goal - return empty (will trigger soft prompt)
   return '';
 }
 
