@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Add missing goal soft prompt suggestion",
+  "description": "When no goal is defined or goal fields are incomplete/inconsistent, inject a soft suggestion prompting the user to define/hydrate the goal.\n\nAcceptance:\n- [ ] Detect missing/incomplete goal\n- [ ] Inject soft prompt in additionalContext\n- [ ] Don't block - just suggest\n- [ ] Test coverage added",
+  "activeForm": "Adding missing goal soft prompt",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

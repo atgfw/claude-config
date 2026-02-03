@@ -9,7 +9,7 @@
  *
  * This hook is READ-ONLY - it never modifies goal files.
  */
-import type { UserPromptSubmitInput, UserPromptSubmitOutput, PostToolUseInput, PostToolUseOutput, SessionStartInput, SessionStartOutput } from '../types.js';
+import type { UserPromptSubmitInput, UserPromptSubmitOutput, PostToolUseInput, PostToolUseOutput, SessionStartInput, SessionStartOutput, StopInput, StopOutput } from '../types.js';
 declare const GOAL_FIELDS: readonly ["who", "what", "when", "where", "why", "how"];
 type GoalField = (typeof GOAL_FIELDS)[number];
 export interface ActiveGoal {
@@ -53,6 +53,11 @@ declare function goalInjectorPostToolUse(_input: PostToolUseInput): Promise<Post
  * SessionStart hook - inject goal context at session start
  */
 declare function goalInjectorSessionStart(input: SessionStartInput): Promise<SessionStartOutput>;
-export { goalInjector as goalInjectorHook, goalInjectorPostToolUse, goalInjectorSessionStart };
+/**
+ * Stop hook - inject goal context at session stop
+ * Allows final context to include goal state for session summary
+ */
+declare function goalInjectorStop(input: StopInput): Promise<StopOutput>;
+export { goalInjector as goalInjectorHook, goalInjectorPostToolUse, goalInjectorSessionStart, goalInjectorStop, };
 export default goalInjector;
 //# sourceMappingURL=goal_injector.d.ts.map

@@ -1,0 +1,26 @@
+{
+  "session_id": "session-574042d2a80a2fac",
+  "working_directory": "C:\\Users\\codya\\.claude",
+  "stack": [
+    {
+      "id": "task-task-Q3JlYXRl",
+      "type": "task",
+      "summary": "Create OpenSpec proposal goal injection",
+      "fields": {
+        "who": "Claude Code session",
+        "what": "OpenSpec proposals need goal context embedded. When creating/updating OpenSpec proposals, inject the",
+        "when": "Current task",
+        "where": "C:\\Users\\codya\\.claude",
+        "why": "Task in progress",
+        "how": "Following implementation plan"
+      },
+      "source": {
+        "claude_task_id": "task-Q3JlYXRl"
+      },
+      "pushedAt": "2026-02-03T16:23:39.705Z",
+      "pushedBy": "TaskUpdate"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-03T16:23:39.707Z"
+}

@@ -1,0 +1,26 @@
+{
+  "session_id": "session-31b06880d11ce565",
+  "working_directory": "C:\\Users\\codya\\.claude",
+  "stack": [
+    {
+      "id": "task-task-QWRkIG1p",
+      "type": "task",
+      "summary": "Add missing goal soft prompt suggestion",
+      "fields": {
+        "who": "Claude Code session",
+        "what": "When no goal is defined or goal fields are incomplete/inconsistent, inject a soft suggestion prompti",
+        "when": "Current task",
+        "where": "C:\\Users\\codya\\.claude",
+        "why": "Task in progress",
+        "how": "Following implementation plan"
+      },
+      "source": {
+        "claude_task_id": "task-QWRkIG1p"
+      },
+      "pushedAt": "2026-02-03T16:23:42.970Z",
+      "pushedBy": "TaskUpdate"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-03T16:23:42.972Z"
+}

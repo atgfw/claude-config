@@ -1,0 +1,39 @@
+ Search for loose ends regarding this
+
+● Explore(Find loose ends for category split)
+  ⎿  Done (27 tool uses · 76.4k tokens · 4m 8s)
+
+● Key Loose Ends Found:
+
+  Critical - Category Split Related
+  ┌─────────────────────────┬────────────┬─────────────────────────────────────────────────────┐
+  │          Issue          │   Status   │                    Action Needed                    │
+  ├─────────────────────────┼────────────┼─────────────────────────────────────────────────────┤
+  │ Temp nodes NOW DEPLOYED │ ✅ DONE    │ We just deployed all 9 config nodes + slim merger   │
+  ├─────────────────────────┼────────────┼─────────────────────────────────────────────────────┤
+  │ CLAUDE.md version       │ STALE      │ Says v5.5, should be v5.6 with modular architecture │
+  ├─────────────────────────┼────────────┼─────────────────────────────────────────────────────┤
+  │ PROJECT-DIRECTIVE.md    │ STALE      │ Says v4.0 with 18 nodes, now v5.6 with 25 nodes     │
+  ├─────────────────────────┼────────────┼─────────────────────────────────────────────────────┤
+  │ Response format tests   │ INCOMPLETE │ 3 test cases (4.2-4.4) not run                      │
+  └─────────────────────────┴────────────┴─────────────────────────────────────────────────────┘
+  OpenSpec Changes with Incomplete Tasks
+  OpenSpec Change: refactor-llm-extraction-extensibility
+  Status: Tasks 1-10 unchecked
+  Key Gap: v4.0 features designed but claimed as deployed
+  ────────────────────────────────────────
+  OpenSpec Change: standardize-extraction-response-format
+  Status: Tasks 4.2-4.4 unchecked
+  Key Gap: Triple-key format testing incomplete
+  ────────────────────────────────────────
+  OpenSpec Change: migrate-rewst-llm-extraction-task
+  Status: OUTDATED
+  Key Gap: References 5 categories, now 9
+  Documentation Updates Needed
+
+  1. CLAUDE.md line 7: Change "v5.5" to "v5.6 with modular category architecture"
+  2. CLAUDE.md line 22: Update architecture diagram - no longer "inline category definitions"
+  3. CLAUDE.md line 42: Update node count from 17 to 25
+  4. PROJECT-DIRECTIVE.md: Clarify v4.0 extensibility is "DESIGNED" not "DEPLOYED"
+
+  Should I update the documentation files to reflect the completed category split deployment?

@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Add Stop hook to goal_injector.ts",
+  "description": "Goal injection currently covers UserPromptSubmit, PostToolUse, and SessionStart hooks but NOT Stop events. Add goalInjectorStop function and register it.\n\nAcceptance:\n- [ ] Stop hook injects goal context\n- [ ] Test coverage added\n- [ ] Compiles without errors",
+  "activeForm": "Adding Stop hook to goal_injector",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

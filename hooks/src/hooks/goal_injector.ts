@@ -19,6 +19,8 @@ import type {
   PostToolUseOutput,
   SessionStartInput,
   SessionStartOutput,
+  StopInput,
+  StopOutput,
 } from '../types.js';
 import { getClaudeDir } from '../utils.js';
 import { registerHook } from '../runner.js';
@@ -225,9 +227,33 @@ async function goalInjectorSessionStart(input: SessionStartInput): Promise<Sessi
   return { hookEventName: 'SessionStart' };
 }
 
+/**
+ * Stop hook - inject goal context at session stop
+ * Allows final context to include goal state for session summary
+ */
+async function goalInjectorStop(input: StopInput): Promise<StopOutput> {
+  const sessionId = getSessionId(input);
+  const context = getGoalContextForHook(sessionId);
+
+  // Stop hooks return decision + reason, we approve and include goal context in reason
+  if (context) {
+    return {
+      decision: 'approve',
+      reason: `Session ending with active goal:\n${context}`,
+    };
+  }
+  return { decision: 'approve' };
+}
+
 registerHook('goal-injector', 'UserPromptSubmit', goalInjector);
 registerHook('goal-injector-post', 'PostToolUse', goalInjectorPostToolUse);
 registerHook('goal-injector-session', 'SessionStart', goalInjectorSessionStart);
+registerHook('goal-injector-stop', 'Stop', goalInjectorStop);
 
-export { goalInjector as goalInjectorHook, goalInjectorPostToolUse, goalInjectorSessionStart };
+export {
+  goalInjector as goalInjectorHook,
+  goalInjectorPostToolUse,
+  goalInjectorSessionStart,
+  goalInjectorStop,
+};
 export default goalInjector;

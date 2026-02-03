@@ -8,6 +8,7 @@ import {
   createEmptyGoal,
   formatGoalContext,
   hasDehydratedFields,
+  goalInjectorStop,
   type ActiveGoal,
 } from '../src/hooks/goal_injector.js';
 
@@ -110,5 +111,27 @@ describe('saveGoal and loadGoal round-trip', () => {
     saveGoal(original);
     const loaded = loadGoal();
     expect(loaded).toEqual(original);
+  });
+});
+
+describe('goalInjectorStop', () => {
+  it('returns approve with goal context when goal is active', async () => {
+    const g = createEmptyGoal();
+    g.goal = 'Build dashboard';
+    g.summary = 'Build dashboard';
+    g.fields.what = 'a metrics dashboard';
+    saveGoal(g);
+
+    const result = await goalInjectorStop({ reason: 'session end' });
+    expect(result.decision).toBe('approve');
+    expect(result.reason).toContain('Session ending with active goal');
+    expect(result.reason).toContain('Build dashboard');
+  });
+
+  it('returns approve without reason when no goal', async () => {
+    saveGoal(createEmptyGoal());
+    const result = await goalInjectorStop({ reason: 'session end' });
+    expect(result.decision).toBe('approve');
+    expect(result.reason).toBeUndefined();
   });
 });

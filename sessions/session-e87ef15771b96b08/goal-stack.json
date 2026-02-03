@@ -1,0 +1,26 @@
+{
+  "session_id": "session-e87ef15771b96b08",
+  "working_directory": "C:\\Users\\codya\\.claude",
+  "stack": [
+    {
+      "id": "task-task-Q3JlYXRl",
+      "type": "task",
+      "summary": "Create plan file goal injection",
+      "fields": {
+        "who": "Claude Code session",
+        "what": "Claude Code .md plan files need goal context embedded. When creating/updating plan files, inject the",
+        "when": "Current task",
+        "where": "C:\\Users\\codya\\.claude",
+        "why": "Task in progress",
+        "how": "Following implementation plan"
+      },
+      "source": {
+        "claude_task_id": "task-Q3JlYXRl"
+      },
+      "pushedAt": "2026-02-03T16:23:40.928Z",
+      "pushedBy": "TaskUpdate"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-03T16:23:40.930Z"
+}
