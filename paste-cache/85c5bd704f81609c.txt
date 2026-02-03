@@ -1,0 +1,64 @@
+❯ /clear
+  ⎿  (no content)
+
+❯ /exit
+  ⎿  See ya!
+  ⎿  SessionStart:resume hook error
+
+❯ /doctor
+  ⎿  Claude Code diagnostics dismissed
+
+❯ /doctor
+
+ Diagnostics
+ └ Currently running: native (2.1.29)
+ └ Path: C:\Users\codya\.local\bin\claude.exe
+ └ Invoked: C:\Users\codya\.local\bin\claude.exe
+ └ Config install method: native
+ └ Search: OK (bundled)
+
+ Updates
+ └ Auto-updates: enabled
+ └ Auto-update channel: latest
+ └ Stable version: 2.1.17
+ └ Latest version: 2.1.29
+
+
+ MCP Config Diagnostics
+
+ For help configuring MCP servers, see: https://code.claude.com/docs/en/mcp
+
+ [Contains warnings] User config (available in all your projects)
+ Location: C:\Users\codya\.claude.json
+  └ [Warning] [playwright] mcpServers.playwright: Windows requires 'cmd /c' wrapper to execute npx
+  └ [Warning] [morph] mcpServers.morph: Windows requires 'cmd /c' wrapper to execute npx
+  └ [Warning] [desktop-commander] mcpServers.desktop-commander: Windows requires 'cmd /c' wrapper to execute npx
+  └ [Warning] [tavily] mcpServers.tavily: Windows requires 'cmd /c' wrapper to execute npx
+  └ [Warning] [context7] mcpServers.context7: Windows requires 'cmd /c' wrapper to execute npx
+  └ [Warning] [n8n-mcp] mcpServers.n8n-mcp: Windows requires 'cmd /c' wrapper to execute npx
+
+
+ Version Locks
+ └ No active version locks
+
+ Agent Parse Errors
+ └ Failed to parse 9 agent file(s):
+   └ C:\Users\codya\.claude\agents\code-reviewer.md: Missing required "name" field in frontmatter
+   └ C:\Users\codya\.claude\agents\context-manager.md: Missing required "name" field in frontmatter
+   └ C:\Users\codya\.claude\agents\debugger.md: Missing required "name" field in frontmatter
+   └ C:\Users\codya\.claude\agents\deployment-engineer.md: Missing required "name" field in frontmatter
+   └ C:\Users\codya\.claude\agents\mcp-backend-engineer.md: Missing required "name" field in frontmatter
+   └ C:\Users\codya\.claude\agents\n8n-mcp-tester.md: Missing required "name" field in frontmatter
+   └ C:\Users\codya\.claude\agents\README.md: Missing required "name" field in frontmatter
+   └ C:\Users\codya\.claude\agents\technical-researcher.md: Missing required "name" field in frontmatter
+   └ C:\Users\codya\.claude\agents\test-automator.md: Missing required "name" field in frontmatter
+
+ Context Usage Warnings
+ └ ⚠ Large MCP tools context (~27,104 tokens > 25,000)
+   └ MCP servers:
+     └ desktop-commander: 26 tools (~13,153 tokens)
+     └ n8n-mcp: 20 tools (~6,575 tokens)
+     └ playwright: 22 tools (~3,568 tokens)
+     └ tavily: 5 tools (~2,109 tokens)
+     └ context7: 2 tools (~893 tokens)
+     └ (1 more servers)

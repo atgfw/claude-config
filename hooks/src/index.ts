@@ -190,8 +190,16 @@ export {
   goalInjectorHook,
   goalInjectorPostToolUse,
   goalInjectorSessionStart,
+  goalInjectorStop,
   getActiveGoalContext,
 } from './hooks/goal_injector.js';
+export { sessionHydrator } from './hooks/session_hydrator.js';
+export { artifactGoalInjector } from './hooks/artifact_goal_injector.js';
+export {
+  checklistReadHook,
+  checklistWriteHook,
+  parseFilePath,
+} from './hooks/checklist_sync_hooks.js';
 export { taskCompletionGateHook } from './hooks/task_completion_gate.js';
 export { taskGoalSyncCreate, taskGoalSyncUpdate } from './hooks/task_goal_sync.js';
 export { cloudObjectCreationGateHook } from './governance/cloud_object_creation_gate.js';
@@ -224,6 +232,15 @@ import './hooks/unified_prompt_handler.js';
 
 // Goal injector (sharp pointed goal every turn)
 import './hooks/goal_injector.js';
+
+// Session hydrator (auto-load linked artifacts on start)
+import './hooks/session_hydrator.js';
+
+// Artifact goal injector (suggest goals for artifacts)
+import './hooks/artifact_goal_injector.js';
+
+// Checklist sync hooks (reconcile on read/write)
+import './hooks/checklist_sync_hooks.js';
 
 // Task-goal synchronization (session-scoped goals from tasks)
 import './hooks/task_goal_sync.js';
