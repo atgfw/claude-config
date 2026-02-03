@@ -57,35 +57,37 @@ function hasContent(value: string | undefined): boolean {
 }
 
 /**
- * Check if title follows the imperative verb pattern.
+ * Check if title is a meaningful action-oriented title.
+ * - Must be at least 50 characters
+ * - Must start with a capital letter (imperative form)
+ * - Must not start with vague words
  */
-function hasImperativeTitle(summary: string): boolean {
+function hasActionTitle(summary: string): boolean {
   if (!summary) return false;
+  if (summary.length < 50) return false;
 
-  const imperativeVerbs = [
-    'implement',
-    'create',
-    'add',
-    'build',
-    'configure',
-    'deploy',
-    'fix',
-    'refactor',
-    'update',
-    'remove',
-    'delete',
-    'migrate',
-    'integrate',
-    'validate',
-    'test',
-    'document',
-    'design',
-    'optimize',
-    'enforce',
+  // Must start with capital (imperative form)
+  if (!/^[A-Z]/.test(summary)) return false;
+
+  // Must not start with vague words
+  const vagueStarters = [
+    'the',
+    'a',
+    'an',
+    'this',
+    'that',
+    'some',
+    'any',
+    'work',
+    'stuff',
+    'things',
+    'handle',
+    'deal',
   ];
-
   const firstWord = summary.split(/\s+/)[0]?.toLowerCase() ?? '';
-  return imperativeVerbs.some((verb) => firstWord.startsWith(verb));
+  if (vagueStarters.includes(firstWord)) return false;
+
+  return true;
 }
 
 /**
@@ -191,8 +193,8 @@ function hasSuccessMetrics(fields: GoalLevel['fields']): boolean {
 export function validateGoalCompliance(goal: GoalLevel): ComplianceResult {
   const checks: ComplianceCheck[] = [];
 
-  // §1 Focus Declaration - title with action verb
-  const hasFocus = hasImperativeTitle(goal.summary);
+  // §1 Focus Declaration - action-oriented title
+  const hasFocus = hasActionTitle(goal.summary);
   checks.push({
     section: 'Focus',
     required: true,
@@ -352,25 +354,40 @@ async function goalComplianceGateHook(input: StopInput): Promise<StopOutput> {
     };
   }
 
-  // Get the current focus goal (top of stack)
-  const currentGoal = stack.stack[0];
-  if (!currentGoal) {
-    return {
-      decision: 'approve',
-      reason: 'No current goal focus',
-    };
+  // Find the epic/issue level goal (bottom of stack, highest level)
+  // Stack order: [0] = current focus (task), [last] = epic
+  const epicGoal = stack.stack.find((g) => g.type === 'epic' || g.type === 'issue');
+
+  if (!epicGoal) {
+    // No epic/issue level goal - check if there's any goal at all
+    const currentGoal = stack.stack[0];
+    if (!currentGoal) {
+      return {
+        decision: 'approve',
+        reason: 'No current goal focus',
+      };
+    }
+
+    // Only task-level goals exist - skip compliance (ephemeral)
+    if (currentGoal.type === 'task' || currentGoal.type === 'subtask') {
+      return {
+        decision: 'approve',
+        reason: 'Only task-level goals - compliance check skipped (define an epic/issue goal)',
+      };
+    }
   }
 
-  // Skip validation for task-level goals (they're ephemeral)
-  if (currentGoal.type === 'task' || currentGoal.type === 'subtask') {
+  // Validate the epic/issue goal (the main objective)
+  const goalToValidate = epicGoal ?? stack.stack[0];
+  if (!goalToValidate) {
     return {
       decision: 'approve',
-      reason: 'Task-level goal - compliance check skipped',
+      reason: 'No goal to validate',
     };
   }
 
   // Validate the goal
-  const result = validateGoalCompliance(currentGoal);
+  const result = validateGoalCompliance(goalToValidate);
   const output = formatComplianceResult(result);
 
   logTerse(output);
