@@ -1,29 +1,29 @@
 /**
- * Tests for Goal Auto-Derivation Hook
+ * Tests for Goal Auto-Derivation Hook (LLM-Native)
  *
- * Verifies automatic goal derivation from work context sources.
+ * Tests the context detection and LLM prompt generation.
+ * Note: This hook DETECTS context and PROMPTS Claude - it does NOT parse text.
  */
 
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, vi, type Mock } from 'vitest';
 import * as fs from 'node:fs';
-import * as path from 'node:path';
 import { execSync } from 'node:child_process';
 import {
   parseGitBranch,
   deriveGoalFromContext,
   hydrateGoalStack,
+  needsExtraction,
+  generateIssueExtractionPrompt,
+  generateOpenSpecExtractionPrompt,
   type DerivedGoal,
-  type GitBranchInfo,
 } from '../src/hooks/goal_auto_derivation.js';
-import { loadGoalStack, saveGoalStack, createEmptyStack } from '../src/session/goal_stack.js';
-import { getClaudeDir } from '../src/utils.js';
 
 // Mock child_process
 vi.mock('node:child_process', () => ({
   execSync: vi.fn(),
 }));
 
-// Mock fs for controlled testing - use simple mocks without importActual
+// Mock fs for controlled testing
 vi.mock('node:fs', () => ({
   readFileSync: vi.fn(),
   writeFileSync: vi.fn(),
@@ -37,9 +37,13 @@ vi.mock('node:fs', () => ({
   },
 }));
 
-describe('parseGitBranch', () => {
-  const mockExecSync = vi.mocked(execSync);
+// Cast mocks for type safety
+const mockExecSync = execSync as Mock;
+const mockReadFileSync = fs.readFileSync as Mock;
+const mockWriteFileSync = fs.writeFileSync as Mock;
+const mockMkdirSync = fs.mkdirSync as Mock;
 
+describe('parseGitBranch', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -89,7 +93,7 @@ describe('parseGitBranch', () => {
     expect(result).toEqual({
       branch: '789-add-new-feature',
       issueNumber: 789,
-      issueType: 'feature', // defaults to feature
+      issueType: 'feature',
     });
   });
 
@@ -113,30 +117,21 @@ describe('parseGitBranch', () => {
 });
 
 describe('deriveGoalFromContext', () => {
-  const mockExecSync = vi.mocked(execSync);
-  const mockReadFileSync = vi.mocked(fs.readFileSync);
-
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it('derives goal from git branch with GitHub issue', () => {
-    // Mock git branch
     mockExecSync.mockImplementation((cmd: string) => {
       if (cmd.includes('branch --show-current')) {
         return 'feature/issue-42\n';
       }
       if (cmd.includes('gh issue view')) {
-        return JSON.stringify({
-          title: 'Add authentication',
-          body: '**WHO:** Users\n**WHAT:** Implement OAuth login',
-          labels: [{ name: 'enhancement' }],
-        });
+        return JSON.stringify({ title: 'Add authentication' });
       }
       return '';
     });
 
-    // Mock active-goal.json to not exist
     mockReadFileSync.mockImplementation(() => {
       throw new Error('ENOENT');
     });
@@ -148,10 +143,12 @@ describe('deriveGoalFromContext', () => {
     expect(result.goal).not.toBeNull();
     expect(result.goal?.summary).toBe('Add authentication');
     expect(result.goal?.source.github_issue).toBe(42);
+    // LLM-native: should always need extraction for GitHub issues
+    expect(result.needsExtraction).toBe(true);
+    expect(result.issueNumber).toBe(42);
   });
 
   it('derives goal from OpenSpec linked artifact', () => {
-    // Mock git branch (main - no issue)
     mockExecSync.mockImplementation((cmd: string) => {
       if (cmd.includes('branch --show-current')) {
         return 'main\n';
@@ -159,7 +156,6 @@ describe('deriveGoalFromContext', () => {
       throw new Error('command failed');
     });
 
-    // Mock active-goal.json with linked OpenSpec
     mockReadFileSync.mockImplementation((filePath: string | Buffer | URL) => {
       const pathStr = filePath.toString();
       if (pathStr.includes('active-goal.json')) {
@@ -167,13 +163,11 @@ describe('deriveGoalFromContext', () => {
           goal: null,
           summary: null,
           fields: {},
-          linkedArtifacts: {
-            openspec: 'add-new-feature',
-          },
+          linkedArtifacts: { openspec: 'add-new-feature' },
         });
       }
       if (pathStr.includes('proposal.md')) {
-        return '# Add New Feature\n\nThis proposal adds a new feature.\n\n**WHO:** Developers';
+        return '# Add New Feature\n\nThis proposal adds a new feature.';
       }
       throw new Error('ENOENT');
     });
@@ -184,21 +178,17 @@ describe('deriveGoalFromContext', () => {
     expect(result.confidence).toBe('high');
     expect(result.goal).not.toBeNull();
     expect(result.goal?.summary).toBe('Add New Feature');
+    expect(result.needsExtraction).toBe(true);
   });
 
   it('falls back to active-goal.json when no other context', () => {
-    // Mock git branch (main - no issue)
     mockExecSync.mockImplementation((cmd: string) => {
       if (cmd.includes('branch --show-current')) {
         return 'main\n';
       }
-      if (cmd.includes('git log')) {
-        return 'chore(sync): session state sync\n';
-      }
       throw new Error('command failed');
     });
 
-    // Mock active-goal.json with direct goal
     mockReadFileSync.mockImplementation((filePath: string | Buffer | URL) => {
       const pathStr = filePath.toString();
       if (pathStr.includes('active-goal.json')) {
@@ -213,7 +203,7 @@ describe('deriveGoalFromContext', () => {
             why: 'Because',
             how: 'With code',
             which: 'This project',
-            lest: 'Failure',
+            lest: 'Must not fail',
             with: 'TypeScript',
             measuredBy: 'Tests pass',
           },
@@ -227,21 +217,18 @@ describe('deriveGoalFromContext', () => {
     expect(result.source).toBe('active-goal');
     expect(result.confidence).toBe('medium');
     expect(result.goal?.summary).toBe('Build the thing');
+    // Fields are populated, so no extraction needed
+    expect(result.needsExtraction).toBe(false);
   });
 
   it('returns none when no context available', () => {
-    // Mock git branch (main - no issue)
     mockExecSync.mockImplementation((cmd: string) => {
       if (cmd.includes('branch --show-current')) {
         return 'main\n';
       }
-      if (cmd.includes('git log')) {
-        return 'chore(sync): session state sync\n';
-      }
       throw new Error('command failed');
     });
 
-    // Mock no active-goal.json
     mockReadFileSync.mockImplementation(() => {
       throw new Error('ENOENT');
     });
@@ -250,19 +237,16 @@ describe('deriveGoalFromContext', () => {
 
     expect(result.source).toBe('none');
     expect(result.goal).toBeNull();
+    expect(result.needsExtraction).toBe(false);
   });
 });
 
 describe('hydrateGoalStack', () => {
   const testSessionId = 'test-session-hydrate';
   const testWorkingDir = '/test/project';
-  const mockWriteFileSync = vi.mocked(fs.writeFileSync);
-  const mockReadFileSync = vi.mocked(fs.readFileSync);
-  const mockMkdirSync = vi.mocked(fs.mkdirSync);
 
   beforeEach(() => {
     vi.clearAllMocks();
-    // Mock empty stack by default
     mockReadFileSync.mockImplementation(() => {
       throw new Error('ENOENT');
     });
@@ -295,6 +279,8 @@ describe('hydrateGoalStack', () => {
       },
       confidence: 'high',
       reason: 'From git branch',
+      needsExtraction: true,
+      issueNumber: 42,
     };
 
     const result = hydrateGoalStack(testSessionId, testWorkingDir, derived);
@@ -305,7 +291,6 @@ describe('hydrateGoalStack', () => {
   });
 
   it('does not override existing goals', () => {
-    // Mock existing stack with goal
     mockReadFileSync.mockImplementation(() => {
       return JSON.stringify({
         session_id: testSessionId,
@@ -350,6 +335,8 @@ describe('hydrateGoalStack', () => {
       },
       confidence: 'high',
       reason: 'From git branch',
+      needsExtraction: true,
+      issueNumber: 99,
     };
 
     const result = hydrateGoalStack(testSessionId, testWorkingDir, derived);
@@ -364,6 +351,7 @@ describe('hydrateGoalStack', () => {
       goal: null,
       confidence: 'low',
       reason: 'No context found',
+      needsExtraction: false,
     };
 
     const result = hydrateGoalStack(testSessionId, testWorkingDir, derived);
@@ -373,31 +361,99 @@ describe('hydrateGoalStack', () => {
   });
 });
 
-describe('priority cascade', () => {
-  const mockExecSync = vi.mocked(execSync);
-  const mockReadFileSync = vi.mocked(fs.readFileSync);
+describe('needsExtraction', () => {
+  it('returns true when fields have placeholders', () => {
+    const fields = {
+      who: 'unknown',
+      what: 'Test',
+      when: 'Current task',
+      where: 'Target not specified',
+      why: 'Task in progress',
+      how: 'Following implementation plan',
+      which: 'Target object not specified',
+      lest: 'Failure modes not defined',
+      with: 'Dependencies not enumerated',
+      measuredBy: 'Success metrics not defined',
+    };
 
+    expect(needsExtraction(fields)).toBe(true);
+  });
+
+  it('returns false when fields are populated', () => {
+    const fields = {
+      who: 'Development team',
+      what: 'Implement authentication',
+      when: 'Sprint 5',
+      where: 'src/auth/',
+      why: 'Users need secure login',
+      how: 'Using OAuth2 flow',
+      which: 'AuthService.ts, LoginForm.tsx',
+      lest: 'Must not expose credentials',
+      with: 'TypeScript, React, OAuth2',
+      measuredBy: 'All auth tests passing',
+    };
+
+    expect(needsExtraction(fields)).toBe(false);
+  });
+
+  it('returns true when markdown headers are in fields (parsing garbage)', () => {
+    const fields = {
+      who: 'Claude Code session',
+      what: '## Problem',
+      when: 'Current task',
+      where: '/some/path',
+      why: '# Goal',
+      how: 'Following implementation plan',
+      which: 'Target not specified',
+      lest: 'Failure modes not defined',
+      with: 'Dependencies not enumerated',
+      measuredBy: 'Success metrics not defined',
+    };
+
+    expect(needsExtraction(fields)).toBe(true);
+  });
+});
+
+describe('LLM extraction prompts', () => {
+  it('generateIssueExtractionPrompt creates valid prompt', () => {
+    const prompt = generateIssueExtractionPrompt(42, 'Add authentication');
+
+    expect(prompt).toContain('Issue #42');
+    expect(prompt).toContain('Add authentication');
+    expect(prompt).toContain('gh issue view 42');
+    expect(prompt).toContain('WHO:');
+    expect(prompt).toContain('WHAT:');
+    expect(prompt).toContain('WHY:');
+    expect(prompt).toContain('active-goal.json');
+  });
+
+  it('generateOpenSpecExtractionPrompt creates valid prompt', () => {
+    const prompt = generateOpenSpecExtractionPrompt('add-new-feature', 'Add New Feature');
+
+    expect(prompt).toContain('OpenSpec: add-new-feature');
+    expect(prompt).toContain('Add New Feature');
+    expect(prompt).toContain('proposal.md');
+    expect(prompt).toContain('WHO:');
+    expect(prompt).toContain('WHAT:');
+  });
+});
+
+describe('priority cascade', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it('git branch takes priority over active-goal.json', () => {
-    // Mock git branch with issue
     mockExecSync.mockImplementation((cmd: string) => {
       if (cmd.includes('branch --show-current')) {
         return 'feature/issue-1\n';
       }
       if (cmd.includes('gh issue view')) {
-        return JSON.stringify({
-          title: 'Git Branch Issue',
-          body: '',
-          labels: [],
-        });
+        return JSON.stringify({ title: 'Git Branch Issue' });
       }
       return '';
     });
 
-    // Mock active-goal.json with different goal
     mockReadFileSync.mockImplementation((filePath: string | Buffer | URL) => {
       const pathStr = filePath.toString();
       if (pathStr.includes('active-goal.json')) {
@@ -417,7 +473,6 @@ describe('priority cascade', () => {
   });
 
   it('OpenSpec takes priority over plain active-goal.json', () => {
-    // Mock git branch (main - no issue)
     mockExecSync.mockImplementation((cmd: string) => {
       if (cmd.includes('branch --show-current')) {
         return 'main\n';
@@ -425,7 +480,6 @@ describe('priority cascade', () => {
       throw new Error('command failed');
     });
 
-    // Mock active-goal.json with OpenSpec link AND direct goal
     mockReadFileSync.mockImplementation((filePath: string | Buffer | URL) => {
       const pathStr = filePath.toString();
       if (pathStr.includes('active-goal.json')) {
@@ -433,9 +487,7 @@ describe('priority cascade', () => {
           goal: 'Direct Goal',
           summary: 'Direct Goal',
           fields: {},
-          linkedArtifacts: {
-            openspec: 'priority-test',
-          },
+          linkedArtifacts: { openspec: 'priority-test' },
         });
       }
       if (pathStr.includes('proposal.md')) {

@@ -460,10 +460,10 @@
     "subworkflow_experiment_parent": {
       "entityId": "subworkflow_experiment_parent",
       "entityType": "n8n-workflow",
-      "entityPath": "workflows/servicetitan/specs/subworkflow_experiment_parent/",
+      "entityPath": "workflows/servicetitan/workflows/subworkflow_experiment_parent.json",
       "entityName": "subworkflow_experiment_parent",
-      "workflowId": null,
-      "status": "local-tested",
+      "workflowId": "hGUEGUZIGQYJKijD",
+      "status": "live-verified",
       "version": "1.0.0",
       "novelInputHashes": [
         "exp_parent_hash_001",
@@ -514,10 +514,10 @@
     "subworkflow_experiment_alpha": {
       "entityId": "subworkflow_experiment_alpha",
       "entityType": "n8n-workflow",
-      "entityPath": "workflows/servicetitan/specs/subworkflow_experiment_alpha/",
+      "entityPath": "workflows/servicetitan/workflows/subworkflow_experiment_alpha.json",
       "entityName": "subworkflow_experiment_alpha",
-      "workflowId": null,
-      "status": "local-tested",
+      "workflowId": "PYqJ2TemYrb0h7M4",
+      "status": "live-verified",
       "version": "1.0.0",
       "novelInputHashes": [
         "exp_alpha_hash_001",
