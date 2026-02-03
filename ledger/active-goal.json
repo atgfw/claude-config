@@ -1,22 +1,10 @@
 {
-  "goal": "Implement unified goal injection across all Claude Code message types and external systems",
-  "fields": {
-    "focus": "Implement unified goal injection system",
-    "who": "Claude Code sessions, GitHub issues, OpenSpec proposals, Claude Code .md plans, and their respective subtask checklists (session todos, issue body checklists, issue parent/child relationships, OpenSpec todos, plan todos)",
-    "what": "Inject identical structured goal context into every message, artifact, and checklist item",
-    "when": "every turn, every hook, every create/update/delete of any artifact; prompt user with soft suggestion to define/hydrate goal when missing or inconsistent across artifacts",
-    "where": "C:/Users/codya/.claude/hooks/src/hooks/goal_injector.ts; C:/Users/codya/.claude/hooks/src/hooks/goal_compliance_gate.ts; C:/Users/codya/.claude/ledger/active-goal.json",
-    "why": "maintain focus and traceability across all systems uniformly; ensure no work proceeds without explicit goal alignment",
-    "how": "shared formatGoalContext() injected via additionalContext in all hook event types using TypeScript 5.x, bun runtime, vitest for testing",
-    "which": "C:/Users/codya/.claude/hooks/src/hooks/goal_injector.ts; C:/Users/codya/.claude/hooks/src/hooks/goal_compliance_gate.ts; C:/Users/codya/.claude/hooks/src/session/goal_stack.ts; C:/Users/codya/.claude/hooks/src/schema/task_specification.ts; C:/Users/codya/.claude/ledger/active-goal.json",
-    "lest": "Goal context must not be lost on session restart; must not allow session to stop with non-compliant goal; must not proceed without explicit goal alignment; prevent drift between session goals and artifact checklists; never inject stale or orphaned goals",
-    "with": "TypeScript 5.x; bun runtime; vitest; hooks framework (runner.js, types.js); session management (goal_stack.ts); CLAUDE.md display template",
-    "measuredBy": "100% compliance score on goal_compliance_gate validation; all 11 Task Specification sections validated; tests passing for goal_injector, goal_compliance_gate, bun_enforcer hooks; session restart successfully hydrates goal stack from active-goal.json"
-  },
-  "summary": "Implement unified goal injection across all Claude Code message types and external systems",
-  "updatedAt": "2026-02-03T14:30:00.000Z",
+  "goal": null,
+  "fields": null,
+  "summary": null,
+  "updatedAt": "2026-02-03T15:00:00.000Z",
   "linkedArtifacts": {
-    "openspec": "refactor-session-scoped-goals",
+    "openspec": null,
     "plan_files": [],
     "github_issues": []
   },
@@ -24,6 +12,10 @@
     {
       "summary": "Unify goal injection across all Claude Code message types and external systems",
       "clearedAt": "2026-02-03T14:13:40.163Z"
+    },
+    {
+      "summary": "Implement unified goal injection across all Claude Code message types and external systems",
+      "clearedAt": "2026-02-03T15:00:00.000Z"
     }
   ]
 }
