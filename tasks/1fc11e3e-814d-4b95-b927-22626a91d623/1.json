@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Add semantic section parsing to extractFieldsFromDescription()",
+  "description": "Enhance field extraction by mapping markdown headers (## Problem, ## Solution, etc.) to goal fields (what, how, etc.). Add after existing regex patterns in goal_auto_derivation.ts.",
+  "activeForm": "Adding semantic section parsing",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

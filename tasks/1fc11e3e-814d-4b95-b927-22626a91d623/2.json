@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "Add pattern detection for implicit field content",
+  "description": "Scan issue body for: file paths → which, \"must not\" phrases → lest, tool names → with, test words → measuredBy",
+  "activeForm": "Adding pattern detection",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

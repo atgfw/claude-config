@@ -1,0 +1,9 @@
+{
+  "id": "3",
+  "subject": "Add git context inference for sparse issue bodies",
+  "description": "When issue body lacks content, infer from git diff, recently modified files, and package.json",
+  "activeForm": "Adding git context inference",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
