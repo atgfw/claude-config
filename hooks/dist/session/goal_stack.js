@@ -323,13 +323,14 @@ export function createIssueGoal(issueNumber, title, body) {
 export function extractFieldsFromDescription(description) {
     const fields = createDefaultFields('');
     // Patterns to match field definitions (handles **WHO:** and WHO: formats)
+    // Using greedy .+ with explicit boundary to capture full line
     const patterns = [
-        ['who', /\*{0,2}WHO\*{0,2}:\s*(.+?)(?:\n|$)/i],
-        ['what', /\*{0,2}WHAT\*{0,2}:\s*(.+?)(?:\n|$)/i],
-        ['when', /\*{0,2}WHEN\*{0,2}:\s*(.+?)(?:\n|$)/i],
-        ['where', /\*{0,2}WHERE\*{0,2}:\s*(.+?)(?:\n|$)/i],
-        ['why', /\*{0,2}WHY\*{0,2}:\s*(.+?)(?:\n|$)/i],
-        ['how', /\*{0,2}HOW\*{0,2}:\s*(.+?)(?:\n|$)/i],
+        ['who', /\*{0,2}WHO\*{0,2}:\s*(.+)$/im],
+        ['what', /\*{0,2}WHAT\*{0,2}:\s*(.+)$/im],
+        ['when', /\*{0,2}WHEN\*{0,2}:\s*(.+)$/im],
+        ['where', /\*{0,2}WHERE\*{0,2}:\s*(.+)$/im],
+        ['why', /\*{0,2}WHY\*{0,2}:\s*(.+)$/im],
+        ['how', /\*{0,2}HOW\*{0,2}:\s*(.+)$/im],
     ];
     for (const [field, pattern] of patterns) {
         const match = description.match(pattern);
