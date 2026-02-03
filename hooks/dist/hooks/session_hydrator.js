@@ -15,6 +15,71 @@ import { registerHook } from '../runner.js';
 import { getClaudeDir, logTerse, logWarn } from '../utils.js';
 import { loadGoal } from './goal_injector.js';
 import { reconcileArtifact } from '../sync/checklist_reconciler.js';
+import { getSessionId, loadGoalStack, saveGoalStack, } from '../session/goal_stack.js';
+/**
+ * Bootstrap session goal stack from global active-goal.json.
+ * Clears stale task goals and pushes the global goal as an epic/issue.
+ */
+function bootstrapGoalStack(sessionId) {
+    const goal = loadGoal();
+    // Load existing stack
+    const stack = loadGoalStack(sessionId);
+    // Clear stale task goals (tasks are ephemeral, don't persist across sessions)
+    const originalLength = stack.stack.length;
+    stack.stack = stack.stack.filter((g) => !g.source.claude_task_id);
+    if (stack.stack.length < originalLength) {
+        logTerse(`[+] Cleared ${originalLength - stack.stack.length} stale task goals`);
+    }
+    // If no goal in active-goal.json, nothing to bootstrap
+    if (!goal.goal && !goal.summary) {
+        if (stack.stack.length > 0) {
+            saveGoalStack(stack);
+        }
+        return null;
+    }
+    // Check if global goal already in stack
+    const globalGoalId = 'global-goal';
+    const existingGlobal = stack.stack.find((g) => g.id === globalGoalId);
+    if (existingGlobal) {
+        // Update if summary changed
+        if (existingGlobal.summary !== (goal.summary ?? goal.goal)) {
+            existingGlobal.summary = goal.summary ?? goal.goal ?? '';
+            existingGlobal.fields = {
+                who: goal.fields.who,
+                what: goal.fields.what,
+                when: goal.fields.when,
+                where: goal.fields.where,
+                why: goal.fields.why,
+                how: goal.fields.how,
+            };
+            saveGoalStack(stack);
+            logTerse(`[+] Updated global goal: ${existingGlobal.summary}`);
+        }
+        return existingGlobal.summary;
+    }
+    // Push global goal as epic (highest level)
+    const globalGoal = {
+        id: globalGoalId,
+        type: 'epic',
+        summary: goal.summary ?? goal.goal ?? '',
+        fields: {
+            who: goal.fields.who,
+            what: goal.fields.what,
+            when: goal.fields.when,
+            where: goal.fields.where,
+            why: goal.fields.why,
+            how: goal.fields.how,
+        },
+        source: { manual: true },
+        pushedAt: new Date().toISOString(),
+        pushedBy: 'SessionStart',
+    };
+    // Push to END of stack (epic is highest level, should be last)
+    stack.stack.push(globalGoal);
+    saveGoalStack(stack);
+    logTerse(`[+] Bootstrapped goal: ${globalGoal.summary}`);
+    return globalGoal.summary;
+}
 /**
  * Resolve a plan file path to absolute.
  * Supports: absolute paths, ~/ prefix, relative to ~/.claude
@@ -134,11 +199,25 @@ async function hydrateLinkedArtifacts(linked) {
 }
 /**
  * SessionStart hook - auto-hydrate checklist state from linked artifacts.
+ * Also bootstraps the session goal stack from global active-goal.json.
  */
 async function sessionHydrator(_input) {
+    const sessionId = getSessionId();
+    const messages = [];
+    // Bootstrap goal stack from global active-goal.json
+    const bootstrappedGoal = bootstrapGoalStack(sessionId);
+    if (bootstrappedGoal) {
+        messages.push(`Goal: ${bootstrappedGoal}`);
+    }
     const goal = loadGoal();
-    // No linked artifacts - nothing to hydrate
+    // No linked artifacts - return with just goal bootstrap info
     if (!goal.linkedArtifacts) {
+        if (messages.length > 0) {
+            return {
+                hookEventName: 'SessionStart',
+                additionalContext: `[Session Bootstrap] ${messages.join('. ')}`,
+            };
+        }
         return { hookEventName: 'SessionStart' };
     }
     const linked = goal.linkedArtifacts;
@@ -146,12 +225,16 @@ async function sessionHydrator(_input) {
         (linked.plan_files && linked.plan_files.length > 0) ||
         (linked.github_issues && linked.github_issues.length > 0);
     if (!hasLinks) {
+        if (messages.length > 0) {
+            return {
+                hookEventName: 'SessionStart',
+                additionalContext: `[Session Bootstrap] ${messages.join('. ')}`,
+            };
+        }
         return { hookEventName: 'SessionStart' };
     }
     // Hydrate all linked artifacts
     const { hydrated, failed } = await hydrateLinkedArtifacts(linked);
-    // Build context message
-    const messages = [];
     if (hydrated.length > 0) {
         messages.push(`Hydrated: ${hydrated.join(', ')}`);
     }
@@ -161,7 +244,7 @@ async function sessionHydrator(_input) {
     if (messages.length > 0) {
         return {
             hookEventName: 'SessionStart',
-            additionalContext: `[Session Hydration] ${messages.join('. ')}`,
+            additionalContext: `[Session Bootstrap] ${messages.join('. ')}`,
         };
     }
     return { hookEventName: 'SessionStart' };

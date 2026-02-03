@@ -260,14 +260,17 @@ async function sessionHydrator(_input: SessionStartInput): Promise<SessionStartO
     (linked.github_issues && linked.github_issues.length > 0);
 
   if (!hasLinks) {
+    if (messages.length > 0) {
+      return {
+        hookEventName: 'SessionStart',
+        additionalContext: `[Session Bootstrap] ${messages.join('. ')}`,
+      };
+    }
     return { hookEventName: 'SessionStart' };
   }
 
   // Hydrate all linked artifacts
   const { hydrated, failed } = await hydrateLinkedArtifacts(linked);
-
-  // Build context message
-  const messages: string[] = [];
 
   if (hydrated.length > 0) {
     messages.push(`Hydrated: ${hydrated.join(', ')}`);
@@ -280,7 +283,7 @@ async function sessionHydrator(_input: SessionStartInput): Promise<SessionStartO
   if (messages.length > 0) {
     return {
       hookEventName: 'SessionStart',
-      additionalContext: `[Session Hydration] ${messages.join('. ')}`,
+      additionalContext: `[Session Bootstrap] ${messages.join('. ')}`,
     };
   }
 

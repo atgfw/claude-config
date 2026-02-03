@@ -12,14 +12,19 @@ import type { ActiveGoal } from '../../src/hooks/goal_injector.js';
 
 let tempDir: string;
 let origClaudeDir: string | undefined;
+let origSessionId: string | undefined;
+const TEST_SESSION_ID = 'test-session-hydrator';
 
 beforeAll(() => {
   origClaudeDir = process.env['CLAUDE_DIR'];
+  origSessionId = process.env['CLAUDE_SESSION_ID'];
   tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'session-hydrator-test-'));
   fs.mkdirSync(path.join(tempDir, 'ledger'), { recursive: true });
   fs.mkdirSync(path.join(tempDir, 'openspec', 'changes', 'test-change'), { recursive: true });
   fs.mkdirSync(path.join(tempDir, 'plans'), { recursive: true });
+  fs.mkdirSync(path.join(tempDir, 'sessions', TEST_SESSION_ID), { recursive: true });
   process.env['CLAUDE_DIR'] = tempDir;
+  process.env['CLAUDE_SESSION_ID'] = TEST_SESSION_ID;
 });
 
 afterAll(() => {
@@ -28,12 +33,22 @@ afterAll(() => {
   } else {
     delete process.env['CLAUDE_DIR'];
   }
+  if (origSessionId !== undefined) {
+    process.env['CLAUDE_SESSION_ID'] = origSessionId;
+  } else {
+    delete process.env['CLAUDE_SESSION_ID'];
+  }
   fs.rmSync(tempDir, { recursive: true, force: true });
 });
 
 beforeEach(() => {
   const emptyRegistry: SyncRegistry = { version: 1, entries: [] };
   saveRegistry(emptyRegistry);
+  // Clear session goal stack
+  const stackPath = path.join(tempDir, 'sessions', TEST_SESSION_ID, 'goal-stack.json');
+  if (fs.existsSync(stackPath)) {
+    fs.unlinkSync(stackPath);
+  }
 });
 
 function writeGoal(goal: ActiveGoal): void {
@@ -42,7 +57,7 @@ function writeGoal(goal: ActiveGoal): void {
 }
 
 describe('sessionHydrator', () => {
-  it('returns empty when no linked artifacts', async () => {
+  it('bootstraps goal when no linked artifacts', async () => {
     writeGoal({
       goal: 'Test goal',
       fields: { who: '', what: '', when: '', where: '', why: '', how: '' },
@@ -53,10 +68,11 @@ describe('sessionHydrator', () => {
 
     const result = await sessionHydrator({});
     expect(result.hookEventName).toBe('SessionStart');
-    expect(result.additionalContext).toBeUndefined();
+    // Goal is bootstrapped even without linked artifacts
+    expect(result.additionalContext).toContain('Goal: Test goal');
   });
 
-  it('returns empty when linkedArtifacts is empty', async () => {
+  it('bootstraps goal when linkedArtifacts is empty', async () => {
     writeGoal({
       goal: 'Test goal',
       fields: { who: '', what: '', when: '', where: '', why: '', how: '' },
@@ -68,7 +84,8 @@ describe('sessionHydrator', () => {
 
     const result = await sessionHydrator({});
     expect(result.hookEventName).toBe('SessionStart');
-    expect(result.additionalContext).toBeUndefined();
+    // Goal is bootstrapped even with empty linked artifacts
+    expect(result.additionalContext).toContain('Goal: Test goal');
   });
 
   it('hydrates openspec tasks on session start', async () => {

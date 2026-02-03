@@ -33,6 +33,7 @@ declare function hydrateLinkedArtifacts(linked: LinkedArtifacts): Promise<{
 }>;
 /**
  * SessionStart hook - auto-hydrate checklist state from linked artifacts.
+ * Also bootstraps the session goal stack from global active-goal.json.
  */
 declare function sessionHydrator(_input: SessionStartInput): Promise<SessionStartOutput>;
 export { sessionHydrator, hydrateLinkedArtifacts, hydrateOpenSpec, hydratePlanFile, hydrateGitHubIssue, };
