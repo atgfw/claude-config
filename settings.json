@@ -355,6 +355,15 @@
         "hooks": [
           {
             "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" goal-compliance-gate"
+          }
+        ],
+        "description": "BLOCK: Validates goal compliance with Task Specification v1.0 before session stop"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
             "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" goal-injector-stop"
           }
         ],
