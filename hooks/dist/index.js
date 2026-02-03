@@ -101,6 +101,7 @@ export { webhookMethodsValidatorHook } from './hooks/webhook_methods_validator.j
 export { evaluationGateExpanderHook } from './hooks/evaluation_gate_expander.js';
 export { goalInjectorHook, goalInjectorPostToolUse, goalInjectorSessionStart, getActiveGoalContext, } from './hooks/goal_injector.js';
 export { taskCompletionGateHook } from './hooks/task_completion_gate.js';
+export { taskGoalSyncCreate, taskGoalSyncUpdate } from './hooks/task_goal_sync.js';
 export { cloudObjectCreationGateHook } from './governance/cloud_object_creation_gate.js';
 export { llmModelValidatorHook } from './governance/llm_model_validator.js';
 // Import governance hooks to register them
@@ -128,6 +129,8 @@ import './hooks/unified_post_tool.js';
 import './hooks/unified_prompt_handler.js';
 // Goal injector (sharp pointed goal every turn)
 import './hooks/goal_injector.js';
+// Task-goal synchronization (session-scoped goals from tasks)
+import './hooks/task_goal_sync.js';
 // Context summary trigger (replaces auto-compact)
 import './hooks/context-summary-trigger.js';
 // Git hooks (GitHub framework)

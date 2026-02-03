@@ -3,7 +3,7 @@
   "subject": "Write tests for session goal system",
   "description": "Create test files:\n- hooks/tests/session/goal_stack.test.ts - unit tests\n- hooks/tests/hooks/task_goal_sync.test.ts - integration tests\nRun with npm test to validate",
   "activeForm": "Writing tests for goal system",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }

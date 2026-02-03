@@ -3,7 +3,12 @@
   "subject": "Modify session_start.ts to initialize session goals",
   "description": "Add Step 0.5 to session_start.ts:\n- Create session directory\n- Set CLAUDE_SESSION_ID env var\n- Auto-detect GitHub issue from cwd\n- Push issue as parent goal if detected",
   "activeForm": "Modifying session_start.ts",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "evidencePath": "hooks/src/hooks/session_start.ts",
+    "verbatim": "async function initializeSessionGoals(sessionId: string, workingDirectory: string | undefined",
+    "verification": "Added initializeSessionGoals function with session ID env var and issue detection"
+  }
 }

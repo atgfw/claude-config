@@ -22,6 +22,13 @@ import { closeIssue } from '../github/issue_crud.js';
 import { auditFolderHygiene } from '../session/folder_hygiene_auditor.js';
 import { getStats as getLedgerStats } from '../ledger/correction_ledger.js';
 import { formatForSessionStart as formatEscalationReport } from '../escalation/reporter.js';
+import {
+  getSessionId,
+  setSessionIdEnv,
+  ensureSessionDir,
+  pushGoal,
+  createIssueGoal,
+} from '../session/goal_stack.js';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { execSync } from 'node:child_process';
@@ -174,6 +181,81 @@ ELEVENLABS_API_KEY=
 `;
 
 /**
+ * Initialize session goal stack and detect GitHub issue context.
+ */
+async function initializeSessionGoals(
+  sessionId: string,
+  workingDirectory: string | undefined,
+  _issues: string[],
+  successes: string[]
+): Promise<void> {
+  log('Step 0: Session Goal Stack');
+  log('-'.repeat(30));
+
+  // Create session directory
+  ensureSessionDir(sessionId);
+
+  // Set environment variable for subsequent hooks
+  setSessionIdEnv(sessionId);
+  log(`[+] Session ID: ${sessionId.substring(0, 16)}...`);
+
+  // Detect GitHub issue from branch name or working directory
+  const issueContext = detectGitHubIssueFromContext(workingDirectory);
+  if (issueContext) {
+    const issueGoal = createIssueGoal(issueContext.number, issueContext.title, issueContext.body);
+    pushGoal(sessionId, issueGoal);
+    log(`[+] Auto-pushed goal from issue #${issueContext.number}`);
+    successes.push(`Goal from #${issueContext.number}`);
+  } else {
+    log('[--] No GitHub issue context detected');
+  }
+
+  log('');
+}
+
+/**
+ * Detect GitHub issue from git branch name or working directory.
+ */
+function detectGitHubIssueFromContext(
+  _workingDirectory: string | undefined
+): { number: number; title: string; body?: string } | null {
+  try {
+    // Try to get current branch name
+    const branch = execSync('git rev-parse --abbrev-ref HEAD', {
+      encoding: 'utf-8',
+      stdio: 'pipe',
+    }).trim();
+
+    // Look for issue number pattern in branch name (e.g., "feature/123-description" or "issue-42")
+    const issueMatch = branch.match(/(?:^|[/-])(\d+)(?:[/-]|$)/);
+    if (!issueMatch?.[1]) {
+      return null;
+    }
+
+    const issueNumber = Number.parseInt(issueMatch[1], 10);
+    if (issueNumber <= 0) {
+      return null;
+    }
+
+    // Fetch issue details from GitHub
+    const issueJson = execSync(`gh issue view ${issueNumber} --json title,body`, {
+      encoding: 'utf-8',
+      stdio: 'pipe',
+      timeout: 10_000,
+    });
+
+    const issue = JSON.parse(issueJson) as { title: string; body?: string };
+    return {
+      number: issueNumber,
+      title: issue.title,
+      body: issue.body,
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Session-Start Hook Implementation
  *
  * Performs comprehensive session initialization:
@@ -183,14 +265,18 @@ ELEVENLABS_API_KEY=
  * 4. Subagent availability verification
  * 5. Session validation caching
  */
-export async function sessionStartHook(_input: SessionStartInput): Promise<SessionStartOutput> {
+export async function sessionStartHook(input: SessionStartInput): Promise<SessionStartOutput> {
   const issues: string[] = [];
   const successes: string[] = [];
 
   logSeparator('SESSION START - MCP Server Setup');
   log('');
 
-  // Step 0: Load Previous Conversation Summary
+  // Step 0: Initialize Session Goal Stack
+  const sessionId = getSessionId(input);
+  await initializeSessionGoals(sessionId, input.working_directory, issues, successes);
+
+  // Step 0.5: Load Previous Conversation Summary
   const previousSummary = await loadConversationSummary(issues, successes);
 
   // Step 1: Environment Setup

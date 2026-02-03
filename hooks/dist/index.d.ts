@@ -81,6 +81,7 @@ export { webhookMethodsValidatorHook } from './hooks/webhook_methods_validator.j
 export { evaluationGateExpanderHook } from './hooks/evaluation_gate_expander.js';
 export { goalInjectorHook, goalInjectorPostToolUse, goalInjectorSessionStart, getActiveGoalContext, } from './hooks/goal_injector.js';
 export { taskCompletionGateHook } from './hooks/task_completion_gate.js';
+export { taskGoalSyncCreate, taskGoalSyncUpdate } from './hooks/task_goal_sync.js';
 export { cloudObjectCreationGateHook } from './governance/cloud_object_creation_gate.js';
 export { llmModelValidatorHook } from './governance/llm_model_validator.js';
 import './governance/n8n_workflow_governance.js';
@@ -105,6 +106,7 @@ import './hooks/unified_write_gate.js';
 import './hooks/unified_post_tool.js';
 import './hooks/unified_prompt_handler.js';
 import './hooks/goal_injector.js';
+import './hooks/task_goal_sync.js';
 import './hooks/context-summary-trigger.js';
 import './git/secret_scanner.js';
 import './git/commit_message_validator.js';

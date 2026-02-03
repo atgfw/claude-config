@@ -1,15 +1,19 @@
 /**
- * Goal Injector - Injects sharp pointed goal into ALL hook event types
+ * Goal Injector - Injects hierarchical goal context into ALL hook event types
  * Registers for: UserPromptSubmit, PostToolUse, SessionStart
  * Ensures every turn has goal context via additionalContext.
  *
- * Goal management is EXPLICIT via direct file edit only.
- * This hook is READ-ONLY - it never modifies the goal file.
+ * Priority:
+ * 1. Global override (active-goal.json with explicit goal) - backward compat
+ * 2. Session-scoped goal stack (hierarchical)
+ *
+ * This hook is READ-ONLY - it never modifies goal files.
  */
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { getClaudeDir } from '../utils.js';
 import { registerHook } from '../runner.js';
+import { getSessionId, formatGoalHierarchy, hasGlobalOverride, loadGlobalOverride, loadGoalStack, } from '../session/goal_stack.js';
 const GOAL_FIELDS = ['who', 'what', 'when', 'where', 'why', 'how'];
 export function getGoalPath() {
     return path.join(getClaudeDir(), 'ledger', 'active-goal.json');
@@ -44,7 +48,19 @@ export function saveGoal(goal) {
     const goalPath = getGoalPath();
     fs.writeFileSync(goalPath, JSON.stringify(goal, null, 2) + '\n', 'utf-8');
 }
-export function formatGoalContext(goal) {
+/**
+ * Format goal context using the new hierarchical session-scoped system.
+ * Falls back to global override if no session goals exist.
+ */
+export function formatGoalContext(goal, sessionId) {
+    // Try session-scoped hierarchy first
+    if (sessionId) {
+        const stack = loadGoalStack(sessionId);
+        if (stack.stack.length > 0 || hasGlobalOverride()) {
+            return formatGoalHierarchy(sessionId);
+        }
+    }
+    // Fall back to legacy global goal format
     if (!goal.goal && !goal.summary)
         return '';
     const lines = [`ACTIVE GOAL: ${goal.summary ?? goal.goal}`];
@@ -55,6 +71,34 @@ export function formatGoalContext(goal) {
     }
     return lines.join('\n');
 }
+/**
+ * Get the best available goal context.
+ * Prefers session-scoped hierarchy, falls back to global.
+ */
+function getGoalContextForHook(sessionId) {
+    // Check session stack first
+    if (sessionId) {
+        const stack = loadGoalStack(sessionId);
+        if (stack.stack.length > 0) {
+            return formatGoalHierarchy(sessionId);
+        }
+    }
+    // Check global override
+    if (hasGlobalOverride()) {
+        const globalGoal = loadGlobalOverride();
+        if (globalGoal) {
+            // Format as simple hierarchy with just the global goal
+            const sessionIdToUse = sessionId ?? getSessionId();
+            return formatGoalHierarchy(sessionIdToUse);
+        }
+    }
+    // Legacy fallback
+    const goal = loadGoal();
+    if (goal.goal || goal.summary) {
+        return formatGoalContext(goal, sessionId);
+    }
+    return '';
+}
 export function hasDehydratedFields(goal) {
     return GOAL_FIELDS.some((f) => goal.fields[f] === 'unknown');
 }
@@ -62,10 +106,10 @@ export function hasDehydratedFields(goal) {
  * UserPromptSubmit hook - inject goal context on every user prompt
  * READ-ONLY: Does not modify goal file
  */
-async function goalInjector(_input) {
-    const goal = loadGoal();
-    if (goal.goal || goal.summary) {
-        const context = formatGoalContext(goal);
+async function goalInjector(input) {
+    const sessionId = getSessionId(input);
+    const context = getGoalContextForHook(sessionId);
+    if (context) {
         return { hookEventName: 'UserPromptSubmit', additionalContext: context };
     }
     return { hookEventName: 'UserPromptSubmit' };
@@ -75,11 +119,33 @@ async function goalInjector(_input) {
  * Returns null if no goal is active.
  */
 export function getActiveGoalContext() {
+    // Check session stack first
+    const sessionId = getSessionId();
+    const stack = loadGoalStack(sessionId);
+    if (stack.stack.length > 0) {
+        const current = stack.stack[0];
+        if (current) {
+            return {
+                summary: current.summary,
+                fields: { ...current.fields },
+            };
+        }
+    }
+    // Check global override
+    const globalGoal = loadGlobalOverride();
+    if (globalGoal) {
+        return {
+            summary: globalGoal.summary,
+            fields: { ...globalGoal.fields },
+        };
+    }
+    // Legacy fallback
     const goal = loadGoal();
     if (!goal.goal && !goal.summary)
         return null;
+    const summary = goal.summary ?? goal.goal ?? '';
     return {
-        summary: goal.summary ?? goal.goal,
+        summary,
         fields: { ...goal.fields },
     };
 }
@@ -87,9 +153,10 @@ export function getActiveGoalContext() {
  * PostToolUse hook - inject goal context after every tool use
  */
 async function goalInjectorPostToolUse(_input) {
-    const goal = loadGoal();
-    if (goal.goal || goal.summary) {
-        const context = formatGoalContext(goal);
+    // PostToolUseInput doesn't have session_id, derive from env
+    const sessionId = getSessionId();
+    const context = getGoalContextForHook(sessionId);
+    if (context) {
         return {
             hookSpecificOutput: {
                 hookEventName: 'PostToolUse',
@@ -102,10 +169,10 @@ async function goalInjectorPostToolUse(_input) {
 /**
  * SessionStart hook - inject goal context at session start
  */
-async function goalInjectorSessionStart(_input) {
-    const goal = loadGoal();
-    if (goal.goal || goal.summary) {
-        const context = formatGoalContext(goal);
+async function goalInjectorSessionStart(input) {
+    const sessionId = getSessionId(input);
+    const context = getGoalContextForHook(sessionId);
+    if (context) {
         return { hookEventName: 'SessionStart', additionalContext: context };
     }
     return { hookEventName: 'SessionStart' };

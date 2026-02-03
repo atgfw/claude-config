@@ -14,6 +14,6 @@ import type { SessionStartInput, SessionStartOutput } from '../types.js';
  * 4. Subagent availability verification
  * 5. Session validation caching
  */
-export declare function sessionStartHook(_input: SessionStartInput): Promise<SessionStartOutput>;
+export declare function sessionStartHook(input: SessionStartInput): Promise<SessionStartOutput>;
 export default sessionStartHook;
 //# sourceMappingURL=session_start.d.ts.map

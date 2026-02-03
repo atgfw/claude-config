@@ -3,7 +3,12 @@
   "subject": "Modify goal_injector.ts to use session stack",
   "description": "Update goal_injector.ts to:\n- Import goal_stack.ts functions\n- Check global override first (backward compat)\n- Fall back to session stack\n- Update formatGoalContext() for hierarchy",
   "activeForm": "Modifying goal_injector.ts",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "evidencePath": "hooks/src/hooks/goal_injector.ts",
+    "verbatim": "import { getSessionId, formatGoalHierarchy, hasGlobalOverride, loadGlobalOverride, loadGoalStack } from '../session/goal_stack.js'",
+    "verification": "File updated to use session stack with global fallback"
+  }
 }

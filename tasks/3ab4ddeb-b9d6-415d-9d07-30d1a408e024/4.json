@@ -3,7 +3,12 @@
   "subject": "Create task_goal_sync.ts hook",
   "description": "Create hooks/src/hooks/task_goal_sync.ts:\n- On TaskCreate: push task as goal\n- On TaskUpdate in_progress: push if not on stack\n- On TaskUpdate completed: pop from stack\n- Register hooks in settings.json",
   "activeForm": "Creating task_goal_sync.ts",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "evidencePath": "hooks/src/hooks/task_goal_sync.ts",
+    "verbatim": "registerHook('task-goal-sync-create', 'PreToolUse', taskGoalSyncCreate)",
+    "verification": "Build succeeded, hook registered in index.ts and settings.json"
+  }
 }
