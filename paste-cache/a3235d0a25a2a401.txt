@@ -1,0 +1,36 @@
+PS C:\Users\codya\coding\n8n_n8n\workflows\llm_data_collection> claude --dangerously-skip-permissions --continue
+
+ ▐▛███▜▌   Claude Code v2.1.29
+▝▜█████▛▘  Opus 4.5 · Claude API
+  ▘▘ ▝▝    ~\coding\n8n_n8n\workflows\llm_data_collection
+
+❯ /clear
+  ⎿  (no content)
+
+❯ What's the goal? Testing session start
+
+● Read 1 file (ctrl+o to expand)
+
+● Session start confirmed working. The active goal is loaded.
+
+  Current Goal: Unify goal injection across all Claude Code message types and external systems
+
+  This involves ensuring consistent goal context injection across:
+  - Claude Code sessions (UserPromptSubmit, PostToolUse, Stop, SessionStart hooks)
+  - GitHub issues (body checklists, parent/child relationships)
+  - OpenSpec proposals
+  - Claude Code .md plans
+  - Session todo headers
+
+  The mechanism is a shared formatGoalContext() function injected via additionalContext in all hook event types.
+
+  ---ACTIVE GOAL: Unify goal injection across all Claude Code message types and external systems
+  - WHO: Claude Code sessions, GitHub issues, OpenSpec proposals, Claude Code .md plans, and their respective subtask checklists
+  (session todos, issue body checklists, issue parent/child relationships, OpenSpec todos, plan todos)
+  - WHAT: Inject identical structured goal context into every message, artifact, and checklist item
+  - WHEN: every turn, every hook, every create/update/delete of any artifact; prompt user with soft suggestion to define/hydrate
+  goal when missing or inconsistent across artifacts
+  - WHERE: UserPromptSubmit, PostToolUse, Stop, SessionStart hooks; session todo headers; GitHub issue bodies; OpenSpec proposal
+  bodies; Claude Code .md plan bodies
+  - WHY: maintain focus and traceability across all systems uniformly; ensure no work proceeds without explicit goal alignment
+  - HOW: shared formatGoalContext() injected via additionalContext in all hook event types
