@@ -176,26 +176,6 @@
         "description": "WARN: Validates branch names follow naming conventions. See CLAUDE.md Branch Naming"
       },
       {
-        "matcher": "TaskCreate",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" task-goal-sync-create"
-          }
-        ],
-        "description": "Auto-push goal on task creation for session-scoped goal tracking"
-      },
-      {
-        "matcher": "TaskUpdate",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" task-goal-sync-update"
-          }
-        ],
-        "description": "Sync goal stack with task status changes (in_progress pushes, completed pops)"
-      },
-      {
         "matcher": "TaskUpdate",
         "hooks": [
           {
@@ -312,6 +292,16 @@
           }
         ],
         "description": "Validates goal context in OpenSpec proposals and plan files"
+      },
+      {
+        "matcher": "TaskCreate|TaskUpdate",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" task-goal-sync"
+          }
+        ],
+        "description": "Syncs task status with session goal stack (in_progress pushes, completed pops)"
       }
     ],
     "UserPromptSubmit": [

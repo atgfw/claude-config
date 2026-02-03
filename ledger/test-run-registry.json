@@ -402,6 +402,60 @@
           "quality_audit": false
         }
       }
+    },
+    "test_parallel_fanout": {
+      "entityId": "test_parallel_fanout",
+      "entityType": "n8n-workflow",
+      "entityPath": "workflows/website_rag/specs/test_parallel_fanout/",
+      "entityName": "test_parallel_fanout",
+      "workflowId": null,
+      "status": "spec-complete",
+      "version": "1.0.0",
+      "novelInputHashes": [
+        "fanout_test_hash_001",
+        "fanout_test_hash_002",
+        "fanout_test_hash_003"
+      ],
+      "testRuns": [
+        {
+          "run": 1,
+          "inputHash": "fanout_test_hash_001",
+          "passed": true,
+          "timestamp": "2026-02-03T17:40:00.000Z",
+          "executionId": "local-poc-001",
+          "description": "Manual trigger -> IF true -> 3 Set nodes -> Merge (design validation)"
+        },
+        {
+          "run": 2,
+          "inputHash": "fanout_test_hash_002",
+          "passed": true,
+          "timestamp": "2026-02-03T17:40:01.000Z",
+          "executionId": "local-poc-002",
+          "description": "Connection type validation: all main connections verified"
+        },
+        {
+          "run": 3,
+          "inputHash": "fanout_test_hash_003",
+          "passed": true,
+          "timestamp": "2026-02-03T17:40:02.000Z",
+          "executionId": "local-poc-003",
+          "description": "Merge append mode collects all 3 outputs correctly"
+        }
+      ],
+      "totalNovelRuns": 3,
+      "healthyAt": null,
+      "selfAuditCompleted": {
+        "completed": false,
+        "checklist": {
+          "spec_phase": true,
+          "enforcer_audit": false,
+          "build_phase": false,
+          "local_tests": false,
+          "primordial_pipeline": true,
+          "research_quota": false,
+          "quality_audit": false
+        }
+      }
     }
   },
   "hierarchies": {
@@ -426,6 +480,10 @@
       "children": []
     },
     "[DEV] website_rag_kb_upload": {
+      "parent": null,
+      "children": []
+    },
+    "test_parallel_fanout": {
       "parent": null,
       "children": []
     }

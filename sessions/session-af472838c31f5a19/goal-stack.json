@@ -1,0 +1,26 @@
+{
+  "session_id": "session-af472838c31f5a19",
+  "working_directory": "C:\\Users\\codya\\.claude\\hooks",
+  "stack": [
+    {
+      "id": "task-999",
+      "type": "task",
+      "summary": "Test task",
+      "fields": {
+        "who": "Claude Code session",
+        "what": "Test task",
+        "when": "Current task",
+        "where": "C:\\Users\\codya\\.claude\\hooks",
+        "why": "Task in progress",
+        "how": "Following implementation plan"
+      },
+      "source": {
+        "claude_task_id": "999"
+      },
+      "pushedAt": "2026-02-03T17:44:30.225Z",
+      "pushedBy": "TaskUpdate"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-03T17:44:30.226Z"
+}

@@ -3,7 +3,7 @@
   "subject": "Fix Review Request customer enrichment data flow",
   "description": "P0 Critical: The enrich_with_customer_data node reads from wrong source - expects array but gets individual records. Fix the data flow logic.",
   "activeForm": "Fixing Review Request enrichment",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
