@@ -10,9 +10,11 @@
         "who": "Claude Code sessions, GitHub issues, OpenSpec proposals, Claude Code .md plans, and their respective subtask checklists (session todos, issue body checklists, issue parent/child relationships, OpenSpec todos, plan todos)",
         "what": "Inject identical structured goal context into every message, artifact, and checklist item",
         "when": "every turn, every hook, every create/update/delete of any artifact; prompt user with soft suggestion to define/hydrate goal when missing or inconsistent across artifacts",
-        "where": "UserPromptSubmit, PostToolUse, Stop, SessionStart hooks; session todo headers; GitHub issue bodies; OpenSpec proposal bodies; Claude Code .md plan bodies",
+        "where": "UserPromptSubmit, PostToolUse, Stop, SessionStart hooks; session todo headers; GitHub issue bodies; OpenSpec proposal bodies; Claude Code .md plan bodies; hooks/src/hooks/goal_injector.ts; hooks/src/hooks/goal_compliance_gate.ts; hooks/src/session/goal_stack.ts",
         "why": "maintain focus and traceability across all systems uniformly; ensure no work proceeds without explicit goal alignment",
-        "how": "shared formatGoalContext() injected via additionalContext in all hook event types"
+        "how": "shared formatGoalContext() injected via additionalContext in all hook event types using TypeScript hooks and bun runtime",
+        "lest": "Goal context must not be lost on session restart; must not allow session to stop with non-compliant goal; must not proceed without explicit goal alignment; prevent drift between session goals and artifact checklists; never inject stale or orphaned goals",
+        "measuredBy": "100% compliance score on goal_compliance_gate validation; all 11 Task Specification sections validated; tests passing for goal_injector, goal_compliance_gate, bun_enforcer hooks; session restart successfully hydrates goal stack from active-goal.json"
       },
       "source": {
         "manual": true
@@ -22,5 +24,5 @@
     }
   ],
   "history": [],
-  "lastModified": "2026-02-03T18:45:01.912Z"
+  "lastModified": "2026-02-03T19:15:00.000Z"
 }
