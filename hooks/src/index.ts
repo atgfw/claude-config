@@ -206,6 +206,13 @@ export {
 export { taskCompletionGateHook } from './hooks/task_completion_gate.js';
 export { taskGoalSync, getCurrentTaskGoal, isTaskCurrentFocus } from './hooks/task_goal_sync.js';
 export {
+  goalAutoDerivationSessionStart,
+  goalAutoDerivationPromptSubmit,
+  deriveGoalFromContext,
+  hydrateGoalStack,
+  parseGitBranch,
+} from './hooks/goal_auto_derivation.js';
+export {
   taskSpecValidatorHook,
   validateTaskSpec,
   validateMinimalSpec,
@@ -259,6 +266,9 @@ import './hooks/checklist_sync_hooks.js';
 
 // Task-goal synchronization (session-scoped goals from tasks)
 import './hooks/task_goal_sync.js';
+
+// Goal auto-derivation (auto-populates goals from work context)
+import './hooks/goal_auto_derivation.js';
 
 // Task specification validator (enforces 11-section schema)
 import './hooks/task_spec_validator.js';
