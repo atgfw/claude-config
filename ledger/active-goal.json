@@ -10,6 +10,11 @@
   },
   "summary": "Unify goal injection across all Claude Code message types and external systems",
   "updatedAt": "2026-02-03T14:30:00.000Z",
+  "linkedArtifacts": {
+    "openspec": "add-unified-goal-injection",
+    "plan_files": [],
+    "github_issues": []
+  },
   "history": [
     {
       "summary": "Unify goal injection across all Claude Code message types and external systems",
