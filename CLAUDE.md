@@ -6,6 +6,32 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is the **Spinal Cord** - a centralized nervous system that superintends the operation of ALL projects through deterministic, authoritative control. Every human corrective action represents a failure: a missing hook, an incomplete rule, or a flawed enforcement mechanism.
 
+## Active Goal Display (MANDATORY)
+
+**EVERY response MUST end with the active goal from `~/.claude/ledger/active-goal.json`.**
+
+Format (append to end of every message):
+
+```
+---
+**ACTIVE GOAL:** {summary}
+- **WHO:** {fields.who}
+- **WHAT:** {fields.what}
+- **WHEN:** {fields.when}
+- **WHERE:** {fields.where}
+- **WHY:** {fields.why}
+- **HOW:** {fields.how}
+```
+
+If no goal is set (goal is null), append instead:
+
+```
+---
+**NO ACTIVE GOAL SET.** Define one before proceeding with work.
+```
+
+This is non-negotiable. No exceptions. Every single response.
+
 ## Setup
 
 ```bash
