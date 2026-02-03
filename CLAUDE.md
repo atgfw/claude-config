@@ -123,6 +123,7 @@ Setup will:
 | **Default Branch** | `branch_naming_validator` | STRICT: Blocks `master`, enforces `main` only |
 | **Branch Naming** | `branch_naming_validator` | WARN: prefix/description format recommended |
 | **Context-optimized output** | `utils.ts` verbosity system | Terse logging to minimize context consumption |
+| **Full file paths required** | `full_path_validator` | STRICT: All file paths must be absolute, not relative |
 
 ## Context-Optimized Output Strategy
 
