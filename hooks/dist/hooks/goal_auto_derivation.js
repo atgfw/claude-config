@@ -207,7 +207,6 @@ function extractFieldsFromGitHubIssue(issueNumber, title, body, labels) {
     const explicitFields = extractFieldsFromDescription(body);
     // Check if there are REAL explicit fields (not fallback garbage like "## Problem")
     // A real explicit field would be from WHO:/WHAT:/etc markers in the text
-    const passingFields = [];
     const hasRealExplicitFields = Object.entries(explicitFields).some(([key, v]) => {
         // Reject all placeholder patterns
         if (v === 'unknown' ||
@@ -236,20 +235,15 @@ function extractFieldsFromGitHubIssue(issueNumber, title, body, labels) {
         if (key === 'how' && v === 'Following implementation plan') {
             return false;
         }
-        passingFields.push(`${key}=${v.substring(0, 30)}`);
         return true;
     });
-    console.error(`[extractFieldsFromGitHubIssue] passingFields: ${passingFields.join(', ')}`);
-    console.error(`[extractFieldsFromGitHubIssue] hasRealExplicitFields=${hasRealExplicitFields}, explicitWhat=${explicitFields.what}`);
     if (hasRealExplicitFields) {
         // Fill in any remaining unknowns from parsed sections
         const sections = parseIssueSections(body);
-        console.error(`[extractFieldsFromGitHubIssue] using enrichFieldsFromSections path`);
         return enrichFieldsFromSections(explicitFields, sections, issueNumber, title, labels);
     }
     // Parse structured sections
     const sections = parseIssueSections(body);
-    console.error(`[extractFieldsFromGitHubIssue] using fresh derive path`);
     // Build fields from sections intelligently
     const fields = {
         // WHO: Derive from context or labels
@@ -276,7 +270,6 @@ function extractFieldsFromGitHubIssue(issueNumber, title, body, labels) {
     return fields;
 }
 function deriveWhat(sections, title) {
-    console.error(`[deriveWhat] goal=${sections.goal?.substring(0, 50)}, solution=${sections.solution?.substring(0, 50)}`);
     // If goal section exists and is clean (not a section header)
     if (sections.goal) {
         const cleanGoal = sections.goal.trim();
@@ -380,10 +373,12 @@ function deriveWhere(sections, issueNumber) {
 }
 function deriveHow(sections) {
     if (sections.solution) {
-        // Get first meaningful line of solution
+        // Get first meaningful lines of solution, skip headers
         const lines = sections.solution.split('\n').filter((l) => l.trim() && !l.startsWith('#'));
         if (lines.length > 0) {
-            return lines.slice(0, 2).join('; ').substring(0, 200);
+            // Strip markdown formatting
+            const cleaned = lines.slice(0, 2).join('; ').replace(/\*\*/g, '').substring(0, 200);
+            return cleaned;
         }
     }
     if (sections.implementation && sections.implementation.length > 0) {

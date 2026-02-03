@@ -385,10 +385,6 @@ function extractFieldsFromGitHubIssue(
 }
 
 function deriveWhat(sections: ParsedIssueSection, title: string): string {
-  console.error(
-    `[deriveWhat] goal=${sections.goal?.substring(0, 50)}, solution=${sections.solution?.substring(0, 50)}`
-  );
-
   // If goal section exists and is clean (not a section header)
   if (sections.goal) {
     const cleanGoal = sections.goal.trim();
@@ -505,10 +501,12 @@ function deriveWhere(sections: ParsedIssueSection, issueNumber: number): string 
 
 function deriveHow(sections: ParsedIssueSection): string {
   if (sections.solution) {
-    // Get first meaningful line of solution
+    // Get first meaningful lines of solution, skip headers
     const lines = sections.solution.split('\n').filter((l) => l.trim() && !l.startsWith('#'));
     if (lines.length > 0) {
-      return lines.slice(0, 2).join('; ').substring(0, 200);
+      // Strip markdown formatting
+      const cleaned = lines.slice(0, 2).join('; ').replace(/\*\*/g, '').substring(0, 200);
+      return cleaned;
     }
   }
 
