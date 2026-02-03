@@ -1,14 +1,19 @@
 {
-  "goal": "Unify goal injection across all Claude Code message types and external systems",
+  "goal": null,
   "fields": {
-    "who": "Claude Code sessions, GitHub issues, OpenSpec proposals, Claude Code .md plans, and their respective subtask checklists (session todos, issue body checklists, issue parent/child relationships, OpenSpec todos, plan todos)",
-    "what": "Inject identical structured goal context into every message, artifact, and checklist item",
-    "when": "every turn, every hook, every create/update/delete of any artifact",
-    "where": "UserPromptSubmit, PostToolUse, Stop, SessionStart hooks; session todo headers; GitHub issue bodies; OpenSpec proposal bodies; Claude Code .md plan bodies",
-    "why": "maintain focus and traceability across all systems uniformly",
-    "how": "shared formatGoalContext() injected via additionalContext in all hook event types"
+    "who": "unknown",
+    "what": "unknown",
+    "when": "unknown",
+    "where": "unknown",
+    "why": "unknown",
+    "how": "unknown"
   },
-  "summary": "Unify goal injection across all Claude Code message types and external systems",
-  "updatedAt": "2026-02-03T14:10:00.000Z",
-  "history": []
+  "summary": null,
+  "updatedAt": null,
+  "history": [
+    {
+      "summary": "Unify goal injection across all Claude Code message types and external systems",
+      "clearedAt": "2026-02-03T14:13:40.163Z"
+    }
+  ]
 }
