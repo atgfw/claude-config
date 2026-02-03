@@ -28,23 +28,7 @@ export interface ActiveGoal {
   history: Array<{ summary: string; clearedAt: string }>;
 }
 
-const GOAL_SET_PATTERNS = [
-  /\bthe\s+goal\s+is\b/i,
-  /\bwe(?:'re| are)\s+working\s+on\b/i,
-  /\bthe\s+task\s+is\b/i,
-  /\bour\s+objective\s+is\b/i,
-  /\bfocus(?:ing)?\s+on\b/i,
-  /\bset\s+goal\s*:/i,
-];
-
-const GOAL_CLEAR_PATTERNS = [
-  /\b(?:we(?:'re| are)\s+)?done\s+(?:with\s+)?(?:this|that|the)\s+(?:goal|task|project)\b/i,
-  /\b(?:we(?:'re| are)\s+)?finished\s+(?:with\s+)?(?:this|that|the)\s+(?:goal|task|project)\b/i,
-  /\bnew\s+(?:goal|task|project)\b/i,
-  /\bclear\s+(?:the\s+)?goal\b/i,
-  /\breset\s+(?:the\s+)?goal\b/i,
-  /\bgoal\s+(?:is\s+)?(?:done|complete|finished)\b/i,
-];
+// Goal detection patterns removed - goal management is now explicit via file edit only
 
 export function getGoalPath(): string {
   return path.join(getClaudeDir(), 'ledger', 'active-goal.json');
