@@ -6,9 +6,6 @@ import {
   loadGoal,
   saveGoal,
   createEmptyGoal,
-  detectGoalSet,
-  detectGoalClear,
-  extractGoalText,
   formatGoalContext,
   hasDehydratedFields,
   type ActiveGoal,
@@ -58,66 +55,6 @@ describe('loadGoal', () => {
   });
 });
 
-describe('detectGoalSet', () => {
-  it('detects "the goal is"', () => {
-    expect(detectGoalSet('the goal is to build a dashboard')).toBe(true);
-  });
-
-  it('detects "we\'re working on"', () => {
-    expect(detectGoalSet("we're working on the API integration")).toBe(true);
-  });
-
-  it('detects "the task is"', () => {
-    expect(detectGoalSet('the task is refactoring auth')).toBe(true);
-  });
-
-  it('detects "set goal:"', () => {
-    expect(detectGoalSet('set goal: deploy v2')).toBe(true);
-  });
-
-  it('does not match random text', () => {
-    expect(detectGoalSet('please fix the bug')).toBe(false);
-  });
-});
-
-describe('detectGoalClear', () => {
-  it('detects "done"', () => {
-    expect(detectGoalClear("we're done")).toBe(true);
-  });
-
-  it('detects "finished"', () => {
-    expect(detectGoalClear('finished with that')).toBe(true);
-  });
-
-  it('detects "new task"', () => {
-    expect(detectGoalClear('new task please')).toBe(true);
-  });
-
-  it('detects "clear goal"', () => {
-    expect(detectGoalClear('clear goal')).toBe(true);
-  });
-
-  it('does not match random text', () => {
-    expect(detectGoalClear('continue working')).toBe(false);
-  });
-});
-
-describe('extractGoalText', () => {
-  it('extracts text after "the goal is"', () => {
-    expect(extractGoalText('the goal is to build a dashboard')).toBe('to build a dashboard');
-  });
-
-  it('extracts up to sentence boundary', () => {
-    expect(extractGoalText('the goal is fix the login bug. Then deploy.')).toBe(
-      'fix the login bug'
-    );
-  });
-
-  it('falls back to full prompt if no pattern', () => {
-    expect(extractGoalText('build a widget')).toBe('build a widget');
-  });
-});
-
 describe('formatGoalContext', () => {
   it('returns empty string for no goal', () => {
     expect(formatGoalContext(createEmptyGoal())).toBe('');
@@ -151,5 +88,27 @@ describe('hasDehydratedFields', () => {
       how: 'code',
     };
     expect(hasDehydratedFields(g)).toBe(false);
+  });
+});
+
+describe('saveGoal and loadGoal round-trip', () => {
+  it('preserves all fields', () => {
+    const original: ActiveGoal = {
+      goal: 'Test goal',
+      fields: {
+        who: 'testers',
+        what: 'testing',
+        when: 'now',
+        where: 'here',
+        why: 'quality',
+        how: 'vitest',
+      },
+      summary: 'Test goal summary',
+      updatedAt: '2026-01-01T00:00:00.000Z',
+      history: [{ summary: 'old goal', clearedAt: '2025-12-31T00:00:00.000Z' }],
+    };
+    saveGoal(original);
+    const loaded = loadGoal();
+    expect(loaded).toEqual(original);
   });
 });

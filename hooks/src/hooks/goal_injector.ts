@@ -2,6 +2,9 @@
  * Goal Injector - Injects sharp pointed goal into ALL hook event types
  * Registers for: UserPromptSubmit, PostToolUse, SessionStart
  * Ensures every turn has goal context via additionalContext.
+ *
+ * Goal management is EXPLICIT via direct file edit only.
+ * This hook is READ-ONLY - it never modifies the goal file.
  */
 
 import * as fs from 'node:fs';
@@ -27,8 +30,6 @@ export interface ActiveGoal {
   updatedAt: string | null;
   history: Array<{ summary: string; clearedAt: string }>;
 }
-
-// Goal detection patterns removed - goal management is now explicit via file edit only
 
 export function getGoalPath(): string {
   return path.join(getClaudeDir(), 'ledger', 'active-goal.json');
@@ -66,28 +67,6 @@ export function saveGoal(goal: ActiveGoal): void {
   fs.writeFileSync(goalPath, JSON.stringify(goal, null, 2) + '\n', 'utf-8');
 }
 
-export function detectGoalSet(prompt: string): boolean {
-  return GOAL_SET_PATTERNS.some((p) => p.test(prompt));
-}
-
-export function detectGoalClear(prompt: string): boolean {
-  return GOAL_CLEAR_PATTERNS.some((p) => p.test(prompt));
-}
-
-export function extractGoalText(prompt: string): string {
-  // Try to extract the goal statement after the trigger phrase
-  for (const pattern of GOAL_SET_PATTERNS) {
-    const match = prompt.match(pattern);
-    if (match && match.index !== undefined) {
-      const after = prompt.slice(match.index + match[0].length).trim();
-      // Take up to the first sentence boundary or end
-      const sentence = after.match(/^[^.!?\n]+/);
-      return sentence ? sentence[0].trim() : after.trim();
-    }
-  }
-  return prompt.trim();
-}
-
 export function formatGoalContext(goal: ActiveGoal): string {
   if (!goal.goal && !goal.summary) return '';
 
@@ -104,33 +83,13 @@ export function hasDehydratedFields(goal: ActiveGoal): boolean {
   return GOAL_FIELDS.some((f) => goal.fields[f] === 'unknown');
 }
 
-async function goalInjector(input: UserPromptSubmitInput): Promise<UserPromptSubmitOutput> {
-  const prompt = input.prompt || '';
+/**
+ * UserPromptSubmit hook - inject goal context on every user prompt
+ * READ-ONLY: Does not modify goal file
+ */
+async function goalInjector(_input: UserPromptSubmitInput): Promise<UserPromptSubmitOutput> {
   const goal = loadGoal();
 
-  // Check for goal-clearing language first
-  if (goal.goal && detectGoalClear(prompt)) {
-    if (goal.summary) {
-      goal.history.push({ summary: goal.summary, clearedAt: new Date().toISOString() });
-    }
-    const cleared = createEmptyGoal();
-    cleared.history = goal.history;
-    saveGoal(cleared);
-    return { hookEventName: 'UserPromptSubmit' };
-  }
-
-  // Check for goal-setting language
-  if (detectGoalSet(prompt)) {
-    const text = extractGoalText(prompt);
-    goal.goal = text;
-    goal.summary = text;
-    goal.updatedAt = new Date().toISOString();
-    saveGoal(goal);
-    const context = formatGoalContext(goal);
-    return { hookEventName: 'UserPromptSubmit', additionalContext: context };
-  }
-
-  // Inject existing goal if active
   if (goal.goal || goal.summary) {
     const context = formatGoalContext(goal);
     return { hookEventName: 'UserPromptSubmit', additionalContext: context };

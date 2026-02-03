@@ -2,6 +2,9 @@
  * Goal Injector - Injects sharp pointed goal into ALL hook event types
  * Registers for: UserPromptSubmit, PostToolUse, SessionStart
  * Ensures every turn has goal context via additionalContext.
+ *
+ * Goal management is EXPLICIT via direct file edit only.
+ * This hook is READ-ONLY - it never modifies the goal file.
  */
 import type { UserPromptSubmitInput, UserPromptSubmitOutput, PostToolUseInput, PostToolUseOutput, SessionStartInput, SessionStartOutput } from '../types.js';
 declare const GOAL_FIELDS: readonly ["who", "what", "when", "where", "why", "how"];
@@ -20,12 +23,13 @@ export declare function getGoalPath(): string;
 export declare function loadGoal(): ActiveGoal;
 export declare function createEmptyGoal(): ActiveGoal;
 export declare function saveGoal(goal: ActiveGoal): void;
-export declare function detectGoalSet(prompt: string): boolean;
-export declare function detectGoalClear(prompt: string): boolean;
-export declare function extractGoalText(prompt: string): string;
 export declare function formatGoalContext(goal: ActiveGoal): string;
 export declare function hasDehydratedFields(goal: ActiveGoal): boolean;
-declare function goalInjector(input: UserPromptSubmitInput): Promise<UserPromptSubmitOutput>;
+/**
+ * UserPromptSubmit hook - inject goal context on every user prompt
+ * READ-ONLY: Does not modify goal file
+ */
+declare function goalInjector(_input: UserPromptSubmitInput): Promise<UserPromptSubmitOutput>;
 /**
  * Get active goal context for embedding in other systems.
  * Returns null if no goal is active.
