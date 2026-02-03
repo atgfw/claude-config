@@ -517,33 +517,52 @@ function deriveHow(sections: ParsedIssueSection): string {
   return 'Implementation approach to be determined from issue context';
 }
 
-function deriveWhich(sections: ParsedIssueSection, title: string): string {
-  // Extract target objects from title
-  const titleTargets: string[] = [];
+function deriveWhich(sections: ParsedIssueSection, title: string, fullBody?: string): string {
+  const targets: string[] = [];
 
-  // Look for hook names
-  const hookMatch = title.match(/`([^`]+)`/);
-  if (hookMatch?.[1]) {
-    titleTargets.push(hookMatch[1]);
-  }
+  // Extract file paths from full body text (backticks and bare paths)
+  if (fullBody) {
+    // Match backticked paths with extensions
+    const backtickPaths = fullBody.match(/`([^`]*\.(ts|js|json|md|yaml|yml|py)[^`]*)`/gi);
+    if (backtickPaths) {
+      for (const match of backtickPaths) {
+        const path = match.replace(/`/g, '');
+        if (!targets.includes(path)) targets.push(path);
+      }
+    }
 
-  // Look for file types
-  if (title.includes('hook')) titleTargets.push('PreToolUse/PostToolUse hooks');
-  if (title.includes('validator')) titleTargets.push('validation hook');
-  if (title.includes('gate')) titleTargets.push('enforcement gate');
-
-  // Extract from implementation tasks
-  if (sections.implementation) {
-    for (const task of sections.implementation) {
-      const taskHookMatch = task.match(/hook[:\s]+`?(\w+)`?/i);
-      if (taskHookMatch?.[1]) {
-        titleTargets.push(taskHookMatch[1]);
+    // Match bare file paths (hooks/src/..., src/..., etc.)
+    const barePaths = fullBody.match(/(?:hooks|src|lib|tests?)\/[\w\-\/]+\.\w+/gi);
+    if (barePaths) {
+      for (const path of barePaths) {
+        if (!targets.includes(path)) targets.push(path);
       }
     }
   }
 
-  if (titleTargets.length > 0) {
-    return [...new Set(titleTargets)].join(', ');
+  // Extract target objects from title
+  const hookMatch = title.match(/`([^`]+)`/);
+  if (hookMatch?.[1] && !targets.includes(hookMatch[1])) {
+    targets.push(hookMatch[1]);
+  }
+
+  // Look for file types in title
+  if (title.includes('hook') && !targets.some((t) => t.includes('hook'))) {
+    targets.push('PreToolUse/PostToolUse hooks');
+  }
+
+  // Extract from implementation tasks
+  if (sections.implementation) {
+    for (const task of sections.implementation) {
+      const taskPathMatch = task.match(/`([^`]*\.[a-z]+)`/i);
+      if (taskPathMatch?.[1] && !targets.includes(taskPathMatch[1])) {
+        targets.push(taskPathMatch[1]);
+      }
+    }
+  }
+
+  if (targets.length > 0) {
+    return targets.slice(0, 5).join('; ');
   }
 
   return 'Target artifacts defined in implementation tasks';
