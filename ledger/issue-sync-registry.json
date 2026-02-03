@@ -742,6 +742,57 @@
           "content_hash": "18d26ec972d0df35"
         }
       ]
+    },
+    {
+      "unified_id": "plan-C:\\Users\\codya\\.claude\\plans\\tender-imagining-cray.md",
+      "github_issue": null,
+      "claude_task_id": null,
+      "openspec_change_id": null,
+      "plan_step": null,
+      "goal_summary": null,
+      "status": "open",
+      "last_synced": "2026-02-03T20:21:20.343Z",
+      "sync_hash": "",
+      "plan_file": "C:\\Users\\codya\\.claude\\plans\\tender-imagining-cray.md",
+      "checklist_items": [
+        {
+          "id": "40fdd05c94d0",
+          "text": "`bun test hooks/tests/hooks/goal_auto_derivation.test.ts`",
+          "status": "pending",
+          "last_modified": "2026-02-03T20:21:20.340Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "501f2328126a",
+          "text": "`bun test` for full suite",
+          "status": "pending",
+          "last_modified": "2026-02-03T20:21:20.341Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "846392285a3a",
+          "text": "Verify derived goal passes `goal_compliance_gate` without manual editing",
+          "status": "pending",
+          "last_modified": "2026-02-03T20:21:20.341Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "9a25492fc691",
+          "text": "Checkout branch with issue reference",
+          "status": "pending",
+          "last_modified": "2026-02-03T20:21:20.341Z",
+          "modified_by": "plan"
+        }
+      ],
+      "checklist_hash": "3913e0bedddc4a03",
+      "sync_sources": [
+        {
+          "type": "plan",
+          "artifact_id": "C:\\Users\\codya\\.claude\\plans\\tender-imagining-cray.md",
+          "last_read": "2026-02-03T20:21:20.344Z",
+          "content_hash": "77b4f507ff3f4589"
+        }
+      ]
     }
   ]
 }
