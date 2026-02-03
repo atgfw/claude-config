@@ -1,0 +1,30 @@
+{
+  "session_id": "b18eabd7-e334-4adb-adef-d0cb5c5d4267",
+  "working_directory": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection",
+  "stack": [
+    {
+      "id": "commit-intent-1770150647181",
+      "type": "task",
+      "summary": "cleanup docs and stale temp_nodes",
+      "fields": {
+        "who": "Claude Code session",
+        "what": "cleanup docs and stale temp_nodes",
+        "when": "Current task",
+        "where": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection",
+        "why": "Task in progress",
+        "how": "Continue chore work from last commit",
+        "which": "Target object not specified",
+        "lest": "Failure modes not defined",
+        "with": "Dependencies not enumerated",
+        "measuredBy": "Success metrics not defined"
+      },
+      "source": {
+        "manual": false
+      },
+      "pushedAt": "2026-02-03T20:30:47.181Z",
+      "pushedBy": "SessionStart"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-03T20:30:47.183Z"
+}

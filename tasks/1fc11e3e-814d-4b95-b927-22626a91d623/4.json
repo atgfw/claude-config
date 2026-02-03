@@ -3,7 +3,7 @@
   "subject": "Add pre-push compliance validation",
   "description": "Before pushGoal(), validate against compliance gate. Attempt context enrichment if non-compliant.",
   "activeForm": "Adding pre-push validation",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }

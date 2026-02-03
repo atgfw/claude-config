@@ -3,7 +3,13 @@
   "subject": "Add git context inference for sparse issue bodies",
   "description": "When issue body lacks content, infer from git diff, recently modified files, and package.json",
   "activeForm": "Adding git context inference",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "testPassed": {
+      "testId": "goal_field_extraction.test.ts + build success",
+      "timestamp": "2026-02-03T15:45:00Z"
+    }
+  }
 }

@@ -994,12 +994,108 @@ function deriveGoalFromContext(workingDir: string): DerivedGoal {
 }
 
 // ============================================================================
+// Pre-Push Compliance Validation
+// ============================================================================
+
+/**
+ * Check if a goal field is a placeholder that will fail compliance.
+ */
+function isPlaceholderField(value: string): boolean {
+  const placeholderPatterns = [
+    'not specified',
+    'not defined',
+    'not enumerated',
+    'implementation tasks',
+    'to be determined',
+    'unknown',
+    'Target object',
+    'Failure modes',
+    'Dependencies',
+    'Success metrics',
+  ];
+  const lower = value.toLowerCase();
+  return placeholderPatterns.some((p) => lower.includes(p.toLowerCase()));
+}
+
+/**
+ * Validate goal fields and attempt to fill gaps before pushing.
+ * Returns the enriched goal and compliance status.
+ */
+function validateAndEnrichGoal(
+  goal: GoalLevel,
+  workingDir: string
+): { goal: GoalLevel; compliant: boolean; score: number; gaps: string[] } {
+  const gaps: string[] = [];
+  const fields = { ...goal.fields };
+
+  // Check required fields for compliance gate
+  // Focus: summary must be 50+ chars and start with capital
+  if (goal.summary.length < 50) {
+    gaps.push('Focus (title < 50 chars)');
+  }
+
+  // Which: must contain file paths or URLs
+  if (isPlaceholderField(fields.which)) {
+    // Try to infer from git
+    const gitContext = inferFieldsFromGitContext(workingDir);
+    if (gitContext.which) {
+      fields.which = gitContext.which;
+    } else {
+      gaps.push('Which (no file paths)');
+    }
+  }
+
+  // Lest: must contain constraint phrases
+  const lestKeywords = ['must not', 'should not', 'prevent', 'avoid', 'never', 'cannot'];
+  if (!lestKeywords.some((k) => fields.lest.toLowerCase().includes(k))) {
+    // Add default constraint
+    fields.lest = `Must not introduce regressions; ${fields.lest}`;
+  }
+
+  // With: must contain tool keywords
+  const toolKeywords = ['bun', 'typescript', 'vitest', 'hook', 'mcp', 'api', 'workflow', 'cli'];
+  if (!toolKeywords.some((k) => fields.with.toLowerCase().includes(k))) {
+    // Try to infer from git/package.json
+    const gitContext = inferFieldsFromGitContext(workingDir);
+    if (gitContext.with) {
+      fields.with = gitContext.with;
+    } else {
+      fields.with = `bun runtime; ${fields.with}`;
+    }
+  }
+
+  // MeasuredBy: must contain metric keywords
+  const metricKeywords = ['test', 'passing', 'coverage', 'complete', 'validated', 'verified'];
+  if (!metricKeywords.some((k) => fields.measuredBy.toLowerCase().includes(k))) {
+    fields.measuredBy = `Tests passing; ${fields.measuredBy}`;
+  }
+
+  // Calculate score (simplified - 11 fields, 6 required)
+  const requiredFields = ['which', 'lest', 'with', 'measuredBy'];
+  const passingRequired = requiredFields.filter((f) => {
+    const value = fields[f as keyof GoalFields];
+    return value && !isPlaceholderField(value);
+  });
+
+  const score = Math.round(((passingRequired.length + 2) / 6) * 100); // +2 for focus and what
+  const compliant = gaps.length === 0 && score >= 100;
+
+  return {
+    goal: { ...goal, fields },
+    compliant,
+    score,
+    gaps,
+  };
+}
+
+// ============================================================================
 // Stack Hydration
 // ============================================================================
 
 /**
  * Hydrate session goal stack from derived context.
  * Only adds goals if stack is empty or working directory changed.
+ * Now includes pre-push validation and enrichment.
  */
 function hydrateGoalStack(
   sessionId: string,
