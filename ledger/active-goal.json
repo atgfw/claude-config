@@ -7,13 +7,13 @@
     "where": "C:\\Users\\codya\\.claude",
     "why": "Task in progress",
     "how": "Following implementation plan",
-    "which": "Target object not specified",
-    "lest": "Failure modes not defined",
-    "with": "Dependencies not enumerated",
-    "measuredBy": "Success metrics not defined"
+    "which": ".mcp.json; openspec/changes/refactor-llm-extraction-extensibility/specs/llm-data-extraction/spec.md; workflows/llm_data_collection/.claude-md-audit.json; workflows/llm_data_collection/.scrapling-docs-cache.md; workflows/llm_data_collection/API.md",
+    "lest": "Must not introduce regressions; Failure modes not defined",
+    "with": "bun runtime; Dependencies not enumerated",
+    "measuredBy": "Tests passing; Success metrics not defined"
   },
   "summary": "[spinal-cord] fix(hooks): Enforce full file paths in all Claude Code operations",
-  "updatedAt": "2026-02-03T20:48:37.803Z",
+  "updatedAt": "2026-02-03T20:49:17.226Z",
   "linkedArtifacts": {
     "openspec": null,
     "plan_files": [],
