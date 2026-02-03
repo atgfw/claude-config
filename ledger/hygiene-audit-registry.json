@@ -355,5 +355,47 @@
         "severity": "warn"
       }
     ]
+  },
+  {
+    "timestamp": "2026-02-03T15:43:26.182Z",
+    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan\\nul",
+        "filename": "nul",
+        "suggestion": "mv \"nul\" old/misc/",
+        "severity": "warn"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-03T15:43:26.908Z",
+    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection\\nul",
+        "filename": "nul",
+        "suggestion": "mv \"nul\" old/misc/",
+        "severity": "warn"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-03T15:43:26.989Z",
+    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag\\nul",
+        "filename": "nul",
+        "suggestion": "mv \"nul\" old/misc/",
+        "severity": "warn"
+      }
+    ]
   }
 ]
