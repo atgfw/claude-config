@@ -303,15 +303,50 @@ function extractFieldsFromGitHubIssue(
 ): GoalFields {
   // First try explicit field extraction (if issue uses WHO/WHAT format)
   const explicitFields = extractFieldsFromDescription(body);
-  const hasExplicitFields = Object.values(explicitFields).some(
-    (v) => v !== 'unknown' && !v.includes('not specified') && !v.includes('not defined')
-  );
+
+  // Check if there are REAL explicit fields (not fallback garbage like "## Problem")
+  // A real explicit field would be from WHO:/WHAT:/etc markers in the text
+  const passingFields: string[] = [];
+  const hasRealExplicitFields = Object.entries(explicitFields).some(([key, v]) => {
+    // Reject all placeholder patterns
+    if (
+      v === 'unknown' ||
+      v.includes('not specified') ||
+      v.includes('not defined') ||
+      v.includes('not enumerated')
+    ) {
+      return false;
+    }
+    // Reject markdown headers as valid field values (they're fallback garbage)
+    if (v.startsWith('#') || v.startsWith('##')) {
+      return false;
+    }
+    // Reject default placeholder values
+    if (key === 'who' && v === 'Claude Code session') {
+      return false;
+    }
+    if (key === 'when' && v === 'Current task') {
+      return false;
+    }
+    if (key === 'where' && v === process.cwd()) {
+      return false;
+    }
+    if (key === 'why' && v === 'Task in progress') {
+      return false;
+    }
+    if (key === 'how' && v === 'Following implementation plan') {
+      return false;
+    }
+    passingFields.push(`${key}=${v.substring(0, 30)}`);
+    return true;
+  });
+  console.error(`[extractFieldsFromGitHubIssue] passingFields: ${passingFields.join(', ')}`);
 
   console.error(
-    `[extractFieldsFromGitHubIssue] hasExplicitFields=${hasExplicitFields}, explicitWhat=${explicitFields.what}`
+    `[extractFieldsFromGitHubIssue] hasRealExplicitFields=${hasRealExplicitFields}, explicitWhat=${explicitFields.what}`
   );
 
-  if (hasExplicitFields) {
+  if (hasRealExplicitFields) {
     // Fill in any remaining unknowns from parsed sections
     const sections = parseIssueSections(body);
     console.error(`[extractFieldsFromGitHubIssue] using enrichFieldsFromSections path`);
