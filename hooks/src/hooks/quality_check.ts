@@ -391,17 +391,35 @@ class QualityChecker {
 
     log('[quality-check] Running XO (ESLint) check...');
 
-    const args = ['xo', this.filePath];
+    // Use relative path from project root for XO
+    const relativePath = path.relative(this.projectRoot, this.filePath);
+
+    // Use local xo from node_modules to avoid npx cache issues
+    const localXo = path.join(this.projectRoot, 'node_modules', '.bin', 'xo');
+    const useLocalXo = fs.existsSync(localXo);
+
+    const cmd = useLocalXo ? localXo : 'npx';
+    const args = useLocalXo ? [relativePath] : ['xo', relativePath];
     if (this.config.xo.autofix) {
       args.push('--fix');
     }
 
-    const result = await this.runCommand('npx', args, this.projectRoot);
+    const result = await this.runCommand(cmd, args, this.projectRoot);
 
     if (result.code !== 0) {
+      // Check for npx/glob cache issues - treat as warning not error
+      if (
+        result.stderr.includes('NoFilesFoundError') ||
+        result.stderr.includes('glob was disabled')
+      ) {
+        this.warnings.push('XO check skipped due to npx cache issue - run manually: npm run lint');
+        return;
+      }
+
       if (this.config.xo.autofix) {
         // Re-run to check if issues remain
-        const recheck = await this.runCommand('npx', ['xo', this.filePath], this.projectRoot);
+        const recheckArgs = useLocalXo ? [relativePath] : ['xo', relativePath];
+        const recheck = await this.runCommand(cmd, recheckArgs, this.projectRoot);
         if (recheck.code === 0) {
           if (this.config.general.autofixSilent) {
             this.autofixes.push('XO auto-fixed linting issues');
@@ -409,6 +427,16 @@ class QualityChecker {
             this.warnings.push('XO issues were auto-fixed - verify the changes');
           }
         } else {
+          // Check for cache issues on recheck too
+          if (
+            recheck.stderr.includes('NoFilesFoundError') ||
+            recheck.stderr.includes('glob was disabled')
+          ) {
+            this.warnings.push(
+              'XO check skipped due to npx cache issue - run manually: npm run lint'
+            );
+            return;
+          }
           const xoOutput = (recheck.stdout + recheck.stderr).trim();
           if (xoOutput) {
             this.errors.push(`XO found issues that could not be auto-fixed:\n${xoOutput}`);
@@ -766,7 +794,11 @@ export async function qualityCheckHook(input: PostToolUseInput): Promise<PostToo
   }
 
   // Determine project root
-  const projectRoot = process.env['CLAUDE_PROJECT_DIR'] ?? path.dirname(filePath);
+  // For files in ~/.claude/hooks, always use hooks directory as project root
+  const claudeHooksDir = path.join(getClaudeDir(), 'hooks');
+  const projectRoot = filePath.startsWith(claudeHooksDir)
+    ? claudeHooksDir
+    : (process.env['CLAUDE_PROJECT_DIR'] ?? path.dirname(filePath));
 
   // Load configuration
   const config = loadConfig(projectRoot);

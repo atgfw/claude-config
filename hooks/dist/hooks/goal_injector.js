@@ -1,6 +1,7 @@
 /**
- * Goal Injector - UserPromptSubmit hook
- * Maintains and injects a "sharp pointed goal" into every turn via additionalContext.
+ * Goal Injector - Injects sharp pointed goal into ALL hook event types
+ * Registers for: UserPromptSubmit, PostToolUse, SessionStart
+ * Ensures every turn has goal context via additionalContext.
  */
 import * as fs from 'node:fs';
 import * as path from 'node:path';
@@ -131,7 +132,36 @@ export function getActiveGoalContext() {
         fields: { ...goal.fields },
     };
 }
+/**
+ * PostToolUse hook - inject goal context after every tool use
+ */
+async function goalInjectorPostToolUse(_input) {
+    const goal = loadGoal();
+    if (goal.goal || goal.summary) {
+        const context = formatGoalContext(goal);
+        return {
+            hookSpecificOutput: {
+                hookEventName: 'PostToolUse',
+                additionalContext: context,
+            },
+        };
+    }
+    return { hookSpecificOutput: { hookEventName: 'PostToolUse' } };
+}
+/**
+ * SessionStart hook - inject goal context at session start
+ */
+async function goalInjectorSessionStart(_input) {
+    const goal = loadGoal();
+    if (goal.goal || goal.summary) {
+        const context = formatGoalContext(goal);
+        return { hookEventName: 'SessionStart', additionalContext: context };
+    }
+    return { hookEventName: 'SessionStart' };
+}
 registerHook('goal-injector', 'UserPromptSubmit', goalInjector);
-export { goalInjector as goalInjectorHook };
+registerHook('goal-injector-post', 'PostToolUse', goalInjectorPostToolUse);
+registerHook('goal-injector-session', 'SessionStart', goalInjectorSessionStart);
+export { goalInjector as goalInjectorHook, goalInjectorPostToolUse, goalInjectorSessionStart };
 export default goalInjector;
 //# sourceMappingURL=goal_injector.js.map
