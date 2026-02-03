@@ -11,13 +11,24 @@ import {
   parseFromGitHubIssue,
 } from '../src/github/unified_checklist.js';
 import { saveGoal, createEmptyGoal, type ActiveGoal } from '../src/hooks/goal_injector.js';
+import {
+  pushGoal,
+  saveGoalStack,
+  createEmptyStack,
+  type GoalLevel,
+} from '../src/session/goal_stack.js';
 
 let tempDir: string;
 let origClaudeDir: string | undefined;
+let origSessionId: string | undefined;
+const TEST_SESSION_ID = 'test-session-goal-unified';
 
 function setTestGoal(): void {
-  const goal: ActiveGoal = {
-    goal: 'Build metrics dashboard',
+  // Use session-scoped goal instead of global
+  const goal: GoalLevel = {
+    id: 'test-goal',
+    type: 'task',
+    summary: 'Build metrics dashboard',
     fields: {
       who: 'engineering team',
       what: 'real-time metrics dashboard',
@@ -26,18 +37,22 @@ function setTestGoal(): void {
       why: 'visibility into system health',
       how: 'React + WebSocket',
     },
-    summary: 'Build metrics dashboard',
-    updatedAt: new Date().toISOString(),
-    history: [],
+    source: { manual: true },
+    pushedAt: new Date().toISOString(),
+    pushedBy: 'Manual',
   };
-  saveGoal(goal);
+  saveGoalStack(createEmptyStack(TEST_SESSION_ID));
+  pushGoal(TEST_SESSION_ID, goal);
 }
 
 beforeAll(() => {
   origClaudeDir = process.env['CLAUDE_DIR'];
+  origSessionId = process.env['CLAUDE_SESSION_ID'];
   tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'goal-sync-test-'));
   fs.mkdirSync(path.join(tempDir, 'ledger'), { recursive: true });
+  fs.mkdirSync(path.join(tempDir, 'sessions', TEST_SESSION_ID), { recursive: true });
   process.env['CLAUDE_DIR'] = tempDir;
+  process.env['CLAUDE_SESSION_ID'] = TEST_SESSION_ID;
 });
 
 afterAll(() => {

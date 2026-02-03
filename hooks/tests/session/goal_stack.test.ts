@@ -304,7 +304,8 @@ describe('formatGoalHierarchy', () => {
     expect(formatted).toContain('CURRENT FOCUS');
   });
 
-  it('should include global override in hierarchy', () => {
+  it('should NOT include global override in hierarchy (session-scoped only)', () => {
+    // Global override should NOT bleed into session hierarchy anymore
     const goalPath = path.join(testDir, 'ledger', 'active-goal.json');
     fs.writeFileSync(
       goalPath,
@@ -325,8 +326,11 @@ describe('formatGoalHierarchy', () => {
     pushGoal(testSessionId, createTaskGoal('1', 'Task'));
     const formatted = formatGoalHierarchy(testSessionId);
 
-    expect(formatted).toContain('[EPIC]');
-    expect(formatted).toContain('Epic summary');
+    // Session goals only - global NOT included
+    expect(formatted).toContain('[TASK]');
+    expect(formatted).toContain('Task');
+    expect(formatted).not.toContain('[EPIC]');
+    expect(formatted).not.toContain('Epic summary');
   });
 });
 
