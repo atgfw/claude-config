@@ -1,0 +1,9 @@
+{
+  "id": "14",
+  "subject": "Implement Task Specification & Linting Framework v1.0",
+  "description": "Create goal-completeness-validator hook that enforces the full 11-section task specification schema: Focus, Who, What, When, Where, Why, How, Which, Lest, With, MeasuredBy. Includes structural validation, naming rules, semantic consistency, and anti-pattern detection.",
+  "activeForm": "Implementing task specification framework",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

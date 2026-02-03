@@ -1,0 +1,863 @@
+# Task Specification & Linting Framework v1.0
+
+> **Purpose**: Structured context injection template for LLM-assisted task execution. Auto-injected at every turn to maintain focus, traceability, and outcome alignment.
+
+---
+
+## ACTIVE CONTEXT BLOCK
+
+```yaml
+schema_version: "1.0"
+injection_timestamp: "{ISO8601_timestamp}"
+conversation_turn: {n}
+context_token_budget: {estimated_tokens}
+```
+
+---
+
+## §1 FOCUS DECLARATION
+
+### Issue #{issue_number} — {verbatim_task_name}
+
+> **Naming Convention**: Imperative sentence, ≤200 characters, maximally specific.  
+> **Pattern**: `{ACTION_VERB} {TARGET_ENTITY} {PREPOSITION} {CONTEXT} {PURPOSE_CLAUSE}`  
+> **Example**: `Implement SMS consent verification webhook handler in OnCall Connect to validate TCPA opt-in status before dispatching ElevenLabs voice agent callbacks`
+
+**Task Classification:**
+```yaml
+type: [feature | bugfix | refactor | documentation | investigation | integration | deployment]
+complexity: [trivial | low | medium | high | critical]
+estimated_effort: "{time_estimate}"
+blocking: [{issue_refs}]
+blocked_by: [{issue_refs}]
+```
+
+---
+
+## §2 WHO — Stakeholder Matrix
+
+| Role | Entity | Responsibility | Notification |
+|------|--------|----------------|--------------|
+| **Executor** | `{agent: Claude Code \| Human \| CI/CD}` | Primary implementation | @on_start, @on_complete |
+| **Requester** | `{user_identifier}` | Requirements authority | @on_blocked, @on_decision_needed |
+| **Audience** | `{client_name \| team_name \| system}` | Outcome beneficiary | @on_deploy |
+| **Reviewer** | `{reviewer_identifier}` | Quality gate | @on_pr_ready |
+| **Parent Task** | `#{parent_issue_number}` | Scope authority | @on_scope_change |
+| **Dependent Agents** | `{other_llm_models \| services}` | Downstream consumers | @on_interface_change |
+
+**Escalation Path:** `{Executor} → {Requester} → {Project Lead} → {Stakeholder}`
+
+---
+
+## §3 WHAT — Declarative Outcome Specification
+
+### 3.1 Desired End State
+> Write 1-2 dense paragraphs describing the **completed state** as if observing it after successful implementation. Use present tense. Include all verbatim entity labels. Be specific about observable behaviors, data states, and integration points.
+
+```
+{desired_state_paragraph}
+```
+
+### 3.2 Acceptance Criteria
+```gherkin
+GIVEN {precondition_with_specific_entity_names}
+WHEN {trigger_action_with_exact_parameters}
+THEN {observable_outcome_with_measurable_assertion}
+AND {additional_constraint}
+```
+
+### 3.3 Out of Scope (Explicit Exclusions)
+- ❌ {explicitly_excluded_item_1}
+- ❌ {explicitly_excluded_item_2}
+
+### 3.4 Definition of Done Checklist
+- [ ] Code complete and compiles without errors
+- [ ] Unit tests written and passing (coverage ≥ {threshold}%)
+- [ ] Integration tests passing in {environment}
+- [ ] Documentation updated at `{doc_path}`
+- [ ] PR approved by {reviewer}
+- [ ] Deployed to {target_environment}
+- [ ] Smoke test verified by {verifier}
+
+---
+
+## §4 WHEN — Temporal & Conditional Constraints
+
+### 4.1 Trigger Conditions
+```yaml
+preconditions:
+  - condition: "{must_be_true_before_start}"
+    verified_by: "{verification_method}"
+  - condition: "{dependency_completed}"
+    reference: "#{issue_number}"
+
+activation_trigger:
+  type: [manual | scheduled | event_driven | dependency_complete]
+  specification: "{cron_expression | event_name | manual_approval}"
+```
+
+### 4.2 Sequence Position
+```
+┌─────────────────────────────────────────────────────────────┐
+│ WORKFLOW: {workflow_name}                                   │
+├─────────────────────────────────────────────────────────────┤
+│  [✓] Step 1: {completed_predecessor}                        │
+│  [►] Step 2: **THIS TASK** ← CURRENT FOCUS                  │
+│  [ ] Step 3: {next_task} (blocked by this)                  │
+│  [ ] Step 4: {downstream_task}                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 4.3 Time Constraints
+```yaml
+deadline: "{ISO8601_datetime | relative_expression}"
+time_sensitivity: [fixed_deadline | soft_target | best_effort]
+calendar_context: "{sprint_name | release_cycle | client_commitment}"
+estimated_completion: "{duration_estimate}"
+```
+
+---
+
+## §5 WHERE — Artifact Location Registry
+
+### 5.1 Source Artifacts (Inputs)
+| Artifact Type | Verbatim Name | Full Path/URL | Access Method |
+|---------------|---------------|---------------|---------------|
+| Source Code | `{file_name}` | `{repo}/{path}/{file}` | `git clone` / `cat` |
+| Configuration | `{config_name}` | `{full_path}` | `env` / `secrets` |
+| API Endpoint | `{endpoint_name}` | `{base_url}/{path}` | `{HTTP_METHOD}` |
+| Documentation | `{doc_title}` | `{url_or_path}` | `read` |
+| Database | `{table_name}` | `{connection_string}/{schema}` | `{query_type}` |
+
+### 5.2 Destination Artifacts (Outputs)
+| Artifact Type | Verbatim Name | Target Path/URL | Write Method |
+|---------------|---------------|-----------------|--------------|
+| Code Changes | `{file_name}` | `{repo}/{branch}/{path}` | `git commit` |
+| Build Artifact | `{artifact_name}` | `{registry}/{path}` | `publish` |
+| Deployment | `{service_name}` | `{environment}/{cluster}` | `deploy` |
+| Documentation | `{doc_title}` | `{wiki_or_repo_path}` | `update` |
+
+### 5.3 Related Task Locations
+```yaml
+parent_issue: "{platform}#{number} @ {url}"
+child_issues:
+  - "{platform}#{number} @ {url}"
+linked_prs:
+  - "{platform}!{number} @ {url}"
+external_trackers:
+  - "{system}: {identifier} @ {url}"
+```
+
+---
+
+## §6 WHY — Purpose & Value Alignment
+
+### 6.1 Human-Oriented Purpose
+> Single paragraph explaining the **business/user value** this task delivers. Connect to user pain points, business objectives, or system reliability goals. Avoid technical jargon—write for stakeholder understanding.
+
+```
+{purpose_paragraph}
+```
+
+### 6.2 Value Chain Position
+```yaml
+strategic_objective: "{high_level_goal}"
+project_milestone: "{milestone_name}"
+epic: "#{epic_issue_number} - {epic_title}"
+user_story: "As a {persona}, I want {capability} so that {benefit}"
+```
+
+### 6.3 Risk if Not Completed
+```yaml
+impact_level: [critical | high | medium | low]
+affected_parties: [{list_of_affected_entities}]
+consequence: "{description_of_negative_outcome}"
+mitigation_if_delayed: "{fallback_approach}"
+```
+
+---
+
+## §7 HOW — Implementation Reference
+
+### 7.1 Primary Implementation Plan
+```yaml
+plan_document: "{full_path_to_proposal_or_design_doc}"
+plan_section: "{specific_section_reference}"
+plan_revision: "{version_or_commit_hash}"
+```
+
+### 7.2 Technical Approach Summary
+> Brief summary of the implementation approach. Reference external documents for details.
+
+```
+{approach_summary}
+```
+
+### 7.3 Resource References
+| Resource Type | Title | Location | Relevance |
+|---------------|-------|----------|-----------|
+| Design Doc | `{title}` | `{path}` | {why_relevant} |
+| API Spec | `{title}` | `{path}` | {why_relevant} |
+| Runbook | `{title}` | `{path}` | {why_relevant} |
+| Example | `{title}` | `{path}` | {why_relevant} |
+
+---
+
+## §8 WHICH — Target Object Specification
+
+### 8.1 Primary Target Object
+```yaml
+object_title: "{verbatim_exact_name}"
+object_type: [file | function | class | endpoint | workflow | config | schema | table]
+full_path: "{complete_unambiguous_path}"
+current_state: "{description_of_current_state}"
+target_state: "{description_of_desired_state}"
+```
+
+### 8.2 Secondary Objects in Scope
+| Object | Type | Path | Modification Type |
+|--------|------|------|-------------------|
+| `{name}` | {type} | `{path}` | [create \| modify \| delete \| read] |
+
+---
+
+## §9 LEST — Failure Modes & Preventive Constraints
+
+> **Purpose**: Enumerate what must NOT happen, potential failure modes, and guardrails. "Lest" frames negative constraints that bound acceptable implementation paths.
+
+### 9.1 Critical Failures to Prevent
+```yaml
+must_not_occur:
+  - failure: "{catastrophic_failure_description}"
+    probability: [high | medium | low]
+    impact: [critical | high | medium | low]
+    prevention: "{specific_guardrail_or_check}"
+    detection: "{how_we_would_know_if_this_happened}"
+    recovery: "{mitigation_if_prevention_fails}"
+```
+
+### 9.2 Negative Acceptance Criteria
+> Explicit "MUST NOT" statements that are as binding as positive acceptance criteria.
+
+```gherkin
+GIVEN {precondition}
+WHEN {action}
+THEN MUST NOT {forbidden_outcome}
+LEST {consequence_of_violation}
+```
+
+**Examples:**
+- ❌ MUST NOT store PII in plaintext logs LEST HIPAA violation triggers audit
+- ❌ MUST NOT exceed 100ms p99 latency LEST upstream timeout cascade
+- ❌ MUST NOT modify shared state without mutex LEST race condition corrupts data
+
+### 9.3 Assumption Risks
+```yaml
+assumptions_that_could_fail:
+  - assumption: "{thing_we_are_taking_for_granted}"
+    if_wrong: "{consequence}"
+    validation_method: "{how_to_verify_assumption}"
+    fallback: "{what_to_do_if_assumption_fails}"
+```
+
+### 9.4 Regression Guardrails
+```yaml
+protected_behaviors:
+  - behavior: "{existing_functionality_that_must_not_break}"
+    test_coverage: "{path_to_test_or_assertion}"
+    owner: "{who_to_notify_if_regression}"
+```
+
+### 9.5 Security & Compliance Boundaries
+```yaml
+security_constraints:
+  - constraint: "{security_requirement}"
+    standard: [HIPAA | SOC2 | PCI-DSS | GDPR | TCPA | internal_policy]
+    verification: "{how_compliance_is_verified}"
+
+forbidden_patterns:
+  - pattern: "{antipattern_description}"
+    reason: "{why_forbidden}"
+    alternative: "{what_to_do_instead}"
+```
+
+---
+
+## §10 WITH — Resources, Tools & Dependencies
+
+> **Purpose**: Enumerate all resources, tools, credentials, environments, and collaborative dependencies required for task execution.
+
+### 10.1 Required Tools & Technologies
+| Tool/Technology | Version | Purpose | Access Method |
+|-----------------|---------|---------|---------------|
+| `{tool_name}` | `{version_constraint}` | {what_its_used_for} | `{install_or_access_cmd}` |
+| `{language}` | `{version}` | {runtime_or_compilation} | `{env_setup}` |
+| `{framework}` | `{version}` | {capability_provided} | `{import_or_config}` |
+
+### 10.2 Credentials & Access Requirements
+```yaml
+required_access:
+  - resource: "{system_or_service_name}"
+    access_type: [read | write | admin | deploy]
+    credential_location: "{vault_path_or_env_var}"
+    provisioning: "{how_to_request_if_missing}"
+    expiration: "{credential_rotation_schedule}"
+```
+
+### 10.3 Environment Dependencies
+```yaml
+environments:
+  development:
+    url: "{dev_environment_url}"
+    access: "{how_to_connect}"
+    data: [synthetic | sanitized_prod | shared_dev]
+  
+  staging:
+    url: "{staging_url}"
+    deployment_method: "{ci_cd_or_manual}"
+    approval_required: {bool}
+  
+  production:
+    url: "{prod_url}"
+    deployment_window: "{allowed_deploy_times}"
+    rollback_procedure: "{rollback_doc_path}"
+```
+
+### 10.4 External Service Dependencies
+```yaml
+external_dependencies:
+  - service: "{service_name}"
+    provider: "{vendor_or_internal}"
+    endpoint: "{base_url}"
+    auth_method: [api_key | oauth | mtls | none]
+    rate_limits: "{requests_per_period}"
+    sla: "{availability_guarantee}"
+    fallback: "{behavior_if_unavailable}"
+    documentation: "{api_docs_url}"
+```
+
+### 10.5 Human Dependencies
+```yaml
+required_collaboration:
+  - person_or_team: "{identifier}"
+    dependency_type: [approval | information | review | access_grant | decision]
+    needed_by: "{deadline_or_blocker_point}"
+    request_channel: "{how_to_reach_them}"
+    escalation_if_unresponsive: "{escalation_path}"
+```
+
+### 10.6 Data Dependencies
+```yaml
+required_data:
+  - dataset: "{verbatim_dataset_name}"
+    location: "{full_path_or_connection}"
+    format: "{file_format_or_schema}"
+    freshness: "{how_recent_must_it_be}"
+    volume: "{expected_size}"
+    sensitivity: [public | internal | confidential | restricted]
+```
+
+### 10.7 Compute & Infrastructure
+```yaml
+infrastructure_requirements:
+  compute:
+    type: [local | container | vm | serverless | gpu]
+    specs: "{cpu_memory_storage}"
+    duration: "{how_long_needed}"
+  
+  network:
+    egress: [{required_external_endpoints}]
+    ingress: [{required_inbound_access}]
+    vpc_peering: [{cross_network_requirements}]
+  
+  storage:
+    type: [ephemeral | persistent | object | database]
+    capacity: "{size_estimate}"
+    iops: "{performance_requirement}"
+```
+
+---
+
+## §11 MEASURED BY — Success Metrics & Observability
+
+> **Purpose**: Define quantitative and qualitative measures that determine task success, enable progress tracking, and support post-completion validation.
+
+### 11.1 Primary Success Metrics
+```yaml
+success_metrics:
+  - metric: "{metric_name}"
+    type: [counter | gauge | histogram | boolean | qualitative]
+    target_value: "{threshold_or_range}"
+    current_value: "{baseline_if_known}"
+    measurement_method: "{how_to_measure}"
+    measurement_location: "{dashboard_or_query_or_tool}"
+    measurement_frequency: "{how_often_to_check}"
+```
+
+### 11.2 Quantitative KPIs
+| KPI | Baseline | Target | Threshold | Measurement Source |
+|-----|----------|--------|-----------|-------------------|
+| `{latency_p99}` | {current}ms | {target}ms | {max_acceptable}ms | `{apm_tool}/{dashboard}` |
+| `{error_rate}` | {current}% | {target}% | {max_acceptable}% | `{logging_platform}/{query}` |
+| `{throughput}` | {current}/s | {target}/s | {min_acceptable}/s | `{metrics_source}` |
+| `{coverage}` | {current}% | {target}% | {min_acceptable}% | `{test_tool}/{report}` |
+
+### 11.3 Qualitative Success Indicators
+```yaml
+qualitative_measures:
+  - indicator: "{qualitative_outcome}"
+    assessment_method: [user_feedback | expert_review | stakeholder_signoff | demo]
+    assessor: "{who_evaluates}"
+    criteria: "{what_constitutes_success}"
+    evidence: "{artifact_demonstrating_success}"
+```
+
+### 11.4 Progress Tracking Metrics
+```yaml
+progress_indicators:
+  - milestone: "{intermediate_milestone}"
+    target_date: "{deadline}"
+    completion_signal: "{how_we_know_its_done}"
+    current_status: [not_started | in_progress | complete | blocked]
+    percent_complete: {0-100}
+
+burndown:
+  total_units: {story_points | tasks | hours}
+  completed_units: {n}
+  remaining_units: {n}
+  velocity: "{units_per_period}"
+  projected_completion: "{date_estimate}"
+```
+
+### 11.5 Observability Requirements
+```yaml
+observability:
+  logging:
+    - log_type: "{what_to_log}"
+      level: [debug | info | warn | error]
+      format: "{structured_format}"
+      destination: "{log_aggregator_path}"
+      retention: "{how_long_to_keep}"
+  
+  metrics:
+    - metric_name: "{prometheus_style_name}"
+      type: [counter | gauge | histogram | summary]
+      labels: [{label_dimensions}]
+      destination: "{metrics_backend}"
+      alert_threshold: "{when_to_alert}"
+  
+  tracing:
+    - span_name: "{trace_span}"
+      attributes: [{key_value_pairs}]
+      sampling_rate: "{percentage}"
+      destination: "{tracing_backend}"
+```
+
+### 11.6 Post-Completion Validation
+```yaml
+validation_protocol:
+  immediate_checks:  # Within minutes of completion
+    - check: "{what_to_verify}"
+      method: "{how_to_verify}"
+      owner: "{who_performs}"
+  
+  short_term_monitoring:  # Hours to days
+    - metric: "{what_to_watch}"
+      duration: "{monitoring_window}"
+      success_criteria: "{expected_behavior}"
+      escalation_if_anomaly: "{who_to_notify}"
+  
+  long_term_success:  # Weeks to months
+    - outcome: "{sustained_improvement}"
+      measurement_window: "{time_period}"
+      review_date: "{scheduled_review}"
+```
+
+### 11.7 Comparison & Benchmarks
+```yaml
+benchmarks:
+  internal_comparison:
+    baseline_period: "{date_range}"
+    comparison_period: "{date_range}"
+    expected_delta: "{improvement_percentage}"
+  
+  external_benchmark:
+    source: "{industry_standard_or_competitor}"
+    benchmark_value: "{target}"
+    gap_to_close: "{current_vs_benchmark}"
+```
+
+### 11.8 Measurement Anti-Patterns to Avoid
+```yaml
+measurement_pitfalls:
+  - antipattern: "Vanity metrics"
+    example: "Lines of code written"
+    better_alternative: "Features delivered and validated"
+  
+  - antipattern: "Unmeasurable goals"
+    example: "Improve user experience"
+    better_alternative: "Reduce task completion time by 20%"
+  
+  - antipattern: "Lagging-only indicators"
+    example: "Monthly revenue impact"
+    better_alternative: "Add leading indicators: daily active usage"
+```
+
+---
+
+## §12 VALIDATION RULES (Linting Framework)
+
+### 12.1 Structural Completeness
+```yaml
+required_sections:
+  - focus: {present: bool, valid_format: bool}
+  - who: {executor_defined: bool, audience_defined: bool}
+  - what: {desired_state_present: bool, acceptance_criteria_count: ≥1}
+  - when: {trigger_defined: bool, sequence_clear: bool}
+  - where: {source_artifacts: ≥1, destination_artifacts: ≥1}
+  - why: {purpose_stated: bool, value_chain_linked: bool}
+  - how: {plan_referenced: bool}
+  - which: {target_object_specified: bool, path_valid: bool}
+  - lest: {failure_modes_count: ≥1, negative_criteria_defined: bool}
+  - with: {tools_listed: bool, dependencies_enumerated: bool}
+  - measured_by: {success_metrics_count: ≥1, measurement_method_defined: bool}
+```
+
+### 12.2 Naming & Reference Validation
+```yaml
+naming_rules:
+  - task_title:
+      pattern: "^[A-Z][a-z].*"  # Starts with capital, imperative verb
+      max_length: 200
+      min_length: 50
+      must_contain: [action_verb, target_entity]
+  
+  - entity_references:
+      must_be_verbatim: true  # No paraphrasing of proper nouns
+      must_be_resolvable: true  # Path/URL must exist or be creatable
+  
+  - issue_references:
+      pattern: "#{digits}"
+      must_exist_in_tracker: true
+```
+
+### 12.3 Semantic Consistency Checks
+```yaml
+consistency_rules:
+  - cross_reference_alignment:
+      check: "All entities in WHAT appear in WHERE with valid paths"
+  
+  - scope_boundary_clarity:
+      check: "Out of scope items don't overlap with acceptance criteria"
+  
+  - temporal_logic:
+      check: "WHEN preconditions are satisfiable before deadline"
+  
+  - stakeholder_coverage:
+      check: "All WHO roles have notification triggers defined"
+  
+  - lest_what_alignment:
+      check: "LEST failures are inverses of WHAT acceptance criteria"
+  
+  - lest_prevention_coverage:
+      check: "Each critical failure has prevention AND detection defined"
+  
+  - with_where_consistency:
+      check: "All tools in WITH have corresponding paths in WHERE"
+  
+  - with_dependency_fallbacks:
+      check: "External dependencies have fallback behavior specified"
+  
+  - measured_acceptance_alignment:
+      check: "Each acceptance criterion has corresponding metric in MEASURED BY"
+  
+  - measured_observability:
+      check: "All metrics have measurement_location specified and accessible"
+```
+
+### 12.4 Anti-Pattern Detection
+```yaml
+anti_patterns:
+  - vague_verbs: ["handle", "deal with", "address", "look at", "work on"]
+    suggestion: "Use specific verbs: implement, configure, validate, deploy, refactor"
+  
+  - missing_specificity: 
+    pattern: "the {generic_noun}"  # "the API", "the file", "the user"
+    suggestion: "Use verbatim names: 'the OnCall Connect SMS consent API'"
+  
+  - orphan_task:
+    pattern: "No parent_issue AND no epic reference"
+    suggestion: "Link to parent context for traceability"
+  
+  - unbounded_scope:
+    pattern: "No explicit out_of_scope items"
+    suggestion: "Define at least 2 explicit exclusions"
+  
+  # LEST anti-patterns
+  - missing_failure_modes:
+    pattern: "LEST section empty or contains only generic failures"
+    suggestion: "Identify domain-specific failure modes with concrete consequences"
+  
+  - prevention_without_detection:
+    pattern: "Prevention defined but no detection mechanism"
+    suggestion: "Add monitoring/alerting for each critical failure mode"
+  
+  - vague_consequences:
+    pattern: "LEST consequences like 'bad things happen' or 'system breaks'"
+    suggestion: "Quantify impact: '$500/violation', '4hr MTTR', 'blocks 12 downstream tasks'"
+  
+  # WITH anti-patterns
+  - version_unspecified:
+    pattern: "Tool listed without version constraint"
+    suggestion: "Specify version: 'Python 3.11+' not 'Python'"
+  
+  - missing_fallback:
+    pattern: "External dependency without fallback behavior"
+    suggestion: "Define behavior when dependency unavailable: fail-closed, degrade, retry"
+  
+  - credential_in_spec:
+    pattern: "Actual secrets or tokens in specification"
+    suggestion: "Reference vault path or env var, never embed credentials"
+  
+  # MEASURED BY anti-patterns
+  - unmeasurable_metric:
+    pattern: "Metric without measurement_location or method"
+    suggestion: "Specify exactly where/how to measure: 'Datadog dashboard X, query Y'"
+  
+  - vanity_metric:
+    pattern: "Metrics like 'lines of code', 'commits', 'hours spent'"
+    suggestion: "Use outcome metrics: latency, error rate, user adoption"
+  
+  - missing_baseline:
+    pattern: "Target specified without current baseline"
+    suggestion: "Measure current state before setting targets"
+  
+  - no_leading_indicators:
+    pattern: "Only lagging indicators (revenue, monthly users)"
+    suggestion: "Add leading indicators measurable during implementation"
+```
+
+---
+
+## §13 CONTEXT INJECTION METADATA
+
+### 13.1 Token Budget Allocation
+```yaml
+injection_config:
+  max_tokens: {budget}
+  priority_order:
+    1: focus_declaration    # Always include
+    2: which_target         # Always include
+    3: what_acceptance      # Always include
+    4: measured_by_primary  # Always include (success definition)
+    5: lest_critical        # Always include (failure prevention)
+    6: where_paths          # Include if space
+    7: with_dependencies    # Include if space
+    8: when_sequence        # Include if space
+    9: who_matrix           # Compress if needed
+    10: why_purpose         # Compress if needed
+    11: how_references      # Link only if needed
+  
+  compression_strategies:
+    - remove_examples_keep_patterns
+    - collapse_tables_to_lists
+    - abbreviate_paths_with_ellipsis
+    - reduce_lest_to_top_2_failures
+    - reduce_measured_by_to_primary_metric
+    - reduce_with_to_blocking_dependencies_only
+```
+
+### 13.2 State Tracking
+```yaml
+task_state:
+  status: [not_started | in_progress | blocked | in_review | complete]
+  progress_percentage: {0-100}
+  last_action: "{description_of_last_action}"
+  next_action: "{description_of_next_required_action}"
+  blockers: [{list_of_current_blockers}]
+  decisions_needed: [{list_of_pending_decisions}]
+```
+
+### 13.3 Conversation Continuity
+```yaml
+context_anchors:
+  previous_turn_outcome: "{summary_of_last_turn_result}"
+  accumulated_artifacts: [{list_of_created_files_or_changes}]
+  open_questions: [{unresolved_questions_from_prior_turns}]
+  assumptions_made: [{assumptions_to_verify}]
+```
+
+---
+
+## §14 QUICK REFERENCE TEMPLATE (Minimal Injection)
+
+```markdown
+## TASK FOCUS: #{issue_number} — {imperative_task_title_≤200chars}
+
+**TARGET**: `{object_type}` @ `{full_path}`
+**EXECUTOR**: {agent} | **AUDIENCE**: {beneficiary}
+**STATUS**: {status} | **NEXT**: {next_action}
+
+### DESIRED STATE
+{1-2_sentence_outcome_description}
+
+### ACCEPTANCE
+- [ ] {criterion_1}
+- [ ] {criterion_2}
+
+### LEST (Must Not)
+- ❌ {critical_failure_to_prevent}
+- ❌ {forbidden_outcome}
+
+### WITH (Dependencies)
+- TOOLS: {required_tools}
+- ACCESS: {required_credentials_or_permissions}
+- SERVICES: {external_dependencies}
+
+### MEASURED BY
+- {primary_metric}: {baseline} → {target}
+- {secondary_metric}: {threshold}
+
+### PATHS
+- IN: `{primary_source_path}`
+- OUT: `{primary_destination_path}`
+- PLAN: `{implementation_doc_path}`
+
+### CONSTRAINTS
+- WHEN: {trigger_condition}
+- DEADLINE: {time_constraint}
+- BLOCKED_BY: #{issue_numbers}
+```
+
+---
+
+## §15 USAGE EXAMPLES
+
+### Example 1: Feature Implementation
+```markdown
+## TASK FOCUS: #142 — Implement SMS consent verification webhook handler in OnCall Connect Rewst workflow to validate TCPA opt-in status via MySQL lookup before dispatching ElevenLabs voice agent outbound calls
+
+**TARGET**: `workflow` @ `rewst.io/workflows/oncall-connect/sms-consent-handler`
+**EXECUTOR**: Claude Code | **AUDIENCE**: ATG MSP Clients (Healthcare)
+**STATUS**: in_progress | **NEXT**: Add MySQL query action to check consent table
+
+### DESIRED STATE
+The OnCall Connect workflow contains a webhook trigger that receives inbound consent verification requests, queries the `sms_consent` MySQL table for the phone number's opt-in status, and returns a structured JSON response indicating consent validity and timestamp, enabling downstream voice agent dispatch decisions.
+
+### ACCEPTANCE
+- [ ] Webhook accepts POST with `{phone_number, tenant_id}` payload
+- [ ] MySQL query returns consent record within 500ms p95
+- [ ] Response includes `{consented: bool, consent_date: ISO8601, source: string}`
+- [ ] 404 returned for unknown numbers (not implicit denial)
+
+### LEST (Must Not)
+- ❌ MUST NOT call voice agent for non-consented numbers LEST TCPA violation ($500-$1500/call)
+- ❌ MUST NOT cache consent status > 60s LEST stale data causes compliance breach
+- ❌ MUST NOT log full phone numbers LEST PII exposure in audit logs
+- Prevention: Add consent check as blocking step before agent dispatch
+- Detection: Alert on any voice call without preceding consent verification
+
+### WITH (Dependencies)
+- TOOLS: Rewst workflow engine, MySQL 8.0+, Jinja2 templating
+- ACCESS: `oncall-db.atg.internal` read credentials via Rewst org variables
+- SERVICES: MySQL (required, no fallback—fail closed if unavailable)
+- HUMAN: DBA approval for new index on `sms_consent.phone_number` by EOD Thursday
+
+### MEASURED BY
+- Consent check latency: baseline N/A → target <500ms p95 @ `rewst.io/analytics/workflow-timing`
+- False negative rate: target 0% (no unconsented calls) @ `sentry.io/atg/oncall-connect`
+- Adoption: 100% of voice dispatches preceded by consent check within 7 days of deploy
+
+### PATHS
+- IN: `mysql://oncall-db.atg.internal/consent/sms_consent`
+- IN: `github.com/atg/oncall-connect/docs/tcpa-requirements.md`
+- OUT: `rewst.io/workflows/oncall-connect/sms-consent-handler`
+- PLAN: `github.com/atg/oncall-connect/issues/142`
+
+### CONSTRAINTS
+- WHEN: After #141 (database schema) merges
+- DEADLINE: 2024-01-15 (client go-live)
+- BLOCKED_BY: #141
+```
+
+### Example 2: Bug Fix
+```markdown
+## TASK FOCUS: #287 — Fix Jinja template TypeError in Microsoft Graph batch request builder when org_variable contacts list returns None instead of empty array in multi-tenant OnCall Connect deployments
+
+**TARGET**: `file` @ `github.com/atg/oncall-connect/src/templates/graph_batch.jinja2`
+**EXECUTOR**: Claude Code | **AUDIENCE**: ATG Internal (DevOps)
+**STATUS**: not_started | **NEXT**: Add null-coalescing filter to contacts iteration
+
+### DESIRED STATE
+The `graph_batch.jinja2` template safely handles None values from org_variable lookups by defaulting to empty arrays, preventing TypeError exceptions during batch request construction and ensuring graceful degradation when tenant contact lists are unconfigured.
+
+### ACCEPTANCE
+- [ ] `{{ org.contacts | default([]) }}` pattern applied to all list iterations
+- [ ] Unit test added for None input case
+- [ ] Existing tests still pass
+- [ ] Error rate in #prod-alerts drops to 0 for this template
+
+### LEST (Must Not)
+- ❌ MUST NOT introduce new None-unsafe iterations LEST same bug recurs
+- ❌ MUST NOT change output format for valid inputs LEST downstream parsing breaks
+- ❌ MUST NOT swallow errors silently LEST failures go undetected
+- Prevention: Add template linting rule for unguarded iterations
+- Detection: Sentry alert on any TypeError from graph_batch.jinja2
+
+### WITH (Dependencies)
+- TOOLS: Python 3.11+, Jinja2 3.x, pytest
+- ACCESS: Read access to Sentry error details (already have)
+- SERVICES: None (local fix, no external dependencies)
+- DATA: Sample org_variable payloads from 3 affected tenants
+
+### MEASURED BY
+- Error rate: baseline 47/day → target 0/day @ `sentry.io/atg/oncall-connect/issues/98234`
+- Test coverage: +1 test case for None handling
+- Regression: 0 new errors introduced (monitor 48h post-deploy)
+
+### PATHS
+- IN: `github.com/atg/oncall-connect/src/templates/graph_batch.jinja2:47`
+- IN: `sentry.io/atg/oncall-connect/issues/98234` (error trace)
+- OUT: `github.com/atg/oncall-connect/src/templates/graph_batch.jinja2`
+- OUT: `github.com/atg/oncall-connect/tests/test_graph_batch.py`
+- PLAN: `github.com/atg/oncall-connect/issues/287#solution-proposal`
+
+### CONSTRAINTS
+- WHEN: Immediately (production errors)
+- DEADLINE: EOD today
+- BLOCKED_BY: None
+```
+
+---
+
+## §16 REVISION HISTORY
+
+| Version | Date | Author | Changes |
+|---------|------|--------|---------|
+| 1.0 | {date} | {author} | Initial framework specification |
+| 1.1 | {date} | {author} | Added LEST, WITH, MEASURED BY sections |
+
+---
+
+## §17 APPENDIX: QUICK LINTING CHECKLIST
+
+Before submitting/injecting, verify:
+
+- [ ] **FOCUS**: Title is imperative, ≤200 chars, contains action verb + specific target
+- [ ] **WHO**: Executor and audience explicitly named
+- [ ] **WHAT**: Desired state uses present tense, acceptance criteria are testable
+- [ ] **WHEN**: Trigger condition and sequence position are clear
+- [ ] **WHERE**: All referenced artifacts have full, valid paths
+- [ ] **WHY**: Purpose connects to human/business value
+- [ ] **HOW**: Links to implementation plan document
+- [ ] **WHICH**: Single target object has exact name and full path
+- [ ] **LEST**: At least 1 critical failure mode identified with prevention strategy
+- [ ] **LEST**: Negative acceptance criteria (MUST NOT) are explicit
+- [ ] **WITH**: Required tools and versions listed
+- [ ] **WITH**: External dependencies have fallback behaviors defined
+- [ ] **WITH**: Human dependencies have escalation paths
+- [ ] **MEASURED BY**: At least 1 quantitative success metric with target value
+- [ ] **MEASURED BY**: Measurement method and location specified
+- [ ] **MEASURED BY**: Post-completion validation protocol defined
+- [ ] **STATE**: Status and next action are current
+- [ ] **SCOPE**: At least 2 explicit out-of-scope items listed
