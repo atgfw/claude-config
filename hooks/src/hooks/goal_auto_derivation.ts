@@ -1128,12 +1128,21 @@ function hydrateGoalStack(
     saveGoalStack(newStack);
   }
 
-  // Hydrate with derived goal
+  // Hydrate with derived goal (with pre-push validation)
   if (derived.goal) {
-    pushGoal(sessionId, derived.goal);
+    // Validate and enrich goal before pushing
+    const validation = validateAndEnrichGoal(derived.goal, workingDir);
+
+    if (!validation.compliant) {
+      log(
+        `[goal-auto-derivation] Goal enriched (${validation.score}%): ${validation.gaps.join(', ') || 'minor gaps filled'}`
+      );
+    }
+
+    pushGoal(sessionId, validation.goal);
     return {
       hydrated: true,
-      message: `Auto-derived goal (${derived.source}): "${derived.goal.summary}"`,
+      message: `Auto-derived goal (${derived.source}): "${validation.goal.summary}" [${validation.score}% compliant]`,
     };
   }
 

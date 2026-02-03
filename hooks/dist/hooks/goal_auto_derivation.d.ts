@@ -57,6 +57,7 @@ declare function deriveGoalFromContext(workingDir: string): DerivedGoal;
 /**
  * Hydrate session goal stack from derived context.
  * Only adds goals if stack is empty or working directory changed.
+ * Now includes pre-push validation and enrichment.
  */
 declare function hydrateGoalStack(sessionId: string, workingDir: string, derived: DerivedGoal): {
     hydrated: boolean;

@@ -1,9 +1,0 @@
-{
-  "id": "5",
-  "subject": "Add tests for enhanced extraction",
-  "description": "Create test fixtures with sample GitHub issue bodies and verify extraction produces compliant goals",
-  "activeForm": "Adding extraction tests",
-  "status": "pending",
-  "blocks": [],
-  "blockedBy": []
-}
