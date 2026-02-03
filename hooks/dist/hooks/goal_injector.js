@@ -17,11 +17,12 @@ const GOAL_SET_PATTERNS = [
     /\bset\s+goal\s*:/i,
 ];
 const GOAL_CLEAR_PATTERNS = [
-    /\b(?:we(?:'re| are)\s+)?done\b/i,
-    /\b(?:we(?:'re| are)\s+)?finished\b/i,
-    /\bnew\s+task\b/i,
-    /\bclear\s+goal\b/i,
-    /\breset\s+goal\b/i,
+    /\b(?:we(?:'re| are)\s+)?done\s+(?:with\s+)?(?:this|that|the)\s+(?:goal|task|project)\b/i,
+    /\b(?:we(?:'re| are)\s+)?finished\s+(?:with\s+)?(?:this|that|the)\s+(?:goal|task|project)\b/i,
+    /\bnew\s+(?:goal|task|project)\b/i,
+    /\bclear\s+(?:the\s+)?goal\b/i,
+    /\breset\s+(?:the\s+)?goal\b/i,
+    /\bgoal\s+(?:is\s+)?(?:done|complete|finished)\b/i,
 ];
 export function getGoalPath() {
     return path.join(getClaudeDir(), 'ledger', 'active-goal.json');
