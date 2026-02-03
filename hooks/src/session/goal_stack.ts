@@ -190,6 +190,7 @@ export function saveGoalStack(stack: SessionGoalStack): void {
 
 /**
  * Push a goal onto the stack (becomes current focus).
+ * Also syncs to active-goal.json to maintain CLAUDE.md contract.
  */
 export function pushGoal(sessionId: string, goal: GoalLevel): void {
   const stack = loadGoalStack(sessionId);
@@ -203,11 +204,89 @@ export function pushGoal(sessionId: string, goal: GoalLevel): void {
   // Push to front (index 0 = current focus)
   stack.stack.unshift(goal);
   saveGoalStack(stack);
+
+  // Sync to active-goal.json (CLAUDE.md requires display from this file)
+  syncGoalToActiveGoalJson(goal);
+}
+
+/**
+ * Sync the current focus goal to active-goal.json.
+ * This maintains backward compatibility with CLAUDE.md's requirement
+ * that "EVERY response MUST end with the active goal from active-goal.json".
+ */
+function syncGoalToActiveGoalJson(goal: GoalLevel): void {
+  const activeGoalPath = path.join(getClaudeDir(), 'ledger', 'active-goal.json');
+
+  try {
+    // Load existing to preserve history
+    let existing: {
+      goal: string | null;
+      fields: GoalFields | null;
+      summary: string | null;
+      updatedAt: string;
+      linkedArtifacts: {
+        openspec: string | null;
+        plan_files: string[];
+        github_issues: number[];
+      };
+      history: Array<{ summary: string; clearedAt: string }>;
+    } = {
+      goal: null,
+      fields: null,
+      summary: null,
+      updatedAt: new Date().toISOString(),
+      linkedArtifacts: {
+        openspec: null,
+        plan_files: [],
+        github_issues: [],
+      },
+      history: [],
+    };
+
+    try {
+      const raw = fs.readFileSync(activeGoalPath, 'utf-8');
+      existing = JSON.parse(raw);
+    } catch {
+      // File doesn't exist or is invalid - use default
+    }
+
+    // Update with current goal
+    existing.goal = goal.summary;
+    existing.summary = goal.summary;
+    existing.fields = goal.fields;
+    existing.updatedAt = new Date().toISOString();
+
+    // Track linked GitHub issue if present
+    if (goal.source.github_issue) {
+      if (!existing.linkedArtifacts) {
+        existing.linkedArtifacts = { openspec: null, plan_files: [], github_issues: [] };
+      }
+      if (!existing.linkedArtifacts.github_issues) {
+        existing.linkedArtifacts.github_issues = [];
+      }
+      if (!existing.linkedArtifacts.github_issues.includes(goal.source.github_issue)) {
+        existing.linkedArtifacts.github_issues.push(goal.source.github_issue);
+      }
+    }
+
+    // Track linked OpenSpec if present
+    if (goal.source.openspec_change) {
+      if (!existing.linkedArtifacts) {
+        existing.linkedArtifacts = { openspec: null, plan_files: [], github_issues: [] };
+      }
+      existing.linkedArtifacts.openspec = goal.source.openspec_change;
+    }
+
+    fs.writeFileSync(activeGoalPath, JSON.stringify(existing, null, 2) + '\n', 'utf-8');
+  } catch {
+    // Non-fatal - session stack is primary, active-goal.json is secondary
+  }
 }
 
 /**
  * Pop the current focus goal from the stack.
  * Records in history with completion status.
+ * Syncs active-goal.json to new focus or clears if empty.
  */
 export function popGoal(
   sessionId: string,
@@ -238,7 +317,77 @@ export function popGoal(
   }
 
   saveGoalStack(stack);
+
+  // Sync active-goal.json to new focus or clear if empty
+  const newFocus = stack.stack[0];
+  if (newFocus) {
+    syncGoalToActiveGoalJson(newFocus);
+  } else {
+    clearActiveGoalJson(popped.summary);
+  }
+
   return popped;
+}
+
+/**
+ * Clear active-goal.json when goal stack becomes empty.
+ * Preserves history for continuity.
+ */
+function clearActiveGoalJson(lastSummary: string): void {
+  const activeGoalPath = path.join(getClaudeDir(), 'ledger', 'active-goal.json');
+
+  try {
+    let existing: {
+      goal: string | null;
+      fields: GoalFields | null;
+      summary: string | null;
+      updatedAt: string;
+      linkedArtifacts: {
+        openspec: string | null;
+        plan_files: string[];
+        github_issues: number[];
+      };
+      history: Array<{ summary: string; clearedAt: string }>;
+    } = {
+      goal: null,
+      fields: null,
+      summary: null,
+      updatedAt: new Date().toISOString(),
+      linkedArtifacts: { openspec: null, plan_files: [], github_issues: [] },
+      history: [],
+    };
+
+    try {
+      const raw = fs.readFileSync(activeGoalPath, 'utf-8');
+      existing = JSON.parse(raw);
+    } catch {
+      // File doesn't exist - use default
+    }
+
+    // Add to history before clearing
+    if (!existing.history) {
+      existing.history = [];
+    }
+    existing.history.push({
+      summary: lastSummary,
+      clearedAt: new Date().toISOString(),
+    });
+
+    // Keep history bounded
+    if (existing.history.length > 10) {
+      existing.history = existing.history.slice(-10);
+    }
+
+    // Clear current goal
+    existing.goal = null;
+    existing.summary = null;
+    existing.fields = null;
+    existing.updatedAt = new Date().toISOString();
+
+    fs.writeFileSync(activeGoalPath, JSON.stringify(existing, null, 2) + '\n', 'utf-8');
+  } catch {
+    // Non-fatal
+  }
 }
 
 /**
