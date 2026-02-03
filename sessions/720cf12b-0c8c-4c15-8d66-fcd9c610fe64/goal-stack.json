@@ -1,0 +1,30 @@
+{
+  "session_id": "720cf12b-0c8c-4c15-8d66-fcd9c610fe64",
+  "working_directory": "C:\\Users\\codya\\.claude",
+  "stack": [
+    {
+      "id": "issue-31",
+      "type": "issue",
+      "summary": "[spinal-cord] fix(hooks): Enforce full file paths in all Claude Code operations",
+      "fields": {
+        "who": "Claude Code session",
+        "what": "## Problem",
+        "when": "Current task",
+        "where": "C:\\Users\\codya\\.claude",
+        "why": "Task in progress",
+        "how": "Following implementation plan",
+        "which": "Target object not specified",
+        "lest": "Failure modes not defined",
+        "with": "Dependencies not enumerated",
+        "measuredBy": "Success metrics not defined"
+      },
+      "source": {
+        "github_issue": 31
+      },
+      "pushedAt": "2026-02-03T20:39:51.577Z",
+      "pushedBy": "IssueDetection"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-03T20:39:51.578Z"
+}
