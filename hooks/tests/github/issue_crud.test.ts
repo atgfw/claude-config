@@ -221,7 +221,12 @@ describe('createFromOpenSpec', () => {
 
     const createCall = execSync.mock.calls[1][0] as string;
     expect(createCall).toContain('Custom summary');
-    expect(readFileSync).not.toHaveBeenCalled();
+    // Note: readFileSync may be called for active-goal.json (goal injection)
+    // but should NOT be called for proposal.md when summary is provided
+    const proposalCalls = readFileSync.mock.calls.filter((call) =>
+      String(call[0]).includes('proposal.md')
+    );
+    expect(proposalCalls).toHaveLength(0);
   });
 
   it('falls back to changeId when proposal.md missing', () => {

@@ -26,6 +26,7 @@ function makeItem(overrides: Partial<UnifiedChecklistItem> = {}): UnifiedCheckli
       openspec_change: 'add-tool-research-gate',
       plan_step: null,
     },
+    goal_context: null, // Disable goal injection for format tests
     ...overrides,
   });
 }

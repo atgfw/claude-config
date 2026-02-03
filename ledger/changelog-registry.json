@@ -82,11 +82,19 @@
           "description": "v5.5 sentiment + coaching categories",
           "breaking": false,
           "timestamp": "2026-01-30T17:59:49.664Z"
+        },
+        {
+          "hash": "dbc1eb8",
+          "type": "feat",
+          "scope": "llm-extraction",
+          "description": "v5.6 request category enrichment for ServiceTitan",
+          "breaking": false,
+          "timestamp": "2026-02-03T14:36:07.931Z"
         }
       ]
     }
   },
-  "lastUpdated": "2026-01-30T20:28:25.681Z",
+  "lastUpdated": "2026-02-03T14:36:07.960Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"
