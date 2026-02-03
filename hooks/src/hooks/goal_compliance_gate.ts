@@ -459,7 +459,8 @@ async function goalComplianceGateHook(input: StopInput): Promise<StopOutput> {
     logTerse('[!] Stale goal detected - skipping compliance (mostly placeholder fields)');
     return {
       decision: 'approve',
-      reason: 'Stale goal with placeholder fields - compliance skipped. Define a proper goal for validation.',
+      reason:
+        'Stale goal with placeholder fields - compliance skipped. Define a proper goal for validation.',
     };
   }
 

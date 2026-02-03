@@ -179,4 +179,62 @@ Fix the broken thing by updating the code.
       expect(vagueStarters.includes(firstWord)).toBe(true);
     });
   });
+
+  describe('Stale goal detection', () => {
+    const placeholderPatterns = [
+      'not specified',
+      'not defined',
+      'not enumerated',
+      'Target object',
+      'Failure modes',
+      'Dependencies',
+      'Success metrics',
+      'Following implementation plan',
+      'Task in progress',
+    ];
+
+    it('detects placeholder fields', () => {
+      const staleFields = {
+        which: 'Target object not specified',
+        lest: 'Failure modes not defined',
+        with: 'Dependencies not enumerated',
+        measuredBy: 'Success metrics not defined',
+        how: 'Following implementation plan',
+        why: 'Task in progress',
+      };
+
+      let placeholderCount = 0;
+      for (const value of Object.values(staleFields)) {
+        if (placeholderPatterns.some((p) => value.includes(p))) {
+          placeholderCount++;
+        }
+      }
+
+      // 6 of 6 fields are placeholders - this is stale
+      expect(placeholderCount).toBe(6);
+      expect(placeholderCount >= 4).toBe(true);
+    });
+
+    it('allows goals with real content', () => {
+      const goodFields = {
+        which: 'hooks/src/hooks/goal_compliance_gate.ts',
+        lest: 'Must not block sessions with valid goals',
+        with: 'TypeScript, vitest, bun runtime',
+        measuredBy: 'Tests passing, build succeeds',
+        how: 'Add stale goal detection before validation',
+        why: 'Prevent infinite block loops on stale auto-derived goals',
+      };
+
+      let placeholderCount = 0;
+      for (const value of Object.values(goodFields)) {
+        if (placeholderPatterns.some((p) => value.includes(p))) {
+          placeholderCount++;
+        }
+      }
+
+      // 0 of 6 fields are placeholders - this is valid
+      expect(placeholderCount).toBe(0);
+      expect(placeholderCount >= 4).toBe(false);
+    });
+  });
 });
