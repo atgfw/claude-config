@@ -59,12 +59,16 @@ function bootstrapGoalStack(sessionId: string): string | null {
     if (existingGlobal.summary !== (goal.summary ?? goal.goal)) {
       existingGlobal.summary = goal.summary ?? goal.goal ?? '';
       existingGlobal.fields = {
-        who: goal.fields.who,
-        what: goal.fields.what,
-        when: goal.fields.when,
-        where: goal.fields.where,
-        why: goal.fields.why,
-        how: goal.fields.how,
+        who: goal.fields.who ?? 'unknown',
+        what: goal.fields.what ?? 'unknown',
+        when: goal.fields.when ?? 'unknown',
+        where: goal.fields.where ?? 'unknown',
+        why: goal.fields.why ?? 'unknown',
+        how: goal.fields.how ?? 'unknown',
+        which: goal.fields.which ?? 'Target object not specified',
+        lest: goal.fields.lest ?? 'Failure modes not defined',
+        with: goal.fields.with ?? 'Dependencies not enumerated',
+        measuredBy: goal.fields.measuredBy ?? 'Success metrics not defined',
       };
       saveGoalStack(stack);
       logTerse(`[+] Updated global goal: ${existingGlobal.summary}`);
@@ -78,12 +82,16 @@ function bootstrapGoalStack(sessionId: string): string | null {
     type: 'epic',
     summary: goal.summary ?? goal.goal ?? '',
     fields: {
-      who: goal.fields.who,
-      what: goal.fields.what,
-      when: goal.fields.when,
-      where: goal.fields.where,
-      why: goal.fields.why,
-      how: goal.fields.how,
+      who: goal.fields.who ?? 'unknown',
+      what: goal.fields.what ?? 'unknown',
+      when: goal.fields.when ?? 'unknown',
+      where: goal.fields.where ?? 'unknown',
+      why: goal.fields.why ?? 'unknown',
+      how: goal.fields.how ?? 'unknown',
+      which: goal.fields.which ?? 'Target object not specified',
+      lest: goal.fields.lest ?? 'Failure modes not defined',
+      with: goal.fields.with ?? 'Dependencies not enumerated',
+      measuredBy: goal.fields.measuredBy ?? 'Success metrics not defined',
     },
     source: { manual: true },
     pushedAt: new Date().toISOString(),

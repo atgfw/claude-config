@@ -10,7 +10,7 @@
  * This hook is READ-ONLY - it never modifies goal files.
  */
 import type { UserPromptSubmitInput, UserPromptSubmitOutput, PostToolUseInput, PostToolUseOutput, SessionStartInput, SessionStartOutput, StopInput, StopOutput } from '../types.js';
-declare const GOAL_FIELDS: readonly ["who", "what", "when", "where", "why", "how"];
+declare const GOAL_FIELDS: readonly ["who", "what", "when", "where", "why", "how", "which", "lest", "with", "measuredBy"];
 type GoalField = (typeof GOAL_FIELDS)[number];
 /**
  * Linked artifacts that should be auto-hydrated on session start.

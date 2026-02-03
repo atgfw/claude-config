@@ -9,6 +9,10 @@
 import type { HookInput } from '../types.js';
 export type GoalType = 'epic' | 'issue' | 'task' | 'subtask';
 export type GoalPushedBy = 'TaskUpdate' | 'IssueDetection' | 'Manual' | 'SessionStart';
+/**
+ * Task Specification v1.0 - 11 Section Schema
+ * All fields are required for compliance.
+ */
 export interface GoalFields {
     who: string;
     what: string;
@@ -16,6 +20,10 @@ export interface GoalFields {
     where: string;
     why: string;
     how: string;
+    which: string;
+    lest: string;
+    with: string;
+    measuredBy: string;
 }
 export interface GoalSource {
     github_issue?: number;
@@ -120,6 +128,7 @@ export declare function loadGlobalOverride(): GoalLevel | null;
 export declare function formatGoalHierarchy(sessionId: string): string;
 /**
  * Create default goal fields from a summary.
+ * Task Specification v1.0 - All 11 sections initialized.
  */
 export declare function createDefaultFields(summary: string): GoalFields;
 /**
@@ -131,8 +140,9 @@ export declare function createTaskGoal(taskId: string, subject: string, descript
  */
 export declare function createIssueGoal(issueNumber: number, title: string, body?: string): GoalLevel;
 /**
- * Extract 5W1H fields from a description/body text.
+ * Extract Task Specification v1.0 fields from a description/body text.
  * Looks for patterns like "WHO: ..." or "**WHO:**" in the text.
+ * Supports all 11 sections.
  */
 export declare function extractFieldsFromDescription(description: string): GoalFields;
 //# sourceMappingURL=goal_stack.d.ts.map

@@ -212,6 +212,10 @@ export function loadGlobalOverride() {
                 where: data.fields?.where ?? 'unknown',
                 why: data.fields?.why ?? 'unknown',
                 how: data.fields?.how ?? 'unknown',
+                which: data.fields?.which ?? 'Target object not specified',
+                lest: data.fields?.lest ?? 'Failure modes not defined',
+                with: data.fields?.with ?? 'Dependencies not enumerated',
+                measuredBy: data.fields?.measuredBy ?? 'Success metrics not defined',
             },
             source: { manual: true },
             pushedAt: data.updatedAt ?? new Date().toISOString(),
@@ -257,7 +261,7 @@ export function formatGoalHierarchy(sessionId) {
         const focusMarker = i === hierarchy.length - 1 ? ' <- CURRENT FOCUS' : '';
         lines.push(`${indent}${prefix}[${TYPE_LABELS[goal.type]}${issueRef}] ${goal.summary}${focusMarker}`);
     }
-    // Add 5W1H fields for current focus
+    // Add Task Specification v1.0 fields for current focus (all 11 sections)
     const focus = hierarchy[hierarchy.length - 1];
     if (focus) {
         lines.push('');
@@ -268,11 +272,16 @@ export function formatGoalHierarchy(sessionId) {
         lines.push(`  WHERE: ${focus.fields.where}`);
         lines.push(`  WHY: ${focus.fields.why}`);
         lines.push(`  HOW: ${focus.fields.how}`);
+        lines.push(`  WHICH: ${focus.fields.which}`);
+        lines.push(`  LEST: ${focus.fields.lest}`);
+        lines.push(`  WITH: ${focus.fields.with}`);
+        lines.push(`  MEASURED BY: ${focus.fields.measuredBy}`);
     }
     return lines.join('\n');
 }
 /**
  * Create default goal fields from a summary.
+ * Task Specification v1.0 - All 11 sections initialized.
  */
 export function createDefaultFields(summary) {
     return {
@@ -282,6 +291,10 @@ export function createDefaultFields(summary) {
         where: process.cwd(),
         why: 'Task in progress',
         how: 'Following implementation plan',
+        which: 'Target object not specified',
+        lest: 'Failure modes not defined',
+        with: 'Dependencies not enumerated',
+        measuredBy: 'Success metrics not defined',
     };
 }
 // ============================================================================
@@ -316,13 +329,15 @@ export function createIssueGoal(issueNumber, title, body) {
     };
 }
 /**
- * Extract 5W1H fields from a description/body text.
+ * Extract Task Specification v1.0 fields from a description/body text.
  * Looks for patterns like "WHO: ..." or "**WHO:**" in the text.
+ * Supports all 11 sections.
  */
 export function extractFieldsFromDescription(description) {
     const fields = createDefaultFields('');
     // Patterns to match field definitions (handles **WHO:** and WHO: formats)
     // Using greedy .+ with explicit boundary to capture full line
+    // Task Specification v1.0 - All 11 sections
     const patterns = [
         ['who', /\*{0,2}WHO\*{0,2}:\*{0,2}\s*(.+)$/im],
         ['what', /\*{0,2}WHAT\*{0,2}:\*{0,2}\s*(.+)$/im],
@@ -330,6 +345,10 @@ export function extractFieldsFromDescription(description) {
         ['where', /\*{0,2}WHERE\*{0,2}:\*{0,2}\s*(.+)$/im],
         ['why', /\*{0,2}WHY\*{0,2}:\*{0,2}\s*(.+)$/im],
         ['how', /\*{0,2}HOW\*{0,2}:\*{0,2}\s*(.+)$/im],
+        ['which', /\*{0,2}WHICH\*{0,2}:\*{0,2}\s*(.+)$/im],
+        ['lest', /\*{0,2}LEST\*{0,2}:\*{0,2}\s*(.+)$/im],
+        ['with', /\*{0,2}WITH\*{0,2}:\*{0,2}\s*(.+)$/im],
+        ['measuredBy', /\*{0,2}MEASURED\s*BY\*{0,2}:\*{0,2}\s*(.+)$/im],
     ];
     for (const [field, pattern] of patterns) {
         const match = description.match(pattern);

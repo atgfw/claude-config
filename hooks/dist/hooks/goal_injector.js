@@ -14,7 +14,19 @@ import * as path from 'node:path';
 import { getClaudeDir } from '../utils.js';
 import { registerHook } from '../runner.js';
 import { getSessionId, formatGoalHierarchy, loadGoalStack } from '../session/goal_stack.js';
-const GOAL_FIELDS = ['who', 'what', 'when', 'where', 'why', 'how'];
+// Task Specification v1.0 - All 11 sections
+const GOAL_FIELDS = [
+    'who',
+    'what',
+    'when',
+    'where',
+    'why',
+    'how',
+    'which',
+    'lest',
+    'with',
+    'measuredBy',
+];
 export function getGoalPath() {
     return path.join(getClaudeDir(), 'ledger', 'active-goal.json');
 }
@@ -38,6 +50,10 @@ export function createEmptyGoal() {
             where: 'unknown',
             why: 'unknown',
             how: 'unknown',
+            which: 'Target object not specified',
+            lest: 'Failure modes not defined',
+            with: 'Dependencies not enumerated',
+            measuredBy: 'Success metrics not defined',
         },
         summary: null,
         updatedAt: null,

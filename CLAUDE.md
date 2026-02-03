@@ -21,7 +21,9 @@ Format (append to end of every message):
 - **WHERE:** {fields.where}
 - **WHY:** {fields.why}
 - **HOW:** {fields.how}
+- **WHICH:** {fields.which}
 - **LEST:** {fields.lest}
+- **WITH:** {fields.with}
 - **MEASURED BY:** {fields.measuredBy}
 ```
 

@@ -91,11 +91,14 @@ function hasActionTitle(summary: string): boolean {
 }
 
 /**
- * Check if goal has target object specification (WHERE with paths).
+ * Check if goal has target object specification (§8 WHICH).
+ * Requires explicit `which` field with path-like content.
  */
 function hasTargetObject(fields: GoalLevel['fields']): boolean {
-  // WHERE should contain file paths, URLs, or specific locations
+  // Check explicit WHICH field first (Task Specification v1.0)
+  const which = fields.which?.toLowerCase() ?? '';
   const where = fields.where?.toLowerCase() ?? '';
+  const combined = `${which} ${where}`;
 
   // Check for path-like patterns
   const pathPatterns = [
@@ -106,39 +109,48 @@ function hasTargetObject(fields: GoalLevel['fields']): boolean {
     /#\d+/, // Issue references
   ];
 
-  return pathPatterns.some((pattern) => pattern.test(where));
+  return pathPatterns.some((pattern) => pattern.test(combined));
 }
 
 /**
- * Check if goal has failure modes defined (LEST).
- * For now, check if there's substantial content about what NOT to do.
+ * Check if goal has failure modes defined (§9 LEST).
+ * Requires explicit `lest` field with constraint content.
  */
 function hasFailureModes(fields: GoalLevel['fields']): boolean {
-  // Check all fields for "must not", "prevent", "avoid", "lest" keywords
+  // Check explicit LEST field first (Task Specification v1.0)
+  const lest = fields.lest?.toLowerCase() ?? '';
   const allContent = Object.values(fields).join(' ').toLowerCase();
 
-  const failureModeKeywords = [
-    'must not',
-    'should not',
-    'cannot',
-    'prevent',
-    'avoid',
-    'lest',
-    'failure',
-    'risk',
-    'blocked',
-    'never',
-  ];
+  // Lest field must have meaningful content (not default placeholder)
+  if (lest.includes('failure modes not defined') || lest.length < 20) {
+    // Fall back to checking all fields
+    const failureModeKeywords = [
+      'must not',
+      'should not',
+      'cannot',
+      'prevent',
+      'avoid',
+      'lest',
+      'failure',
+      'risk',
+      'blocked',
+      'never',
+    ];
+    return failureModeKeywords.some((keyword) => allContent.includes(keyword));
+  }
 
-  return failureModeKeywords.some((keyword) => allContent.includes(keyword));
+  return true;
 }
 
 /**
- * Check if goal has dependencies/tools defined (WITH).
- * For now, check HOW field for tool/dependency mentions.
+ * Check if goal has dependencies/tools defined (§10 WITH).
+ * Requires explicit `with` field with tool/dependency content.
  */
 function hasDependencies(fields: GoalLevel['fields']): boolean {
+  // Check explicit WITH field first (Task Specification v1.0)
+  const withField = fields.with?.toLowerCase() ?? '';
   const how = fields.how?.toLowerCase() ?? '';
+  const combined = `${withField} ${how}`;
 
   const toolKeywords = [
     'bun',
@@ -152,35 +164,49 @@ function hasDependencies(fields: GoalLevel['fields']): boolean {
     'cli',
     'command',
     'tool',
+    'python',
+    'node',
+    'npm',
+    'dependency',
+    'require',
+    'access',
+    'credential',
   ];
 
-  return toolKeywords.some((keyword) => how.includes(keyword));
+  return toolKeywords.some((keyword) => combined.includes(keyword));
 }
 
 /**
- * Check if goal has success metrics defined (MEASURED BY).
- * For now, check for measurable terms.
+ * Check if goal has success metrics defined (§11 MEASURED BY).
+ * Requires explicit `measuredBy` field with metric content.
  */
 function hasSuccessMetrics(fields: GoalLevel['fields']): boolean {
+  // Check explicit MEASURED BY field first (Task Specification v1.0)
+  const measuredBy = fields.measuredBy?.toLowerCase() ?? '';
   const allContent = Object.values(fields).join(' ').toLowerCase();
 
-  const metricKeywords = [
-    'test',
-    'passing',
-    'coverage',
-    'metric',
-    'measure',
-    'success',
-    'complete',
-    'validated',
-    'verified',
-    '%',
-    'latency',
-    'error rate',
-    'threshold',
-  ];
+  // MeasuredBy field must have meaningful content (not default placeholder)
+  if (measuredBy.includes('success metrics not defined') || measuredBy.length < 20) {
+    // Fall back to checking all fields
+    const metricKeywords = [
+      'test',
+      'passing',
+      'coverage',
+      'metric',
+      'measure',
+      'success',
+      'complete',
+      'validated',
+      'verified',
+      '%',
+      'latency',
+      'error rate',
+      'threshold',
+    ];
+    return metricKeywords.some((keyword) => allContent.includes(keyword));
+  }
 
-  return metricKeywords.some((keyword) => allContent.includes(keyword));
+  return true;
 }
 
 // ============================================================================
