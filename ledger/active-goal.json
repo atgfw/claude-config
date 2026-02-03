@@ -13,7 +13,7 @@
     "measuredBy": "Tests passing; Success metrics not defined"
   },
   "summary": "[spinal-cord] fix(hooks): Enforce full file paths in all Claude Code operations",
-  "updatedAt": "2026-02-03T20:49:17.226Z",
+  "updatedAt": "2026-02-03T20:52:44.186Z",
   "linkedArtifacts": {
     "openspec": null,
     "plan_files": [],
