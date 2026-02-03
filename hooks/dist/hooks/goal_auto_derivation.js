@@ -206,16 +206,16 @@ function extractFieldsFromGitHubIssue(issueNumber, title, body, labels) {
     // First try explicit field extraction (if issue uses WHO/WHAT format)
     const explicitFields = extractFieldsFromDescription(body);
     const hasExplicitFields = Object.values(explicitFields).some((v) => v !== 'unknown' && !v.includes('not specified') && !v.includes('not defined'));
-    log(`[extractFieldsFromGitHubIssue] hasExplicitFields=${hasExplicitFields}, explicitWhat=${explicitFields.what}`);
+    console.error(`[extractFieldsFromGitHubIssue] hasExplicitFields=${hasExplicitFields}, explicitWhat=${explicitFields.what}`);
     if (hasExplicitFields) {
         // Fill in any remaining unknowns from parsed sections
         const sections = parseIssueSections(body);
-        log(`[extractFieldsFromGitHubIssue] using enrichFieldsFromSections path`);
+        console.error(`[extractFieldsFromGitHubIssue] using enrichFieldsFromSections path`);
         return enrichFieldsFromSections(explicitFields, sections, issueNumber, title, labels);
     }
     // Parse structured sections
     const sections = parseIssueSections(body);
-    log(`[extractFieldsFromGitHubIssue] using fresh derive path`);
+    console.error(`[extractFieldsFromGitHubIssue] using fresh derive path`);
     // Build fields from sections intelligently
     const fields = {
         // WHO: Derive from context or labels
@@ -242,7 +242,7 @@ function extractFieldsFromGitHubIssue(issueNumber, title, body, labels) {
     return fields;
 }
 function deriveWhat(sections, title) {
-    log(`[deriveWhat] goal=${sections.goal?.substring(0, 50)}, solution=${sections.solution?.substring(0, 50)}`);
+    console.error(`[deriveWhat] goal=${sections.goal?.substring(0, 50)}, solution=${sections.solution?.substring(0, 50)}`);
     // If goal section exists and is clean (not a section header)
     if (sections.goal) {
         const cleanGoal = sections.goal.trim();
