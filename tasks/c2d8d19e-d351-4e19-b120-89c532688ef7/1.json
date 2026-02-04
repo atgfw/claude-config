@@ -1,0 +1,13 @@
+{
+  "id": "1",
+  "subject": "Add business_unit_hint to routing category",
+  "description": "Add new field `business_unit_hint` to routing_category_config node. Field should be object with value (string|null) and rationale. Microprompt: Select from integration_context.valid_values.business_units based on department/location.",
+  "activeForm": "Adding business_unit_hint field",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "userConfirmed": true,
+    "evidence": "n8n_update_partial_workflow returned success with operationsApplied: 1 for routing-cfg node"
+  }
+}

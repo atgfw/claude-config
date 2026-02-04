@@ -1,0 +1,13 @@
+{
+  "id": "6",
+  "subject": "Audit website_rag workflows for hardening needs",
+  "description": "Identify all website crawling workflows and assess current state for reliability, robustness, linting, and testing gaps",
+  "activeForm": "Auditing website_rag workflows",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "userConfirmed": true,
+    "evidence": "Audit complete: 5 code nodes in crawler (4 tested), 6 code nodes in orchestrator (1 tested). Missing tests identified for 6 nodes."
+  }
+}

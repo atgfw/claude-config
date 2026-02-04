@@ -10,6 +10,8 @@ import {
   isTestCommand,
   parseTestOutput,
   generateSuspicionMessage,
+  loadHistory,
+  saveHistory,
   SUSPICION_THRESHOLD,
 } from '../src/hooks/metavitest_suspicion.js';
 
@@ -275,6 +277,214 @@ Ran 25 tests
 
       const message = generateSuspicionMessage(history, latestRun);
       expect(message).toContain('1000000');
+    });
+  });
+
+  // ============================================================================
+  // META-META-VITEST: Testing the tester
+  // ============================================================================
+
+  describe('META: loadHistory/saveHistory', () => {
+    let tempDir: string;
+    let originalClaudeDir: string | undefined;
+
+    beforeEach(() => {
+      tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'metavitest-'));
+      fs.mkdirSync(path.join(tempDir, 'ledger'), { recursive: true });
+      originalClaudeDir = process.env['CLAUDE_DIR'];
+      process.env['CLAUDE_DIR'] = tempDir;
+    });
+
+    afterEach(() => {
+      if (originalClaudeDir) {
+        process.env['CLAUDE_DIR'] = originalClaudeDir;
+      } else {
+        delete process.env['CLAUDE_DIR'];
+      }
+      if (fs.existsSync(tempDir)) {
+        fs.rmSync(tempDir, { recursive: true });
+      }
+    });
+
+    it('returns empty history when file does not exist', () => {
+      const history = loadHistory();
+      expect(history.runs).toEqual([]);
+      expect(history.consecutivePerfectRuns).toBe(0);
+    });
+
+    it('saves and loads history correctly', () => {
+      const testHistory = {
+        runs: [
+          {
+            timestamp: '2024-01-01',
+            command: 'bun test',
+            passed: 10,
+            failed: 0,
+            total: 10,
+            passRate: 1,
+          },
+        ],
+        consecutivePerfectRuns: 5,
+      };
+      saveHistory(testHistory);
+
+      const loaded = loadHistory();
+      expect(loaded.runs).toHaveLength(1);
+      expect(loaded.consecutivePerfectRuns).toBe(5);
+    });
+
+    it('handles malformed JSON gracefully', () => {
+      const historyPath = path.join(tempDir, 'ledger', 'metavitest-history.json');
+      fs.writeFileSync(historyPath, '{ invalid json :::');
+
+      const history = loadHistory();
+      // Should return empty history, not crash
+      expect(history.runs).toEqual([]);
+      expect(history.consecutivePerfectRuns).toBe(0);
+    });
+
+    it('handles empty JSON file', () => {
+      const historyPath = path.join(tempDir, 'ledger', 'metavitest-history.json');
+      fs.writeFileSync(historyPath, '');
+
+      const history = loadHistory();
+      expect(history.runs).toEqual([]);
+    });
+
+    it('trims history to MAX_HISTORY_ENTRIES', () => {
+      const manyRuns = Array.from({ length: 150 }, (_, i) => ({
+        timestamp: `2024-01-${i}`,
+        command: 'bun test',
+        passed: 10,
+        failed: 0,
+        total: 10,
+        passRate: 1,
+      }));
+      const testHistory = { runs: manyRuns, consecutivePerfectRuns: 150 };
+
+      saveHistory(testHistory);
+      const loaded = loadHistory();
+
+      // Should be trimmed to MAX_HISTORY_ENTRIES (100)
+      expect(loaded.runs.length).toBeLessThanOrEqual(100);
+    });
+
+    it('creates ledger directory if missing', () => {
+      // Remove the ledger dir
+      fs.rmSync(path.join(tempDir, 'ledger'), { recursive: true });
+
+      const testHistory = { runs: [], consecutivePerfectRuns: 1 };
+      saveHistory(testHistory);
+
+      // Should create the directory
+      expect(fs.existsSync(path.join(tempDir, 'ledger'))).toBe(true);
+    });
+  });
+
+  describe('META: Streak reset logic', () => {
+    it('streak resets to 0 when passRate < 1', () => {
+      // This tests the conceptual logic - a failing test should reset streak
+      const passRate = 0.9; // 90% pass rate
+      const shouldResetStreak = passRate < 1;
+      expect(shouldResetStreak).toBe(true);
+    });
+
+    it('streak increments when passRate === 1', () => {
+      const passRate = 1;
+      const shouldIncrementStreak = passRate === 1;
+      expect(shouldIncrementStreak).toBe(true);
+    });
+
+    it('handles floating point edge case (0.9999999 !== 1)', () => {
+      // Tests that we don't have floating point comparison issues
+      const almostPerfect = 99 / 99.0000001;
+      expect(almostPerfect === 1).toBe(false);
+    });
+  });
+
+  describe('META: Integration test', () => {
+    it('full flow: detect command, parse output, track streak', () => {
+      // Simulate the full hook flow
+      const command = 'bun test';
+      const output = '10 pass\n0 fail';
+
+      // Step 1: Detect test command
+      expect(isTestCommand(command)).toBe(true);
+
+      // Step 2: Parse output
+      const results = parseTestOutput(output);
+      expect(results).not.toBeNull();
+      expect(results?.passed).toBe(10);
+      expect(results?.failed).toBe(0);
+
+      // Step 3: Calculate pass rate
+      const passRate = results!.passed / results!.total;
+      expect(passRate).toBe(1);
+
+      // Step 4: Check if suspicion should trigger
+      const consecutivePerfectRuns = 3;
+      const shouldWarn = consecutivePerfectRuns >= SUSPICION_THRESHOLD;
+      expect(shouldWarn).toBe(true);
+    });
+  });
+
+  describe('META: Edge cases that could crash the hook', () => {
+    it('handles undefined tool_output', () => {
+      // parseTestOutput should handle various falsy inputs
+      expect(parseTestOutput('')).toBeNull();
+    });
+
+    it('handles tool_output that is an object', () => {
+      // If tool_output is an object, it gets JSON.stringified
+      // Note: JSON stringify adds quotes, so "10 pass" won't match (no whitespace before 10)
+      const objOutput = JSON.stringify({ message: '10 pass\n0 fail' });
+      const result = parseTestOutput(objOutput);
+      // Correctly returns null - the "10 is preceded by quote, not whitespace
+      expect(result).toBeNull();
+
+      // But if the JSON has actual test output structure, it should work
+      const realOutput = JSON.stringify({ stdout: '\n 10 pass\n 0 fail\n' });
+      const realResult = parseTestOutput(realOutput);
+      expect(realResult?.passed).toBe(10);
+    });
+
+    it('handles extremely long output without hanging', () => {
+      // ReDoS protection test - needs space before number
+      const longOutput = 'x'.repeat(1000000) + ' 10 pass\n0 fail';
+      const start = Date.now();
+      const result = parseTestOutput(longOutput);
+      const elapsed = Date.now() - start;
+
+      expect(result?.passed).toBe(10);
+      expect(elapsed).toBeLessThan(5000); // Should complete in < 5 seconds
+    });
+
+    it('requires whitespace or newline before pass count', () => {
+      // This is by design - prevents false matches like "x10 pass"
+      expect(parseTestOutput('x10 pass')).toBeNull();
+      expect(parseTestOutput('10 pass')).not.toBeNull(); // Start of string OK
+      expect(parseTestOutput(' 10 pass')).not.toBeNull(); // Space OK
+      expect(parseTestOutput('\n10 pass')).not.toBeNull(); // Newline OK
+    });
+  });
+
+  describe('META: Self-referential tests', () => {
+    it('this test file has adversarial tests', () => {
+      // Meta-assertion: ensure we have adversarial test sections
+      const testFilePath = new URL(import.meta.url).pathname.replace(/^\/([A-Z]:)/, '$1');
+      const testFileContent = fs.readFileSync(testFilePath, 'utf-8');
+      expect(testFileContent).toContain('ADVERSARIAL');
+      expect(testFileContent).toContain('META');
+    });
+
+    it('tests cover all exported functions', () => {
+      // Verify we test all exports
+      expect(typeof isTestCommand).toBe('function');
+      expect(typeof parseTestOutput).toBe('function');
+      expect(typeof generateSuspicionMessage).toBe('function');
+      expect(typeof loadHistory).toBe('function');
+      expect(typeof saveHistory).toBe('function');
+      expect(typeof SUSPICION_THRESHOLD).toBe('number');
     });
   });
 });

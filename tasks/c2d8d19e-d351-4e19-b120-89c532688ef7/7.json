@@ -1,0 +1,9 @@
+{
+  "id": "7",
+  "subject": "Add integration_context test cases to test-profile.json",
+  "description": "Add test cases that exercise the new fields and integration_context injection: 1) Test with valid_values.business_units, 2) Test with extraction_hints, 3) Test backward compatibility (no integration_context).",
+  "activeForm": "Adding test cases",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

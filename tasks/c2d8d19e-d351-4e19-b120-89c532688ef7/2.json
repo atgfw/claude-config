@@ -1,0 +1,13 @@
+{
+  "id": "2",
+  "subject": "Add followup_datetime_iso to contact category",
+  "description": "Add new field `followup_datetime_iso` to contact_category_config node. Field should be object with value (string|null in ISO8601 format) and rationale. Microprompt: Convert natural language time references to ISO8601 using call_timestamp as reference.",
+  "activeForm": "Adding followup_datetime_iso field",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "userConfirmed": true,
+    "evidence": "n8n_update_partial_workflow returned success with operationsApplied: 1 for contact-cfg node"
+  }
+}

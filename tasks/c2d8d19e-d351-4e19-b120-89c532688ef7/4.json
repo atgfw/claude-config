@@ -1,0 +1,13 @@
+{
+  "id": "4",
+  "subject": "Add integration_context to input_validator",
+  "description": "Add validation for optional `integration_context` input field. Validate structure: crm_system, client_id, valid_values, extraction_hints, field_mappings, defaults. Pass through to downstream nodes.",
+  "activeForm": "Adding integration_context validation",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "userConfirmed": true,
+    "evidence": "n8n_update_partial_workflow returned success with operationsApplied: 1 for input-validator node"
+  }
+}

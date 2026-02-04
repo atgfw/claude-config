@@ -1,0 +1,13 @@
+{
+  "id": "3",
+  "subject": "Add job_type_hint and service_category to request category",
+  "description": "Add two new fields to request_category_config node: 1) job_type_hint (string|null) - select from integration_context.valid_values.job_types. 2) service_category (enum: plumbing, hvac, electrical, appliance, general, null) - categorize service type.",
+  "activeForm": "Adding job_type_hint and service_category fields",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "userConfirmed": true,
+    "evidence": "n8n_update_partial_workflow returned success with operationsApplied: 1 for request-cfg node"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "8",
+  "subject": "Harden website_rag_orchestrator workflow",
+  "description": "Add error handling, retries, input validation, and lint code nodes in the orchestrator workflow",
+  "activeForm": "Hardening orchestrator workflow",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
