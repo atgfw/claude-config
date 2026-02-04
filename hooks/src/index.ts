@@ -226,6 +226,13 @@ export {
   extractPaths,
 } from './hooks/full_path_validator.js';
 export {
+  evidenceRequirementGate,
+  hasEvidence,
+  isCompletionUpdate,
+  isIssueCloseCommand,
+  EVIDENCE_PATTERNS,
+} from './hooks/evidence_requirement_gate.js';
+export {
   goalComplianceGateHook,
   validateGoalCompliance,
   formatComplianceResult,
@@ -284,6 +291,9 @@ import './hooks/bun_enforcer.js';
 
 // Full path validator (enforces absolute file paths)
 import './hooks/full_path_validator.js';
+
+// Evidence requirement gate (requires proof for task completions)
+import './hooks/evidence_requirement_gate.js';
 
 // Goal compliance gate (blocks stop if goal non-compliant)
 import './hooks/goal_compliance_gate.js';
