@@ -1,0 +1,1389 @@
+{
+  "id": "019c2923-4c6d-7c82-9135-190b0c930d91",
+  "conductor": {
+    "output": null,
+    "input": {
+      "body": {
+        "body": {
+          "data": {
+            "status": "done",
+            "user_id": "unknown",
+            "agent_id": "agent_0501kecpebg3e9p8skydse9sm1j4",
+            "analysis": {
+              "call_successful": "unknown",
+              "call_summary_title": null,
+              "transcript_summary": "agent: ... ... Thanks for contacting Schlatter's Plumbing & Heating! I’m Shelly, our AI customer service agent and this conversation will be recorded. How can I help you?\nuser: Press three.\nagent: Hmm... right... I'm unable to process keypad inputs, but I can help you with any questions or requests you have. What can I assist you with today?\nuser: ...\nagent: Are you still there? I'm here to help if you have a plumbing or heating request you'd like to report.\nuser: ...\nagent: It seems like we might have a bad connection. If you can hear me, please let me know how I can help you, or feel free to call back when you're ready.\nuser: ...\nagent: I'm sorry, but I'm having trouble hearing you. Since I haven't heard a...\nagent: null\nagent: null",
+              "data_collection_results": {},
+              "evaluation_criteria_results": {}
+            },
+            "metadata": {},
+            "conversation_id": "conv_7601kfnq8mx1e3590d6ghz6bc68c"
+          }
+        }
+      },
+      "method": "POST",
+      "params": {},
+      "headers": {
+        "Host": "engine.rewst.io",
+        "Accept": "application/json,text/html,application/xhtml+xml,application/xml,text/*;q=0.9, image/*;q=0.8, */*;q=0.7",
+        "User-Agent": "axios/1.12.0",
+        "Content-Type": "application/json",
+        "x-request-id": "dd7e08ea-76d6-4b7d-9eb8-c302273e354b",
+        "Content-Length": "1080",
+        "Accept-Encoding": "gzip, compress, deflate, br",
+        "X-Forwarded-For": "67.205.177.169,10.10.131.93",
+        "x-amzn-trace-id": "Root=1-69835d01-6d8971db6add85b93d4b226a",
+        "x-forwarded-port": "443",
+        "X-Forwarded-Proto": "http",
+        "x-envoy-attempt-count": "1",
+        "x-envoy-external-address": "10.10.131.93",
+        "x-envoy-decorator-operation": "engine-web-only-service.default.svc.cluster.local:6066/*",
+        "x-envoy-expected-rq-timeout-ms": "60000"
+      },
+      "raw_body": "{\"body\":{\"data\":{\"status\":\"done\",\"user_id\":\"unknown\",\"agent_id\":\"agent_0501kecpebg3e9p8skydse9sm1j4\",\"conversation_id\":\"conv_7601kfnq8mx1e3590d6ghz6bc68c\",\"analysis\":{\"call_successful\":\"unknown\",\"call_summary_title\":null,\"transcript_summary\":\"agent: ... ... Thanks for contacting Schlatter's Plumbing & Heating! I’m Shelly, our AI customer service agent and this conversation will be recorded. How can I help you?\\nuser: Press three.\\nagent: Hmm... right... I'm unable to process keypad inputs, but I can help you with any questions or requests you have. What can I assist you with today?\\nuser: ...\\nagent: Are you still there? I'm here to help if you have a plumbing or heating request you'd like to report.\\nuser: ...\\nagent: It seems like we might have a bad connection. If you can hear me, please let me know how I can help you, or feel free to call back when you're ready.\\nuser: ...\\nagent: I'm sorry, but I'm having trouble hearing you. Since I haven't heard a...\\nagent: null\\nagent: null\",\"data_collection_results\":{},\"evaluation_criteria_results\":{}},\"metadata\":{}}}}",
+      "timestamp": "2026-02-04T14:51:45.133387"
+    },
+    "errors": [
+      {
+        "type": "error",
+        "route": 0,
+        "message": "JinjaEvaluationException: Unable to evaluate expression \"{% set header = CTX.headers['elevenlabs-signature'] | d(CTX.headers | d({})) | d('') %}\\r\\n{% set ts = header.split(',')[0].split('=')[1] | d('') if header else '' %}\\r\\n{% set sig_from_header = header.split(',')[1].split('=')[1] | d('') if header else '' %}\\r\\n{{\\r\\n  (\\r\\n    (\\r\\n      (ts ~ '.' ~ (CTX.raw_body | d('')))\\r\\n      | hmac('sha256', CTX.elevenlabs_rewst_webhook_secret | d(''))\\r\\n      | hex\\r\\n      | lower\\r\\n    )\\r\\n    == sig_from_header\\r\\n  )\\r\\n  or (CTX.test | d(false))\\r\\n}}\\r\\n\". UndefinedError: 'dict object' has no attribute 'split'",
+        "task_id": "906e43c2d4fd4cf3aa69858dfc8f00a2",
+        "task_transition_id": "a3ca4988bdfc4d089efcf9c29b3e3bb4__t0"
+      }
+    ],
+    "state": {
+      "contexts": [
+        {
+          "organization": {
+            "id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+            "name": "Applied Technology Group, Inc.",
+            "domain": "atgfw.com",
+            "managing_org_id": "40f8b55a-e8a9-42fc-8dc1-179616275f10",
+            "roc_site_id": "19431",
+            "is_enabled": true
+          },
+          "sentry_trace": "a42fba5ac3f3418f8eb295bc323c9348-af17a390b24dfa94-0",
+          "execution_id": "019c2923-4c6d-7c82-9135-190b0c930d91",
+          "originating_execution_id": "019c2923-4c6d-7c82-9135-190b0c930d91",
+          "rewst": {
+            "app_url": "https://app.rewst.io"
+          },
+          "trigger_instance": {
+            "id": null,
+            "last_searched_at": null,
+            "org_id": null,
+            "organization": {
+              "id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+              "name": "Applied Technology Group, Inc.",
+              "is_staff": null,
+              "managing_org_id": null,
+              "roc_site_id": null,
+              "is_enabled": null,
+              "domain": null
+            },
+            "trigger": {
+              "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+              "enabled": true,
+              "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+              "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+              "name": null,
+              "description": null,
+              "trigger_type": {
+                "id": "e9dca0d3-f93f-47ea-88fc-df2c9aee037b",
+                "ref": "core.Webhook",
+                "name": "Webhook",
+                "pack": null,
+                "sensor_type": null,
+                "webhook_url_template": "/webhooks/custom/trigger/{trigger_id}/{org_id}",
+                "can_run_for_managed_orgs": true,
+                "is_webhook": true,
+                "parameters_schema": {},
+                "enabled": true
+              },
+              "pack_overrides": [
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a8bf124d5fb",
+                  "pack": {
+                    "id": "b1cf1c99-6347-4b6b-a780-4cbd48c4de1a",
+                    "name": "Hudu Documentation",
+                    "ref": "hudu",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "hudu_company_id": {
+                        "type": "integer",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "b1cf1c99-6347-4b6b-a780-4cbd48c4de1a",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a959a10f888",
+                  "pack": {
+                    "id": "2eac28ee-b37d-415f-a3b7-2e80ca431130",
+                    "name": "Pax8",
+                    "ref": "pax8",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "pax_company_id": {
+                        "type": "string",
+                        "label": "Pax8 Company",
+                        "required": true,
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "2eac28ee-b37d-415f-a3b7-2e80ca431130",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a90c79d1399",
+                  "pack": {
+                    "id": "9b8a9f4f-3924-442f-b204-bc8908bc1435",
+                    "name": "Microsoft Exchange Online",
+                    "ref": "microsoft_exo",
+                    "is_multitenancy_enabled": false,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "9b8a9f4f-3924-442f-b204-bc8908bc1435",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a8498869694",
+                  "pack": {
+                    "id": "af7dc0be-d3d6-4eb1-830d-0f2b94b6bad1",
+                    "name": "ConnectWise PSA",
+                    "ref": "cw_manage",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "cw_manage_company_id": {
+                        "type": "integer",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "af7dc0be-d3d6-4eb1-830d-0f2b94b6bad1",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a8ce63b2d90",
+                  "pack": {
+                    "id": "0190a3a6-78ad-726c-a45c-d716add37859",
+                    "name": "ITPortal",
+                    "ref": "it_portal",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "it_portal_company_id": {
+                        "type": "string",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "0190a3a6-78ad-726c-a45c-d716add37859",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a972e7b50c5",
+                  "pack": {
+                    "id": "019976e7-6266-7989-8812-127b3a5856e3",
+                    "name": "Telnyx",
+                    "ref": "018c1bf05148760da6ccc81ba52a736c_telnyx",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "019976e7-6266-7989-8812-127b3a5856e3",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a86e7c06f5d",
+                  "pack": {
+                    "id": "c8fa170d-d022-40b1-879c-e182dbe3c777",
+                    "name": "Custom",
+                    "ref": "custom",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "c8fa170d-d022-40b1-879c-e182dbe3c777",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a8d97999583",
+                  "pack": {
+                    "id": "98158078-ead0-4f70-babc-eb1a894d1212",
+                    "name": "ImmyBot",
+                    "ref": "immybot",
+                    "is_multitenancy_enabled": false,
+                    "org_variables": {
+                      "immybot_tenant_id": {
+                        "type": "integer",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "98158078-ead0-4f70-babc-eb1a894d1212",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a8ffb2642a4",
+                  "pack": {
+                    "id": "6ea25df4-04eb-4d9f-9b7b-bc5b265c3ae9",
+                    "name": "Microsoft CSP",
+                    "ref": "microsoft_csp",
+                    "is_multitenancy_enabled": false,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "6ea25df4-04eb-4d9f-9b7b-bc5b265c3ae9",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a87ce807776",
+                  "pack": {
+                    "id": "3c2aaa87-1efc-4182-89de-f2193410a5c5",
+                    "name": "Datto RMM",
+                    "ref": "datto_rmm",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "datto_rmm_site_id": {
+                        "type": "string",
+                        "label": "Site",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "3c2aaa87-1efc-4182-89de-f2193410a5c5",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a888bb823b7",
+                  "pack": {
+                    "id": "e45b3f35-63c9-4ce6-ba3f-d47c957683b3",
+                    "name": "Duo",
+                    "ref": "duo",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "duo_account_id": {
+                        "type": "string",
+                        "label": "Accounts API Account",
+                        "description": "This key can be added to link specific Duo Accounts to your actions",
+                        "org_match_field": "name"
+                      },
+                      "duo_admin_api_directory_key": {
+                        "type": "string",
+                        "label": "Admin API Directory Key",
+                        "description": "This key is used to run user syncs."
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "e45b3f35-63c9-4ce6-ba3f-d47c957683b3",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a92529b9617",
+                  "pack": {
+                    "id": "018c6ed2-98d6-76d4-b14c-a88b5027bf0d",
+                    "name": "N-able N-central",
+                    "ref": "nable",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "nable_customer_id": {
+                        "type": "integer",
+                        "label": "Customer ID",
+                        "description": "The ID of a customer managed by N-able",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "018c6ed2-98d6-76d4-b14c-a88b5027bf0d",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a93d594deb0",
+                  "pack": {
+                    "id": "aedf2ee4-89d3-4375-a4d1-077ea2dc6ddc",
+                    "name": "NinjaOne",
+                    "ref": "ninja_rmm",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "ninja_org_id": {
+                        "type": "string",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "aedf2ee4-89d3-4375-a4d1-077ea2dc6ddc",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a8ed813094a",
+                  "pack": {
+                    "id": "3fa7f368-077e-422a-9d1b-132d3d3eb434",
+                    "name": "Microsoft Azure",
+                    "ref": "microsoft_azure",
+                    "is_multitenancy_enabled": false,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "3fa7f368-077e-422a-9d1b-132d3d3eb434",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a99145a4a08",
+                  "pack": {
+                    "id": "0198d34b-b9e4-705d-87fc-ee8bd0742ff2",
+                    "name": "Unifi - Custom",
+                    "ref": "018c1bf05148760da6ccc81ba52a736c_unifi_custom",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "0198d34b-b9e4-705d-87fc-ee8bd0742ff2",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a838fe89a73",
+                  "pack": {
+                    "id": "8b13b89f-6df2-43e9-bb42-84f3ea473b3f",
+                    "name": "ConnectWise Control",
+                    "ref": "cw_control",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "cwControl_CompanyName": {
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "8b13b89f-6df2-43e9-bb42-84f3ea473b3f",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-9669-7e02-9c91-4c307fe87907",
+                  "pack": {
+                    "id": "0197a1c6-5ad6-7d0c-bd23-dec27c5613ab",
+                    "name": "Bandwidth Billing Reports",
+                    "ref": "018c1bf05148760da6ccc81ba52a736c_bandwidth_billing_reports",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "0197a1c6-5ad6-7d0c-bd23-dec27c5613ab",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-9669-7e02-9c91-4c2fee85ee95",
+                  "pack": {
+                    "id": "01929c47-a6f8-7bb5-a40a-48487f6fb11c",
+                    "name": "BambooHR",
+                    "ref": "bamboohr",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "01929c47-a6f8-7bb5-a40a-48487f6fb11c",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a811ac67d05",
+                  "pack": {
+                    "id": "0195256d-8243-7957-98fc-a3a52e8cd9ee",
+                    "name": "Cisco Meraki",
+                    "ref": "cisco_meraki",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "cisco_meraki_org_id": {
+                        "type": "string",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "0195256d-8243-7957-98fc-a3a52e8cd9ee",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-9669-7e02-9c91-4c2e2014c866",
+                  "pack": {
+                    "id": "01904bc4-4d7d-76b9-9d46-8f200399d512",
+                    "name": "Addigy",
+                    "ref": "addigy",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "addigy_policy_id": {
+                        "type": "string",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "01904bc4-4d7d-76b9-9d46-8f200399d512",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a8253a9ca4e",
+                  "pack": {
+                    "id": "983d0651-a382-465f-9bf9-50b5299314c3",
+                    "name": "ConnectWise Automate",
+                    "ref": "cw_automate",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "cw_automate_client_id": {
+                        "type": "string",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "983d0651-a382-465f-9bf9-50b5299314c3",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a89ef7b7420",
+                  "pack": {
+                    "id": "019760e2-2def-77ec-ad86-811da176b3c3",
+                    "name": "ElevenLabs Conversational AI",
+                    "ref": "018c1bf05148760da6ccc81ba52a736c_elevenlabs_conversational_ai",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "019760e2-2def-77ec-ad86-811da176b3c3",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a916beb10d6",
+                  "pack": {
+                    "id": "5d6c8db9-ca60-4c4f-ac22-c91f80edd71d",
+                    "name": "Microsoft Graph",
+                    "ref": "microsoft_graph",
+                    "is_multitenancy_enabled": false,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "5d6c8db9-ca60-4c4f-ac22-c91f80edd71d",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a946a632919",
+                  "pack": {
+                    "id": "500c31be-818d-486b-9eca-9add1e1632cd",
+                    "name": "OpenAI",
+                    "ref": "openai",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "500c31be-818d-486b-9eca-9add1e1632cd",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a9663afec18",
+                  "pack": {
+                    "id": "9cfbbb20-8ea9-4ce7-9f3d-7f1c5e932562",
+                    "name": "SQL Database",
+                    "ref": "sql_database",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "9cfbbb20-8ea9-4ce7-9f3d-7f1c5e932562",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a9802237868",
+                  "pack": {
+                    "id": "019a5087-44e2-7636-8278-1ce8678cb5d1",
+                    "name": "Time Hour Clustering",
+                    "ref": "018c1bf05148760da6ccc81ba52a736c_time_hour_clustering",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "019a5087-44e2-7636-8278-1ce8678cb5d1",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a9a195d3dc6",
+                  "pack": {
+                    "id": "01966d6c-ae65-7d13-802f-53810de5eb0a",
+                    "name": "X360Recover",
+                    "ref": "018c1bf05148760da6ccc81ba52a736c_x360recover",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "01966d6c-ae65-7d13-802f-53810de5eb0a",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-9669-7e02-9c91-4c2da5dcf672",
+                  "pack": {
+                    "id": "0196822b-0de1-7af1-99d3-2a6f70738ec7",
+                    "name": "3CX Configuration (Web Admin / XAPI)",
+                    "ref": "018c1bf05148760da6ccc81ba52a736c_3cx",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "0196822b-0de1-7af1-99d3-2a6f70738ec7",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a806237eb9b",
+                  "pack": {
+                    "id": "01924370-a3e7-790d-a33c-f34fe1930d11",
+                    "name": "Bitdefender",
+                    "ref": "bitdefender",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {
+                      "bitdefender_company_id": {
+                        "type": "string",
+                        "org_match_field": "name"
+                      }
+                    },
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "01924370-a3e7-790d-a33c-f34fe1930d11",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a85a9f45fb5",
+                  "pack": {
+                    "id": "0196a737-b715-78b5-9974-ec024cb26ec7",
+                    "name": "Connectwise CPW",
+                    "ref": "018c1bf05148760da6ccc81ba52a736c_connectwise_cpw",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "0196a737-b715-78b5-9974-ec024cb26ec7",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                },
+                {
+                  "id": "019a9890-966a-78e4-bbcd-6a8a305b65e1",
+                  "pack": {
+                    "id": "019668a7-9ed6-73f8-80aa-be4bf338e731",
+                    "name": "GlassHive",
+                    "ref": "018c1bf05148760da6ccc81ba52a736c_glasshive",
+                    "is_multitenancy_enabled": true,
+                    "org_variables": {},
+                    "pack_bundle_id": null,
+                    "pack_type": null
+                  },
+                  "pack_id": "019668a7-9ed6-73f8-80aa-be4bf338e731",
+                  "trigger": {
+                    "workflow_id": "019a0cd9-01df-71f8-89ae-17563fc74297",
+                    "enabled": null,
+                    "id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                    "org_id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": null,
+                    "description": null,
+                    "trigger_type": null,
+                    "pack_overrides": [],
+                    "criteria": {},
+                    "parameters": {},
+                    "vars": [],
+                    "org_instances": [],
+                    "organization": {}
+                  },
+                  "trigger_id": "019a0cd9-ad04-7f64-9cef-d0848874227b",
+                  "workflow_task": null,
+                  "workflow_task_id": null,
+                  "config_selection_mode": "USE_DEFAULT",
+                  "config_fallback_mode": "USE_DEFAULT",
+                  "pack_config_id": null,
+                  "search_input": null
+                }
+              ],
+              "criteria": {
+                "condition": {}
+              },
+              "parameters": {
+                "secret_key": null,
+                "response_body": "{{ REQUEST() | json_dump }}",
+                "allowed_methods": [
+                  "POST"
+                ],
+                "response_status": "200",
+                "include_raw_body": true,
+                "response_headers": "{\"Content-Type\": \"application/json\"}",
+                "wait_for_results": false
+              },
+              "vars": [
+                {
+                  "demo_mode": false
+                }
+              ],
+              "org_instances": [
+                {
+                  "id": null,
+                  "last_searched_at": null,
+                  "org_id": null,
+                  "organization": {
+                    "id": "018c1bf0-5148-760d-a6cc-c81ba52a736c",
+                    "name": "Applied Technology Group, Inc.",
+                    "is_staff": null,
+                    "managing_org_id": null,
+                    "roc_site_id": null,
+                    "is_enabled": null,
+                    "domain": null
+                  },
+                  "trigger": null,
+                  "trigger_id": null,
+                  "state": {},
+                  "created_at": null,
+                  "updated_at": null,
+                  "is_manual_activation": false,
+                  "next_fire_time": null
+                }
+              ],
+              "organization": {}
+            },
+            "trigger_id": null,
+            "state": {},
+            "created_at": null,
+            "updated_at": null,
+            "is_manual_activation": false,
+            "next_fire_time": null
+          },
+          "params": {},
+          "headers": {
+            "Host": "engine.rewst.io",
+            "X-Forwarded-For": "67.205.177.169,10.10.131.93",
+            "X-Forwarded-Proto": "http",
+            "x-forwarded-port": "443",
+            "x-amzn-trace-id": "Root=1-69835d01-6d8971db6add85b93d4b226a",
+            "Content-Length": "1080",
+            "Accept": "application/json,text/html,application/xhtml+xml,application/xml,text/*;q=0.9, image/*;q=0.8, */*;q=0.7",
+            "Content-Type": "application/json",
+            "User-Agent": "axios/1.12.0",
+            "Accept-Encoding": "gzip, compress, deflate, br",
+            "x-envoy-external-address": "10.10.131.93",
+            "x-request-id": "dd7e08ea-76d6-4b7d-9eb8-c302273e354b",
+            "x-envoy-decorator-operation": "engine-web-only-service.default.svc.cluster.local:6066/*",
+            "x-envoy-expected-rq-timeout-ms": "60000",
+            "x-envoy-attempt-count": "1"
+          },
+          "body": {
+            "body": {
+              "data": {
+                "status": "done",
+                "user_id": "unknown",
+                "agent_id": "agent_0501kecpebg3e9p8skydse9sm1j4",
+                "conversation_id": "conv_7601kfnq8mx1e3590d6ghz6bc68c",
+                "analysis": {
+                  "call_successful": "unknown",
+                  "call_summary_title": null,
+                  "transcript_summary": "agent: ... ... Thanks for contacting Schlatter's Plumbing & Heating! I’m Shelly, our AI customer service agent and this conversation will be recorded. How can I help you?\nuser: Press three.\nagent: Hmm... right... I'm unable to process keypad inputs, but I can help you with any questions or requests you have. What can I assist you with today?\nuser: ...\nagent: Are you still there? I'm here to help if you have a plumbing or heating request you'd like to report.\nuser: ...\nagent: It seems like we might have a bad connection. If you can hear me, please let me know how I can help you, or feel free to call back when you're ready.\nuser: ...\nagent: I'm sorry, but I'm having trouble hearing you. Since I haven't heard a...\nagent: null\nagent: null",
+                  "data_collection_results": {},
+                  "evaluation_criteria_results": {}
+                },
+                "metadata": {}
+              }
+            }
+          },
+          "method": "POST",
+          "timestamp": "2026-02-04T14:51:45.133387",
+          "raw_body": "{\"body\":{\"data\":{\"status\":\"done\",\"user_id\":\"unknown\",\"agent_id\":\"agent_0501kecpebg3e9p8skydse9sm1j4\",\"conversation_id\":\"conv_7601kfnq8mx1e3590d6ghz6bc68c\",\"analysis\":{\"call_successful\":\"unknown\",\"call_summary_title\":null,\"transcript_summary\":\"agent: ... ... Thanks for contacting Schlatter's Plumbing & Heating! I’m Shelly, our AI customer service agent and this conversation will be recorded. How can I help you?\\nuser: Press three.\\nagent: Hmm... right... I'm unable to process keypad inputs, but I can help you with any questions or requests you have. What can I assist you with today?\\nuser: ...\\nagent: Are you still there? I'm here to help if you have a plumbing or heating request you'd like to report.\\nuser: ...\\nagent: It seems like we might have a bad connection. If you can hear me, please let me know how I can help you, or feel free to call back when you're ready.\\nuser: ...\\nagent: I'm sorry, but I'm having trouble hearing you. Since I haven't heard a...\\nagent: null\\nagent: null\",\"data_collection_results\":{},\"evaluation_criteria_results\":{}},\"metadata\":{}}}}",
+          "demo_mode": false
+        },
+        {
+          "elevenlabs_rewst_webhook_secret": "wsec_f00a7e6e844ed3b69e0cd4b037aad24c2630ccc25e223af544e0a2ea49ff8382",
+          "elevenlabs": {
+            "agent_id": "",
+            "conversation_id": "",
+            "call_sid": "",
+            "agent_phone_number": "",
+            "caller_id": "",
+            "call_duration_secs": 0,
+            "time_utc": "",
+            "timezone": "",
+            "status": "",
+            "agent_turns": 0,
+            "subagent_turns": 0,
+            "analysis": {},
+            "transcript": [],
+            "recording_id": ""
+          }
+        },
+        {
+          "failure_message": "invalid_elevenlabs_signature"
+        }
+      ]
+    }
+  }
+}

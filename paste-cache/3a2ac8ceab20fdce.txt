@@ -1,0 +1,724 @@
+{
+  "63401a1fa19947948f9b35ec123e1230": {
+    "input": {},
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 1,
+    "metadata": {
+      "x": 2016,
+      "y": 1272
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "77feb93d-40bd-4989-8aea-28f9d44f13cc",
+        "when": "{{ SUCCEEDED }}",
+        "do": [
+          "1b9b25116f7c4f928613c2201772102e"
+        ],
+        "publish": [],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "call_success",
+    "description": "Terminal success handler used when call passes all evaluation checks",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "906e43c2d4fd4cf3aa69858dfc8f00a2": {
+    "input": {},
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 0,
+    "metadata": {
+      "x": 1248,
+      "y": 504
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "a485bf6d-4db6-45dc-85ff-20110e3630c2",
+        "when": "{% set header = CTX.headers['elevenlabs-signature'] | d(CTX.headers | d({})) | d('') %}\r\n{% set ts = header.split(',')[0].split('=')[1] | d('') if header else '' %}\r\n{% set sig_from_header = header.split(',')[1].split('=')[1] | d('') if header else '' %}\r\n{{\r\n  (\r\n    (\r\n      (ts ~ '.' ~ (CTX.raw_body | d('')))\r\n      | hmac('sha256', CTX.elevenlabs_rewst_webhook_secret | d(''))\r\n      | hex\r\n      | lower\r\n    )\r\n    == sig_from_header\r\n  )\r\n  or (CTX.bypass_elevenlabs_auth | d(false))\r\n}}\r\n",
+        "do": [
+          "a3ca4988bdfc4d089efcf9c29b3e3bb4"
+        ],
+        "publish": [
+          {
+            "key": "call_transcript",
+            "value": "{%- set body = CTX.body|d({}) -%}\r\n{%- set data = body.data|d({}) -%}\r\n{%- set metadata = data.metadata|d({}) -%}\r\n{%- set phone_call = metadata.phone_call|d({}) -%}\r\n{%- set transcript_src = data.transcript|d([])|list -%}\r\n{%- set transcript_list = [] -%}\r\n{%- for t in transcript_src|enumerate -%}\r\n{%- set idx = t[0] -%}\r\n{%- set turn = t[1] -%}\r\n{%- set _ = transcript_list.append({'turn_index': idx, 'role': turn.role|d(''), 'time_in_call_secs': turn.time_in_call_secs|d(0), 'source_medium': turn.source_medium|d('audio'), 'text': (turn.message|d('')|string|trim)}) -%}\r\n{%- endfor -%}\r\n{{ {'conversation_id': data.conversation_id|d(''), 'agent_id': data.agent_id|d(''), 'status': data.status|d(''), 'call': {'call_sid': phone_call.call_sid|d(''), 'direction': phone_call.direction|d(''), 'type': phone_call.type|d(''), 'agent_number': phone_call.agent_number|d(''), 'external_number': phone_call.external_number|d(''), 'phone_number_id': phone_call.phone_number_id|d(''), 'start_time_unix_secs': metadata.start_time_unix_secs, 'duration_secs': metadata.call_duration_secs, 'timezone': metadata.timezone|d(''), 'language': metadata.main_language|d('')}, 'transcript': transcript_list} }}"
+          },
+          {
+            "key": "call_transcript_html",
+            "value": "{# FUTURE USE\r\n{%- set ct_input = CTX.call_transcript|d({}) -%}\r\n{%- set ct = ct_input|from_yaml_string if ct_input is string else ct_input -%}\r\n{%- set transcript_data = ct.transcript|d(CTX.transcript)|d([]) -%}\r\n{%- set transcript_block -%}\r\n{%- if transcript_data|length > 0 -%}\r\n<div style=\"margin-top:32px; margin-bottom:12px;\">\r\n    <span style=\"font-family:Arial,sans-serif;font-size:11px;font-weight:700;color:#999999;text-transform:uppercase;letter-spacing:0.5px;\">Call Transcript</span>\r\n</div>\r\n\r\n<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\" style=\"border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; background-color:#ffffff;\">\r\n    <tr>\r\n        <td bgcolor=\"#f9fafb\" style=\"padding:12px 16px; border-bottom:1px solid #e5e7eb;\">\r\n            <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" role=\"presentation\">\r\n                <tr>\r\n                    <td width=\"24\" style=\"padding-right:8px;\">\r\n                        <div style=\"height:8px; width:8px; background-color:#10b981; border-radius:50%; display:inline-block;\"></div>\r\n                    </td>\r\n                    <td style=\"font-family:Arial,sans-serif; font-size:12px; font-weight:600; color:#374151;\">\r\n                        Selking International AI Agent\r\n                    </td>\r\n                    <td align=\"right\" style=\"font-family:Consolas,Monaco,monospace; font-size:10px; color:#9ca3af;\">\r\n                        ID: {{ CTX.conversation_id|d('Unknown')|truncate(12, True, '...') }}\r\n                    </td>\r\n                </tr>\r\n            </table>\r\n        </td>\r\n    </tr>\r\n    \r\n    <tr>\r\n        <td style=\"padding:20px 16px; background-color:#ffffff;\">\r\n            <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\">\r\n                {%- for turn in transcript_data -%}\r\n                    {%- set turn_text = turn.text|d('None')|trim -%}\r\n                    {%- if turn_text not in ['None', '', '... ...', '...', '... ... ...'] -%}\r\n                        {%- set is_agent = (turn.role|d('agent') == 'agent') -%}\r\n                        {%- set mins = (turn.time_in_call_secs|d(0)|int / 60)|int -%}\r\n                        {%- set secs = (turn.time_in_call_secs|d(0)|int % 60) -%}\r\n                        {%- set time_fmt = \"%d:%02d\"|format(mins, secs) -%}\r\n\r\n                        <tr>\r\n                            <td style=\"padding-bottom: 16px;\">\r\n                                {% if is_agent %}\r\n                                    <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" role=\"presentation\">\r\n                                        <tr>\r\n                                            <td valign=\"bottom\" width=\"30\" style=\"padding-right:8px; padding-bottom:4px;\">\r\n                                                <div style=\"width:28px; height:28px; background:linear-gradient(135deg,#EC1B05 0%,#C50F1F 100%); border-radius:50%; text-align:center; line-height:28px;\">\r\n                                                    <span style=\"color:#ffffff; font-family:Arial,sans-serif; font-size:10px; font-weight:bold;\">AI</span>\r\n                                                </div>\r\n                                            </td>\r\n                                            <td valign=\"top\" align=\"left\">\r\n                                                <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\" style=\"max-width:85%;\">\r\n                                                    <tr>\r\n                                                        <td bgcolor=\"#f9fafb\" style=\"padding:12px 16px; border-radius:16px 16px 16px 4px; border:1px solid #e5e7eb; color:#111827; font-family:Arial,sans-serif; font-size:13px; line-height:1.5;\">\r\n                                                            {{ turn_text }}\r\n                                                            <div style=\"margin-top:4px; font-size:10px; color:#9ca3af; font-weight:500; font-family:sans-serif;\">\r\n                                                                {{ time_fmt }}\r\n                                                            </div>\r\n                                                        </td>\r\n                                                    </tr>\r\n                                                </table>\r\n                                            </td>\r\n                                            <td width=\"10%\"></td> \r\n                                        </tr>\r\n                                    </table>\r\n                                {% else %}\r\n                                    <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" role=\"presentation\">\r\n                                        <tr>\r\n                                            <td width=\"10%\"></td>\r\n                                            <td valign=\"top\" align=\"right\">\r\n                                                <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\" style=\"max-width:85%;\">\r\n                                                    <tr>\r\n                                                        <td bgcolor=\"#f3f4f6\" style=\"padding:12px 16px; border-radius:16px 16px 4px 16px; border:1px solid #e5e7eb; color:#111827; font-family:Arial,sans-serif; font-size:13px; line-height:1.5; text-align:left;\">\r\n                                                            {{ turn_text }}\r\n                                                            <div style=\"margin-top:4px; text-align:right; font-size:10px; color:#6b7280; font-weight:500; font-family:sans-serif;\">\r\n                                                                {{ time_fmt }}\r\n                                                            </div>\r\n                                                        </td>\r\n                                                    </tr>\r\n                                                </table>\r\n                                            </td>\r\n                                        </tr>\r\n                                    </table>\r\n                                {% endif %}\r\n                            </td>\r\n                        </tr>\r\n                    {%- endif -%}\r\n                {%- endfor -%}\r\n            </table>\r\n        </td>\r\n    </tr>\r\n    <tr>\r\n        <td align=\"center\" style=\"padding:12px; border-top:1px solid #f3f4f6; background-color:#f9fafb;\">\r\n            <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\">\r\n                <tr>\r\n                    <td valign=\"middle\" style=\"font-size:14px; color:#10b981; padding-right:6px;\">✓</td>\r\n                    <td valign=\"middle\" style=\"font-family:Arial,sans-serif; font-size:11px; color:#6b7280; font-weight:500;\">\r\n                        Call completed successfully\r\n                    </td>\r\n                </tr>\r\n            </table>\r\n        </td>\r\n    </tr>\r\n</table>\r\n{%- endif -%}\r\n{%- endset -%}\r\n#}"
+          }
+        ],
+        "label": "valid",
+        "left": null,
+        "top": null,
+        "orientation": null
+      },
+      {
+        "__typename": "WorkflowTransition",
+        "id": "3759977d-6c37-4ebd-b5a8-189f9a451718",
+        "when": "",
+        "do": [
+          "4acf45a4d40b442cb5e054fbef61258a"
+        ],
+        "publish": [
+          {
+            "key": "failure_message",
+            "value": "invalid_elevenlabs_signature"
+          }
+        ],
+        "label": "invalid",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "validate_signature",
+    "description": "Validates ElevenLabs webhook signature and routes to success, test-mode, or failure paths. Webhook trigger MUST include raw_body for signature validation.",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "cd9bb48570b94e20aa62ed6c67a8666c": {
+    "input": {},
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 0,
+    "metadata": {
+      "x": 1584,
+      "y": 936
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "6f9cbd0e-a3b9-4d35-bce5-dbf105bc35f8",
+        "when": "{{ CTX.body.data.metadata.phone_call.agent_number is defined }}",
+        "do": [
+          "1453b53bcbc04b48abc4613c6569ec4a"
+        ],
+        "publish": [],
+        "label": "phone_call",
+        "left": null,
+        "top": null,
+        "orientation": null
+      },
+      {
+        "__typename": "WorkflowTransition",
+        "id": "305bb82a-c0e3-44b8-955b-ce6f03cb4fa9",
+        "when": "{{ CTX.body.data.metadata.phone_call.agent_number is not defined }}",
+        "do": [
+          "c1e510b2f2e945a491e04e5499a6b147"
+        ],
+        "publish": [],
+        "label": "not_phone_call",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "check_if_phone_call",
+    "description": "check_if_phone_call: Routes phone-based calls to recording lookup; web widget calls bypass directly to evaluation",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "c1e510b2f2e945a491e04e5499a6b147": {
+    "input": {},
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 1,
+    "metadata": {
+      "x": 2352,
+      "y": 1176
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "f040882e-37cf-4631-9cca-106b958650ab",
+        "when": "{{ (CTX.elevenlabs.status|string|lower|trim) != 'failed' and (CTX.elevenlabs.analysis.call_successful|string|lower|trim) == 'success' }}",
+        "do": [
+          "63401a1fa19947948f9b35ec123e1230"
+        ],
+        "publish": [],
+        "label": "call_success",
+        "left": null,
+        "top": null,
+        "orientation": null
+      },
+      {
+        "__typename": "WorkflowTransition",
+        "id": "c97ee2d7-180f-4b20-9a82-9491360cc8aa",
+        "when": "{{ (CTX.elevenlabs.analysis.call_successful|string|lower|trim) != 'success' }}\r\n",
+        "do": [
+          "1b9b25116f7c4f928613c2201772102e"
+        ],
+        "publish": [
+          {
+            "key": "failure_message",
+            "value": "evaluation_failed"
+          }
+        ],
+        "label": "evaluation_failed",
+        "left": null,
+        "top": null,
+        "orientation": null
+      },
+      {
+        "__typename": "WorkflowTransition",
+        "id": "448d5cb5-774c-4833-9604-84811917effb",
+        "when": "{{ (CTX.elevenlabs.status|string|lower|trim) == 'failed' }}",
+        "do": [
+          "4acf45a4d40b442cb5e054fbef61258a"
+        ],
+        "publish": [
+          {
+            "key": "failure_message",
+            "value": "connection_failed"
+          }
+        ],
+        "label": "connection_failed",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "check_call_failure",
+    "description": "Evaluates call status/analysis block; publishes failure_message and routes to success or error handling",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "9379c9b7b9e74d9ea05f0974fa4fd590": {
+    "input": {
+      "agent_id": "{{ CTX.elevenlabs.agent_id }}",
+      "time_utc": "{{ CTX.elevenlabs.time_utc }}",
+      "caller_id": "{{ CTX.elevenlabs.caller_id }}",
+      "recording_id": "{{ CTX.elevenlabs.recording_id }}",
+      "call_transcript": "{{ CTX.call_transcript | json_stringify }}",
+      "conversation_id": "{{ CTX.elevenlabs.conversation_id }}",
+      "sms_notifications_enabled": true,
+      "email_notifications_enabled": true,
+      "elevenlabs_body_data_analysis": "{{ CTX.elevenlabs.analysis | json_stringify }}",
+      "elevenlabs_outbound_notifications_enabled": false
+    },
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 0,
+    "metadata": {
+      "x": 480,
+      "y": 1800
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_ALL",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "{# '018c369f-9e69-7524-b7c3-fad2ce09a450' = Uncle Bob's #}\r\n{{'018c369f-9e69-7524-b7c3-fad2ce09a450'}}",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "82d7b6db-2866-46fb-9930-050fa60b743e",
+        "when": "{{ SUCCEEDED }}",
+        "do": [],
+        "publish": [],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "unclebobs_oncall_connect",
+    "description": "",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "8cccd6e783ae450c9766548c3f2e9989": {
+    "input": {},
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 0,
+    "metadata": {
+      "x": 1704,
+      "y": 312.00000000000006
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "do": [
+          "906e43c2d4fd4cf3aa69858dfc8f00a2"
+        ],
+        "when": "{{ SUCCEEDED }}",
+        "label": "",
+        "publish": [
+          {
+            "key": "elevenlabs_rewst_webhook_secret",
+            "value": "{{ ORG.VARIABLES()[\"elevenlabs_rewst_webhook_secret\"] }}"
+          },
+          {
+            "key": "elevenlabs",
+            "value": "{{\r\n  dict(\r\n    agent_id=(\r\n      (CTX.agent_id | string if (CTX.agent_id is defined and CTX.agent_id | string | trim != '') \r\n       else CTX.body.data.agent_id | d(CTX.body.data.conversation_initiation_client_data.dynamic_variables.system__current_agent_id))\r\n      | d(CTX.body.data.conversation_initiation_client_data.dynamic_variables.system__agent_id)\r\n      | d('') | string\r\n    ),\r\n    conversation_id=(\r\n      CTX.conversation_id\r\n      | d(CTX.body.data.conversation_id)\r\n      | d(CTX.body.data.conversation_initiation_client_data.dynamic_variables.system__conversation_id)\r\n      | d('') | string\r\n    ),\r\n    call_sid=(\r\n      (CTX.call_sid | d(CTX.body.data.metadata.phone_call.call_sid) or \r\n       CTX.body.data.conversation_initiation_client_data.dynamic_variables.system__call_sid)\r\n      | d('') | string\r\n    ),\r\n    agent_phone_number=(\r\n      (CTX.body.data.metadata.phone_call.agent_number or\r\n       CTX.body.data.conversation_initiation_client_data.dynamic_variables.system__called_number)\r\n      | d('') | string\r\n    ),\r\n    caller_id=(\r\n      CTX.caller_id\r\n      | d(CTX.body.caller_id)\r\n      | d(CTX.body.data.conversation_initiation_client_data.dynamic_variables.system__caller_id)\r\n      | d('') | string\r\n    ),\r\n    call_duration_secs=(\r\n      CTX.body.data.metadata.call_duration_secs\r\n      | d(CTX.body.data.metadata.phone_call.call_duration_secs)\r\n      | d(CTX.body.data.conversation_initiation_client_data.dynamic_variables.system__call_duration_secs)\r\n      | d((CTX.body.data.transcript | d([]) | last).time_in_call_secs | d(0))\r\n      | int\r\n    ),\r\n    time_utc=(\r\n      CTX.body.time_utc\r\n      | d(CTX.body.data.time_utc)\r\n      | d(CTX.body.data.conversation_initiation_client_data.dynamic_variables.system__time_utc)\r\n      | d('') | string\r\n    ),\r\n    timezone=(\r\n      CTX.body.data.conversation_initiation_client_data.dynamic_variables.system__timezone \r\n      | d('') | string\r\n    ),\r\n    status=(\r\n      CTX.body.data.status | d('') | string\r\n    ),\r\n    agent_turns=(\r\n      CTX.body.data.conversation_initiation_client_data.dynamic_variables.system__current_agent_turns\r\n      | d(CTX.body.data.conversation_initiation_client_data.dynamic_variables.system__agent_turns)\r\n      | d(0) | int\r\n    ),\r\n    subagent_turns=(\r\n      CTX.body.data.conversation_initiation_client_data.dynamic_variables.system__current_subagent_turns\r\n      | d(0) | int\r\n    ),\r\n    analysis=CTX.body.data.analysis | d({}),\r\n    transcript=CTX.body.data.transcript | d([]),\r\n    recording_id=(\r\n      CTX.recording_id\r\n      | d(CTX.body.data.recording_id)\r\n      | d('') | string\r\n    )\r\n  )\r\n}}"
+          },
+          {
+            "key": "bypass_elevenlabs_auth",
+            "value": "{{CTX.body.bypass_elevenlabs_auth|d(false)}}"
+          }
+        ],
+        "id": "506eb8a3-e76e-430f-aa17-669d9137b845",
+        "left": null,
+        "top": null,
+        "orientation": "vertical",
+        "__typename": "WorkflowTransition"
+      },
+      {
+        "__typename": "WorkflowTransition",
+        "id": "58d53e18-7964-4eee-b9e4-bf177507c4d1",
+        "when": "{{ FAILED }}",
+        "do": [
+          "4acf45a4d40b442cb5e054fbef61258a"
+        ],
+        "publish": [
+          {
+            "key": "failure_message",
+            "value": "variable_generation_failed"
+          }
+        ],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "init",
+    "description": "Extracts agent_id, webhook secret, conversation_id, and analysis payload; publishes variables for downstream validation",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "1b9b25116f7c4f928613c2201772102e": {
+    "input": {},
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 1,
+    "metadata": {
+      "x": 816,
+      "y": 1416.0000000000002
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "1cbf7abc-e64e-4223-bd84-f71781648f33",
+        "when": "{{ (CTX.elevenlabs.agent_id|d('')|string in ['agent_0501k319b0q3f86bfg6f97rkhb25']) }}\r\n",
+        "do": [
+          "a52cf4d4b7ec45ccb3c126b3cbc8680c"
+        ],
+        "publish": [],
+        "label": "selking_oncall_connect",
+        "left": null,
+        "top": null,
+        "orientation": null
+      },
+      {
+        "__typename": "WorkflowTransition",
+        "id": "1cbf7abc-e64e-4223-bd84-f7178a628f33",
+        "when": "{{ (CTX.elevenlabs.agent_id|d('')|string in ['agent_9001kbz2qbsje5avvpv2548repdq']) }}\r\n",
+        "do": [
+          "a0e003899d514333a7c7d89322573089"
+        ],
+        "publish": [],
+        "label": "schlatters_oncall_connect",
+        "left": null,
+        "top": null,
+        "orientation": null
+      },
+      {
+        "__typename": "WorkflowTransition",
+        "id": "b096c873-3bab-469c-86ee-483c0e5dc43f",
+        "when": "{{ (CTX.elevenlabs.agent_id|d('')|string in ['agent_0501kecpebg3e9p8skydse9sm1j4']) }}",
+        "do": [
+          "9379c9b7b9e74d9ea05f0974fa4fd590"
+        ],
+        "publish": [],
+        "label": "unclebobs_oncall_connect",
+        "left": null,
+        "top": null,
+        "orientation": null
+      },
+      {
+        "__typename": "WorkflowTransition",
+        "id": "164cf645-e914-4da3-9af5-78422c21526c",
+        "when": "{{ CTX.elevenlabs.agent_id|string == \"your_special_new_elevelabs_agent_id_here\" }}\r\n",
+        "do": [
+          "4acf45a4d40b442cb5e054fbef61258a"
+        ],
+        "publish": [
+          {
+            "key": "failure_message",
+            "value": "unhandled_agent"
+          }
+        ],
+        "label": "unhandled_agent",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "agent_handler",
+    "description": "Action that does nothing",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "a52cf4d4b7ec45ccb3c126b3cbc8680c": {
+    "input": {
+      "agent_id": "{{ CTX.elevenlabs.agent_id }}",
+      "time_utc": "{{ CTX.elevenlabs.time_utc }}",
+      "caller_id": "{{ CTX.elevenlabs.caller_id }}",
+      "recording_id": "{{ CTX.elevenlabs.recording_id }}",
+      "call_transcript": "{{ CTX.call_transcript | json_stringify }}",
+      "conversation_id": "{{ CTX.elevenlabs.conversation_id }}",
+      "sms_notifications_enabled": true,
+      "email_notifications_enabled": true,
+      "elevenlabs_body_data_analysis": "{{ CTX.elevenlabs.analysis | json_stringify }}",
+      "elevenlabs_outbound_notifications_enabled": false
+    },
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 0,
+    "metadata": {
+      "x": 480,
+      "y": 1512
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_ALL",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "{# '018c369f-9e69-7524-b7c3-fad2ce09a450' = Uncle Bob's #}\r\n{# '018c4075-b87f-7869-832a-211475aedf8a' = Selking International #}\r\n{{'018c4075-b87f-7869-832a-211475aedf8a'}}",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "6dc13fa1-d1e8-41ae-b918-894ef3c643b3",
+        "when": "{{ SUCCEEDED }}",
+        "do": [],
+        "publish": [],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "selking_oncall_connect",
+    "description": "",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "a0e003899d514333a7c7d89322573089": {
+    "input": {
+      "agent_id": "{{ CTX.elevenlabs.agent_id }}",
+      "time_utc": "{{ CTX.elevenlabs.time_utc }}",
+      "caller_id": "{{ CTX.elevenlabs.caller_id }}",
+      "recording_id": "{{ CTX.elevenlabs.recording_id }}",
+      "call_transcript": "{{ CTX.call_transcript | json_stringify }}",
+      "conversation_id": "{{ CTX.elevenlabs.conversation_id }}",
+      "sms_notifications_enabled": true,
+      "email_notifications_enabled": true,
+      "elevenlabs_body_data_analysis": "{{ CTX.elevenlabs.analysis | json_stringify }}",
+      "elevenlabs_outbound_notifications_enabled": false
+    },
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 0,
+    "metadata": {
+      "x": 480,
+      "y": 1656
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_ALL",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "{# '018c369f-9e69-7524-b7c3-fad2ce09a450' = Uncle Bob's #}\r\n{# '018c4075-a63b-7a2c-bdba-a260c0af68b6' = Schlatter's Plumbing and Heating #}\r\n{{'018c4075-a63b-7a2c-bdba-a260c0af68b6'}}",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "72942576-103f-40fa-8949-bf4f29cbc504",
+        "when": "{{ SUCCEEDED }}",
+        "do": [],
+        "publish": [],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "schlatters_oncall_connect",
+    "description": "",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "4acf45a4d40b442cb5e054fbef61258a": {
+    "input": {
+      "message": "{{ CTX.failure_message }}"
+    },
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 1,
+    "metadata": {
+      "x": 1992.0000000000002,
+      "y": 1511.9999999999998
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "1130e040-1230-4cd2-aa28-28a58fae248b",
+        "when": "{{ SUCCEEDED }}",
+        "do": [],
+        "publish": [],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "core_fail",
+    "description": "Action that fails",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "1453b53bcbc04b48abc4613c6569ec4a": {
+    "input": {
+      "data": null,
+      "json": null,
+      "method": "GET",
+      "params": {
+        "filter[to]": "{{ \"+\" ~ ((CTX.elevenlabs.agent_phone_number|string)|regex_replace(\"[^0-9]\", \"\")) }}",
+        "filter[from]": "{{ \"+\" ~ ((CTX.body.data.metadata.phone_call.external_number|string)|regex_replace(\"[^0-9]\", \"\")) }}",
+        "filter[created_at][gte]": "{{ (CTX.body.data.metadata.start_time_unix_secs|int - 10)|convert_from_epoch|format_datetime(\"%Y-%m-%dT%H:%M:%SZ\") }}",
+        "filter[created_at][lte]": "{{ (CTX.body.data.metadata.start_time_unix_secs|int + CTX.elevenlabs.call_duration_secs|int + 10)|convert_from_epoch|format_datetime(\"%Y-%m-%dT%H:%M:%SZ\") }}"
+      },
+      "cookies": null,
+      "headers": null,
+      "paginate": false,
+      "raw_json": null,
+      "url_path": "https://api.telnyx.com/v2/recordings",
+      "follow_redirects": true,
+      "require_2xx_status": true
+    },
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 0,
+    "metadata": {
+      "x": 1248,
+      "y": 1032
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [
+      {
+        "__typename": "PackOverride",
+        "packId": "c8fa170d-d022-40b1-879c-e182dbe3c777",
+        "configSelectionMode": "USE_SELECTED_ID",
+        "configFallbackMode": "FAIL_ACTION",
+        "packConfigId": "01918ed0-344e-75c1-a787-7b8e3a0df0df",
+        "searchInput": null
+      }
+    ],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "da3359ba-adae-45db-9dca-936b4f792f83",
+        "when": "",
+        "do": [
+          "c1e510b2f2e945a491e04e5499a6b147"
+        ],
+        "publish": [
+          {
+            "key": "recording_id",
+            "value": "{{ (TASKS.get_call_recording.result.result.data | d([]) | first).id | d(None) }}"
+          },
+          {
+            "key": "recording_url",
+            "value": "{{ (\"https://n8n.atgfw.com/webhook/telnyx-recording?recording_id=\" ~ (CTX.recording_id|d(None))) if CTX.recording_id is defined and CTX.recording_id|d(None) else None }}"
+          }
+        ],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "get_call_recording",
+    "description": "Gets call recording ID from Telnyx API based on time range match. Note https://n8n.atgfw.com/webhook/telnyx-recording is needed to serve the downloadable .wav file through a permalink.",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "a3ca4988bdfc4d089efcf9c29b3e3bb4": {
+    "input": {},
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 0,
+    "metadata": {
+      "x": 792.0000000000001,
+      "y": 672.0000000000002
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "0761b9cd-e5b5-4655-8e77-ea641555910a",
+        "when": "",
+        "do": [
+          "cd9bb48570b94e20aa62ed6c67a8666c"
+        ],
+        "publish": [
+          {
+            "key": "call_transcript",
+            "value": "{%- set body = CTX.body|d({}) -%}\r\n{%- set data = body.data|d({}) -%}\r\n{%- set metadata = data.metadata|d({}) -%}\r\n{%- set phone_call = metadata.phone_call|d({}) -%}\r\n{%- set transcript_src = data.transcript|d([])|list -%}\r\n{%- set transcript_list = [] -%}\r\n{%- for t in transcript_src|enumerate -%}\r\n{%- set idx = t[0] -%}\r\n{%- set turn = t[1] -%}\r\n{%- set tool_calls = [] -%}\r\n{%- for tc in turn.tool_calls|d([]) -%}\r\n{%- set _ = tool_calls.append({'tool_name': tc.tool_name|d(''), 'params': tc.params_as_json|d('{}')|from_yaml_string, 'called': tc.tool_has_been_called|d(false)}) -%}\r\n{%- endfor -%}\r\n{%- set tool_results = [] -%}\r\n{%- for tr in turn.tool_results|d([]) -%}\r\n{%- set _ = tool_results.append({'tool_name': tr.tool_name|d(''), 'is_error': tr.is_error|d(false), 'called': tr.tool_has_been_called|d(false)}) -%}\r\n{%- endfor -%}\r\n{%- set _ = transcript_list.append({'turn_index': idx, 'role': turn.role|d(''), 'time_in_call_secs': turn.time_in_call_secs|d(0), 'source_medium': turn.source_medium|d('audio'), 'text': (turn.message|d('')|string|trim), 'tool_calls': tool_calls, 'tool_results': tool_results}) -%}\r\n{%- endfor -%}\r\n{{ {'conversation_id': data.conversation_id|d(''), 'agent_id': data.agent_id|d(''), 'status': data.status|d(''), 'call': {'call_sid': phone_call.call_sid|d(''), 'direction': phone_call.direction|d(''), 'type': phone_call.type|d(''), 'agent_number': phone_call.agent_number|d(''), 'external_number': phone_call.external_number|d(''), 'phone_number_id': phone_call.phone_number_id|d(''), 'start_time_unix_secs': metadata.start_time_unix_secs, 'duration_secs': CTX.elevenlabs.call_duration_secs|d(metadata.call_duration_secs|d(0)), 'timezone': metadata.timezone|d(''), 'language': metadata.main_language|d('')}, 'transcript': transcript_list} }}"
+          }
+        ],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "call_transcript",
+    "description": "Validates ElevenLabs webhook signature and routes to success, test-mode, or failure paths",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  }
+}
