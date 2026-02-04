@@ -81,6 +81,14 @@
           "description": "prevent cross-session goal bleeding with project scope checks",
           "breaking": false,
           "timestamp": "2026-02-04T14:20:11.296Z"
+        },
+        {
+          "hash": "7a52a66",
+          "type": "fix",
+          "scope": "hooks",
+          "description": "prevent garbage Task #X goal creation",
+          "breaking": false,
+          "timestamp": "2026-02-04T14:48:37.319Z"
         }
       ]
     },
@@ -166,7 +174,7 @@
       ]
     }
   },
-  "lastUpdated": "2026-02-04T14:20:11.337Z",
+  "lastUpdated": "2026-02-04T14:48:37.339Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"

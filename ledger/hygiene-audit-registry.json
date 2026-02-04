@@ -908,5 +908,33 @@
         "severity": "warn"
       }
     ]
+  },
+  {
+    "timestamp": "2026-02-04T14:48:18.217Z",
+    "project": "C:\\Users\\codya\\coding\\n8n_n8n",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\nul",
+        "filename": "nul",
+        "suggestion": "mv \"nul\" old/misc/",
+        "severity": "warn"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-04T14:48:18.571Z",
+    "project": "C:\\Users\\codya\\coding\\n8n_n8n",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\nul",
+        "filename": "nul",
+        "suggestion": "mv \"nul\" old/misc/",
+        "severity": "warn"
+      }
+    ]
   }
 ]
