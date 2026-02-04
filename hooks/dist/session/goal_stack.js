@@ -108,7 +108,7 @@ export function saveGoalStack(stack) {
 // ============================================================================
 /**
  * Push a goal onto the stack (becomes current focus).
- * Also syncs to active-goal.json to maintain CLAUDE.md contract.
+ * Only syncs issue/epic goals to active-goal.json (not ephemeral task goals).
  */
 export function pushGoal(sessionId, goal) {
     const stack = loadGoalStack(sessionId);
@@ -120,8 +120,11 @@ export function pushGoal(sessionId, goal) {
     // Push to front (index 0 = current focus)
     stack.stack.unshift(goal);
     saveGoalStack(stack);
-    // Sync to active-goal.json (CLAUDE.md requires display from this file)
-    syncGoalToActiveGoalJson(goal);
+    // Only sync issue/epic goals to active-goal.json (not task goals)
+    // Task goals are ephemeral session work; issue goals are the primary context
+    if (goal.type === 'issue' || goal.type === 'epic') {
+        syncGoalToActiveGoalJson(goal);
+    }
 }
 /**
  * Sync the current focus goal to active-goal.json.
@@ -207,12 +210,13 @@ export function popGoal(sessionId, completedSuccessfully, poppedBy = 'TaskUpdate
         stack.history = stack.history.slice(-20);
     }
     saveGoalStack(stack);
-    // Sync active-goal.json to new focus or clear if empty
+    // Sync active-goal.json to new focus (only issue/epic) or clear if empty
     const newFocus = stack.stack[0];
-    if (newFocus) {
+    if (newFocus && (newFocus.type === 'issue' || newFocus.type === 'epic')) {
         syncGoalToActiveGoalJson(newFocus);
     }
-    else {
+    else if (!newFocus && (popped.type === 'issue' || popped.type === 'epic')) {
+        // Only clear if we popped an issue/epic (not a task)
         clearActiveGoalJson(popped.summary);
     }
     return popped;
