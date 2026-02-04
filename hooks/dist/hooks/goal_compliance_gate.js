@@ -76,10 +76,12 @@ function hasTargetObject(fields) {
     const which = fields.which?.toLowerCase() ?? '';
     const where = fields.where?.toLowerCase() ?? '';
     const combined = `${which} ${where}`;
-    // Check for path-like patterns
+    // Check for path-like patterns (supports both Unix and Windows paths)
     const pathPatterns = [
         /\.(ts|js|json|md|yaml|yml|py)/, // File extensions
-        /\/[a-z_-]+\//i, // Path segments
+        /\/[a-z_-]+\//i, // Unix path segments
+        /\\[a-z_-]+\\/i, // Windows path segments (backslashes)
+        /[a-z]:\\/i, // Windows drive letter (C:\, D:\, etc.)
         /https?:\/\//, // URLs
         /github\.com/, // GitHub references
         /#\d+/, // Issue references
