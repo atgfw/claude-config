@@ -170,11 +170,19 @@
           "description": "expand test profile to 54 test cases",
           "breaking": false,
           "timestamp": "2026-02-04T13:13:55.644Z"
+        },
+        {
+          "hash": "3cd1c8d",
+          "type": "feat",
+          "scope": "llm-extraction",
+          "description": "harden test runner and add security tests",
+          "breaking": false,
+          "timestamp": "2026-02-04T14:50:38.783Z"
         }
       ]
     }
   },
-  "lastUpdated": "2026-02-04T14:48:37.339Z",
+  "lastUpdated": "2026-02-04T14:50:38.784Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"
