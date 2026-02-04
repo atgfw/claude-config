@@ -1,9 +1,0 @@
-{
-  "id": "8",
-  "subject": "Update CLAUDE.md documentation",
-  "description": "Document the new integration_context input field, new category fields, and usage examples in the llm_data_collection CLAUDE.md file.",
-  "activeForm": "Updating documentation",
-  "status": "pending",
-  "blocks": [],
-  "blockedBy": []
-}

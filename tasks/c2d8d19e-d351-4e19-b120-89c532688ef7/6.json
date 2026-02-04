@@ -1,9 +1,0 @@
-{
-  "id": "6",
-  "subject": "Pass through integration_context in output_assembler",
-  "description": "Modify output_assembler to include integration_context in the response so CRM integration workflows can access field_mappings and defaults for post-extraction processing.",
-  "activeForm": "Passing through integration_context",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
