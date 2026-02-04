@@ -1,0 +1,30 @@
+{
+  "session_id": "session-77dcbfe8e5b0bdb6",
+  "working_directory": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents",
+  "stack": [
+    {
+      "id": "global-goal",
+      "type": "epic",
+      "summary": "Add schema transformer for ElevenLabs conversation exports to webhook format",
+      "fields": {
+        "who": "Claude Code session",
+        "what": "Transform ElevenLabs conversation export schema to match post-call webhook trigger format",
+        "when": "Current task",
+        "where": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents",
+        "why": "Enable reprocessing of historical conversations through existing post-call webhook pipeline",
+        "how": "Add transformation node to ElevenLabs Conversation Export workflow (5CmDvqF0GloEr7be)",
+        "which": "ElevenLabs Conversation Export workflow, post-call webhook consumers",
+        "lest": "Historical calls cannot be reprocessed, data migration blocked, audit trail unavailable",
+        "with": "conversation-export-examples.jsonl, post-call-webhook-examples.jsonl schemas",
+        "measuredBy": "Transformed output matches webhook schema, downstream workflows accept reprocessed calls"
+      },
+      "source": {
+        "manual": true
+      },
+      "pushedAt": "2026-02-04T14:22:21.018Z",
+      "pushedBy": "SessionStart"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-04T14:22:21.019Z"
+}
