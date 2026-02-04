@@ -243,6 +243,18 @@ export {
 } from './hooks/version_fabrication_detector.js';
 export { cloudObjectCreationGateHook } from './governance/cloud_object_creation_gate.js';
 export { llmModelValidatorHook } from './governance/llm_model_validator.js';
+export {
+  detectsCredentialDiscussion,
+  getConfiguredServices,
+  buildContextMessage,
+  CREDENTIAL_PATTERNS,
+} from './hooks/credential_context_injector.js';
+export {
+  isTestCommand,
+  parseTestOutput,
+  generateSuspicionMessage,
+  SUSPICION_THRESHOLD,
+} from './hooks/metavitest_suspicion.js';
 
 // Import governance hooks to register them
 import './governance/n8n_workflow_governance.js';
@@ -307,6 +319,12 @@ import './hooks/version_fabrication_detector.js';
 
 // Context summary trigger (replaces auto-compact)
 import './hooks/context-summary-trigger.js';
+
+// Credential context injector (injects credential location when discussed)
+import './hooks/credential_context_injector.js';
+
+// Metavitest suspicion (warns on 100% test pass rates)
+import './hooks/metavitest_suspicion.js';
 
 // Git hooks (GitHub framework)
 import './git/secret_scanner.js';

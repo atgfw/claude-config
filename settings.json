@@ -289,6 +289,16 @@
         "description": "Tracks releases and version bumps"
       },
       {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" metavitest-suspicion"
+          }
+        ],
+        "description": "Detects 100% test pass rates and injects warnings about insufficient test challenge. Issue #32"
+      },
+      {
         "hooks": [
           {
             "type": "command",

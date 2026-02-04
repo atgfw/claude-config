@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Add n8n Evaluation Trigger to orchestrator (task 8.1)",
+  "description": "Add n8n Evaluation Trigger node to website_rag_orchestrator workflow for automated testing",
+  "activeForm": "Adding n8n Evaluation Trigger",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

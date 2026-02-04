@@ -984,6 +984,85 @@
           "content_hash": "f1769b40f10cde11"
         }
       ]
+    },
+    {
+      "unified_id": "plan-C:\\Users\\codya\\.claude\\plans\\binary-beaming-quasar.md",
+      "github_issue": null,
+      "claude_task_id": null,
+      "openspec_change_id": null,
+      "plan_step": null,
+      "goal_summary": null,
+      "status": "open",
+      "last_synced": "2026-02-04T20:42:13.210Z",
+      "sync_hash": "",
+      "plan_file": "C:\\Users\\codya\\.claude\\plans\\binary-beaming-quasar.md",
+      "checklist_items": [
+        {
+          "id": "1338b59391ad",
+          "text": "**ServiceTitan test**: Verify mapped IDs used in API calls",
+          "status": "pending",
+          "last_modified": "2026-02-04T20:42:13.206Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "58787630c071",
+          "text": "**Universal LLM Extraction** - No CRM-specific logic in extraction workflow",
+          "status": "pending",
+          "last_modified": "2026-02-04T20:42:13.206Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "7d33de15d840",
+          "text": "**Unit tests**: Run `bun run scripts/run-test-profile.js` with new test cases",
+          "status": "pending",
+          "last_modified": "2026-02-04T20:42:13.206Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "9a7f7aeb9c16",
+          "text": "**Integration test**: Call webhook with `integration_context` populated",
+          "status": "pending",
+          "last_modified": "2026-02-04T20:42:13.206Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "c7c87af6a84b",
+          "text": "**Separate Concerns** - Extraction is a service; CRM integration is a consumer",
+          "status": "pending",
+          "last_modified": "2026-02-04T20:42:13.206Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "e3775318b7cf",
+          "text": "**Configuration-Driven Mapping** - No hardcoded IDs; all mapping via config",
+          "status": "pending",
+          "last_modified": "2026-02-04T20:42:13.206Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "e48c7938fe7b",
+          "text": "**Regression test**: Verify existing callers (no integration_context) still work",
+          "status": "pending",
+          "last_modified": "2026-02-04T20:42:13.206Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "e503bc9c1fe3",
+          "text": "**Context Pollination** - CRM config injected via `integration_context` input",
+          "status": "pending",
+          "last_modified": "2026-02-04T20:42:13.206Z",
+          "modified_by": "plan"
+        }
+      ],
+      "checklist_hash": "de9d49af654958d4",
+      "sync_sources": [
+        {
+          "type": "plan",
+          "artifact_id": "C:\\Users\\codya\\.claude\\plans\\binary-beaming-quasar.md",
+          "last_read": "2026-02-04T20:42:13.210Z",
+          "content_hash": "446c3a2c736256bc"
+        }
+      ]
     }
   ]
 }

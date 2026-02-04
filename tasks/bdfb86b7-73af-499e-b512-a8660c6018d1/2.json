@@ -1,0 +1,13 @@
+{
+  "id": "2",
+  "subject": "Fix freshness cache skip path in orchestrator",
+  "description": "The check_if_skipped node's skip output goes to execute_crawler instead of directly to build_report. Need to add proper branching so skipped requests short-circuit the pipeline.",
+  "activeForm": "Fixing freshness cache architecture",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "executionId": "z3DOvsyLX5ICrEH6_v116",
+    "evidence": "IF node properly configured with true->build_skip_report, false->execute_crawler branching"
+  }
+}
