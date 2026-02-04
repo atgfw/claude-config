@@ -1,9 +1,0 @@
-{
-  "id": "5",
-  "subject": "Create evaluation test dataset (task 8.2)",
-  "description": "Create test dataset with 20+ cases: various domain types, empty sitemaps, large sites, missing sections for evaluation",
-  "activeForm": "Creating test dataset",
-  "status": "pending",
-  "blocks": [],
-  "blockedBy": []
-}
