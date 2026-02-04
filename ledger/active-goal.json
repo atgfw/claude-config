@@ -1,10 +1,10 @@
 {
-  "goal": "[spinal-cord] fix(hooks): Require verbatim evidence when updating issues, plans, or checklists",
+  "goal": "[llm-extraction] fix: standardize enums to lowercase snake_case",
   "fields": {
     "who": "Claude Code session",
-    "what": "## Problem",
+    "what": "[llm-extraction] fix: standardize enums to lowercase snake_case",
     "when": "Current task",
-    "where": "C:\\Users\\codya\\.claude",
+    "where": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents",
     "why": "Task in progress",
     "how": "Following implementation plan",
     "which": "Target object not specified",
@@ -12,8 +12,8 @@
     "with": "Dependencies not enumerated",
     "measuredBy": "Success metrics not defined"
   },
-  "summary": "[spinal-cord] fix(hooks): Require verbatim evidence when updating issues, plans, or checklists",
-  "updatedAt": "2026-02-04T13:24:33.808Z",
+  "summary": "[llm-extraction] fix: standardize enums to lowercase snake_case",
+  "updatedAt": "2026-02-04T14:08:05.704Z",
   "linkedArtifacts": {
     "openspec": null,
     "plan_files": [],
