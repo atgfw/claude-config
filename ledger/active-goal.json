@@ -1,10 +1,10 @@
 {
-  "goal": "Task #5",
+  "goal": "[spinal-cord] fix(hooks): Require verbatim evidence when updating issues, plans, or checklists",
   "fields": {
     "who": "Claude Code session",
-    "what": "Task #5",
+    "what": "## Problem",
     "when": "Current task",
-    "where": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection",
+    "where": "C:\\Users\\codya\\.claude",
     "why": "Task in progress",
     "how": "Following implementation plan",
     "which": "Target object not specified",
@@ -12,8 +12,8 @@
     "with": "Dependencies not enumerated",
     "measuredBy": "Success metrics not defined"
   },
-  "summary": "Task #5",
-  "updatedAt": "2026-02-04T13:07:41.036Z",
+  "summary": "[spinal-cord] fix(hooks): Require verbatim evidence when updating issues, plans, or checklists",
+  "updatedAt": "2026-02-04T13:24:33.808Z",
   "linkedArtifacts": {
     "openspec": null,
     "plan_files": [],
