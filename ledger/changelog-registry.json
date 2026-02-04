@@ -97,6 +97,14 @@
           "description": "Support Windows paths in goal compliance validation",
           "breaking": false,
           "timestamp": "2026-02-04T14:55:38.343Z"
+        },
+        {
+          "hash": "81c4881",
+          "type": "test",
+          "scope": "hooks",
+          "description": "Add cross-project isolation tests for session_hydrator",
+          "breaking": false,
+          "timestamp": "2026-02-04T15:24:01.435Z"
         }
       ]
     },
@@ -206,7 +214,7 @@
       ]
     }
   },
-  "lastUpdated": "2026-02-04T15:00:47.398Z",
+  "lastUpdated": "2026-02-04T15:24:01.460Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"
