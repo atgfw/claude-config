@@ -186,11 +186,19 @@
           "description": "harden test runner and add security tests",
           "breaking": false,
           "timestamp": "2026-02-04T14:50:38.783Z"
+        },
+        {
+          "hash": "4c2837d",
+          "type": "feat",
+          "scope": "llm-extraction",
+          "description": "add reliability hardening to test runner",
+          "breaking": false,
+          "timestamp": "2026-02-04T14:56:55.401Z"
         }
       ]
     }
   },
-  "lastUpdated": "2026-02-04T14:55:38.344Z",
+  "lastUpdated": "2026-02-04T14:56:55.402Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"
