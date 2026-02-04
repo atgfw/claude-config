@@ -2,6 +2,16 @@
   "hooks": {
     "PreToolUse": [
       {
+        "matcher": "Read|Write|Edit|Glob|Grep|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" full-path-validator"
+          }
+        ],
+        "description": "BLOCK: Enforces absolute file paths in all file operations. Relative paths cause ambiguity."
+      },
+      {
         "matcher": "Bash",
         "hooks": [
           {

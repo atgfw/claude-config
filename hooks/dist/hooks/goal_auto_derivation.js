@@ -2,14 +2,15 @@
  * Goal Auto-Derivation Hook
  *
  * Automatically derives the active goal from work context sources.
- * No manual goal setting required - focus is determined by what you're working on.
+ * Uses LLM-NATIVE prompting - Claude extracts fields, not regex parsing.
  *
  * Priority cascade:
- * 1. Git branch issue reference (feature/issue-123 → hydrate from GitHub issue)
+ * 1. Git branch issue reference (feature/issue-123 → prompt Claude to hydrate)
  * 2. OpenSpec linkedArtifacts in active-goal.json
- * 3. Active Claude Code task (in_progress status)
- * 4. Most recent commit message intent
- * 5. Fallback: soft prompt to define
+ * 3. Fallback: soft prompt to define
+ *
+ * KEY DESIGN: This hook DETECTS context and PROMPTS Claude to extract.
+ * It does NOT parse text with regex. The LLM does semantic understanding.
  *
  * Runs at: SessionStart, UserPromptSubmit (to detect context changes)
  */
@@ -18,13 +19,13 @@ import * as path from 'node:path';
 import { execSync } from 'node:child_process';
 import { registerHook } from '../runner.js';
 import { getClaudeDir, log } from '../utils.js';
-import { getSessionId, loadGoalStack, saveGoalStack, pushGoal, createDefaultFields, extractFieldsFromDescription, } from '../session/goal_stack.js';
+import { getSessionId, loadGoalStack, saveGoalStack, pushGoal, createDefaultFields, } from '../session/goal_stack.js';
 // ============================================================================
-// Context Source Queries
+// Context Detection (minimal - just detect, don't parse)
 // ============================================================================
 /**
  * Parse git branch for issue reference.
- * Patterns: feature/issue-123, bugfix/123-description, fix-123, etc.
+ * Only extracts the issue number - does NOT try to parse issue content.
  */
 function parseGitBranch(workingDir) {
     try {
@@ -37,7 +38,6 @@ function parseGitBranch(workingDir) {
             return { branch };
         }
         // Extract issue number from branch name
-        // Patterns: feature/123, feature/issue-123, bugfix/123-fix-login, 123-description
         const patterns = [
             /^(?:feature|bugfix|hotfix|chore|docs|fix)\/(?:issue-)?(\d+)/i,
             /^(?:feature|bugfix|hotfix|chore|docs|fix)\/(\d+)-/i,
@@ -63,21 +63,18 @@ function parseGitBranch(workingDir) {
     }
 }
 /**
- * Fetch GitHub issue details using gh CLI.
+ * Fetch GitHub issue title only (for goal summary).
+ * Does NOT parse the body - that's for the LLM.
  */
-function fetchGitHubIssue(issueNumber, workingDir) {
+function fetchGitHubIssueTitle(issueNumber, workingDir) {
     try {
-        const result = execSync(`gh issue view ${issueNumber} --json title,body,labels`, {
+        const result = execSync(`gh issue view ${issueNumber} --json title`, {
             cwd: workingDir,
             encoding: 'utf-8',
             timeout: 10000,
         });
         const data = JSON.parse(result);
-        return {
-            title: data.title ?? `Issue #${issueNumber}`,
-            body: data.body ?? '',
-            labels: (data.labels ?? []).map((l) => l.name),
-        };
+        return data.title ?? null;
     }
     catch {
         return null;
@@ -97,7 +94,7 @@ function loadActiveGoalFile() {
     }
 }
 /**
- * Load OpenSpec proposal by change ID.
+ * Load OpenSpec proposal title by change ID.
  */
 function loadOpenSpecProposal(changeId) {
     const proposalPath = path.join(getClaudeDir(), 'openspec', 'changes', changeId, 'proposal.md');
@@ -114,88 +111,130 @@ function loadOpenSpecProposal(changeId) {
         else if (content.includes('[x] Design approved') || content.includes('Status: in-progress')) {
             status = 'in-progress';
         }
-        // Check if archived
         if (proposalPath.includes('/archive/')) {
             status = 'archived';
         }
-        return {
-            changeId,
-            title,
-            description: content.substring(0, 500),
-            status,
-        };
-    }
-    catch {
-        return null;
-    }
-}
-/**
- * Get most recent commit message for intent detection.
- */
-function getRecentCommitIntent(workingDir) {
-    try {
-        const message = execSync('git log -1 --format=%s', {
-            cwd: workingDir,
-            encoding: 'utf-8',
-            timeout: 5000,
-        }).trim();
-        return message || null;
+        return { changeId, title, status };
     }
     catch {
         return null;
     }
 }
 // ============================================================================
-// Goal Derivation Logic
+// LLM Extraction Prompts (the core of LLM-native approach)
 // ============================================================================
 /**
- * Create a goal from GitHub issue data.
+ * Generate prompt for Claude to extract goal fields from a GitHub issue.
+ * This is the KEY function - Claude does the semantic extraction, not regex.
  */
-function goalFromGitHubIssue(issueNumber, issue) {
-    const fields = issue.body
-        ? extractFieldsFromDescription(issue.body)
-        : createDefaultFields(issue.title);
-    // Enhance fields from issue context
-    if (fields.who === 'Claude Code session') {
-        fields.who = `GitHub Issue #${issueNumber} stakeholders`;
-    }
-    if (fields.where === process.cwd()) {
-        fields.where = `GitHub Issue #${issueNumber}`;
-    }
+function generateIssueExtractionPrompt(issueNumber, issueTitle) {
+    return `GOAL FIELD EXTRACTION REQUIRED (Issue #${issueNumber}: ${issueTitle})
+
+You need to populate the goal fields by reading the GitHub issue. This is a ONE-TIME task.
+
+STEPS:
+1. Read the issue: \`gh issue view ${issueNumber} --json body,labels\`
+2. Extract these fields semantically (understand the meaning, don't regex parse):
+
+   **WHO:** Who benefits or is affected? (stakeholders, users, systems)
+   **WHAT:** What is the desired outcome? (the goal, not the problem)
+   **WHEN:** Timeline or priority? (from labels or explicit mentions)
+   **WHERE:** What files/systems are affected? (paths mentioned in implementation)
+   **WHY:** What problem does this solve? (from Problem section)
+   **HOW:** What approach will be used? (from Solution/Implementation section)
+   **WHICH:** Specific target objects? (file paths, functions, components)
+   **LEST:** What must NOT happen? (constraints like "must not break X")
+   **WITH:** What tools/dependencies are needed? (mentioned technologies)
+   **MEASURED BY:** How do we know it's done? (acceptance criteria)
+
+3. Update the goal file with extracted values:
+   \`\`\`json
+   // Write to ~/.claude/ledger/active-goal.json
+   {
+     "goal": "${issueTitle}",
+     "summary": "${issueTitle}",
+     "fields": {
+       "who": "extracted value",
+       "what": "extracted value",
+       "when": "extracted value",
+       "where": "extracted value",
+       "why": "extracted value",
+       "how": "extracted value",
+       "which": "extracted value",
+       "lest": "extracted value",
+       "with": "extracted value",
+       "measuredBy": "extracted value"
+     },
+     "linkedArtifacts": { "github_issues": [${issueNumber}] },
+     "updatedAt": "ISO timestamp"
+   }
+   \`\`\`
+
+IMPORTANT: Extract MEANINGFUL content, not placeholders. If a field isn't explicitly stated, infer from context.
+After extraction, proceed with the user's original request.`;
+}
+/**
+ * Generate prompt for Claude to extract goal fields from an OpenSpec proposal.
+ */
+function generateOpenSpecExtractionPrompt(changeId, title) {
+    return `GOAL FIELD EXTRACTION REQUIRED (OpenSpec: ${changeId})
+
+You need to populate the goal fields by reading the OpenSpec proposal. This is a ONE-TIME task.
+
+STEPS:
+1. Read the proposal: \`~/.claude/openspec/changes/${changeId}/proposal.md\`
+2. Extract these fields semantically:
+
+   **WHO:** Who benefits from this change?
+   **WHAT:** What is the desired outcome?
+   **WHEN:** Timeline or priority?
+   **WHERE:** What files/systems are affected?
+   **WHY:** What problem does this solve?
+   **HOW:** What approach will be used?
+   **WHICH:** Specific target objects?
+   **LEST:** What must NOT happen?
+   **WITH:** What tools/dependencies are needed?
+   **MEASURED BY:** How do we know it's done?
+
+3. Update ~/.claude/ledger/active-goal.json with extracted values.
+
+Title: ${title}
+After extraction, proceed with the user's original request.`;
+}
+// ============================================================================
+// Goal Creation (minimal - just scaffolding for LLM to fill)
+// ============================================================================
+/**
+ * Create a minimal goal from GitHub issue.
+ * Fields are placeholders - LLM will extract real values.
+ */
+function createMinimalIssueGoal(issueNumber, title) {
     return {
         id: `issue-${issueNumber}`,
         type: 'issue',
-        summary: issue.title,
-        fields,
+        summary: title,
+        fields: createDefaultFields(title),
         source: { github_issue: issueNumber },
         pushedAt: new Date().toISOString(),
         pushedBy: 'SessionStart',
     };
 }
 /**
- * Create a goal from OpenSpec proposal.
+ * Create a minimal goal from OpenSpec proposal.
  */
-function goalFromOpenSpec(proposal) {
-    const fields = extractFieldsFromDescription(proposal.description);
-    // Set defaults for OpenSpec context
-    if (fields.who === 'Claude Code session') {
-        fields.who = 'Spinal Cord governance system';
-    }
-    if (fields.where === process.cwd()) {
-        fields.where = `OpenSpec: ${proposal.changeId}`;
-    }
+function createMinimalOpenSpecGoal(changeId, title) {
     return {
-        id: `openspec-${proposal.changeId}`,
+        id: `openspec-${changeId}`,
         type: 'epic',
-        summary: proposal.title,
-        fields,
-        source: { openspec_change: proposal.changeId },
+        summary: title,
+        fields: createDefaultFields(title),
+        source: { openspec_change: changeId },
         pushedAt: new Date().toISOString(),
         pushedBy: 'SessionStart',
     };
 }
 /**
- * Create a goal from active-goal.json global override.
+ * Create a goal from active-goal.json (already has fields).
  */
 function goalFromActiveGoalFile(activeGoal) {
     return {
@@ -219,33 +258,54 @@ function goalFromActiveGoalFile(activeGoal) {
         pushedBy: 'SessionStart',
     };
 }
+// ============================================================================
+// Goal Derivation (detect context, decide if extraction needed)
+// ============================================================================
 /**
- * Derive goal from all available context sources.
- * Returns the highest-confidence goal based on priority cascade.
+ * Check if goal fields need LLM extraction (mostly placeholders).
+ */
+function needsExtraction(fields) {
+    const placeholderPatterns = [
+        'not specified',
+        'not defined',
+        'not enumerated',
+        'unknown',
+        'Target object',
+        'Failure modes',
+        'Dependencies',
+        'Success metrics',
+    ];
+    let placeholderCount = 0;
+    for (const value of Object.values(fields)) {
+        const lower = value.toLowerCase();
+        if (placeholderPatterns.some((p) => lower.includes(p.toLowerCase()))) {
+            placeholderCount++;
+        }
+        // Markdown headers = garbage from failed parsing
+        if (value.startsWith('##') || value.startsWith('# ')) {
+            placeholderCount++;
+        }
+    }
+    return placeholderCount >= 3;
+}
+/**
+ * Derive goal from context sources.
+ * Returns minimal goal + flag for whether LLM extraction is needed.
  */
 function deriveGoalFromContext(workingDir) {
     // 1. Check git branch for issue reference
     const branchInfo = parseGitBranch(workingDir);
     if (branchInfo?.issueNumber) {
-        const issue = fetchGitHubIssue(branchInfo.issueNumber, workingDir);
-        if (issue) {
-            return {
-                source: 'git-branch',
-                goal: goalFromGitHubIssue(branchInfo.issueNumber, issue),
-                confidence: 'high',
-                reason: `Derived from git branch: ${branchInfo.branch} → Issue #${branchInfo.issueNumber}`,
-            };
-        }
-        // Issue number found but couldn't fetch - still use it
+        const title = fetchGitHubIssueTitle(branchInfo.issueNumber, workingDir);
+        const goalTitle = title ?? `Issue #${branchInfo.issueNumber}`;
+        const goal = createMinimalIssueGoal(branchInfo.issueNumber, goalTitle);
         return {
             source: 'git-branch',
-            goal: goalFromGitHubIssue(branchInfo.issueNumber, {
-                title: `Issue #${branchInfo.issueNumber}`,
-                body: '',
-                labels: [],
-            }),
-            confidence: 'medium',
-            reason: `Branch references issue #${branchInfo.issueNumber} (could not fetch details)`,
+            goal,
+            confidence: 'high',
+            reason: `Derived from git branch: ${branchInfo.branch} → Issue #${branchInfo.issueNumber}`,
+            needsExtraction: true, // Always extract from GitHub issues
+            issueNumber: branchInfo.issueNumber,
         };
     }
     // 2. Check active-goal.json for linked OpenSpec
@@ -253,11 +313,13 @@ function deriveGoalFromContext(workingDir) {
     if (activeGoal?.linkedArtifacts?.openspec) {
         const proposal = loadOpenSpecProposal(activeGoal.linkedArtifacts.openspec);
         if (proposal && proposal.status !== 'completed' && proposal.status !== 'archived') {
+            const goal = createMinimalOpenSpecGoal(proposal.changeId, proposal.title);
             return {
                 source: 'openspec',
-                goal: goalFromOpenSpec(proposal),
+                goal,
                 confidence: 'high',
                 reason: `Linked OpenSpec proposal: ${proposal.changeId}`,
+                needsExtraction: true,
             };
         }
     }
@@ -265,58 +327,38 @@ function deriveGoalFromContext(workingDir) {
     if (activeGoal?.linkedArtifacts?.github_issues?.length) {
         const issueNumber = activeGoal.linkedArtifacts.github_issues[0];
         if (issueNumber) {
-            const issue = fetchGitHubIssue(issueNumber, workingDir);
-            if (issue) {
-                return {
-                    source: 'active-goal',
-                    goal: goalFromGitHubIssue(issueNumber, issue),
-                    confidence: 'high',
-                    reason: `Linked GitHub issue from active-goal.json: #${issueNumber}`,
-                };
-            }
+            const title = fetchGitHubIssueTitle(issueNumber, workingDir);
+            const goalTitle = title ?? `Issue #${issueNumber}`;
+            const goal = createMinimalIssueGoal(issueNumber, goalTitle);
+            return {
+                source: 'active-goal',
+                goal,
+                confidence: 'high',
+                reason: `Linked GitHub issue from active-goal.json: #${issueNumber}`,
+                needsExtraction: needsExtraction(goal.fields),
+                issueNumber,
+            };
         }
     }
     // 4. Use active-goal.json if it has a defined goal
     if (activeGoal?.goal || activeGoal?.summary) {
+        const goal = goalFromActiveGoalFile(activeGoal);
         return {
             source: 'active-goal',
-            goal: goalFromActiveGoalFile(activeGoal),
+            goal,
             confidence: 'medium',
             reason: 'Using goal from active-goal.json',
+            needsExtraction: needsExtraction(goal.fields),
+            issueNumber: activeGoal.linkedArtifacts?.github_issues?.[0],
         };
     }
-    // 5. Check recent commit for intent
-    const commitMessage = getRecentCommitIntent(workingDir);
-    if (commitMessage && !commitMessage.startsWith('chore(sync)')) {
-        // Parse conventional commit
-        const conventionalMatch = commitMessage.match(/^(\w+)(?:\([^)]+\))?:\s*(.+)/);
-        if (conventionalMatch) {
-            const [, type, description] = conventionalMatch;
-            return {
-                source: 'commit',
-                goal: {
-                    id: `commit-intent-${Date.now()}`,
-                    type: 'task',
-                    summary: description ?? commitMessage,
-                    fields: {
-                        ...createDefaultFields(description ?? commitMessage),
-                        how: `Continue ${type} work from last commit`,
-                    },
-                    source: { manual: false },
-                    pushedAt: new Date().toISOString(),
-                    pushedBy: 'SessionStart',
-                },
-                confidence: 'low',
-                reason: `Inferred from recent commit: ${commitMessage.substring(0, 50)}...`,
-            };
-        }
-    }
-    // 6. No goal derivable
+    // 5. No goal derivable
     return {
         source: 'none',
         goal: null,
         confidence: 'low',
         reason: 'No work context found to derive goal from',
+        needsExtraction: false,
     };
 }
 // ============================================================================
@@ -324,14 +366,12 @@ function deriveGoalFromContext(workingDir) {
 // ============================================================================
 /**
  * Hydrate session goal stack from derived context.
- * Only adds goals if stack is empty or working directory changed.
  */
 function hydrateGoalStack(sessionId, workingDir, derived) {
     const stack = loadGoalStack(sessionId);
     // Check if stack already has goals
     if (stack.stack.length > 0) {
         const currentFocus = stack.stack[0];
-        // Don't override existing goals
         return {
             hydrated: false,
             message: `Existing goal in focus: "${currentFocus?.summary}"`,
@@ -339,13 +379,12 @@ function hydrateGoalStack(sessionId, workingDir, derived) {
     }
     // Check if working directory matches (project-scoped goals)
     if (stack.working_directory && stack.working_directory !== workingDir) {
-        // Different project - clear and rehydrate
         log(`[goal-auto-derivation] Project changed: ${stack.working_directory} → ${workingDir}`);
         const newStack = {
             session_id: sessionId,
             working_directory: workingDir,
             stack: [],
-            history: stack.history, // Preserve history
+            history: stack.history,
             lastModified: new Date().toISOString(),
         };
         saveGoalStack(newStack);
@@ -367,7 +406,7 @@ function hydrateGoalStack(sessionId, workingDir, derived) {
 // Hook Implementations
 // ============================================================================
 /**
- * SessionStart hook - auto-derive and hydrate goal on session start.
+ * SessionStart hook - auto-derive goal and emit LLM extraction prompt if needed.
  */
 async function goalAutoDerivationSessionStart(input) {
     const sessionId = getSessionId(input);
@@ -377,12 +416,42 @@ async function goalAutoDerivationSessionStart(input) {
     const derived = deriveGoalFromContext(workingDir);
     // Hydrate stack
     const result = hydrateGoalStack(sessionId, workingDir, derived);
-    if (result.hydrated) {
-        log(`[goal-auto-derivation] ${result.message}`);
-        return {
-            hookEventName: 'SessionStart',
-            additionalContext: `Goal auto-derived from ${derived.source}: "${derived.goal?.summary}"\nConfidence: ${derived.confidence}\nReason: ${derived.reason}`,
-        };
+    // Generate LLM extraction prompt if needed
+    if (derived.needsExtraction && derived.goal) {
+        if (derived.source === 'git-branch' || derived.source === 'active-goal') {
+            if (derived.issueNumber) {
+                const prompt = generateIssueExtractionPrompt(derived.issueNumber, derived.goal.summary);
+                return {
+                    hookEventName: 'SessionStart',
+                    additionalContext: prompt,
+                };
+            }
+        }
+        else if (derived.source === 'openspec') {
+            const changeId = derived.goal.source.openspec_change;
+            if (changeId) {
+                const prompt = generateOpenSpecExtractionPrompt(changeId, derived.goal.summary);
+                return {
+                    hookEventName: 'SessionStart',
+                    additionalContext: prompt,
+                };
+            }
+        }
+    }
+    // Check existing goal for extraction needs
+    if (!result.hydrated) {
+        const stack = loadGoalStack(sessionId);
+        const currentFocus = stack.stack[0];
+        if (currentFocus && needsExtraction(currentFocus.fields)) {
+            const issueNumber = currentFocus.source.github_issue;
+            if (issueNumber) {
+                const prompt = generateIssueExtractionPrompt(issueNumber, currentFocus.summary);
+                return {
+                    hookEventName: 'SessionStart',
+                    additionalContext: prompt,
+                };
+            }
+        }
     }
     if (derived.source === 'none') {
         return {
@@ -397,7 +466,6 @@ async function goalAutoDerivationSessionStart(input) {
 }
 /**
  * UserPromptSubmit hook - detect context changes that might affect goal.
- * Only re-derives if explicit signals detected (branch change, new issue reference).
  */
 async function goalAutoDerivationPromptSubmit(input) {
     const { prompt } = input;
@@ -414,6 +482,14 @@ async function goalAutoDerivationPromptSubmit(input) {
             // Only update if different goal
             if (currentFocus?.id !== derived.goal.id) {
                 pushGoal(sessionId, derived.goal);
+                // Emit extraction prompt for new goal
+                if (derived.needsExtraction && derived.issueNumber) {
+                    const extractPrompt = generateIssueExtractionPrompt(derived.issueNumber, derived.goal.summary);
+                    return {
+                        hookEventName: 'UserPromptSubmit',
+                        additionalContext: `Goal context updated.\n\n${extractPrompt}`,
+                    };
+                }
                 return {
                     hookEventName: 'UserPromptSubmit',
                     additionalContext: `Goal context updated from prompt reference: "${derived.goal.summary}"`,
@@ -428,6 +504,6 @@ async function goalAutoDerivationPromptSubmit(input) {
 // ============================================================================
 registerHook('goal-auto-derivation-session', 'SessionStart', goalAutoDerivationSessionStart);
 registerHook('goal-auto-derivation-prompt', 'UserPromptSubmit', goalAutoDerivationPromptSubmit);
-export { goalAutoDerivationSessionStart, goalAutoDerivationPromptSubmit, deriveGoalFromContext, hydrateGoalStack, parseGitBranch, fetchGitHubIssue, loadOpenSpecProposal, };
+export { goalAutoDerivationSessionStart, goalAutoDerivationPromptSubmit, deriveGoalFromContext, hydrateGoalStack, parseGitBranch, fetchGitHubIssueTitle, loadOpenSpecProposal, needsExtraction, generateIssueExtractionPrompt, generateOpenSpecExtractionPrompt, };
 export default goalAutoDerivationSessionStart;
 //# sourceMappingURL=goal_auto_derivation.js.map

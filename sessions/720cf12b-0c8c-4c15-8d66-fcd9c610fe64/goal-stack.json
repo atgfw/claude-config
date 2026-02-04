@@ -1,0 +1,52 @@
+{
+  "session_id": "720cf12b-0c8c-4c15-8d66-fcd9c610fe64",
+  "working_directory": "C:\\Users\\codya\\.claude",
+  "stack": [
+    {
+      "id": "issue-31-test",
+      "type": "issue",
+      "summary": "Enforce full file paths in all Claude Code operations - file operations must use absolute paths",
+      "fields": {
+        "who": "Claude Code file operation tools (Read, Write, Edit, Glob, Grep)",
+        "what": "All file paths in Claude Code operations MUST be absolute (full) paths, not relative",
+        "when": "Every file operation (Read, Write, Edit, Glob, Grep)",
+        "where": "hooks/src/hooks/full_path_validator.ts; CLAUDE.md",
+        "why": "Relative paths cause ambiguity when cwd changes and make audit logs inconsistent",
+        "how": "PreToolUse hook validates file_path parameters start with / (Unix) or drive letter (Windows)",
+        "which": "Read, Write, Edit, Glob, Grep tools; file_path parameter",
+        "lest": "Must not allow relative paths; must not break legitimate absolute path operations",
+        "with": "TypeScript, bun, vitest, hooks framework",
+        "measuredBy": "Hook blocks relative paths; tests pass; CLAUDE.md updated"
+      },
+      "source": {
+        "github_issue": 31
+      },
+      "pushedAt": "2026-02-03T20:45:40.305Z",
+      "pushedBy": "IssueDetection"
+    },
+    {
+      "id": "issue-31",
+      "type": "issue",
+      "summary": "[spinal-cord] fix(hooks): Enforce full file paths in all Claude Code operations",
+      "fields": {
+        "who": "Claude Code session",
+        "what": "## Problem",
+        "when": "Current task",
+        "where": "C:\\Users\\codya\\.claude",
+        "why": "Task in progress",
+        "how": "Following implementation plan",
+        "which": "Target object not specified",
+        "lest": "Failure modes not defined",
+        "with": "Dependencies not enumerated",
+        "measuredBy": "Success metrics not defined"
+      },
+      "source": {
+        "github_issue": 31
+      },
+      "pushedAt": "2026-02-03T20:39:51.577Z",
+      "pushedBy": "IssueDetection"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-03T20:45:40.307Z"
+}

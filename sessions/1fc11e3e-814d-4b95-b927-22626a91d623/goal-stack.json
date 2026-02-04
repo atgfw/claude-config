@@ -1,0 +1,30 @@
+{
+  "session_id": "1fc11e3e-814d-4b95-b927-22626a91d623",
+  "working_directory": "C:\\Users\\codya\\.claude",
+  "stack": [
+    {
+      "id": "issue-31",
+      "type": "issue",
+      "summary": "Implement full_path_validator hook to enforce absolute file paths in all Claude Code file operations",
+      "fields": {
+        "who": "Claude Code sessions using Read, Write, Edit, Glob, Grep tools",
+        "what": "Block relative file paths and suggest absolute equivalents to ensure audit log consistency",
+        "when": "PreToolUse event on file operation tools",
+        "where": "C:/Users/codya/.claude/hooks/src/hooks/full_path_validator.ts; C:/Users/codya/.claude/hooks/tests/full_path_validator.test.ts",
+        "why": "Relative paths cause ambiguity when cwd changes and make audit logs inconsistent across sessions",
+        "how": "Validate file_path parameters using isAbsolutePath() for Unix/Windows/UNC formats using TypeScript, bun runtime, vitest for testing",
+        "which": "C:/Users/codya/.claude/hooks/src/hooks/full_path_validator.ts; C:/Users/codya/.claude/hooks/dist/hooks/full_path_validator.js; C:/Users/codya/.claude/settings.json",
+        "lest": "Must not block pure glob patterns like *.ts; must not fail on empty optional path parameters; must not break existing workflows using absolute paths",
+        "with": "TypeScript 5.x; bun runtime; vitest; hooks framework (runner.js, types.js); node:path module",
+        "measuredBy": "22 tests passing; hook registered in settings.json; blocks relative paths with helpful suggestions; allows all absolute path formats"
+      },
+      "source": {
+        "github_issue": 31
+      },
+      "pushedAt": "2026-02-03T20:04:17.825Z",
+      "pushedBy": "IssueDetection"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-03T20:30:00.000Z"
+}

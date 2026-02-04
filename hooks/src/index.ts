@@ -220,6 +220,12 @@ export {
 } from './hooks/task_spec_validator.js';
 export { bunEnforcerHook, detectBlockedCommands } from './hooks/bun_enforcer.js';
 export {
+  fullPathValidatorHook,
+  isAbsolutePath,
+  expandToAbsolute,
+  extractPaths,
+} from './hooks/full_path_validator.js';
+export {
   goalComplianceGateHook,
   validateGoalCompliance,
   formatComplianceResult,
@@ -275,6 +281,9 @@ import './hooks/task_spec_validator.js';
 
 // Bun enforcer (blocks npm/node/npx, requires bun)
 import './hooks/bun_enforcer.js';
+
+// Full path validator (enforces absolute file paths)
+import './hooks/full_path_validator.js';
 
 // Goal compliance gate (blocks stop if goal non-compliant)
 import './hooks/goal_compliance_gate.js';

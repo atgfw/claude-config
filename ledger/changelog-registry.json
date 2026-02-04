@@ -33,6 +33,22 @@
           "description": "test auto-commit and push",
           "breaking": false,
           "timestamp": "2026-01-30T20:28:25.680Z"
+        },
+        {
+          "hash": "7141d8b",
+          "type": "feat",
+          "scope": "hooks",
+          "description": "add full-path-validator hook for #31",
+          "breaking": false,
+          "timestamp": "2026-02-03T19:35:31.987Z"
+        },
+        {
+          "hash": "114cdc2",
+          "type": "fix",
+          "scope": "hooks",
+          "description": "improve goal auto-derivation field extraction",
+          "breaking": false,
+          "timestamp": "2026-02-03T20:00:00.443Z"
         }
       ]
     },
@@ -98,11 +114,19 @@
           "description": "cleanup docs and stale temp_nodes",
           "breaking": false,
           "timestamp": "2026-02-03T16:53:31.062Z"
+        },
+        {
+          "hash": "2528f3a",
+          "type": "feat",
+          "scope": "llm-extraction",
+          "description": "add comprehensive test profile with 40 test cases",
+          "breaking": false,
+          "timestamp": "2026-02-04T12:56:28.061Z"
         }
       ]
     }
   },
-  "lastUpdated": "2026-02-03T16:53:31.081Z",
+  "lastUpdated": "2026-02-04T12:56:28.079Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"

@@ -456,6 +456,114 @@
           "quality_audit": false
         }
       }
+    },
+    "subworkflow_experiment_parent": {
+      "entityId": "subworkflow_experiment_parent",
+      "entityType": "n8n-workflow",
+      "entityPath": "workflows/servicetitan/workflows/subworkflow_experiment_parent.json",
+      "entityName": "subworkflow_experiment_parent",
+      "workflowId": "hGUEGUZIGQYJKijD",
+      "status": "live-verified",
+      "version": "1.0.0",
+      "novelInputHashes": [
+        "exp_parent_hash_001",
+        "exp_parent_hash_002",
+        "exp_parent_hash_003"
+      ],
+      "testRuns": [
+        {
+          "run": 1,
+          "inputHash": "exp_parent_hash_001",
+          "passed": true,
+          "timestamp": "2026-02-03T21:45:00.000Z",
+          "executionId": "bun-test-004",
+          "description": "Empty input - verifies subworkflow response structure"
+        },
+        {
+          "run": 2,
+          "inputHash": "exp_parent_hash_002",
+          "passed": true,
+          "timestamp": "2026-02-03T21:45:01.000Z",
+          "executionId": "bun-test-005",
+          "description": "Test payload - verifies data passthrough"
+        },
+        {
+          "run": 3,
+          "inputHash": "exp_parent_hash_003",
+          "passed": true,
+          "timestamp": "2026-02-03T21:45:02.000Z",
+          "executionId": "bun-test-006",
+          "description": "Nested data - verifies complex structure handling"
+        }
+      ],
+      "totalNovelRuns": 3,
+      "healthyAt": null,
+      "selfAuditCompleted": {
+        "completed": false,
+        "checklist": {
+          "spec_phase": true,
+          "enforcer_audit": false,
+          "build_phase": false,
+          "local_tests": true,
+          "primordial_pipeline": true,
+          "research_quota": false,
+          "quality_audit": false
+        }
+      }
+    },
+    "subworkflow_experiment_alpha": {
+      "entityId": "subworkflow_experiment_alpha",
+      "entityType": "n8n-workflow",
+      "entityPath": "workflows/servicetitan/workflows/subworkflow_experiment_alpha.json",
+      "entityName": "subworkflow_experiment_alpha",
+      "workflowId": "PYqJ2TemYrb0h7M4",
+      "status": "live-verified",
+      "version": "1.0.0",
+      "novelInputHashes": [
+        "exp_alpha_hash_001",
+        "exp_alpha_hash_002",
+        "exp_alpha_hash_003"
+      ],
+      "testRuns": [
+        {
+          "run": 1,
+          "inputHash": "exp_alpha_hash_001",
+          "passed": true,
+          "timestamp": "2026-02-03T21:30:00.000Z",
+          "executionId": "bun-test-001",
+          "description": "Empty input object - verifies static message and timestamp format"
+        },
+        {
+          "run": 2,
+          "inputHash": "exp_alpha_hash_002",
+          "passed": true,
+          "timestamp": "2026-02-03T21:30:01.000Z",
+          "executionId": "bun-test-002",
+          "description": "Simple object input - verifies JSON serialization of received_input"
+        },
+        {
+          "run": 3,
+          "inputHash": "exp_alpha_hash_003",
+          "passed": true,
+          "timestamp": "2026-02-03T21:30:02.000Z",
+          "executionId": "bun-test-003",
+          "description": "Nested object with array - verifies complex structure serialization"
+        }
+      ],
+      "totalNovelRuns": 3,
+      "healthyAt": null,
+      "selfAuditCompleted": {
+        "completed": false,
+        "checklist": {
+          "spec_phase": true,
+          "enforcer_audit": false,
+          "build_phase": false,
+          "local_tests": true,
+          "primordial_pipeline": true,
+          "research_quota": false,
+          "quality_audit": false
+        }
+      }
     }
   },
   "hierarchies": {
@@ -486,11 +594,19 @@
     "test_parallel_fanout": {
       "parent": null,
       "children": []
+    },
+    "subworkflow_experiment_alpha": {
+      "parent": null,
+      "children": []
+    },
+    "subworkflow_experiment_parent": {
+      "parent": null,
+      "children": []
     }
   },
   "config": {
     "requiredNovelRuns": 3,
     "inputHashAlgorithm": "sha256-prefix-16"
   },
-  "lastUpdated": "2026-01-30T15:53:00.000Z"
+  "lastUpdated": "2026-02-03T21:30:00.000Z"
 }

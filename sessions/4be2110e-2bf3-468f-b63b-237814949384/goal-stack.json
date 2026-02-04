@@ -1,0 +1,30 @@
+{
+  "session_id": "4be2110e-2bf3-468f-b63b-237814949384",
+  "working_directory": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection",
+  "stack": [
+    {
+      "id": "global-active-goal",
+      "type": "epic",
+      "summary": "[spinal-cord] fix(hooks): Enforce full file paths in all Claude Code operations",
+      "fields": {
+        "who": "Claude Code session",
+        "what": "## Problem",
+        "when": "Current task",
+        "where": "C:\\Users\\codya\\.claude",
+        "why": "Task in progress",
+        "how": "Following implementation plan",
+        "which": ".mcp.json; openspec/changes/refactor-llm-extraction-extensibility/specs/llm-data-extraction/spec.md; workflows/llm_data_collection/.claude-md-audit.json; workflows/llm_data_collection/.scrapling-docs-cache.md; workflows/llm_data_collection/API.md",
+        "lest": "Must not introduce regressions; Failure modes not defined",
+        "with": "bun runtime; Dependencies not enumerated",
+        "measuredBy": "Tests passing; Success metrics not defined"
+      },
+      "source": {
+        "manual": true
+      },
+      "pushedAt": "2026-02-03T20:48:37.803Z",
+      "pushedBy": "SessionStart"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-03T20:49:17.224Z"
+}

@@ -1,0 +1,58 @@
+{
+  "session_id": "c1fcc0eb-7616-4ff7-bb5a-dae5066373c0",
+  "working_directory": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan",
+  "stack": [
+    {
+      "id": "global-active-goal",
+      "type": "epic",
+      "summary": "[spinal-cord] fix(hooks): Enforce full file paths in all Claude Code operations",
+      "fields": {
+        "who": "Claude Code session",
+        "what": "## Problem",
+        "when": "Current task",
+        "where": "C:\\Users\\codya\\.claude",
+        "why": "Task in progress",
+        "how": "Following implementation plan",
+        "which": ".mcp.json; openspec/changes/refactor-llm-extraction-extensibility/specs/llm-data-extraction/spec.md; workflows/llm_data_collection/.claude-md-audit.json; workflows/llm_data_collection/.scrapling-docs-cache.md; workflows/llm_data_collection/API.md",
+        "lest": "Must not introduce regressions; Failure modes not defined",
+        "with": "bun runtime; Dependencies not enumerated",
+        "measuredBy": "Tests passing; Success metrics not defined"
+      },
+      "source": {
+        "manual": true
+      },
+      "pushedAt": "2026-02-03T20:49:17.226Z",
+      "pushedBy": "SessionStart"
+    }
+  ],
+  "history": [
+    {
+      "goal": {
+        "id": "openspec-refactor-session-scoped-goals",
+        "type": "epic",
+        "summary": "Change: Refactor Goal Injection to Session-Scoped Hierarchical System",
+        "fields": {
+          "who": "Spinal Cord governance system",
+          "what": "Refactor goal injection to session-scoped hierarchical system",
+          "when": "Current task",
+          "where": "OpenSpec: refactor-session-scoped-goals",
+          "why": "Task in progress",
+          "how": "Following implementation plan",
+          "which": "Target object not specified",
+          "lest": "Failure modes not defined",
+          "with": "Dependencies not enumerated",
+          "measuredBy": "Success metrics not defined"
+        },
+        "source": {
+          "openspec_change": "refactor-session-scoped-goals"
+        },
+        "pushedAt": "2026-02-03T20:14:49.408Z",
+        "pushedBy": "SessionStart"
+      },
+      "poppedAt": "2026-02-03T21:00:00.000Z",
+      "poppedBy": "Manual",
+      "completedSuccessfully": false
+    }
+  ],
+  "lastModified": "2026-02-03T20:52:44.183Z"
+}

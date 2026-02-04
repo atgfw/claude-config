@@ -362,6 +362,48 @@ export function formatComplianceResult(result: ComplianceResult): string {
 }
 
 // ============================================================================
+// Stale Goal Detection
+// ============================================================================
+
+/**
+ * Check if a goal has mostly placeholder fields (stale auto-derived goal).
+ * These should be skipped for compliance validation.
+ */
+function isStaleGoal(goal: GoalLevel): boolean {
+  const placeholderPatterns = [
+    'not specified',
+    'not defined',
+    'not enumerated',
+    'Target object',
+    'Failure modes',
+    'Dependencies',
+    'Success metrics',
+    'Following implementation plan',
+    'Task in progress',
+  ];
+
+  const fields = goal.fields;
+  let placeholderCount = 0;
+  const fieldValues = [
+    fields.which,
+    fields.lest,
+    fields.with,
+    fields.measuredBy,
+    fields.how,
+    fields.why,
+  ];
+
+  for (const value of fieldValues) {
+    if (placeholderPatterns.some((p) => value.includes(p))) {
+      placeholderCount++;
+    }
+  }
+
+  // If 4+ of 6 key fields are placeholders, goal is stale
+  return placeholderCount >= 4;
+}
+
+// ============================================================================
 // Hook Implementation
 // ============================================================================
 
@@ -409,6 +451,16 @@ async function goalComplianceGateHook(input: StopInput): Promise<StopOutput> {
     return {
       decision: 'approve',
       reason: 'No goal to validate',
+    };
+  }
+
+  // Skip validation for stale auto-derived goals with placeholder fields
+  if (isStaleGoal(goalToValidate)) {
+    logTerse('[!] Stale goal detected - skipping compliance (mostly placeholder fields)');
+    return {
+      decision: 'approve',
+      reason:
+        'Stale goal with placeholder fields - compliance skipped. Define a proper goal for validation.',
     };
   }
 

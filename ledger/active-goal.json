@@ -1,28 +1,34 @@
 {
-  "goal": "Unify goal injection across all Claude Code message types and external systems",
+  "goal": "Task #2",
   "fields": {
-    "who": "Claude Code sessions, GitHub issues, OpenSpec proposals, Claude Code .md plans, and their respective subtask checklists (session todos, issue body checklists, issue parent/child relationships, OpenSpec todos, plan todos)",
-    "what": "Inject identical structured goal context into every message, artifact, and checklist item",
-    "when": "every turn, every hook, every create/update/delete of any artifact; prompt user with soft suggestion to define/hydrate goal when missing or inconsistent across artifacts",
-    "where": "UserPromptSubmit, PostToolUse, Stop, SessionStart hooks; session todo headers; GitHub issue bodies; OpenSpec proposal bodies; Claude Code .md plan bodies",
-    "why": "maintain focus and traceability across all systems uniformly; ensure no work proceeds without explicit goal alignment",
-    "how": "shared formatGoalContext() injected via additionalContext in all hook event types",
-    "which": "hooks/src/hooks/goal_injector.ts; hooks/src/hooks/goal_compliance_gate.ts; hooks/src/session/goal_stack.ts; hooks/src/schema/task_specification.ts; ledger/active-goal.json; sessions/{session_id}/goal-stack.json",
-    "lest": "Goal context must not be lost on session restart; must not allow session to stop with non-compliant goal; must not proceed without explicit goal alignment; prevent drift between session goals and artifact checklists; never inject stale or orphaned goals",
-    "with": "TypeScript 5.x; bun runtime; vitest for testing; hooks framework (runner.js, types.js); session management (goal_stack.ts); CLAUDE.md display template",
-    "measuredBy": "100% compliance score on goal_compliance_gate validation; all 11 Task Specification sections validated; tests passing for goal_injector, goal_compliance_gate, bun_enforcer hooks; session restart successfully hydrates goal stack from active-goal.json"
+    "who": "Claude Code session",
+    "what": "Task #2",
+    "when": "Current task",
+    "where": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection",
+    "why": "Task in progress",
+    "how": "Following implementation plan",
+    "which": "Target object not specified",
+    "lest": "Failure modes not defined",
+    "with": "Dependencies not enumerated",
+    "measuredBy": "Success metrics not defined"
   },
-  "summary": "Unify goal injection across all Claude Code message types and external systems",
-  "updatedAt": "2026-02-03T14:30:00.000Z",
+  "summary": "Task #2",
+  "updatedAt": "2026-02-04T12:56:51.888Z",
   "linkedArtifacts": {
-    "openspec": "refactor-session-scoped-goals",
+    "openspec": null,
     "plan_files": [],
-    "github_issues": []
+    "github_issues": [
+      31
+    ]
   },
   "history": [
     {
       "summary": "Unify goal injection across all Claude Code message types and external systems",
       "clearedAt": "2026-02-03T14:13:40.163Z"
+    },
+    {
+      "summary": "Implement unified goal injection across all Claude Code message types and external systems",
+      "clearedAt": "2026-02-03T15:00:00.000Z"
     }
   ]
 }
