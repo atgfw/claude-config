@@ -372,6 +372,15 @@
           }
         ],
         "description": "Injects active sharp-pointed goal as additionalContext every turn"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" credential-context-injector"
+          }
+        ],
+        "description": "Injects credential location context when API keys/secrets are discussed. See Issue #40"
       }
     ],
     "Stop": [
