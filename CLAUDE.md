@@ -116,6 +116,7 @@ Setup will:
 | **n8n Node Documentation** | `n8n_node_note_validator` | All nodes require 20+ char notes with Display Note enabled |
 | **Code Node Linting** | `code_node_linting_gate` | Standard JS linting for n8n code node content |
 | **Version Numbers Banned** | `n8n_naming_validator` | No v1, v2, r1, _1 in any object names (global rule) |
+| **Never fabricate versioning** | `version_fabrication_detector` | No _v2, _new, _backup suffixes unless project uses versioning |
 | **Integers Banned in Names** | `n8n_naming_validator` | No arbitrary integers unless canonical (base64, oauth2) |
 | **Webhook Path Naming** | `n8n_webhook_path_validator` | kebab-case, no nesting, no "test", must authenticate |
 | **Secret Scanning** | `secret_scanner` | STRICT: Blocks commits containing API keys/secrets |
@@ -819,7 +820,7 @@ Detected patterns include:
 - GitHub tokens (`ghp_...`, `gho_...`)
 - Anthropic keys (`sk-ant-...`)
 - Private keys (`-----BEGIN...PRIVATE KEY-----`)
-- Connection strings (`mongodb://user:pass@...`)
+- Connection strings (database URLs with embedded credentials)
 - JWTs, Slack tokens, Stripe keys, etc.
 
 ### Semantic Versioning
