@@ -119,7 +119,12 @@ function handleTaskUpdate(
   switch (status) {
     case 'in_progress': {
       // Push task as current goal focus
-      const taskSubject = subject ?? output?.subject ?? `Task #${taskId}`;
+      // IMPORTANT: Don't create garbage goals - require a real subject
+      const taskSubject = subject ?? output?.subject;
+      if (!taskSubject) {
+        log(`[task-goal-sync] Skipping goal push - no subject provided for task ${taskId}`);
+        return { hookSpecificOutput: { hookEventName: 'PostToolUse' } };
+      }
       const taskDescription = description ?? output?.description;
 
       // Check if already on stack
