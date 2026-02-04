@@ -3,7 +3,7 @@
   "subject": "Add custom_categories test cases",
   "description": "Add test cases for user-defined custom category schemas with microprompts",
   "activeForm": "Adding custom_categories tests",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }

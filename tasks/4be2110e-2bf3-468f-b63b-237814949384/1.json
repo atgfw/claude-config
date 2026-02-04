@@ -3,7 +3,10 @@
   "subject": "Commit test profile changes",
   "description": "Commit the test profile, runner script, and documentation updates to git",
   "activeForm": "Committing test profile changes",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "evidencePath": "git commit 2528f3a - feat(llm-extraction): add comprehensive test profile with 40 test cases"
+  }
 }

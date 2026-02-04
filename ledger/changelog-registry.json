@@ -114,11 +114,19 @@
           "description": "cleanup docs and stale temp_nodes",
           "breaking": false,
           "timestamp": "2026-02-03T16:53:31.062Z"
+        },
+        {
+          "hash": "2528f3a",
+          "type": "feat",
+          "scope": "llm-extraction",
+          "description": "add comprehensive test profile with 40 test cases",
+          "breaking": false,
+          "timestamp": "2026-02-04T12:56:28.061Z"
         }
       ]
     }
   },
-  "lastUpdated": "2026-02-03T20:00:00.464Z",
+  "lastUpdated": "2026-02-04T12:56:28.079Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"
