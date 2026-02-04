@@ -105,6 +105,14 @@
           "description": "Add cross-project isolation tests for session_hydrator",
           "breaking": false,
           "timestamp": "2026-02-04T15:24:01.435Z"
+        },
+        {
+          "hash": "bfe4885",
+          "type": "test",
+          "scope": "hooks",
+          "description": "Add adversarial tests that found real bugs",
+          "breaking": false,
+          "timestamp": "2026-02-04T15:37:34.572Z"
         }
       ]
     },
@@ -214,7 +222,7 @@
       ]
     }
   },
-  "lastUpdated": "2026-02-04T15:24:01.460Z",
+  "lastUpdated": "2026-02-04T15:37:34.574Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"
