@@ -125,6 +125,34 @@ describe('taskGoalSync', () => {
       const stack = loadGoalStack(TEST_SESSION_ID);
       expect(stack.stack[0]?.summary).toBe('From output');
     });
+
+    it('skips goal creation when no subject in input or output', async () => {
+      // This is the bug that caused "Task #5" garbage goals
+      const result = await taskGoalSync({
+        tool_name: 'TaskUpdate',
+        tool_input: { taskId: '789', status: 'in_progress' },
+        // No subject in input, no tool_output
+      });
+
+      // Should NOT push a goal without a subject
+      const stack = loadGoalStack(TEST_SESSION_ID);
+      expect(stack.stack.length).toBe(0);
+
+      // Should not have "Goal focus set" message
+      expect(result.hookSpecificOutput.additionalContext).toBeUndefined();
+    });
+
+    it('skips goal creation when output has no subject either', async () => {
+      const result = await taskGoalSync({
+        tool_name: 'TaskUpdate',
+        tool_input: { taskId: '789', status: 'in_progress' },
+        tool_output: { id: '789', status: 'in_progress' }, // No subject field
+      });
+
+      // Should NOT push a goal without a subject
+      const stack = loadGoalStack(TEST_SESSION_ID);
+      expect(stack.stack.length).toBe(0);
+    });
   });
 
   describe('TaskUpdate - completed', () => {
