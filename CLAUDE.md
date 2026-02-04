@@ -497,6 +497,7 @@ All hooks are TypeScript with TDD. Run via: `node ~/.claude/hooks/dist/cli.js <h
 | `session_start` | SessionStart | MCP self-healing, environment setup | MCP health report |
 | `escalation_trigger` | PostToolUse | Detects repeated corrections, proposes new hooks | Correction Debt Ledger |
 | `prompt_escalation_detector` | UserPromptSubmit | Identifies escalation opportunities | Escalation registry |
+| `credential_context_injector` | UserPromptSubmit | Injects credential location when keys/secrets discussed | ~/.claude/.env |
 | `self_audit_enforcement` | SessionStart | Periodically audits hook system health | Audit reports |
 
 ### Workflow Intent Analysis
