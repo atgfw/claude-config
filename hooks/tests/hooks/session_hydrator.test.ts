@@ -289,6 +289,148 @@ describe('hydrateOpenSpec', () => {
   });
 });
 
+describe('adversarial and edge cases', () => {
+  it('handles corrupt active-goal.json gracefully', async () => {
+    const goalPath = path.join(tempDir, 'ledger', 'active-goal.json');
+    fs.writeFileSync(goalPath, '{ invalid json missing closing brace', 'utf-8');
+
+    // Should not crash on corrupt JSON
+    const result = await sessionHydrator({});
+    expect(result.hookEventName).toBe('SessionStart');
+  });
+
+  it('handles partial/truncated JSON', async () => {
+    const goalPath = path.join(tempDir, 'ledger', 'active-goal.json');
+    fs.writeFileSync(goalPath, '{"goal": "Test", "fields": {"who":', 'utf-8');
+
+    const result = await sessionHydrator({});
+    expect(result.hookEventName).toBe('SessionStart');
+  });
+
+  it('handles empty active-goal.json', async () => {
+    const goalPath = path.join(tempDir, 'ledger', 'active-goal.json');
+    fs.writeFileSync(goalPath, '', 'utf-8');
+
+    const result = await sessionHydrator({});
+    expect(result.hookEventName).toBe('SessionStart');
+  });
+
+  it('handles active-goal.json with unexpected structure', async () => {
+    const goalPath = path.join(tempDir, 'ledger', 'active-goal.json');
+    fs.writeFileSync(
+      goalPath,
+      JSON.stringify({ unexpected: 'structure', array: [1, 2, 3] }),
+      'utf-8'
+    );
+
+    const result = await sessionHydrator({});
+    expect(result.hookEventName).toBe('SessionStart');
+  });
+
+  it('handles null goal fields', async () => {
+    writeGoal({
+      goal: 'Test',
+      fields: null as unknown as {
+        who: string;
+        what: string;
+        when: string;
+        where: string;
+        why: string;
+        how: string;
+      },
+      summary: 'Test',
+      updatedAt: null,
+      history: [],
+    });
+
+    // Should not crash
+    const result = await sessionHydrator({});
+    expect(result.hookEventName).toBe('SessionStart');
+  });
+
+  it('handles circular linkedArtifacts references', async () => {
+    // This shouldn't happen but malformed data could cause it
+    const circular: Record<string, unknown> = {};
+    circular.self = circular;
+
+    writeGoal({
+      goal: 'Test',
+      fields: { who: '', what: '', when: '', where: '', why: '', how: '' },
+      summary: 'Test',
+      updatedAt: null,
+      history: [],
+      linkedArtifacts: circular as unknown as {
+        openspec?: string;
+        plan_files?: string[];
+        github_issues?: number[];
+      },
+    });
+
+    // Circular ref in JSON.stringify would throw - should handle
+    const result = await sessionHydrator({});
+    expect(result.hookEventName).toBe('SessionStart');
+  });
+
+  it('handles very long goal summary', async () => {
+    const longSummary = 'A'.repeat(10000);
+    writeGoal({
+      goal: longSummary,
+      fields: { who: '', what: '', when: '', where: process.cwd(), why: '', how: '' },
+      summary: longSummary,
+      updatedAt: null,
+      history: [],
+    });
+
+    const start = Date.now();
+    const result = await sessionHydrator({});
+    const elapsed = Date.now() - start;
+
+    expect(result.hookEventName).toBe('SessionStart');
+    expect(elapsed).toBeLessThan(2000); // Should complete reasonably fast
+  });
+
+  it('handles unicode in goal content', async () => {
+    writeGoal({
+      goal: '实现功能 🚀 日本語 مهمة',
+      fields: {
+        who: '开发者',
+        what: 'タスク完了',
+        when: 'الآن',
+        where: process.cwd(),
+        why: '因为需要',
+        how: 'مع الأدوات',
+      },
+      summary: '实现功能 🚀 日本語 مهمة',
+      updatedAt: null,
+      history: [],
+    });
+
+    const result = await sessionHydrator({});
+    expect(result.additionalContext).toContain('实现功能');
+  });
+
+  it('handles missing sessions directory', async () => {
+    // Remove the sessions directory
+    const sessionsDir = path.join(tempDir, 'sessions');
+    fs.rmSync(sessionsDir, { recursive: true, force: true });
+
+    writeGoal({
+      goal: 'Test',
+      fields: { who: '', what: '', when: '', where: '', why: '', how: '' },
+      summary: 'Test',
+      updatedAt: null,
+      history: [],
+    });
+
+    // Should handle missing directory gracefully
+    const result = await sessionHydrator({});
+    expect(result.hookEventName).toBe('SessionStart');
+
+    // Recreate for other tests
+    fs.mkdirSync(path.join(tempDir, 'sessions', TEST_SESSION_ID), { recursive: true });
+  });
+});
+
 describe('hydratePlanFile', () => {
   it('returns true for existing plan file', async () => {
     const planPath = path.join(tempDir, 'plans', 'existing-plan.md');

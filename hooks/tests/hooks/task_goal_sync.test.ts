@@ -305,6 +305,141 @@ describe('getCurrentTaskGoal', () => {
   });
 });
 
+describe('adversarial and edge cases', () => {
+  it('handles rapid consecutive status changes', async () => {
+    // Simulate rapid toggling - could cause race conditions
+    const promises = [];
+    for (let i = 0; i < 10; i++) {
+      promises.push(
+        taskGoalSync({
+          tool_name: 'TaskUpdate',
+          tool_input: {
+            taskId: '999',
+            status: i % 2 === 0 ? 'in_progress' : 'completed',
+            subject: 'Rapid toggle task',
+          },
+        })
+      );
+    }
+
+    // Should not throw or corrupt state
+    await Promise.all(promises);
+
+    const stack = loadGoalStack(TEST_SESSION_ID);
+    // Final state should be consistent (either 0 or 1 goal)
+    expect(stack.stack.length).toBeLessThanOrEqual(1);
+  });
+
+  it('handles taskId with special characters', async () => {
+    const weirdId = 'task-with-special-chars-!@#$%^&*()';
+
+    await taskGoalSync({
+      tool_name: 'TaskUpdate',
+      tool_input: {
+        taskId: weirdId,
+        status: 'in_progress',
+        subject: 'Task with weird ID',
+      },
+    });
+
+    const stack = loadGoalStack(TEST_SESSION_ID);
+    expect(stack.stack[0]?.id).toBe(`task-${weirdId}`);
+  });
+
+  it('handles extremely long task subject', async () => {
+    const longSubject = 'A'.repeat(5000);
+
+    await taskGoalSync({
+      tool_name: 'TaskUpdate',
+      tool_input: {
+        taskId: '123',
+        status: 'in_progress',
+        subject: longSubject,
+      },
+    });
+
+    const stack = loadGoalStack(TEST_SESSION_ID);
+    expect(stack.stack[0]?.summary).toBe(longSubject);
+  });
+
+  it('handles unicode in task subject', async () => {
+    const unicodeSubject = '实现功能 🚀 日本語タスク مهمة عربية';
+
+    await taskGoalSync({
+      tool_name: 'TaskUpdate',
+      tool_input: {
+        taskId: '123',
+        status: 'in_progress',
+        subject: unicodeSubject,
+      },
+    });
+
+    const stack = loadGoalStack(TEST_SESSION_ID);
+    expect(stack.stack[0]?.summary).toBe(unicodeSubject);
+  });
+
+  it('handles empty string taskId', async () => {
+    const result = await taskGoalSync({
+      tool_name: 'TaskUpdate',
+      tool_input: {
+        taskId: '',
+        status: 'in_progress',
+        subject: 'Task with empty ID',
+      },
+    });
+
+    // Should handle gracefully - creates goal with 'task-' prefix
+    const stack = loadGoalStack(TEST_SESSION_ID);
+    expect(stack.stack[0]?.id).toBe('task-');
+  });
+
+  it('survives malformed tool_output', async () => {
+    // Output could be anything from Claude
+    const result = await taskGoalSync({
+      tool_name: 'TaskUpdate',
+      tool_input: { taskId: '123', status: 'in_progress' },
+      tool_output: 'not an object' as unknown as Record<string, unknown>,
+    });
+
+    // Should not crash
+    expect(result.hookSpecificOutput.hookEventName).toBe('PostToolUse');
+  });
+
+  it('handles completing a task that was never started', async () => {
+    // Complete a task that never went through in_progress
+    const result = await taskGoalSync({
+      tool_name: 'TaskUpdate',
+      tool_input: { taskId: 'never-started', status: 'completed' },
+    });
+
+    // Should handle gracefully - nothing to pop
+    const stack = loadGoalStack(TEST_SESSION_ID);
+    expect(stack.stack.length).toBe(0);
+    expect(stack.history.length).toBe(0);
+  });
+
+  it('handles deleting a task multiple times', async () => {
+    // Push then delete twice
+    await taskGoalSync({
+      tool_name: 'TaskUpdate',
+      tool_input: { taskId: '123', status: 'in_progress', subject: 'Task' },
+    });
+
+    await taskGoalSync({
+      tool_name: 'TaskUpdate',
+      tool_input: { taskId: '123', status: 'deleted' },
+    });
+
+    // Delete again - should not crash
+    const result = await taskGoalSync({
+      tool_name: 'TaskUpdate',
+      tool_input: { taskId: '123', status: 'deleted' },
+    });
+
+    expect(result.hookSpecificOutput.hookEventName).toBe('PostToolUse');
+  });
+});
+
 describe('isTaskCurrentFocus', () => {
   it('returns false when stack is empty', () => {
     expect(isTaskCurrentFocus('123', TEST_SESSION_ID)).toBe(false);

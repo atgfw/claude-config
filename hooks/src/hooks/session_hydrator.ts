@@ -79,21 +79,24 @@ function bootstrapGoalStack(sessionId: string): string | null {
   const globalGoalId = 'global-goal';
   const existingGlobal = stack.stack.find((g) => g.id === globalGoalId);
 
+  // Safely extract fields with null check
+  const fields = goal.fields ?? {};
+
   if (existingGlobal) {
     // Update if summary changed
     if (existingGlobal.summary !== (goal.summary ?? goal.goal)) {
       existingGlobal.summary = goal.summary ?? goal.goal ?? '';
       existingGlobal.fields = {
-        who: goal.fields.who ?? 'unknown',
-        what: goal.fields.what ?? 'unknown',
-        when: goal.fields.when ?? 'unknown',
-        where: goal.fields.where ?? 'unknown',
-        why: goal.fields.why ?? 'unknown',
-        how: goal.fields.how ?? 'unknown',
-        which: goal.fields.which ?? 'Target object not specified',
-        lest: goal.fields.lest ?? 'Failure modes not defined',
-        with: goal.fields.with ?? 'Dependencies not enumerated',
-        measuredBy: goal.fields.measuredBy ?? 'Success metrics not defined',
+        who: fields.who ?? 'unknown',
+        what: fields.what ?? 'unknown',
+        when: fields.when ?? 'unknown',
+        where: fields.where ?? 'unknown',
+        why: fields.why ?? 'unknown',
+        how: fields.how ?? 'unknown',
+        which: fields.which ?? 'Target object not specified',
+        lest: fields.lest ?? 'Failure modes not defined',
+        with: fields.with ?? 'Dependencies not enumerated',
+        measuredBy: fields.measuredBy ?? 'Success metrics not defined',
       };
       saveGoalStack(stack);
       logTerse(`[+] Updated global goal: ${existingGlobal.summary}`);
@@ -107,16 +110,16 @@ function bootstrapGoalStack(sessionId: string): string | null {
     type: 'epic',
     summary: goal.summary ?? goal.goal ?? '',
     fields: {
-      who: goal.fields.who ?? 'unknown',
-      what: goal.fields.what ?? 'unknown',
-      when: goal.fields.when ?? 'unknown',
-      where: goal.fields.where ?? 'unknown',
-      why: goal.fields.why ?? 'unknown',
-      how: goal.fields.how ?? 'unknown',
-      which: goal.fields.which ?? 'Target object not specified',
-      lest: goal.fields.lest ?? 'Failure modes not defined',
-      with: goal.fields.with ?? 'Dependencies not enumerated',
-      measuredBy: goal.fields.measuredBy ?? 'Success metrics not defined',
+      who: fields.who ?? 'unknown',
+      what: fields.what ?? 'unknown',
+      when: fields.when ?? 'unknown',
+      where: fields.where ?? 'unknown',
+      why: fields.why ?? 'unknown',
+      how: fields.how ?? 'unknown',
+      which: fields.which ?? 'Target object not specified',
+      lest: fields.lest ?? 'Failure modes not defined',
+      with: fields.with ?? 'Dependencies not enumerated',
+      measuredBy: fields.measuredBy ?? 'Success metrics not defined',
     },
     source: { manual: true },
     pushedAt: new Date().toISOString(),
