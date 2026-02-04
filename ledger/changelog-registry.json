@@ -250,11 +250,19 @@
           "description": "use httpRequest instead of httpRequestWithAuthentication",
           "breaking": false,
           "timestamp": "2026-02-04T20:13:07.078Z"
+        },
+        {
+          "hash": "1c27633",
+          "type": "fix",
+          "scope": "website-rag",
+          "description": "ensure domain is passed through pipeline",
+          "breaking": false,
+          "timestamp": "2026-02-04T20:21:47.737Z"
         }
       ]
     }
   },
-  "lastUpdated": "2026-02-04T20:13:07.106Z",
+  "lastUpdated": "2026-02-04T20:21:47.738Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"
