@@ -19,6 +19,9 @@ import { getSessionId, loadGoalStack, saveGoalStack, } from '../session/goal_sta
 /**
  * Bootstrap session goal stack from global active-goal.json.
  * Clears stale task goals and pushes the global goal as an epic/issue.
+ *
+ * IMPORTANT: Only bootstraps if the global goal's project matches current working directory.
+ * This prevents cross-session goal bleeding.
  */
 function bootstrapGoalStack(sessionId) {
     const goal = loadGoal();
@@ -36,6 +39,23 @@ function bootstrapGoalStack(sessionId) {
             saveGoalStack(stack);
         }
         return null;
+    }
+    // PROJECT SCOPE CHECK: Only bootstrap if goal's project matches current working directory
+    // This prevents goals from Session A bleeding into Session B in a different project
+    const currentWorkingDir = process.cwd();
+    const goalProjectDir = goal.fields?.where;
+    if (goalProjectDir && goalProjectDir !== 'unknown') {
+        // Normalize paths for comparison (handle Windows/Unix differences)
+        const normalizedCwd = currentWorkingDir.replace(/\\/g, '/').toLowerCase();
+        const normalizedGoalDir = goalProjectDir.replace(/\\/g, '/').toLowerCase();
+        // Check if goal is for a different project
+        if (!normalizedCwd.includes(normalizedGoalDir) && !normalizedGoalDir.includes(normalizedCwd)) {
+            logTerse(`[!] Skipping global goal - different project (goal: ${goalProjectDir}, cwd: ${currentWorkingDir})`);
+            if (stack.stack.length > 0) {
+                saveGoalStack(stack);
+            }
+            return null;
+        }
     }
     // Check if global goal already in stack
     const globalGoalId = 'global-goal';

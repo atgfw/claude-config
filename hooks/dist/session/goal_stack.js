@@ -130,6 +130,9 @@ export function pushGoal(sessionId, goal) {
  * Sync the current focus goal to active-goal.json.
  * This maintains backward compatibility with CLAUDE.md's requirement
  * that "EVERY response MUST end with the active goal from active-goal.json".
+ *
+ * IMPORTANT: Includes project scope tracking to prevent cross-session bleeding.
+ * The `fields.where` field is used to track which project owns this goal.
  */
 function syncGoalToActiveGoalJson(goal) {
     const activeGoalPath = path.join(getClaudeDir(), 'ledger', 'active-goal.json');
@@ -159,6 +162,9 @@ function syncGoalToActiveGoalJson(goal) {
         existing.summary = goal.summary;
         existing.fields = goal.fields;
         existing.updatedAt = new Date().toISOString();
+        // Track project scope for session isolation
+        // Use goal's where field, or current working directory as fallback
+        existing.projectScope = goal.fields.where !== 'unknown' ? goal.fields.where : process.cwd();
         // Track linked GitHub issue if present
         if (goal.source.github_issue) {
             if (!existing.linkedArtifacts) {

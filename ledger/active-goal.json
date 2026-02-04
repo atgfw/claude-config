@@ -1,27 +1,29 @@
 {
-  "goal": "[llm-extraction] fix: standardize enums to lowercase snake_case",
+  "goal": "Add schema transformer for ElevenLabs conversation exports to webhook format",
   "fields": {
     "who": "Claude Code session",
-    "what": "[llm-extraction] fix: standardize enums to lowercase snake_case",
+    "what": "Transform ElevenLabs conversation export schema to match post-call webhook trigger format",
     "when": "Current task",
     "where": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents",
-    "why": "Task in progress",
-    "how": "Following implementation plan",
-    "which": "Target object not specified",
-    "lest": "Failure modes not defined",
-    "with": "Dependencies not enumerated",
-    "measuredBy": "Success metrics not defined"
+    "why": "Enable reprocessing of historical conversations through existing post-call webhook pipeline",
+    "how": "Add transformation node to ElevenLabs Conversation Export workflow (5CmDvqF0GloEr7be)",
+    "which": "ElevenLabs Conversation Export workflow, post-call webhook consumers",
+    "lest": "Historical calls cannot be reprocessed, data migration blocked, audit trail unavailable",
+    "with": "conversation-export-examples.jsonl, post-call-webhook-examples.jsonl schemas",
+    "measuredBy": "Transformed output matches webhook schema, downstream workflows accept reprocessed calls"
   },
-  "summary": "[llm-extraction] fix: standardize enums to lowercase snake_case",
-  "updatedAt": "2026-02-04T14:08:05.704Z",
+  "summary": "Add schema transformer for ElevenLabs conversation exports to webhook format",
+  "updatedAt": "2026-02-04T15:30:00.000Z",
   "linkedArtifacts": {
-    "openspec": null,
+    "openspec": "add-conversation-export-transformer",
     "plan_files": [],
-    "github_issues": [
-      30
-    ]
+    "github_issues": []
   },
   "history": [
+    {
+      "summary": "[llm-extraction] fix: standardize enums to lowercase snake_case",
+      "clearedAt": "2026-02-04T15:30:00.000Z"
+    },
     {
       "summary": "Implement full path validation for all Claude Code file operations",
       "clearedAt": "2026-02-04T13:00:00.000Z"

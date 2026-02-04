@@ -73,6 +73,14 @@
           "description": "add version fabrication detector for issue #29",
           "breaking": false,
           "timestamp": "2026-02-04T13:46:01.063Z"
+        },
+        {
+          "hash": "35b9856",
+          "type": "fix",
+          "scope": "hooks",
+          "description": "prevent cross-session goal bleeding with project scope checks",
+          "breaking": false,
+          "timestamp": "2026-02-04T14:20:11.296Z"
         }
       ]
     },
@@ -158,7 +166,7 @@
       ]
     }
   },
-  "lastUpdated": "2026-02-04T13:46:01.089Z",
+  "lastUpdated": "2026-02-04T14:20:11.337Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"
