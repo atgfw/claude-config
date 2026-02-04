@@ -146,6 +146,132 @@ describe('sessionHydrator', () => {
     expect(result.additionalContext).toContain('Failed to hydrate');
     expect(result.additionalContext).toContain('openspec:nonexistent-change');
   });
+
+  describe('cross-project isolation', () => {
+    it('skips goal bootstrap when goal is from different project', async () => {
+      // Simulate goal from a completely different project directory
+      writeGoal({
+        goal: 'Goal from different project',
+        fields: {
+          who: '',
+          what: '',
+          when: '',
+          where: '/home/user/other-project/src',
+          why: '',
+          how: '',
+        },
+        summary: 'Goal from different project',
+        updatedAt: null,
+        history: [],
+      });
+
+      // The session_hydrator checks if goal.fields.where matches process.cwd()
+      // Since tempDir != /home/user/other-project/src, goal should be skipped
+      const result = await sessionHydrator({});
+
+      // Should NOT contain the goal from other project
+      expect(result.additionalContext ?? '').not.toContain('Goal from different project');
+    });
+
+    it('bootstraps goal when goal project matches current directory', async () => {
+      // Set goal with matching project directory - use actual cwd
+      const actualCwd = process.cwd();
+      writeGoal({
+        goal: 'Goal for current project',
+        fields: {
+          who: '',
+          what: '',
+          when: '',
+          where: actualCwd, // Match the actual working directory
+          why: '',
+          how: '',
+        },
+        summary: 'Goal for current project',
+        updatedAt: null,
+        history: [],
+      });
+
+      const result = await sessionHydrator({});
+
+      // Should contain the goal since project matches
+      expect(result.additionalContext).toContain('Goal: Goal for current project');
+    });
+
+    it('bootstraps goal when where field is unknown', async () => {
+      // Goals with 'unknown' where should bootstrap (backwards compat)
+      writeGoal({
+        goal: 'Goal with unknown location',
+        fields: {
+          who: '',
+          what: '',
+          when: '',
+          where: 'unknown',
+          why: '',
+          how: '',
+        },
+        summary: 'Goal with unknown location',
+        updatedAt: null,
+        history: [],
+      });
+
+      const result = await sessionHydrator({});
+
+      // Unknown where means no project scope check - should bootstrap
+      expect(result.additionalContext).toContain('Goal: Goal with unknown location');
+    });
+
+    it('bootstraps goal when where field is empty', async () => {
+      // Goals with empty where should bootstrap (backwards compat)
+      writeGoal({
+        goal: 'Goal with empty location',
+        fields: {
+          who: '',
+          what: '',
+          when: '',
+          where: '',
+          why: '',
+          how: '',
+        },
+        summary: 'Goal with empty location',
+        updatedAt: null,
+        history: [],
+      });
+
+      const result = await sessionHydrator({});
+
+      // Empty where means no project scope check - should bootstrap
+      expect(result.additionalContext).toContain('Goal: Goal with empty location');
+    });
+
+    it('handles Windows vs Unix path normalization', async () => {
+      // Test that path comparison handles backslash/forward slash differences
+      // Use actual cwd with opposite slash style
+      const actualCwd = process.cwd();
+      const oppositeSlashPath = actualCwd.includes('\\')
+        ? actualCwd.replace(/\\/g, '/')
+        : actualCwd.replace(/\//g, '\\');
+
+      writeGoal({
+        goal: 'Goal with normalized path',
+        fields: {
+          who: '',
+          what: '',
+          when: '',
+          where: oppositeSlashPath,
+          why: '',
+          how: '',
+        },
+        summary: 'Goal with normalized path',
+        updatedAt: null,
+        history: [],
+      });
+
+      const result = await sessionHydrator({});
+
+      // Should bootstrap since paths are equivalent after normalization
+      expect(result.additionalContext).toContain('Goal: Goal with normalized path');
+    });
+  });
 });
 
 describe('hydrateOpenSpec', () => {
