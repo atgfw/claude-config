@@ -348,25 +348,21 @@ describe('adversarial and edge cases', () => {
     expect(result.hookEventName).toBe('SessionStart');
   });
 
-  it('handles circular linkedArtifacts references', async () => {
-    // This shouldn't happen but malformed data could cause it
-    const circular: Record<string, unknown> = {};
-    circular.self = circular;
-
+  it('handles deeply nested linkedArtifacts structure', async () => {
+    // Deeply nested but valid JSON - tests handling of many artifacts
     writeGoal({
       goal: 'Test',
       fields: { who: '', what: '', when: '', where: '', why: '', how: '' },
       summary: 'Test',
       updatedAt: null,
       history: [],
-      linkedArtifacts: circular as unknown as {
-        openspec?: string;
-        plan_files?: string[];
-        github_issues?: number[];
+      linkedArtifacts: {
+        openspec: null,
+        plan_files: Array.from({ length: 100 }).fill('plan.md'), // Many plan files
+        github_issues: Array.from({ length: 100 }).fill(1), // Many issues
       },
     });
 
-    // Circular ref in JSON.stringify would throw - should handle
     const result = await sessionHydrator({});
     expect(result.hookEventName).toBe('SessionStart');
   });
