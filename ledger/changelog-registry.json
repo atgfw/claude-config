@@ -57,6 +57,22 @@
           "description": "session state sync",
           "breaking": false,
           "timestamp": "2026-02-04T13:00:30.479Z"
+        },
+        {
+          "hash": "ec19d9f",
+          "type": "fix",
+          "scope": "hooks",
+          "description": "prevent task goals from overwriting issue goals in active-goal.json",
+          "breaking": false,
+          "timestamp": "2026-02-04T13:27:41.914Z"
+        },
+        {
+          "hash": "7139409",
+          "type": "feat",
+          "scope": "hooks",
+          "description": "add version fabrication detector for issue #29",
+          "breaking": false,
+          "timestamp": "2026-02-04T13:46:01.063Z"
         }
       ]
     },
@@ -142,7 +158,7 @@
       ]
     }
   },
-  "lastUpdated": "2026-02-04T13:13:55.665Z",
+  "lastUpdated": "2026-02-04T13:46:01.089Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"

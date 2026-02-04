@@ -3,6 +3,28 @@
   "working_directory": "C:\\Users\\codya\\.claude",
   "stack": [
     {
+      "id": "issue-30",
+      "type": "issue",
+      "summary": "[spinal-cord] fix(hooks): Require verbatim evidence when updating issues, plans, or checklists",
+      "fields": {
+        "who": "Claude Code session",
+        "what": "## Problem",
+        "when": "Current task",
+        "where": "C:\\Users\\codya\\.claude",
+        "why": "Task in progress",
+        "how": "Following implementation plan",
+        "which": "Target object not specified",
+        "lest": "Failure modes not defined",
+        "with": "Dependencies not enumerated",
+        "measuredBy": "Success metrics not defined"
+      },
+      "source": {
+        "github_issue": 30
+      },
+      "pushedAt": "2026-02-04T13:24:33.803Z",
+      "pushedBy": "IssueDetection"
+    },
+    {
       "id": "issue-31",
       "type": "issue",
       "summary": "Implement full path validation for all Claude Code file operations",
@@ -26,5 +48,5 @@
     }
   ],
   "history": [],
-  "lastModified": "2026-02-03T20:59:12.126Z"
+  "lastModified": "2026-02-04T13:24:33.805Z"
 }
