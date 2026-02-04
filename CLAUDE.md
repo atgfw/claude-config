@@ -126,6 +126,7 @@ Setup will:
 | **Context-optimized output** | `utils.ts` verbosity system | Terse logging to minimize context consumption |
 | **Full file paths required** | `full_path_validator` | STRICT: All file paths must be absolute, not relative |
 | **Evidence required for completions** | `evidence_requirement_gate` | STRICT: Task completions require verbatim code evidence (file:line + quote) |
+| **Credential context awareness** | `credential_context_injector` | Injects credential location context when API keys/secrets are discussed |
 
 ## Context-Optimized Output Strategy
 

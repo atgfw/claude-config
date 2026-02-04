@@ -258,11 +258,19 @@
           "description": "ensure domain is passed through pipeline",
           "breaking": false,
           "timestamp": "2026-02-04T20:21:47.737Z"
+        },
+        {
+          "hash": "ae449e4",
+          "type": "docs",
+          "scope": "website-rag",
+          "description": "update tasks with webhook test results",
+          "breaking": false,
+          "timestamp": "2026-02-04T20:24:57.885Z"
         }
       ]
     }
   },
-  "lastUpdated": "2026-02-04T20:21:47.738Z",
+  "lastUpdated": "2026-02-04T20:24:57.913Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"
