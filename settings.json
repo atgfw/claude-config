@@ -57,7 +57,17 @@
             "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" llm-model-validator"
           }
         ],
-        "description": "BLOCK: Prevents banned LLM model strings (gpt-4o, gpt-3.5, claude-2, etc.) in written files"
+        "description": "BLOCK: Prevents banned LLM model strings in written files"
+      },
+      {
+        "matcher": "Write|Edit|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" version-fabrication-detector"
+          }
+        ],
+        "description": "BLOCK: Prevents fabricated versioning (_v2, _new, _backup, etc.) unless project already uses versioning or user explicitly requests it"
       },
       {
         "matcher": "Read|Write|Edit",

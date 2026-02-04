@@ -237,6 +237,10 @@ export {
   validateGoalCompliance,
   formatComplianceResult,
 } from './hooks/goal_compliance_gate.js';
+export {
+  versionFabricationDetectorHook,
+  detectFabricatedVersions,
+} from './hooks/version_fabrication_detector.js';
 export { cloudObjectCreationGateHook } from './governance/cloud_object_creation_gate.js';
 export { llmModelValidatorHook } from './governance/llm_model_validator.js';
 
@@ -297,6 +301,9 @@ import './hooks/evidence_requirement_gate.js';
 
 // Goal compliance gate (blocks stop if goal non-compliant)
 import './hooks/goal_compliance_gate.js';
+
+// Version fabrication detector (blocks fabricated versioning)
+import './hooks/version_fabrication_detector.js';
 
 // Context summary trigger (replaces auto-compact)
 import './hooks/context-summary-trigger.js';
