@@ -386,6 +386,163 @@ describe('formatComplianceResult', () => {
   });
 });
 
+describe('adversarial inputs', () => {
+  it('handles paths with unicode characters', () => {
+    const goal = createGoal({
+      fields: {
+        who: 'Developer',
+        what: 'Fix unicode path handling',
+        when: 'Now',
+        where: 'C:\\Users\\日本語\\プロジェクト\\src\\index.ts',
+        why: 'International support',
+        how: 'TypeScript',
+        which: 'Unicode path file',
+        lest: 'Must not corrupt filenames',
+        with: 'TypeScript',
+        measuredBy: 'File operations succeed',
+      },
+    });
+
+    const result = validateGoalCompliance(goal);
+    const whichCheck = result.checks.find((c) => c.section === 'Which');
+    // Should recognize .ts extension even with unicode in path
+    expect(whichCheck?.present).toBe(true);
+  });
+
+  it('handles paths with spaces', () => {
+    const goal = createGoal({
+      fields: {
+        who: 'Developer',
+        what: 'Fix spaced path handling',
+        when: 'Now',
+        where: 'C:\\Users\\My User\\My Documents\\Project Files\\src\\index.ts',
+        why: 'Windows compatibility',
+        how: 'TypeScript',
+        which: 'File with spaces in path',
+        lest: 'Must not break on spaces',
+        with: 'TypeScript',
+        measuredBy: 'Path resolves correctly',
+      },
+    });
+
+    const result = validateGoalCompliance(goal);
+    const whichCheck = result.checks.find((c) => c.section === 'Which');
+    expect(whichCheck?.present).toBe(true);
+  });
+
+  it('handles very long paths (260+ chars)', () => {
+    const longPath = 'C:\\' + 'very_long_directory_name\\'.repeat(15) + 'finally_the_file.ts';
+    expect(longPath.length).toBeGreaterThan(260);
+
+    const goal = createGoal({
+      fields: {
+        who: 'Developer',
+        what: 'Handle long paths',
+        when: 'Now',
+        where: longPath,
+        why: 'Windows MAX_PATH issues',
+        how: 'TypeScript',
+        which: 'Deep nested file',
+        lest: 'Must not truncate',
+        with: 'TypeScript',
+        measuredBy: 'Full path preserved',
+      },
+    });
+
+    const result = validateGoalCompliance(goal);
+    const whichCheck = result.checks.find((c) => c.section === 'Which');
+    expect(whichCheck?.present).toBe(true);
+  });
+
+  it('handles empty string fields without crashing', () => {
+    const goal = createGoal({
+      fields: {
+        who: '',
+        what: '',
+        when: '',
+        where: '',
+        why: '',
+        how: '',
+        which: '',
+        lest: '',
+        with: '',
+        measuredBy: '',
+      },
+    });
+
+    // Should not throw, should return non-compliant
+    expect(() => validateGoalCompliance(goal)).not.toThrow();
+    const result = validateGoalCompliance(goal);
+    expect(result.compliant).toBe(false);
+  });
+
+  it('handles null-ish values in fields gracefully', () => {
+    const goal = createGoal({
+      fields: {
+        who: undefined as unknown as string,
+        what: null as unknown as string,
+        when: 'Now',
+        where: 'C:\\test\\file.ts',
+        why: 'Testing',
+        how: 'TypeScript',
+        which: 'test.ts',
+        lest: 'Must not crash',
+        with: 'TypeScript',
+        measuredBy: 'No errors',
+      },
+    });
+
+    // Should not throw on undefined/null
+    expect(() => validateGoalCompliance(goal)).not.toThrow();
+  });
+
+  it('handles special regex characters in paths', () => {
+    const goal = createGoal({
+      fields: {
+        who: 'Developer',
+        what: 'Handle regex chars',
+        when: 'Now',
+        where: 'C:\\project\\src\\[component]\\(index).ts',
+        why: 'Next.js dynamic routes',
+        how: 'TypeScript',
+        which: '[component] dynamic route file',
+        lest: 'Must not break regex',
+        with: 'TypeScript',
+        measuredBy: 'Path matched correctly',
+      },
+    });
+
+    expect(() => validateGoalCompliance(goal)).not.toThrow();
+    const result = validateGoalCompliance(goal);
+    const whichCheck = result.checks.find((c) => c.section === 'Which');
+    expect(whichCheck?.present).toBe(true);
+  });
+
+  it('handles extremely long field values', () => {
+    const longString = 'A'.repeat(10000);
+    const goal = createGoal({
+      fields: {
+        who: longString,
+        what: longString,
+        when: longString,
+        where: 'C:\\test\\file.ts',
+        why: longString,
+        how: longString,
+        which: longString,
+        lest: longString,
+        with: longString,
+        measuredBy: longString,
+      },
+    });
+
+    // Should not hang or crash on very long strings
+    const start = Date.now();
+    expect(() => validateGoalCompliance(goal)).not.toThrow();
+    const elapsed = Date.now() - start;
+    expect(elapsed).toBeLessThan(1000); // Should complete in <1s
+  });
+});
+
 describe('goalComplianceGateHook', () => {
   it('approves when no goals in stack', async () => {
     const result = await goalComplianceGateHook({
