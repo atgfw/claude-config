@@ -234,11 +234,19 @@
           "description": "add crawler and orchestrator workflows with test suite",
           "breaking": false,
           "timestamp": "2026-02-04T15:47:34.409Z"
+        },
+        {
+          "hash": "d0d280c",
+          "type": "feat",
+          "scope": "website-rag",
+          "description": "add ElevenLabs tool definition and sync response mode",
+          "breaking": false,
+          "timestamp": "2026-02-04T15:55:19.021Z"
         }
       ]
     }
   },
-  "lastUpdated": "2026-02-04T15:47:34.893Z",
+  "lastUpdated": "2026-02-04T15:55:19.037Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"
