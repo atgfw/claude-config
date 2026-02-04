@@ -90,6 +90,7 @@ export { goalAutoDerivationSessionStart, goalAutoDerivationPromptSubmit, deriveG
 export { taskSpecValidatorHook, validateTaskSpec, validateMinimalSpec, formatValidationIssues, } from './hooks/task_spec_validator.js';
 export { bunEnforcerHook, detectBlockedCommands } from './hooks/bun_enforcer.js';
 export { fullPathValidatorHook, isAbsolutePath, expandToAbsolute, extractPaths, } from './hooks/full_path_validator.js';
+export { evidenceRequirementGate, hasEvidence, isCompletionUpdate, isIssueCloseCommand, EVIDENCE_PATTERNS, } from './hooks/evidence_requirement_gate.js';
 export { goalComplianceGateHook, validateGoalCompliance, formatComplianceResult, } from './hooks/goal_compliance_gate.js';
 export { cloudObjectCreationGateHook } from './governance/cloud_object_creation_gate.js';
 export { llmModelValidatorHook } from './governance/llm_model_validator.js';
@@ -123,6 +124,7 @@ import './hooks/goal_auto_derivation.js';
 import './hooks/task_spec_validator.js';
 import './hooks/bun_enforcer.js';
 import './hooks/full_path_validator.js';
+import './hooks/evidence_requirement_gate.js';
 import './hooks/goal_compliance_gate.js';
 import './hooks/context-summary-trigger.js';
 import './git/secret_scanner.js';

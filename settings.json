@@ -201,9 +201,13 @@
           {
             "type": "command",
             "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" task-completion-gate"
+          },
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" evidence-requirement-gate"
           }
         ],
-        "description": "P0-CRITICAL: Blocks task completion without validation evidence (executionId, userConfirmed, testPassed, evidencePath)"
+        "description": "P0-CRITICAL: Blocks task completion without evidence (runtime: executionId/testPassed AND code: file:line/verbatim)"
       },
       {
         "matcher": "Bash",

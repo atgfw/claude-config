@@ -93,7 +93,7 @@ export declare function loadGoalStack(sessionId: string): SessionGoalStack;
 export declare function saveGoalStack(stack: SessionGoalStack): void;
 /**
  * Push a goal onto the stack (becomes current focus).
- * Also syncs to active-goal.json to maintain CLAUDE.md contract.
+ * Only syncs issue/epic goals to active-goal.json (not ephemeral task goals).
  */
 export declare function pushGoal(sessionId: string, goal: GoalLevel): void;
 /**

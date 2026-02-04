@@ -49,6 +49,14 @@
           "description": "improve goal auto-derivation field extraction",
           "breaking": false,
           "timestamp": "2026-02-03T20:00:00.443Z"
+        },
+        {
+          "hash": "d79ad9d",
+          "type": "chore",
+          "scope": "sync",
+          "description": "session state sync",
+          "breaking": false,
+          "timestamp": "2026-02-04T13:00:30.479Z"
         }
       ]
     },
@@ -122,11 +130,19 @@
           "description": "add comprehensive test profile with 40 test cases",
           "breaking": false,
           "timestamp": "2026-02-04T12:56:28.061Z"
+        },
+        {
+          "hash": "e8ec608",
+          "type": "feat",
+          "scope": "llm-extraction",
+          "description": "expand test profile to 54 test cases",
+          "breaking": false,
+          "timestamp": "2026-02-04T13:13:55.644Z"
         }
       ]
     }
   },
-  "lastUpdated": "2026-02-04T12:56:28.079Z",
+  "lastUpdated": "2026-02-04T13:13:55.665Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"

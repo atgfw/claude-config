@@ -1,10 +1,10 @@
 {
-  "goal": "Task #2",
+  "goal": "[spinal-cord] fix(hooks): Require verbatim evidence when updating issues, plans, or checklists",
   "fields": {
     "who": "Claude Code session",
-    "what": "Task #2",
+    "what": "## Problem",
     "when": "Current task",
-    "where": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection",
+    "where": "C:\\Users\\codya\\.claude",
     "why": "Task in progress",
     "how": "Following implementation plan",
     "which": "Target object not specified",
@@ -12,23 +12,23 @@
     "with": "Dependencies not enumerated",
     "measuredBy": "Success metrics not defined"
   },
-  "summary": "Task #2",
-  "updatedAt": "2026-02-04T12:56:51.888Z",
+  "summary": "[spinal-cord] fix(hooks): Require verbatim evidence when updating issues, plans, or checklists",
+  "updatedAt": "2026-02-04T13:24:33.808Z",
   "linkedArtifacts": {
     "openspec": null,
     "plan_files": [],
     "github_issues": [
-      31
+      30
     ]
   },
   "history": [
     {
-      "summary": "Unify goal injection across all Claude Code message types and external systems",
-      "clearedAt": "2026-02-03T14:13:40.163Z"
+      "summary": "Implement full path validation for all Claude Code file operations",
+      "clearedAt": "2026-02-04T13:00:00.000Z"
     },
     {
-      "summary": "Implement unified goal injection across all Claude Code message types and external systems",
-      "clearedAt": "2026-02-03T15:00:00.000Z"
+      "summary": "Unify goal injection across all Claude Code message types and external systems",
+      "clearedAt": "2026-02-03T14:13:40.163Z"
     }
   ]
 }
