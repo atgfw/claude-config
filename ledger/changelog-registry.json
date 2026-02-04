@@ -89,6 +89,14 @@
           "description": "prevent garbage Task #X goal creation",
           "breaking": false,
           "timestamp": "2026-02-04T14:48:37.319Z"
+        },
+        {
+          "hash": "8acb04c",
+          "type": "fix",
+          "scope": "hooks",
+          "description": "Support Windows paths in goal compliance validation",
+          "breaking": false,
+          "timestamp": "2026-02-04T14:55:38.343Z"
         }
       ]
     },
@@ -182,7 +190,7 @@
       ]
     }
   },
-  "lastUpdated": "2026-02-04T14:50:38.784Z",
+  "lastUpdated": "2026-02-04T14:55:38.344Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"
