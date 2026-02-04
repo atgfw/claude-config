@@ -194,11 +194,19 @@
           "description": "add reliability hardening to test runner",
           "breaking": false,
           "timestamp": "2026-02-04T14:56:55.401Z"
+        },
+        {
+          "hash": "06c2016",
+          "type": "refactor",
+          "scope": "llm-extraction",
+          "description": "polish test runner with observability",
+          "breaking": false,
+          "timestamp": "2026-02-04T15:00:47.397Z"
         }
       ]
     }
   },
-  "lastUpdated": "2026-02-04T14:56:55.402Z",
+  "lastUpdated": "2026-02-04T15:00:47.398Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"
