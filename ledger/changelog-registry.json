@@ -113,6 +113,14 @@
           "description": "Add adversarial tests that found real bugs",
           "breaking": false,
           "timestamp": "2026-02-04T15:37:34.572Z"
+        },
+        {
+          "hash": "982d62b",
+          "type": "test",
+          "scope": "session",
+          "description": "Add adversarial tests for goal_stack.ts",
+          "breaking": false,
+          "timestamp": "2026-02-04T15:47:34.891Z"
         }
       ]
     },
@@ -218,11 +226,19 @@
           "description": "polish test runner with observability",
           "breaking": false,
           "timestamp": "2026-02-04T15:00:47.397Z"
+        },
+        {
+          "hash": "76e6735",
+          "type": "feat",
+          "scope": "website-rag",
+          "description": "add crawler and orchestrator workflows with test suite",
+          "breaking": false,
+          "timestamp": "2026-02-04T15:47:34.409Z"
         }
       ]
     }
   },
-  "lastUpdated": "2026-02-04T15:37:34.574Z",
+  "lastUpdated": "2026-02-04T15:47:34.893Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"
