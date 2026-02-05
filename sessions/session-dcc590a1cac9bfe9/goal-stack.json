@@ -1,6 +1,6 @@
 {
   "session_id": "session-dcc590a1cac9bfe9",
-  "working_directory": "C:\\Users\\codya\\.claude",
+  "working_directory": "C:/Users/codya/.claude",
   "stack": [
     {
       "id": "global-goal",
@@ -10,10 +10,10 @@
         "who": "Claude Code sessions working with n8n workflows",
         "what": "Block writing/downloading n8n workflow JSON locally; enforce cloud as single source of truth",
         "when": "Implemented 2026-02-05",
-        "where": "C:\\Users\\codya\\.claude\\hooks\\src\\governance, C:\\Users\\codya\\.claude\\hooks\\src\\hooks",
+        "where": "C:/Users/codya/.claude/hooks/src/governance/, C:/Users/codya/.claude/hooks/src/hooks/",
         "why": "Local workflow files cause dangerous confusion - Claude overwrites cloud with stale local code (Issues #19, #33)",
         "how": "Upgraded stale_workflow_json_detector (WARN->BLOCK for writes), added n8n_download_blocker and n8n_post_update_cleanup hooks",
-        "which": "C:\\Users\\codya\\.claude\\hooks\\src\\governance\\stale_workflow_json_detector.ts, C:\\Users\\codya\\.claude\\hooks\\src\\governance\\n8n_download_blocker.ts, C:\\Users\\codya\\.claude\\hooks\\src\\hooks\\n8n_post_update_cleanup.ts",
+        "which": "C:/Users/codya/.claude/hooks/src/governance/stale_workflow_json_detector.ts, C:/Users/codya/.claude/hooks/src/governance/n8n_download_blocker.ts, C:/Users/codya/.claude/hooks/src/hooks/n8n_post_update_cleanup.ts",
         "lest": "Continued drift between local and cloud state, data loss, workflow corruption",
         "with": "Existing hook infrastructure, n8n MCP, temp directory pattern",
         "measuredBy": "Zero persistent workflow JSON outside temp/, all n8n_get_workflow calls blocked"
