@@ -3,7 +3,15 @@
   "subject": "Add/verify unit tests for website_rag code nodes",
   "description": "Ensure all code nodes have corresponding Vitest test coverage",
   "activeForm": "Verifying test coverage",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "testPassed": {
+      "testId": "website-rag-code-nodes",
+      "timestamp": "2026-02-04T13:06:22Z",
+      "passed": 248,
+      "skipped": 4
+    }
+  }
 }
