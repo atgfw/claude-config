@@ -12,9 +12,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // #endregion
 // #region Constants
-const PYTHON_EXECUTABLE = process.platform === 'win32'
-    ? 'C:\\Users\\codya\\AppData\\Local\\Programs\\Python\\Python311\\python.exe'
-    : 'python3';
+// Use PYTHON_PATH env var if set, otherwise use system python
+const PYTHON_EXECUTABLE = process.env.PYTHON_PATH || (process.platform === 'win32' ? 'python' : 'python3');
 const EXECUTOR_PATH = path.join(__dirname, 'scrapling_executor.py');
 const DEFAULT_OUTPUT_DIR = path.join(process.env.HOME || process.env.USERPROFILE || '.', '.claude', 'scrapling-output');
 const DEFAULT_TIMEOUT = 120_000;

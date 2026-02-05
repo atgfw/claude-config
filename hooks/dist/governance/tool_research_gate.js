@@ -13,7 +13,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as crypto from 'node:crypto';
-import { log, logBlocked, logAllowed, getClaudeDir as getClaudeDirectory } from '../utils.js';
+import { log, logBlocked, logAllowed, getClaudeDir } from '../utils.js';
 import { registerHook } from '../runner.js';
 // ============================================================================
 // Path Patterns
@@ -148,7 +148,7 @@ export function validateResearchDocument(content) {
  * Get the registry file path
  */
 export function getRegistryPath() {
-    return path.join(getClaudeDirectory(), 'ledger', 'tool-research-registry.json');
+    return path.join(getClaudeDir(), 'ledger', 'tool-research-registry.json');
 }
 /**
  * Load the registry
@@ -274,7 +274,7 @@ export async function toolResearchGateHook(input) {
     const researchPath = getResearchDocumentPath(filePath);
     if (!fs.existsSync(researchPath)) {
         logBlocked(`No research document found at ${researchPath}`, 'Tool Selection Protocol - research required before creating wrappers');
-        const templatePath = path.join(getClaudeDirectory(), 'templates', 'TOOL-RESEARCH.template.md');
+        const templatePath = path.join(getClaudeDir(), 'templates', 'TOOL-RESEARCH.template.md');
         const templateNote = fs.existsSync(templatePath)
             ? `\n\nTemplate available at: ${templatePath}`
             : '';

@@ -6,7 +6,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { execSync } from 'node:child_process';
-import { log, getClaudeDir as getClaudeDirectory } from '../utils.js';
+import { log, getClaudeDir } from '../utils.js';
 import { registerHook } from '../runner.js';
 // Conventional commit regex
 const conventionalCommitRegex = /^(?<type>\w+)(?:\((?<scope>[^)]+)\))?(?<breaking>!)?\s*:\s*(?<description>.+)$/;
@@ -14,7 +14,7 @@ const conventionalCommitRegex = /^(?<type>\w+)(?:\((?<scope>[^)]+)\))?(?<breakin
  * Get the changelog registry path
  */
 function getRegistryPath() {
-    return path.join(getClaudeDirectory(), 'ledger', 'changelog-registry.json');
+    return path.join(getClaudeDir(), 'ledger', 'changelog-registry.json');
 }
 /**
  * Load the changelog registry

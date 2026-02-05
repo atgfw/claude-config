@@ -18,7 +18,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import process from 'node:process';
-import { log, getClaudeDir as getClaudeDirectory } from '../utils.js';
+import { log, getClaudeDir } from '../utils.js';
 /**
  * Garbage filename patterns (case-insensitive)
  */
@@ -236,7 +236,7 @@ function scanRootDirectory(projectDirectory) {
  * Write audit results to ledger
  */
 function writeToLedger(projectDirectory, issues) {
-    const ledgerDirectory = path.join(getClaudeDirectory(), 'ledger');
+    const ledgerDirectory = path.join(getClaudeDir(), 'ledger');
     const ledgerPath = path.join(ledgerDirectory, 'hygiene-audit-registry.json');
     try {
         fs.mkdirSync(ledgerDirectory, { recursive: true });
