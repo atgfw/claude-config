@@ -7,7 +7,7 @@
     "where": "~/.claude/hooks/src/governance/, ~/.claude/hooks/src/hooks/",
     "why": "Local workflow files cause dangerous confusion - Claude overwrites cloud with stale local code (Issues #19, #33)",
     "how": "Upgraded stale_workflow_json_detector (WARN->BLOCK for writes), added n8n_download_blocker and n8n_post_update_cleanup hooks",
-    "which": "hooks/src/governance/stale_workflow_json_detector.ts, hooks/src/governance/n8n_download_blocker.ts, hooks/src/hooks/n8n_post_update_cleanup.ts, settings.json",
+    "which": "C:/Users/codya/.claude/hooks/src/governance/stale_workflow_json_detector.ts, C:/Users/codya/.claude/hooks/src/governance/n8n_download_blocker.ts, C:/Users/codya/.claude/hooks/src/hooks/n8n_post_update_cleanup.ts, C:/Users/codya/.claude/settings.json",
     "lest": "Continued drift between local and cloud state, data loss, workflow corruption",
     "with": "Existing hook infrastructure, n8n MCP, temp directory pattern",
     "measuredBy": "Zero persistent workflow JSON outside temp/, all n8n_get_workflow calls blocked"
