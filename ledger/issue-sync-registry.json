@@ -1063,6 +1063,169 @@
           "content_hash": "446c3a2c736256bc"
         }
       ]
+    },
+    {
+      "unified_id": "plan-C:\\Users\\codya\\.claude\\plans\\clever-crafting-prism.md",
+      "github_issue": null,
+      "claude_task_id": null,
+      "openspec_change_id": null,
+      "plan_step": null,
+      "goal_summary": null,
+      "status": "open",
+      "last_synced": "2026-02-05T14:03:00.842Z",
+      "sync_hash": "",
+      "plan_file": "C:\\Users\\codya\\.claude\\plans\\clever-crafting-prism.md",
+      "checklist_items": [
+        {
+          "id": "2a6644901c63",
+          "text": "**Different output quality**: Gemini may produce slightly different extractions",
+          "status": "pending",
+          "last_modified": "2026-02-05T14:03:00.814Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "35b5f985ede0",
+          "text": "**Schema format difference**: Gemini uses direct schema, OpenAI wraps in `json_schema: { name, strict, schema }`",
+          "status": "pending",
+          "last_modified": "2026-02-05T14:03:00.813Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "51a1cf257ee5",
+          "text": "**n8n Gemini node limitation**: Does NOT expose `responseSchema`/`responseJsonSchema` parameters",
+          "status": "pending",
+          "last_modified": "2026-02-05T14:03:00.813Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "5912270a6193",
+          "text": "**Test generic service_category**:",
+          "status": "pending",
+          "last_modified": "2026-02-05T14:03:00.813Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "5d35b8400e90",
+          "text": "Output includes `fallback_used: true`",
+          "status": "pending",
+          "last_modified": "2026-02-05T14:03:00.813Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "60e5cf0b0893",
+          "text": "Remove trades-specific hardcoding from service_category enum",
+          "status": "pending",
+          "last_modified": "2026-02-05T14:03:00.813Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "6d89330da409",
+          "text": "OpenAI fails (timeout, rate limit, error)",
+          "status": "pending",
+          "last_modified": "2026-02-05T14:03:00.813Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "84a62a7c8465",
+          "text": "Gemini processes same prompt",
+          "status": "pending",
+          "last_modified": "2026-02-05T14:03:00.813Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "8868113eb2a1",
+          "text": "**Gemini API costs**: Monitor usage, consider caching",
+          "status": "pending",
+          "last_modified": "2026-02-05T14:03:00.814Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "96e1ff98d572",
+          "text": "**Test custom service_category via integration_context**:",
+          "status": "pending",
+          "last_modified": "2026-02-05T14:03:00.814Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "a9fbdf360342",
+          "text": "**No strict guarantee**: Gemini ~2-5% edge case failures vs OpenAI's 100% guarantee with strict mode",
+          "status": "pending",
+          "last_modified": "2026-02-05T14:03:00.813Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "adb828b071b6",
+          "text": "**Credential management**: Requires Google AI Studio API key setup",
+          "status": "pending",
+          "last_modified": "2026-02-05T14:03:00.814Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "af2a29be77e9",
+          "text": "Response parsed and continues normal flow",
+          "status": "pending",
+          "last_modified": "2026-02-05T14:03:00.813Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "b1737dc8e4aa",
+          "text": "Add Gemini as fallback LLM when OpenAI fails",
+          "status": "pending",
+          "last_modified": "2026-02-05T14:03:00.813Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "b92ad99840ef",
+          "text": "**Test OpenAI path** (normal case):",
+          "status": "pending",
+          "last_modified": "2026-02-05T14:03:00.813Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "c993a41f5490",
+          "text": "`check_llm_result` detects error, routes to fallback",
+          "status": "pending",
+          "last_modified": "2026-02-05T14:03:00.813Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "cb99355889fc",
+          "text": "**Test Gemini fallback** (simulate OpenAI failure):",
+          "status": "pending",
+          "last_modified": "2026-02-05T14:03:00.813Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "cbdf1a69ed8a",
+          "text": "**Schema compliance**: Gemini lacks strict mode - add validation in parse_gemini_response",
+          "status": "pending",
+          "last_modified": "2026-02-05T14:03:00.814Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "d25582fd109c",
+          "text": "**Workaround required**: Must use HTTP Request node to call Gemini API directly",
+          "status": "pending",
+          "last_modified": "2026-02-05T14:03:00.813Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "de491af70056",
+          "text": "Error caught by `continueOnFail: true`",
+          "status": "pending",
+          "last_modified": "2026-02-05T14:03:00.813Z",
+          "modified_by": "plan"
+        }
+      ],
+      "checklist_hash": "52d2011d0c60f394",
+      "sync_sources": [
+        {
+          "type": "plan",
+          "artifact_id": "C:\\Users\\codya\\.claude\\plans\\clever-crafting-prism.md",
+          "last_read": "2026-02-05T14:03:00.842Z",
+          "content_hash": "887b82ce7caa1b73"
+        }
+      ]
     }
   ]
 }
