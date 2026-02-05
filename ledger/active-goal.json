@@ -1,18 +1,18 @@
 {
-  "goal": "Implement comprehensive test coverage, security hardening, and code quality improvements for the Spinal Cord hooks system",
-  "summary": "Implement comprehensive test coverage, security hardening, and code quality improvements for the Spinal Cord hooks system",
+  "goal": "Lubricate Website RAG KB lifecycle for minimal human involvement",
+  "summary": "Lubricate Website RAG KB lifecycle for minimal human involvement",
   "fields": {
-    "who": "Spinal Cord hooks system (pre-bash, bun-enforcer, goal-compliance-gate, etc.)",
-    "what": "Fix security gaps, enable skipped tests, reduce lint warnings, fix goal compliance false positive",
-    "when": "Ongoing maintenance until all tests pass and lint warnings resolved",
-    "where": "C:\\Users\\codya\\.claude\\hooks",
-    "why": "Tests were skipped, security functions incomplete, goal compliance hook had false positive due to stale session goal",
-    "how": "1. Extended emoji detection to include regional indicators 2. Extended deletion detection to include unlink/shred/find-delete/git-clean 3. Enabled 5 skipped security tests 4. Created 27 bun-enforcer tests 5. Fixed goal stack session data",
-    "which": "hooks/src/utils.ts, hooks/tests/pre-bash.test.ts, hooks/tests/bun-enforcer.test.ts, sessions/*/goal-stack.json",
-    "lest": "Security gaps allow forbidden commands through hooks, tests remain skipped hiding real failures, stale goals cause false compliance rejections",
-    "with": "Vitest test framework, bun runtime, TypeScript, XO linter with Prettier",
-    "measuredBy": "All 1565 tests passing, 0 lint errors, goal compliance gate passes for valid goals"
+    "who": "Website RAG orchestrator workflow + ElevenLabs KB sync",
+    "what": "Add domain registration webhook, auto-configure agents, add error notifications",
+    "when": "Planning phase - creating OpenSpec proposal for user approval",
+    "where": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag",
+    "why": "Current system requires manual domain registration and agent tool configuration, creating friction for onboarding",
+    "how": "1. Add /domain-registration webhook endpoint 2. Persist registry in staticData 3. Auto-configure ElevenLabs agent refresh tool 4. Add error notification workflow",
+    "which": "website_rag_orchestrator.json, ElevenLabs agent API",
+    "lest": "Manual intervention remains required for each new client, creating operational burden and risk of misconfiguration",
+    "with": "n8n workflow, ElevenLabs API, Discord/webhook notifications",
+    "measuredBy": "Single API call registers domain and configures all downstream automation with zero additional human steps"
   },
-  "updatedAt": "2026-02-05T21:54:02.814Z",
-  "projectScope": "C:\\Users\\codya\\.claude\\hooks"
+  "updatedAt": "2026-02-05T22:03:36.311Z",
+  "projectScope": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag"
 }
