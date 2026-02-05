@@ -3193,6 +3193,211 @@
           "content_hash": "b917a669c3107403"
         }
       ]
+    },
+    {
+      "unified_id": "openspec-add-manual-verification-tests",
+      "github_issue": null,
+      "claude_task_id": null,
+      "openspec_change_id": "add-manual-verification-tests",
+      "plan_step": null,
+      "goal_summary": null,
+      "status": "open",
+      "last_synced": "2026-02-05T18:01:34.397Z",
+      "sync_hash": "",
+      "plan_file": null,
+      "checklist_items": [
+        {
+          "id": "086ed78f4852",
+          "text": "3.2 Write `01-dirty-tree-detection.md` - Git sync warning test",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.393Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "0c0436636092",
+          "text": "2.3 Create `setup-stale-hooks.ts` - Touches src/*.ts to be newer than dist/*.js",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.393Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "0e7a2315c582",
+          "text": "5.1 Run `openspec validate add-manual-verification-tests --strict`",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.394Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "0fc6efe4d64e",
+          "text": "3.1 Write `README.md` with overview and cross-platform notes",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.393Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "33fce41dfc87",
+          "text": "6.3 Document platform-specific differences",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.394Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "3b2bb00a2761",
+          "text": "6.1 Verify scripts work on Linux (if available)",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.394Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "3dd38b39aa81",
+          "text": "2.6 Create `cleanup-all.ts` - Reverts all test conditions",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.393Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "41a19bffe831",
+          "text": "4.2 Execute governance block test, record in registry",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.394Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "5c7d5b886076",
+          "text": "4.1 Execute dirty tree detection test, record in registry",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.394Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "5fbc215fe418",
+          "text": "4.4 Execute cleanup test, record in registry",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.394Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "6538264df2ef",
+          "text": "5.3 Document any edge cases discovered",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.394Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "70ea68f0ad89",
+          "text": "1.1 Create `docs/manual-tests/session-reinit/` directory",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.393Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "744698da8e7e",
+          "text": "2.5 Create `setup-drift.ts` - Creates workflow JSON with mismatched name",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.393Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "7c230d976496",
+          "text": "4.3 Execute self-heal test, record in registry",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.394Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "7dee30efaf1f",
+          "text": "2.2 Create `setup-governance-violation.ts` - Creates .mcp.json in test project",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.393Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "8750848ec2cb",
+          "text": "3.5 Write `04-cleanup.md` - Stale file archival test",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.394Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "97b7d8193653",
+          "text": "2.1 Create `setup-dirty-tree.ts` - Creates uncommitted changes, fetches remote",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.393Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "9db0859e7ca8",
+          "text": "3.3 Write `02-governance-block.md` - Child project validation test",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.394Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "c2afdef2357f",
+          "text": "2.4 Create `setup-temp-files.ts` - Creates *.tmp files with old timestamps",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.393Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "d3c2a0fe4f93",
+          "text": "1.3 Create `ledger/manual-test-registry.json` with schema",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.393Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "d714bd83b774",
+          "text": "3.6 Write `05-documentation-drift.md` - Workflow name mismatch test",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.394Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "dd24c572c4ef",
+          "text": "5.2 Verify all setup scripts run without errors",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.394Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "e34dd5a790a1",
+          "text": "1.2 Create `scripts/test-setup/session-reinit/` directory",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.393Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "f72e4af4d45b",
+          "text": "6.2 Verify scripts work on Mac (if available)",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.394Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "f8925d9ddcff",
+          "text": "4.5 Execute documentation drift test, record in registry",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.394Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "fa1f931dadec",
+          "text": "3.4 Write `03-self-heal.md` - Hook compilation recovery test",
+          "status": "pending",
+          "last_modified": "2026-02-05T18:01:34.394Z",
+          "modified_by": "openspec"
+        }
+      ],
+      "checklist_hash": "eb1f66dbc34a05a7",
+      "sync_sources": [
+        {
+          "type": "openspec",
+          "artifact_id": "add-manual-verification-tests",
+          "last_read": "2026-02-05T18:01:34.397Z",
+          "content_hash": "1ae838307c8e1c99"
+        }
+      ]
     }
   ]
 }
