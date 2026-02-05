@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Implement integration_context in ST-Call-Association (#31)",
+  "description": "Update parse_elevenlabs_data node to:\n1. Read integration_context.field_mappings from input\n2. Replace hardcoded defaultBusinessUnitId with dynamic lookup\n3. Add department_to_business_unit mapping\n4. Use urgency_to_priority mapping\n5. Graceful fallback to defaults",
+  "activeForm": "Implementing integration_context consumption",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

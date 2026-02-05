@@ -1,0 +1,9 @@
+{
+  "id": "7",
+  "subject": "Run evaluation tests for [DEV] tag removal (#25)",
+  "description": "Execute n8n evaluation runs against ServiceTitan workflows to verify 98%+ success rate threshold for [DEV] tag removal.",
+  "activeForm": "Running evaluation tests",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

@@ -8,41 +8,43 @@ Complete the OpenSpec change `add-manual-verification-tests` by creating test do
 
 ## Phase 1: Infrastructure Setup
 
-- [ ] 1.1 Create `docs/manual-tests/session-reinit/` directory
-- [ ] 1.2 Create `scripts/test-setup/session-reinit/` directory
-- [ ] 1.3 Create `ledger/manual-test-registry.json` with schema
+- [x] 1.1 Create `docs/manual-tests/session-reinit/` directory
+- [x] 1.2 Create `scripts/test-setup/session-reinit/` directory
+- [x] 1.3 Create `ledger/manual-test-registry.json` with schema
 
 ## Phase 2: Setup Scripts (TypeScript/Bun)
 
-- [ ] 2.1 Create `setup-dirty-tree.ts` - Creates uncommitted changes, fetches remote
-- [ ] 2.2 Create `setup-governance-violation.ts` - Creates .mcp.json in test project
-- [ ] 2.3 Create `setup-stale-hooks.ts` - Touches src/*.ts to be newer than dist/*.js
-- [ ] 2.4 Create `setup-temp-files.ts` - Creates *.tmp files with old timestamps
-- [ ] 2.5 Create `setup-drift.ts` - Creates workflow JSON with mismatched name
-- [ ] 2.6 Create `cleanup-all.ts` - Reverts all test conditions
+- [x] 2.1 Create `setup-dirty-tree.ts` - Creates uncommitted changes, fetches remote
+- [x] 2.2 Create `setup-governance-violation.ts` - Creates .mcp.json in test project
+- [x] 2.3 Create `setup-stale-hooks.ts` - Touches src/*.ts to be newer than dist/*.js
+- [x] 2.4 Create `setup-temp-files.ts` - Creates *.tmp files with old timestamps
+- [x] 2.5 Create `setup-drift.ts` - Creates workflow JSON with mismatched name (fixed: uses workflows/ dir)
+- [x] 2.6 Create `cleanup-all.ts` - Reverts all test conditions
 
 ## Phase 3: Test Documentation
 
-- [ ] 3.1 Write `README.md` with overview and cross-platform notes
-- [ ] 3.2 Write `01-dirty-tree-detection.md` - Git sync warning test
-- [ ] 3.3 Write `02-governance-block.md` - Child project validation test
-- [ ] 3.4 Write `03-self-heal.md` - Hook compilation recovery test
-- [ ] 3.5 Write `04-cleanup.md` - Stale file archival test
-- [ ] 3.6 Write `05-documentation-drift.md` - Workflow name mismatch test
+- [x] 3.1 Write `README.md` with overview and cross-platform notes
+- [x] 3.2 Write `01-dirty-tree-detection.md` - Git sync warning test
+- [x] 3.3 Write `02-governance-block.md` - Child project validation test
+- [x] 3.4 Write `03-self-heal.md` - Hook compilation recovery test
+- [x] 3.5 Write `04-cleanup.md` - Stale file archival test
+- [x] 3.6 Write `05-documentation-drift.md` - Workflow name mismatch test
 
 ## Phase 4: Test Execution (Windows)
 
-- [ ] 4.1 Execute dirty tree detection test, record in registry
-- [ ] 4.2 Execute governance block test, record in registry
-- [ ] 4.3 Execute self-heal test, record in registry
-- [ ] 4.4 Execute cleanup test, record in registry
-- [ ] 4.5 Execute documentation drift test, record in registry
+- [x] 4.1 Execute dirty tree detection test, record in registry
+- [x] 4.2 Execute governance block test, record in registry
+- [x] 4.3 Execute self-heal test, record in registry
+- [x] 4.4 Execute cleanup test, record in registry
+- [x] 4.5 Execute documentation drift test, record in registry
 
 ## Phase 5: Validation
 
-- [ ] 5.1 Run `openspec validate add-manual-verification-tests --strict`
-- [ ] 5.2 Verify all setup scripts run without errors
-- [ ] 5.3 Document any edge cases discovered
+- [x] 5.1 Run `openspec validate add-manual-verification-tests --strict`
+- [x] 5.2 Verify all setup scripts run without errors
+- [x] 5.3 Document any edge cases discovered
+  - Edge case: setup-drift.ts was creating files in temp/, but drift checker looks in workflows/. Fixed.
+  - Edge case: dirty tree + behind remote requires manual remote push to fully test
 
 ## Phase 6: Cross-Platform (Optional)
 

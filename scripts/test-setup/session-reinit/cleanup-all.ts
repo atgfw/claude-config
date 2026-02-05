@@ -69,14 +69,23 @@ function main(): void {
     safeDelete(path.join(projectDir, file));
   }
 
-  // Drift test cleanup
+  // Drift test cleanup (workflows directory)
+  const workflowsDir = path.join(projectDir, "workflows");
+  if (fs.existsSync(workflowsDir)) {
+    safeDelete(path.join(workflowsDir, "customer_sync.json"));
+    safeDelete(path.join(workflowsDir, "job_handler.json"));
+    // Remove workflows if empty
+    const workflowContents = fs.readdirSync(workflowsDir);
+    if (workflowContents.length === 0) {
+      safeDelete(workflowsDir);
+    }
+  }
+
+  // Legacy temp cleanup (if any)
   const tempDir = path.join(projectDir, "temp");
   if (fs.existsSync(tempDir)) {
-    safeDelete(path.join(tempDir, "customer_sync.json"));
-    safeDelete(path.join(tempDir, "job_handler.json"));
-    // Remove temp if empty
-    const contents = fs.readdirSync(tempDir);
-    if (contents.length === 0) {
+    const tempContents = fs.readdirSync(tempDir);
+    if (tempContents.length === 0) {
       safeDelete(tempDir);
     }
   }

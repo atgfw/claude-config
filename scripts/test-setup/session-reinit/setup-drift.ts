@@ -44,10 +44,10 @@ function createMismatchedWorkflow(
 function main(): void {
   log(`Project directory: ${projectDir}`);
 
-  // Create temp directory for workflow files
-  const tempDir = path.join(projectDir, "temp");
-  if (!fs.existsSync(tempDir)) {
-    fs.mkdirSync(tempDir, { recursive: true });
+  // Create workflows directory (where drift checker looks)
+  const workflowsDir = path.join(projectDir, "workflows");
+  if (!fs.existsSync(workflowsDir)) {
+    fs.mkdirSync(workflowsDir, { recursive: true });
   }
 
   // Define workflows with mismatched names
@@ -63,7 +63,7 @@ function main(): void {
   ];
 
   for (const workflow of workflows) {
-    createMismatchedWorkflow(tempDir, workflow);
+    createMismatchedWorkflow(workflowsDir, workflow);
   }
 
   log("");

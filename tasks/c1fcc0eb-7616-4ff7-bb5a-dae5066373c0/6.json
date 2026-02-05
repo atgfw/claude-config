@@ -1,0 +1,9 @@
+{
+  "id": "6",
+  "subject": "Design LLM Extractor integration for ElevenLabs (#2)",
+  "description": "Design the data flow: ElevenLabs post-call webhook -> n8n -> LLM Data Extraction -> ST-Call-Association. Document the integration pattern.",
+  "activeForm": "Designing ElevenLabs-LLM integration",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

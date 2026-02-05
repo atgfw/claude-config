@@ -1,0 +1,9 @@
+{
+  "id": "5",
+  "subject": "Verify ElevenLabs agent area code table status (#2)",
+  "description": "Check if area code tables are still embedded in the ElevenLabs agent prompt or if they've been removed. The tables were found in archived temp_nodes but may still be in the live agent config.",
+  "activeForm": "Checking ElevenLabs agent config",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
