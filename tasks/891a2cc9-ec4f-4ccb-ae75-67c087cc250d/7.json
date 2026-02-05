@@ -1,9 +1,0 @@
-{
-  "id": "7",
-  "subject": "Test Gemini fallback and service category changes",
-  "description": "Run verification tests: 1) Normal OpenAI path, 2) Gemini fallback with invalid model, 3) Fallback disabled error, 4) Generic service_category, 5) Domain-specific service_category via integration_context.",
-  "activeForm": "Testing changes",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
