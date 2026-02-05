@@ -8,7 +8,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { execSync } from 'node:child_process';
 import type { PostToolUseInput, PostToolUseOutput } from '../types.js';
-import { log, getClaudeDir as getClaudeDirectory } from '../utils.js';
+import { log, getClaudeDir } from '../utils.js';
 import { registerHook } from '../runner.js';
 
 type ReleaseEntry = {
@@ -38,7 +38,7 @@ type ReleaseRegistry = {
  * Get the release registry path
  */
 function getRegistryPath(): string {
-  return path.join(getClaudeDirectory(), 'ledger', 'release-registry.json');
+  return path.join(getClaudeDir(), 'ledger', 'release-registry.json');
 }
 
 /**

@@ -20,7 +20,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import process from 'node:process';
 import type { SessionCheckResult } from '../types.js';
-import { log, getClaudeDir as getClaudeDirectory } from '../utils.js';
+import { log, getClaudeDir } from '../utils.js';
 
 /**
  * Hygiene issue types
@@ -290,7 +290,7 @@ function scanRootDirectory(projectDirectory: string): HygieneIssue[] {
  * Write audit results to ledger
  */
 function writeToLedger(projectDirectory: string, issues: HygieneIssue[]): void {
-  const ledgerDirectory = path.join(getClaudeDirectory(), 'ledger');
+  const ledgerDirectory = path.join(getClaudeDir(), 'ledger');
   const ledgerPath = path.join(ledgerDirectory, 'hygiene-audit-registry.json');
 
   try {

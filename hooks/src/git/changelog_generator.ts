@@ -8,7 +8,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { execSync } from 'node:child_process';
 import type { PostToolUseInput, PostToolUseOutput } from '../types.js';
-import { log, getClaudeDir as getClaudeDirectory } from '../utils.js';
+import { log, getClaudeDir } from '../utils.js';
 import { registerHook } from '../runner.js';
 
 // Conventional commit regex
@@ -43,7 +43,7 @@ type ChangelogRegistry = {
  * Get the changelog registry path
  */
 function getRegistryPath(): string {
-  return path.join(getClaudeDirectory(), 'ledger', 'changelog-registry.json');
+  return path.join(getClaudeDir(), 'ledger', 'changelog-registry.json');
 }
 
 /**
