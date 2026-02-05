@@ -1,9 +1,0 @@
-{
-  "id": "5",
-  "subject": "Add session cleanup mechanism",
-  "description": "Add cleanupStaleSessions() function to goal_stack.ts and invoke from session_hydrator at session start with throttling.",
-  "activeForm": "Adding session cleanup mechanism",
-  "status": "pending",
-  "blocks": [],
-  "blockedBy": []
-}

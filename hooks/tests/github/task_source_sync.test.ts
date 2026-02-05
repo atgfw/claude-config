@@ -16,22 +16,52 @@ import {
   type SyncEntry,
 } from '../../src/github/task_source_sync.js';
 
-vi.mock('node:fs');
-vi.mock('node:child_process');
+vi.mock('node:fs', () => ({
+  existsSync: vi.fn(),
+  readFileSync: vi.fn(),
+  writeFileSync: vi.fn(),
+  mkdirSync: vi.fn(),
+  statSync: vi.fn(),
+  readdirSync: vi.fn(),
+  renameSync: vi.fn(),
+  default: {},
+}));
 
-const mockedFs = vi.mocked(fs);
-const mockedExecSync = vi.mocked(execSync);
+vi.mock('node:child_process', () => ({
+  execSync: vi.fn(),
+  default: {},
+}));
+
+vi.mock('../../src/utils.js', () => ({
+  logTerse: vi.fn(),
+  logWarn: vi.fn(),
+  getClaudeDir: () => '/mock/.claude',
+}));
+
+const mockedFs = fs as unknown as {
+  existsSync: ReturnType<typeof vi.fn>;
+  readFileSync: ReturnType<typeof vi.fn>;
+  writeFileSync: ReturnType<typeof vi.fn>;
+  mkdirSync: ReturnType<typeof vi.fn>;
+};
+const mockedExecSync = execSync as unknown as ReturnType<typeof vi.fn>;
 
 function makeEntry(overrides: Partial<SyncEntry> = {}): SyncEntry {
   return {
     unified_id: 'issue-1',
     github_issue: 1,
+    github_repo: null,
     claude_task_id: null,
     openspec_change_id: null,
     plan_step: null,
+    goal_summary: null,
     status: 'open',
     last_synced: '2025-01-01T00:00:00.000Z',
     sync_hash: '',
+    plan_file: null,
+    checklist_items: [],
+    checklist_hash: '',
+    sync_sources: [],
     ...overrides,
   };
 }

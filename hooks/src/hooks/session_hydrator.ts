@@ -21,6 +21,9 @@ import {
   getSessionId,
   loadGoalStack,
   saveGoalStack,
+  cleanupStaleSessions,
+  shouldRunSessionCleanup,
+  markSessionCleanupComplete,
   type GoalLevel,
 } from '../session/goal_stack.js';
 
@@ -266,6 +269,15 @@ async function hydrateLinkedArtifacts(linked: LinkedArtifacts): Promise<{
 async function sessionHydrator(_input: SessionStartInput): Promise<SessionStartOutput> {
   const sessionId = getSessionId();
   const messages: string[] = [];
+
+  // Session cleanup (throttled to once per day)
+  if (shouldRunSessionCleanup()) {
+    const archived = cleanupStaleSessions(7); // Archive sessions older than 7 days
+    if (archived > 0) {
+      logTerse(`[+] Cleaned up ${archived} stale session(s)`);
+    }
+    markSessionCleanupComplete();
+  }
 
   // Bootstrap goal stack from global active-goal.json
   const bootstrappedGoal = bootstrapGoalStack(sessionId);

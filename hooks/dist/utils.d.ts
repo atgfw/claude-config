@@ -9,6 +9,21 @@ import type { VerbosityLevel } from './types.js';
  */
 export declare function getClaudeDir(): string;
 /**
+ * Check if two paths represent the same location or have a parent-child relationship.
+ * Uses proper path resolution to avoid substring matching bugs.
+ *
+ * Examples:
+ * - isPathMatch('/projects/myapp', '/projects/myapp') => true (exact match)
+ * - isPathMatch('/projects/myapp/src', '/projects/myapp') => true (child of)
+ * - isPathMatch('/projects/myapp', '/projects/myapp/src') => true (parent of)
+ * - isPathMatch('/projects/myapp', '/projects/myapp2') => false (sibling, NOT substring)
+ *
+ * @param pathA - First path to compare
+ * @param pathB - Second path to compare
+ * @returns true if paths match or have parent-child relationship
+ */
+export declare function isPathMatch(pathA: string, pathB: string): boolean;
+/**
  * Get the hooks directory
  */
 export declare function getHooksDir(): string;

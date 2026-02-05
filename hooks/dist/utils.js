@@ -16,6 +16,40 @@ export function getClaudeDir() {
     return process.env['CLAUDE_DIR'] ?? path.join(os.homedir(), '.claude');
 }
 /**
+ * Check if two paths represent the same location or have a parent-child relationship.
+ * Uses proper path resolution to avoid substring matching bugs.
+ *
+ * Examples:
+ * - isPathMatch('/projects/myapp', '/projects/myapp') => true (exact match)
+ * - isPathMatch('/projects/myapp/src', '/projects/myapp') => true (child of)
+ * - isPathMatch('/projects/myapp', '/projects/myapp/src') => true (parent of)
+ * - isPathMatch('/projects/myapp', '/projects/myapp2') => false (sibling, NOT substring)
+ *
+ * @param pathA - First path to compare
+ * @param pathB - Second path to compare
+ * @returns true if paths match or have parent-child relationship
+ */
+export function isPathMatch(pathA, pathB) {
+    // Resolve to absolute paths and normalize separators
+    const normalizedA = path.resolve(pathA).toLowerCase().replace(/\\/g, '/');
+    const normalizedB = path.resolve(pathB).toLowerCase().replace(/\\/g, '/');
+    // Exact match
+    if (normalizedA === normalizedB) {
+        return true;
+    }
+    // Check if A is inside B (child of B)
+    // Must have path separator after parent to avoid prefix matching
+    // e.g., /projects/myapp/src starts with /projects/myapp/ (note trailing /)
+    if (normalizedA.startsWith(normalizedB + '/')) {
+        return true;
+    }
+    // Check if B is inside A (A is parent of B)
+    if (normalizedB.startsWith(normalizedA + '/')) {
+        return true;
+    }
+    return false;
+}
+/**
  * Get the hooks directory
  */
 export function getHooksDir() {

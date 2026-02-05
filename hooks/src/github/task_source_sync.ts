@@ -50,6 +50,8 @@ export interface SyncSource {
 export interface SyncEntry {
   unified_id: string;
   github_issue: number | null;
+  /** Repository context in "owner/repo" format (e.g., "anthropics/claude-code") */
+  github_repo: string | null;
   claude_task_id: string | null;
   openspec_change_id: string | null;
   plan_step: number | null;
@@ -95,7 +97,16 @@ export function loadRegistry(): SyncRegistry {
   }
   try {
     const raw = fs.readFileSync(p, 'utf-8');
-    return JSON.parse(raw) as SyncRegistry;
+    const registry = JSON.parse(raw) as SyncRegistry;
+
+    // Migration: add github_repo field if missing (will be populated on next sync)
+    for (const entry of registry.entries) {
+      if (entry.github_issue !== null && !('github_repo' in entry)) {
+        (entry as SyncEntry).github_repo = null;
+      }
+    }
+
+    return registry;
   } catch {
     return { version: 1, entries: [] };
   }
@@ -108,6 +119,29 @@ export function saveRegistry(registry: SyncRegistry): void {
     fs.mkdirSync(dir, { recursive: true });
   }
   fs.writeFileSync(p, JSON.stringify(registry, null, 2), 'utf-8');
+}
+
+// ---------------------------------------------------------------------------
+// GitHub repository context
+// ---------------------------------------------------------------------------
+
+/**
+ * Get the current repository in "owner/repo" format.
+ * Uses the gh CLI to query the current repo context.
+ * Returns null if not in a git repo or gh CLI fails.
+ */
+export function getCurrentRepo(): string | null {
+  try {
+    const result = execSync('gh repo view --json nameWithOwner -q .nameWithOwner', {
+      encoding: 'utf-8',
+      timeout: 5000,
+      stdio: ['pipe', 'pipe', 'pipe'],
+    });
+    const repo = result.trim();
+    return repo || null;
+  } catch {
+    return null;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -144,6 +178,7 @@ export function upsertEntry(
     registry.entries.push({
       unified_id: `issue-${entry.github_issue}`,
       github_issue: entry.github_issue,
+      github_repo: entry.github_repo ?? getCurrentRepo(),
       claude_task_id: entry.claude_task_id ?? null,
       openspec_change_id: entry.openspec_change_id ?? null,
       plan_step: entry.plan_step ?? null,

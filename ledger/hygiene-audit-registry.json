@@ -1524,5 +1524,19 @@
         "severity": "warn"
       }
     ]
+  },
+  {
+    "timestamp": "2026-02-05T22:23:39.496Z",
+    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag\\CUserscodyaAppDataLocalTempclaudeagent_kb.json",
+        "filename": "CUserscodyaAppDataLocalTempclaudeagent_kb.json",
+        "suggestion": "mv \"CUserscodyaAppDataLocalTempclaudeagent_kb.json\" old/misc/ # Empty file",
+        "severity": "info"
+      }
+    ]
   }
 ]

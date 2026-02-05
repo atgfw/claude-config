@@ -12,10 +12,10 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { registerHook } from '../runner.js';
-import { getClaudeDir, logTerse, logWarn } from '../utils.js';
+import { getClaudeDir, isPathMatch, logTerse, logWarn } from '../utils.js';
 import { loadGoal } from './goal_injector.js';
 import { reconcileArtifact } from '../sync/checklist_reconciler.js';
-import { getSessionId, loadGoalStack, saveGoalStack, } from '../session/goal_stack.js';
+import { getSessionId, loadGoalStack, saveGoalStack, cleanupStaleSessions, shouldRunSessionCleanup, markSessionCleanupComplete, } from '../session/goal_stack.js';
 /**
  * Bootstrap session goal stack from global active-goal.json.
  * Clears stale task goals and pushes the global goal as an epic/issue.
@@ -45,11 +45,9 @@ function bootstrapGoalStack(sessionId) {
     const currentWorkingDir = process.cwd();
     const goalProjectDir = goal.fields?.where;
     if (goalProjectDir && goalProjectDir !== 'unknown') {
-        // Normalize paths for comparison (handle Windows/Unix differences)
-        const normalizedCwd = currentWorkingDir.replace(/\\/g, '/').toLowerCase();
-        const normalizedGoalDir = goalProjectDir.replace(/\\/g, '/').toLowerCase();
-        // Check if goal is for a different project
-        if (!normalizedCwd.includes(normalizedGoalDir) && !normalizedGoalDir.includes(normalizedCwd)) {
+        // Use isPathMatch for proper path comparison (prevents sibling directory false positives)
+        // e.g., /projects/myapp should NOT match /projects/myapp2
+        if (!isPathMatch(currentWorkingDir, goalProjectDir)) {
             logTerse(`[!] Skipping global goal - different project (goal: ${goalProjectDir}, cwd: ${currentWorkingDir})`);
             if (stack.stack.length > 0) {
                 saveGoalStack(stack);
@@ -234,6 +232,14 @@ async function hydrateLinkedArtifacts(linked) {
 async function sessionHydrator(_input) {
     const sessionId = getSessionId();
     const messages = [];
+    // Session cleanup (throttled to once per day)
+    if (shouldRunSessionCleanup()) {
+        const archived = cleanupStaleSessions(7); // Archive sessions older than 7 days
+        if (archived > 0) {
+            logTerse(`[+] Cleaned up ${archived} stale session(s)`);
+        }
+        markSessionCleanupComplete();
+    }
     // Bootstrap goal stack from global active-goal.json
     const bootstrappedGoal = bootstrapGoalStack(sessionId);
     if (bootstrappedGoal) {

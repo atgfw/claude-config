@@ -37,6 +37,8 @@ export interface SyncSource {
 export interface SyncEntry {
     unified_id: string;
     github_issue: number | null;
+    /** Repository context in "owner/repo" format (e.g., "anthropics/claude-code") */
+    github_repo: string | null;
     claude_task_id: string | null;
     openspec_change_id: string | null;
     plan_step: number | null;
@@ -59,6 +61,12 @@ export interface SyncRegistry {
 }
 export declare function loadRegistry(): SyncRegistry;
 export declare function saveRegistry(registry: SyncRegistry): void;
+/**
+ * Get the current repository in "owner/repo" format.
+ * Uses the gh CLI to query the current repo context.
+ * Returns null if not in a git repo or gh CLI fails.
+ */
+export declare function getCurrentRepo(): string | null;
 export declare function findEntry(registry: SyncRegistry, query: Partial<SyncEntry>): SyncEntry | undefined;
 export declare function upsertEntry(registry: SyncRegistry, entry: Partial<SyncEntry> & {
     github_issue: number;

@@ -85,6 +85,7 @@ export declare function createEmptyStack(sessionId: string, workingDirectory?: s
 /**
  * Load goal stack from session directory.
  * Returns empty stack if not found.
+ * Detects and updates working_directory if it has drifted from current cwd.
  */
 export declare function loadGoalStack(sessionId: string): SessionGoalStack;
 /**
@@ -147,4 +148,21 @@ export declare function createIssueGoal(issueNumber: number, title: string, body
  * Supports all 11 sections.
  */
 export declare function extractFieldsFromDescription(description: string): GoalFields;
+/**
+ * Clean up stale session directories.
+ * Archives sessions older than maxAgeDays to sessions/old/.
+ * Returns the number of sessions archived.
+ *
+ * @param maxAgeDays - Maximum age in days before archiving (default: 7)
+ */
+export declare function cleanupStaleSessions(maxAgeDays?: number): number;
+/**
+ * Check if session cleanup should run (throttled to once per day).
+ * Uses a flag file to track last cleanup time.
+ */
+export declare function shouldRunSessionCleanup(): boolean;
+/**
+ * Mark session cleanup as completed.
+ */
+export declare function markSessionCleanupComplete(): void;
 //# sourceMappingURL=goal_stack.d.ts.map

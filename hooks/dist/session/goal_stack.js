@@ -9,7 +9,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as crypto from 'node:crypto';
-import { getClaudeDir } from '../utils.js';
+import { getClaudeDir, isPathMatch } from '../utils.js';
 // ============================================================================
 // Session ID Resolution
 // ============================================================================
@@ -83,12 +83,21 @@ export function createEmptyStack(sessionId, workingDirectory) {
 /**
  * Load goal stack from session directory.
  * Returns empty stack if not found.
+ * Detects and updates working_directory if it has drifted from current cwd.
  */
 export function loadGoalStack(sessionId) {
     const stackPath = getGoalStackPath(sessionId);
     try {
         const raw = fs.readFileSync(stackPath, 'utf-8');
-        return JSON.parse(raw);
+        const stack = JSON.parse(raw);
+        // Detect working directory drift - update if cwd has changed
+        const currentCwd = process.cwd();
+        if (stack.working_directory !== currentCwd) {
+            stack.working_directory = currentCwd;
+            // Save immediately to persist the update
+            saveGoalStack(stack);
+        }
+        return stack;
     }
     catch {
         return createEmptyStack(sessionId);
@@ -163,8 +172,16 @@ function syncGoalToActiveGoalJson(goal) {
         existing.fields = goal.fields;
         existing.updatedAt = new Date().toISOString();
         // Track project scope for session isolation
-        // Use goal's where field, or current working directory as fallback
-        existing.projectScope = goal.fields.where !== 'unknown' ? goal.fields.where : process.cwd();
+        // Only update projectScope if:
+        // 1. Not already set, OR
+        // 2. Current session's cwd is within the existing projectScope (same project)
+        // This prevents race conditions when two sessions work on the same issue from different projects
+        const currentProjectScope = existing.projectScope;
+        const goalProjectDir = goal.fields.where !== 'unknown' ? goal.fields.where : null;
+        if (!currentProjectScope || isPathMatch(process.cwd(), currentProjectScope)) {
+            existing.projectScope = goalProjectDir ?? process.cwd();
+        }
+        // If projectScope is set and doesn't match current cwd, do NOT overwrite
         // Track linked GitHub issue if present
         if (goal.source.github_issue) {
             if (!existing.linkedArtifacts) {
@@ -490,5 +507,76 @@ export function extractFieldsFromDescription(description) {
         }
     }
     return fields;
+}
+// ============================================================================
+// Session Cleanup
+// ============================================================================
+/**
+ * Clean up stale session directories.
+ * Archives sessions older than maxAgeDays to sessions/old/.
+ * Returns the number of sessions archived.
+ *
+ * @param maxAgeDays - Maximum age in days before archiving (default: 7)
+ */
+export function cleanupStaleSessions(maxAgeDays = 7) {
+    const sessionsDir = path.join(getClaudeDir(), 'sessions');
+    if (!fs.existsSync(sessionsDir)) {
+        return 0;
+    }
+    const now = Date.now();
+    const maxAgeMs = maxAgeDays * 24 * 60 * 60 * 1000;
+    const oldDir = path.join(sessionsDir, 'old');
+    let archived = 0;
+    try {
+        const entries = fs.readdirSync(sessionsDir, { withFileTypes: true });
+        for (const entry of entries) {
+            // Skip non-directories and the 'old' directory itself
+            if (!entry.isDirectory() || entry.name === 'old') {
+                continue;
+            }
+            const sessionDir = path.join(sessionsDir, entry.name);
+            const stackPath = path.join(sessionDir, 'goal-stack.json');
+            // Check modification time (prefer goal-stack.json if exists, else directory)
+            const stat = fs.existsSync(stackPath) ? fs.statSync(stackPath) : fs.statSync(sessionDir);
+            if (now - stat.mtimeMs > maxAgeMs) {
+                // Archive to old/ directory
+                fs.mkdirSync(oldDir, { recursive: true });
+                const archivePath = path.join(oldDir, entry.name);
+                // Handle collision by adding timestamp
+                const finalPath = fs.existsSync(archivePath) ? `${archivePath}-${Date.now()}` : archivePath;
+                fs.renameSync(sessionDir, finalPath);
+                archived++;
+            }
+        }
+    }
+    catch {
+        // Non-fatal - cleanup is best-effort
+    }
+    return archived;
+}
+/**
+ * Check if session cleanup should run (throttled to once per day).
+ * Uses a flag file to track last cleanup time.
+ */
+export function shouldRunSessionCleanup() {
+    const flagPath = path.join(getClaudeDir(), '.session-cleanup-last');
+    if (!fs.existsSync(flagPath)) {
+        return true;
+    }
+    try {
+        const stat = fs.statSync(flagPath);
+        const oneDayMs = 24 * 60 * 60 * 1000;
+        return Date.now() - stat.mtimeMs > oneDayMs;
+    }
+    catch {
+        return true;
+    }
+}
+/**
+ * Mark session cleanup as completed.
+ */
+export function markSessionCleanupComplete() {
+    const flagPath = path.join(getClaudeDir(), '.session-cleanup-last');
+    fs.writeFileSync(flagPath, new Date().toISOString(), 'utf-8');
 }
 //# sourceMappingURL=goal_stack.js.map

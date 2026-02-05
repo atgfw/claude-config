@@ -118,6 +118,7 @@ export function findOrCreateEntry(
   const newEntry: SyncEntry = {
     unified_id: `${artifactType}-${artifactId}`,
     github_issue: artifactType === 'github_issue' ? Number.parseInt(artifactId, 10) : null,
+    github_repo: null, // Will be populated on GitHub sync
     claude_task_id: null,
     openspec_change_id: artifactType === 'openspec' ? artifactId : null,
     plan_step: null,
