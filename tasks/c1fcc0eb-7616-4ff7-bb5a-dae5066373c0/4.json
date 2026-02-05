@@ -1,9 +1,16 @@
 {
   "id": "4",
   "subject": "Implement integration_context in ST-Call-Association (#31)",
-  "description": "Update parse_elevenlabs_data node to:\n1. Read integration_context.field_mappings from input\n2. Replace hardcoded defaultBusinessUnitId with dynamic lookup\n3. Add department_to_business_unit mapping\n4. Use urgency_to_priority mapping\n5. Graceful fallback to defaults",
+  "description": "Implemented integration_context.field_mappings consumption in ST-Call-Association parse_elevenlabs_data node.\n\nEvidence:\n- File: `tests/code-nodes/st-call-association/parse-elevenlabs-data.js:34-38`\n- Code: `function mapValue(mappings, key, fallback = null) { if (!mappings || typeof mappings !== \"object\") return fallback; ... }`\n- File: `tests/code-nodes/st-call-association/parse-elevenlabs-data.js:96-100`\n- Code: `const businessUnitId = mapValue(fieldMappings.department_to_business_unit, serviceCategory, null);`\n- Verification: 27/27 vitest tests passed including new integration_context tests\n- n8n update: Workflow fkTzuzjXYwxSGtlr updated successfully (1 operation applied)",
   "activeForm": "Implementing integration_context consumption",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "testPassed": {
+      "testId": "parse-elevenlabs-data.test.ts",
+      "timestamp": "2026-02-05T10:42:52Z",
+      "result": "27/27 passed"
+    }
+  }
 }
