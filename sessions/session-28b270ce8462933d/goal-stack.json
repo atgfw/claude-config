@@ -1,0 +1,30 @@
+{
+  "session_id": "session-28b270ce8462933d",
+  "working_directory": "C:\\Users\\codya\\.claude",
+  "stack": [
+    {
+      "id": "global-goal",
+      "type": "epic",
+      "summary": "Implement comprehensive test coverage, security hardening, and code quality improvements for the Spinal Cord hooks system",
+      "fields": {
+        "who": "Spinal Cord hooks system (pre-bash, bun-enforcer, goal-compliance-gate, etc.)",
+        "what": "Fix security gaps, enable skipped tests, reduce lint warnings, fix goal compliance false positive",
+        "when": "Ongoing maintenance until all tests pass and lint warnings resolved",
+        "where": "C:\\Users\\codya\\.claude\\hooks",
+        "why": "Tests were skipped, security functions incomplete, goal compliance hook had false positive due to stale session goal",
+        "how": "1. Extended emoji detection to include regional indicators 2. Extended deletion detection to include unlink/shred/find-delete/git-clean 3. Enabled 5 skipped security tests 4. Created 27 bun-enforcer tests 5. Fixed goal stack session data",
+        "which": "hooks/src/utils.ts, hooks/tests/pre-bash.test.ts, hooks/tests/bun-enforcer.test.ts, sessions/*/goal-stack.json",
+        "lest": "Security gaps allow forbidden commands through hooks, tests remain skipped hiding real failures, stale goals cause false compliance rejections",
+        "with": "Vitest test framework, bun runtime, TypeScript, XO linter with Prettier",
+        "measuredBy": "All 1565 tests passing, 0 lint errors, goal compliance gate passes for valid goals"
+      },
+      "source": {
+        "manual": true
+      },
+      "pushedAt": "2026-02-05T20:18:05.373Z",
+      "pushedBy": "SessionStart"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-05T20:18:05.393Z"
+}
