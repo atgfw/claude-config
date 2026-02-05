@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "description": "Tracks tool research decisions for pre-implementation validation",
-  "lastUpdated": "2026-02-05T19:36:03.419Z",
+  "lastUpdated": "2026-02-05T19:52:27.772Z",
   "entries": [
     {
       "id": "a1c86e41b82d4d1e",
@@ -1659,6 +1659,63 @@
       "problemDomain": "wrappers",
       "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-dzBeq5\\wrappers",
       "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-dzBeq5\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "75eba573658d1044",
+      "timestamp": "2026-02-05T19:42:04.915Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-OqsRuN\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-OqsRuN\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "fccf633a6d54f328",
+      "timestamp": "2026-02-05T19:43:44.014Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-BCeKsI\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-BCeKsI\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "dbaff54afa086a39",
+      "timestamp": "2026-02-05T19:52:27.772Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-kEScSC\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-kEScSC\\wrappers\\TOOL-RESEARCH.md",
       "toolsEvaluated": [
         {
           "name": "axios",
