@@ -13,7 +13,7 @@
     "measuredBy": "95%+ role attribution accuracy across 6 conversation types, zero regression on existing AI-to-human inbound extractions"
   },
   "summary": "Generalize LLM extraction to handle human-to-human, outbound, and internal calls without hardcoded AI-to-human assumptions",
-  "updatedAt": "2026-02-05T16:50:00.835Z",
+  "updatedAt": "2026-02-05T16:52:31.185Z",
   "linkedArtifacts": {
     "openspec": "generalize-extraction-conversation-types",
     "plan_files": [],
