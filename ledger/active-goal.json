@@ -1,8 +1,8 @@
 {
-  "goal": "Expand ServiceTitan Test Coverage and Cleanup",
-  "summary": "Expand ServiceTitan Test Coverage and Cleanup",
+  "goal": "Expand ServiceTitan Test Coverage",
+  "summary": "Expand ServiceTitan Test Coverage",
   "fields": {
-    "focus": "Expand test coverage and maintain code quality for ServiceTitan integration workflows",
+    "focus": "Implement comprehensive test suite for ServiceTitan workflow logic",
     "who": "ServiceTitan workflows (Auth Token Manager, Call Association, Job Reminder, Review Request)",
     "what": "Clean artifacts, expand test coverage, update documentation, enforce governance",
     "when": "Ongoing maintenance until [DEV] tags removed after 98%+ evaluation",
@@ -14,6 +14,6 @@
     "with": "Vitest test framework, n8n cloud workflows, ServiceTitan API",
     "measuredBy": "60 tests passing, clean project structure, accurate documentation"
   },
-  "updatedAt": "2026-02-05T19:40:00.000Z",
+  "updatedAt": "2026-02-05T19:45:00.000Z",
   "projectScope": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan"
 }
