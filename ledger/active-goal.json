@@ -1,5 +1,6 @@
 {
-  "goal": "Maintain ServiceTitan CRM Integration Quality",
+  "goal": "Expand ServiceTitan Test Coverage and Cleanup",
+  "Focus": "Expand test coverage and maintain code quality for ServiceTitan integration workflows",
   "fields": {
     "who": "ServiceTitan workflows (Auth Token Manager, Call Association, Job Reminder, Review Request)",
     "what": "Clean artifacts, expand test coverage, update documentation, enforce governance",
@@ -12,9 +13,8 @@
     "with": "Vitest test framework, n8n cloud workflows, ServiceTitan API",
     "measuredBy": "60 tests passing, clean project structure, accurate documentation"
   },
-  "summary": "Maintain ServiceTitan CRM Integration Quality",
-  "updatedAt": "2026-02-05T19:30:00.000Z",
-  "focus": "Expand test coverage and maintain code quality for ServiceTitan integration workflows",
+  "summary": "Expand ServiceTitan Test Coverage and Cleanup",
+  "updatedAt": "2026-02-05T19:35:00.000Z",
   "linkedArtifacts": {
     "workflows": {
       "auth": "e8JlV1rxfR237HMu",
