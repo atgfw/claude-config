@@ -1,30 +1,30 @@
 {
   "session_id": "session-dcc590a1cac9bfe9",
-  "working_directory": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag",
+  "working_directory": "C:\\Users\\codya\\.claude",
   "stack": [
     {
       "id": "global-goal",
       "type": "epic",
-      "summary": "Proposal: Block n8n Local Workflow Files",
+      "summary": "Block n8n local workflow files - enforce cloud-only storage",
       "fields": {
-        "who": "Claude Code session",
-        "what": "Proposal: Block n8n Local Workflow Files",
-        "when": "Current task",
-        "where": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag",
-        "why": "Task in progress",
-        "how": "Following implementation plan",
-        "which": "Target object not specified",
-        "lest": "Failure modes not defined",
-        "with": "Dependencies not enumerated",
-        "measuredBy": "Success metrics not defined"
+        "who": "Claude Code sessions working with n8n workflows",
+        "what": "Block writing/downloading n8n workflow JSON locally; enforce cloud as single source of truth",
+        "when": "Implemented 2026-02-05",
+        "where": "C:\\Users\\codya\\.claude\\hooks\\src\\governance, C:\\Users\\codya\\.claude\\hooks\\src\\hooks",
+        "why": "Local workflow files cause dangerous confusion - Claude overwrites cloud with stale local code (Issues #19, #33)",
+        "how": "Upgraded stale_workflow_json_detector (WARN->BLOCK for writes), added n8n_download_blocker and n8n_post_update_cleanup hooks",
+        "which": "C:\\Users\\codya\\.claude\\hooks\\src\\governance\\stale_workflow_json_detector.ts, C:\\Users\\codya\\.claude\\hooks\\src\\governance\\n8n_download_blocker.ts, C:\\Users\\codya\\.claude\\hooks\\src\\hooks\\n8n_post_update_cleanup.ts",
+        "lest": "Continued drift between local and cloud state, data loss, workflow corruption",
+        "with": "Existing hook infrastructure, n8n MCP, temp directory pattern",
+        "measuredBy": "Zero persistent workflow JSON outside temp/, all n8n_get_workflow calls blocked"
       },
       "source": {
         "manual": true
       },
-      "pushedAt": "2026-02-05T17:25:07.954Z",
-      "pushedBy": "SessionStart"
+      "pushedAt": "2026-02-05T17:35:00.000Z",
+      "pushedBy": "Implementation"
     }
   ],
   "history": [],
-  "lastModified": "2026-02-05T17:25:07.955Z"
+  "lastModified": "2026-02-05T17:35:00.000Z"
 }
