@@ -1,0 +1,30 @@
+{
+  "session_id": "8407d412-ba5a-4035-9af9-0b85654d887d",
+  "working_directory": "C:\\Users\\codya\\.claude",
+  "stack": [
+    {
+      "id": "global-active-goal",
+      "type": "epic",
+      "summary": "Generalize LLM extraction for all conversation types: phone, chat, video, in-person, and all directions",
+      "fields": {
+        "who": "LLM Data Extraction Pipeline consumers (Rewst, ServiceTitan workflows, direct API callers)",
+        "what": "Add conversation context model supporting 6 modalities (phone, chat, video, in-person, voicemail, email) and 4 directions (inbound, outbound, internal, multi-party)",
+        "when": "Before next production deployment of extraction pipeline",
+        "where": "LLM Data Extraction Pipeline (workflow 8ZN0l9BHo1zBKDnl) and category configs",
+        "why": "Current implementation assumes AI-to-human inbound phone calls only, breaking extraction accuracy for chats, meetings, outbound calls, and other modalities",
+        "how": "Add optional conversation_context with modality/direction/participants fields, modify category prompts to use context-aware role mapping, maintain backward compatibility",
+        "which": "9 category configs (caller, contact, routing, request, consent, call_validity, sales, sentiment, coaching) + input validator",
+        "lest": "Incorrect role attribution, wrong sentiment analysis, broken coaching metrics, inappropriate terminology for non-phone modalities",
+        "with": "OpenAI Structured Outputs API, n8n-MCP, existing category architecture",
+        "measuredBy": "95%+ accuracy across 6 modalities and 4 directions, zero regression on existing AI-to-human inbound phone extractions"
+      },
+      "source": {
+        "manual": true
+      },
+      "pushedAt": "2026-02-05T17:00:00.000Z",
+      "pushedBy": "SessionStart"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-05T17:02:56.236Z"
+}

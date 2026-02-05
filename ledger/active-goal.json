@@ -13,7 +13,7 @@
     "measuredBy": "95%+ accuracy across 6 modalities and 4 directions, zero regression on existing AI-to-human inbound phone extractions"
   },
   "summary": "Generalize LLM extraction for all conversation types: phone, chat, video, in-person, and all directions",
-  "updatedAt": "2026-02-05T17:00:00.000Z",
+  "updatedAt": "2026-02-05T17:02:56.252Z",
   "linkedArtifacts": {
     "openspec": "generalize-extraction-conversation-types",
     "plan_files": [],

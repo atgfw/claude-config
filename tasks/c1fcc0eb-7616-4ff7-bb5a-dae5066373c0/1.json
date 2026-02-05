@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Fix st-call-association whitespace edge case tests",
+  "description": "Fix 2 failing tests in parse-elevenlabs-data.edge-cases.test.ts:\n1. \"should trim whitespace from names\" - expected 'Spaced   Out' \n2. \"should handle company with whitespace only as falsy\" - expected strategy 'phone'",
+  "activeForm": "Fixing whitespace edge case tests",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
