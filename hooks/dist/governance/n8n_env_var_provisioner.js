@@ -38,27 +38,27 @@ const ENV_VAR_PATTERNS = {
     },
     // Webhook secrets follow pattern: N8N_IN_SECRET_*
     // Known webhook secrets (reuse instead of regenerating)
-    'N8N_IN_SECRET_AUTH_TOKEN': {
+    N8N_IN_SECRET_AUTH_TOKEN: {
         name: 'N8N_IN_SECRET_AUTH_TOKEN',
         value: 'UeDncBCOhEKaRkVXCvYw2WLimOfzjP_JVQ1MU_v2gTM',
         description: 'ServiceTitan Auth Token Manager webhook secret',
     },
-    'N8N_IN_SECRET_REWST_N8N_REDIRECT_WRAPPER': {
+    N8N_IN_SECRET_REWST_N8N_REDIRECT_WRAPPER: {
         name: 'N8N_IN_SECRET_REWST_N8N_REDIRECT_WRAPPER',
         value: 'UeDncBCOhEKaRkVXCvYw2WLimOfzjP_JVQ1MU_v2gTM',
         description: 'Rewst gateway redirect wrapper webhook secret',
     },
-    'N8N_IN_SECRET_RAG_KB_UPLOAD': {
+    N8N_IN_SECRET_RAG_KB_UPLOAD: {
         name: 'N8N_IN_SECRET_RAG_KB_UPLOAD',
         value: 'UeDncBCOhEKaRkVXCvYw2WLimOfzjP_JVQ1MU_v2gTM',
         description: 'Website RAG knowledge base upload webhook secret',
     },
-    'N8N_IN_SECRET_LLM_DATA_EXTRACTION': {
+    N8N_IN_SECRET_LLM_DATA_EXTRACTION: {
         name: 'N8N_IN_SECRET_LLM_DATA_EXTRACTION',
         value: 'asdasdasdasdasdasdasdasdjkyhvltycfiy57dr6976t',
         description: 'LLM data extraction pipeline webhook secret',
     },
-    'N8N_IN_SECRET_THREECX_ACTIVE_CALLS': {
+    N8N_IN_SECRET_THREECX_ACTIVE_CALLS: {
         name: 'N8N_IN_SECRET_THREECX_ACTIVE_CALLS',
         value: 'JKYGcFyUbnfR45rgT9FdVGFh0HRHVWRP',
         description: '3CX active calls webhook secret',

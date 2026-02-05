@@ -48,13 +48,13 @@ function parseGoalSection(body) {
     const goalMatch = body.match(/## Goal\n([^\n]+)(?:\n([\s\S]*?))?(?=\n## |\n*$)/);
     if (!goalMatch)
         return null;
-    const summary = goalMatch[1].trim();
+    const summary = (goalMatch[1] ?? '').trim();
     const fields = {};
     const fieldBlock = goalMatch[2] ?? '';
     const fieldRegex = /^- ([A-Z]+): (.+)$/gm;
     let fm;
     while ((fm = fieldRegex.exec(fieldBlock)) !== null) {
-        fields[fm[1].toLowerCase()] = fm[2].trim();
+        fields[(fm[1] ?? '').toLowerCase()] = (fm[2] ?? '').trim();
     }
     return { summary, fields };
 }
@@ -156,8 +156,8 @@ export function parseFromGitHubIssue(issue) {
     let match;
     while ((match = checkboxRegex.exec(body)) !== null) {
         criteria.push({
-            done: match[1] !== ' ',
-            text: match[2].trim(),
+            done: (match[1] ?? ' ') !== ' ',
+            text: (match[2] ?? '').trim(),
         });
     }
     // Parse openspec from body
@@ -205,8 +205,8 @@ export function parseFromTasksMd(markdown) {
         const match = taskRegex.exec(line.trim());
         if (match) {
             items.push(createItem({
-                title: match[2].trim(),
-                status: match[1] !== ' ' ? 'completed' : 'pending',
+                title: (match[2] ?? '').trim(),
+                status: (match[1] ?? ' ') !== ' ' ? 'completed' : 'pending',
             }));
         }
     }

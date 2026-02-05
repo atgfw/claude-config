@@ -120,6 +120,7 @@ export declare function logBatch(prefix: string, items: string[], maxShow?: numb
 export declare function containsEmoji(text: string): boolean;
 /**
  * Check if a command contains deletion commands
+ * Blocks: rm, del, Remove-Item, rmdir, rd, unlink, shred, find -delete, git clean
  */
 export declare function containsDeletionCommand(command: string): boolean;
 /**
