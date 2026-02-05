@@ -67,6 +67,8 @@ export * from './context/index.js';
 export * from './hooks/intent/index.js';
 export { n8nWorkflowGovernanceHook } from './governance/n8n_workflow_governance.js';
 export { elevenlabsAgentGovernanceHook } from './governance/elevenlabs_agent_governance.js';
+export { rewstJinjaValidatorHook } from './governance/rewst_jinja_validator.js';
+export { rewstRequestRouterHook } from './governance/rewst_request_router.js';
 export { n8nDualTriggerValidatorHook } from './governance/n8n_dual_trigger_validator.js';
 export { n8nWebhookPathValidatorHook } from './governance/n8n_webhook_path_validator.js';
 export { n8nEnvVarProvisionerHook } from './governance/n8n_env_var_provisioner.js';
@@ -99,6 +101,8 @@ export { detectsCredentialDiscussion, getConfiguredServices, buildContextMessage
 export { isTestCommand, parseTestOutput, generateSuspicionMessage, SUSPICION_THRESHOLD, } from './hooks/metavitest_suspicion.js';
 import './governance/n8n_workflow_governance.js';
 import './governance/elevenlabs_agent_governance.js';
+import './governance/rewst_jinja_validator.js';
+import './governance/rewst_request_router.js';
 import './governance/n8n_dual_trigger_validator.js';
 import './governance/n8n_webhook_path_validator.js';
 import './governance/n8n_env_var_provisioner.js';
