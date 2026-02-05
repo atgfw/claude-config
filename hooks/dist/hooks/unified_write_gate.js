@@ -39,7 +39,10 @@ async function unifiedWriteGate(input) {
     // CHECK 2: Child project override detection
     const overrideFiles = ['.mcp.json', 'settings.json', '.env'];
     const fileName = path.basename(filePath);
-    if (!filePath.startsWith(claudeDir) && overrideFiles.includes(fileName)) {
+    // Normalize paths for Windows compatibility (forward vs backslash)
+    const normalizedFilePath = filePath.replace(/\\/g, '/');
+    const normalizedClaudeDir = claudeDir.replace(/\\/g, '/');
+    if (!normalizedFilePath.startsWith(normalizedClaudeDir) && overrideFiles.includes(fileName)) {
         logBlocked('Child override', 'Use global ~/.claude/ config');
         return {
             hookSpecificOutput: {

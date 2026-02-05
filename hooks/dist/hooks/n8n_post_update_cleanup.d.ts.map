@@ -1,0 +1,1 @@
+{"version":3,"file":"n8n_post_update_cleanup.d.ts","sourceRoot":"","sources":["../../src/hooks/n8n_post_update_cleanup.ts"],"names":[],"mappings":"AAAA;;;;;;;;;;GAUG;AAIH,OAAO,KAAK,EAAE,gBAAgB,EAAE,iBAAiB,EAAE,MAAM,aAAa,CAAC;AAiGvE,wBAAsB,wBAAwB,CAC5C,KAAK,EAAE,gBAAgB,GACtB,OAAO,CAAC,iBAAiB,CAAC,CA2C5B;AAGD,eAAe,wBAAwB,CAAC"}

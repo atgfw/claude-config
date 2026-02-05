@@ -39,6 +39,7 @@ import './hooks/login_detection_escalator.js';
 import './hooks/evaluation_gate_wrapper.js';
 import './hooks/quality_check.js';
 import './hooks/task_completion_gate.js';
+import './hooks/n8n_post_update_cleanup.js';
 
 // Export individual hooks for direct use/testing
 export { preBashHook } from './hooks/pre_bash.js';
@@ -184,6 +185,8 @@ export { n8nEnvVarProvisionerHook } from './governance/n8n_env_var_provisioner.j
 export { childProjectOverrideDetectorHook } from './governance/child_project_override_detector.js';
 export { ghostFileDetectorHook } from './governance/ghost_file_detector.js';
 export { staleWorkflowJsonDetectorHook } from './governance/stale_workflow_json_detector.js';
+export { n8nDownloadBlockerHook } from './governance/n8n_download_blocker.js';
+export { n8nPostUpdateCleanupHook } from './hooks/n8n_post_update_cleanup.js';
 export { specCompletenessValidatorHook } from './governance/spec_completeness_validator.js';
 export { toolFilterHook } from './governance/tool_filter.js';
 export { inlineScriptValidatorHook } from './hooks/inline_script_validator.js';
@@ -274,6 +277,7 @@ import './governance/tool_filter.js';
 import './governance/cloud_object_creation_gate.js';
 import './governance/llm_model_validator.js';
 import './governance/n8n_node_reference_validator.js';
+import './governance/n8n_download_blocker.js';
 import './hooks/inline_script_validator.js';
 import './hooks/vitest_migration_enforcer.js';
 import './hooks/workflow_publishing_gate.js';

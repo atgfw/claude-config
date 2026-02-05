@@ -77,7 +77,17 @@
             "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" stale-workflow-json-detector"
           }
         ],
-        "description": "WARN: Detects n8n workflow JSON stored locally outside temp/old dirs. n8n API is source of truth. See Issue #19"
+        "description": "BLOCK Write/Edit, WARN Read: Prevents local n8n workflow storage outside temp/old dirs. Issue #19, #33"
+      },
+      {
+        "matcher": "mcp__n8n-mcp__n8n_get_workflow",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-download-blocker"
+          }
+        ],
+        "description": "BLOCK: Prevents downloading full workflow JSON. Use partial update tools instead. Issue #19, #33"
       },
       {
         "matcher": "mcp__n8n-mcp__n8n_create_workflow|mcp__n8n-mcp__n8n_update_workflow|mcp__elevenlabs__.*|mcp__servicetitan__.*",
@@ -267,6 +277,16 @@
             "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" login-detection-escalator"
           }
         ]
+      },
+      {
+        "matcher": "mcp__n8n-mcp__n8n_update_full_workflow|mcp__n8n-mcp__n8n_update_partial_workflow|mcp__n8n-mcp__n8n_create_workflow",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-post-update-cleanup"
+          }
+        ],
+        "description": "Auto-archives temp workflow JSON after successful n8n API operations. Issue #19, #33"
       },
       {
         "matcher": "Bash",

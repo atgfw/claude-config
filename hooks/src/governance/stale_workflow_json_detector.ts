@@ -1,11 +1,15 @@
 /**
  * Stale Workflow JSON Detector
  *
- * WARNS when n8n workflow JSON files are accessed outside temp/old directories.
+ * BLOCKS Write/Edit and WARNS on Read for n8n workflow JSON files outside temp/old directories.
  * Local project folders should be documentation/temp workspaces only.
  * The n8n API is the single source of truth for workflow state.
  *
- * Issue: #19
+ * Behavior:
+ * - Read: WARN (allow with reason) - users may need to read for reference
+ * - Write/Edit: BLOCK (deny) - prevent creating/modifying workflow files outside temp/
+ *
+ * Issue: #19, #33
  */
 
 import type { PreToolUseInput, PreToolUseOutput } from '../types.js';
@@ -104,17 +108,36 @@ export async function staleWorkflowJsonDetectorHook(
 
   if (!isWorkflow) return allow();
 
-  log(`[!] Stale workflow JSON detected: ${path.basename(filePath)}`);
+  const basename = path.basename(filePath);
 
+  // For Read: WARN only (allow with reason) - users may need to read for reference
+  if (input.tool_name === 'Read') {
+    log(`[!] Stale workflow JSON read: ${basename}`);
+    return {
+      hookSpecificOutput: {
+        hookEventName: 'PreToolUse',
+        permissionDecision: 'allow',
+        permissionDecisionReason:
+          `WARNING: "${basename}" appears to be n8n workflow JSON stored locally. ` +
+          `The n8n API is the source of truth for workflow state. ` +
+          `Use mcp__n8n-mcp__n8n_list_workflows to query live state.`,
+      },
+    };
+  }
+
+  // For Write/Edit: BLOCK (deny) - prevent creating/modifying workflow files outside temp/
+  log(`[X] Stale workflow JSON write blocked: ${basename}`);
   return {
     hookSpecificOutput: {
       hookEventName: 'PreToolUse',
-      permissionDecision: 'allow',
+      permissionDecision: 'deny',
       permissionDecisionReason:
-        `WARNING: "${path.basename(filePath)}" appears to be n8n workflow JSON stored locally. ` +
+        `BLOCKED: Cannot store n8n workflow JSON locally outside temp/old directories. ` +
         `The n8n API is the source of truth for workflow state. ` +
-        `Local project folders should only contain documentation and temp files. ` +
-        `Use the download-edit-upload pattern: fetch from API, edit in temp/, push back, then remove the local copy.`,
+        `\n\nAlternatives:\n` +
+        `  - Use mcp__n8n-mcp__n8n_update_partial_workflow for targeted changes\n` +
+        `  - Use mcp__n8n-mcp__n8n_update_full_workflow to push complete workflow\n` +
+        `  - If you need temporary storage, write to a temp/ subdirectory`,
     },
   };
 }

@@ -86,9 +86,8 @@ function findTempWorkflowFiles(projectDir: string): string[] {
     if (!fs.existsSync(tempPath)) continue;
 
     try {
-      const entries = fs.readdirSync(tempPath);
-      for (const entry of entries) {
-        const entryName = typeof entry === 'string' ? entry : entry.name;
+      const entries = fs.readdirSync(tempPath, { withFileTypes: false }) as string[];
+      for (const entryName of entries) {
         if (entryName.endsWith('.json')) {
           const filePath = path.join(tempPath, entryName);
           // Verify it looks like a workflow

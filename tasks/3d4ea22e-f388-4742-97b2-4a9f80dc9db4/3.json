@@ -2,8 +2,8 @@
   "id": "3",
   "subject": "Phase 3: Pipeline Integration",
   "description": "Tasks 3.1-3.3: Update category_merger.js, output_assembler.js, deploy to n8n",
-  "activeForm": "Integrating pipeline changes",
-  "status": "pending",
+  "activeForm": "Integrating pipeline components",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
