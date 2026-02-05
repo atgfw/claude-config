@@ -1,0 +1,9 @@
+{
+  "id": "6",
+  "subject": "Add dynamic enum injection to category_merger",
+  "description": "Update category_merger to check for integration_context.valid_values.service_categories and override the service_category enum in the merged schema when provided.",
+  "activeForm": "Adding dynamic enum injection",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

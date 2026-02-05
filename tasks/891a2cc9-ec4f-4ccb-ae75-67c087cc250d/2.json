@@ -1,0 +1,12 @@
+{
+  "id": "2",
+  "subject": "Add Gemini fallback nodes to workflow",
+  "description": "Added 5 Gemini fallback nodes and wired connections. Reference: `workflows/llm_data_collection/CLAUDE.md:44` (architecture section). Verification: `mcp__n8n-mcp__n8n_update_partial_workflow` returned `operationsApplied: 15`, nodeCount increased from 30 to 35.",
+  "activeForm": "Adding Gemini fallback nodes",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "userConfirmed": true
+  }
+}

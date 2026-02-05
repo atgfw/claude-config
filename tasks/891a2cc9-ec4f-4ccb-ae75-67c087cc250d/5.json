@@ -1,0 +1,12 @@
+{
+  "id": "5",
+  "subject": "Genericize service_category enum",
+  "description": "Updated service_category enum from trades-specific `[\\\"plumbing\\\",\\\"hvac\\\",\\\"electrical\\\",\\\"appliance\\\",\\\"general\\\"]` to generic service types `[\\\"repair\\\",\\\"installation\\\",\\\"maintenance\\\",\\\"consultation\\\",\\\"emergency\\\",\\\"support\\\",\\\"sales\\\",\\\"billing\\\",\\\"general\\\"]`. Reference: `workflows/llm_data_collection/CLAUDE.md:73`. Verification: MCP returned `operationsApplied: 1`.",
+  "activeForm": "Genericizing service category",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "userConfirmed": true
+  }
+}
