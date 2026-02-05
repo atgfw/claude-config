@@ -1,0 +1,30 @@
+{
+  "session_id": "db7af94b-2ddb-4bf2-bfcd-fdd8157fc6dd",
+  "working_directory": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents",
+  "stack": [
+    {
+      "id": "global-active-goal",
+      "type": "epic",
+      "summary": "Lubricate Website RAG KB lifecycle for minimal human involvement",
+      "fields": {
+        "who": "Website RAG orchestrator workflow + ElevenLabs KB sync",
+        "what": "Add domain registration webhook, auto-configure agents, add error notifications",
+        "when": "Planning phase - creating OpenSpec proposal for user approval",
+        "where": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag",
+        "why": "Current system requires manual domain registration and agent tool configuration, creating friction for onboarding",
+        "how": "1. Add /domain-registration webhook endpoint 2. Persist registry in staticData 3. Auto-configure ElevenLabs agent refresh tool 4. Add error notification workflow",
+        "which": "website_rag_orchestrator.json, ElevenLabs agent API",
+        "lest": "Manual intervention remains required for each new client, creating operational burden and risk of misconfiguration",
+        "with": "n8n workflow, ElevenLabs API, Discord/webhook notifications",
+        "measuredBy": "Single API call registers domain and configures all downstream automation with zero additional human steps"
+      },
+      "source": {
+        "manual": true
+      },
+      "pushedAt": "2026-02-05T22:00:00.000Z",
+      "pushedBy": "SessionStart"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-05T22:03:36.303Z"
+}

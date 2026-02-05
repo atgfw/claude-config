@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "Fix path comparison in session_hydrator.ts",
+  "description": "Replace includes() check at line 67 with isPathMatch() to prevent goal leakage between sibling directories.",
+  "activeForm": "Fixing path comparison in session_hydrator",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Add github_repo field to task_source_sync.ts",
+  "description": "Add repository context (owner/repo) to SyncEntry interface and populate via getCurrentRepo() helper.",
+  "activeForm": "Adding repository context to sync entries",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

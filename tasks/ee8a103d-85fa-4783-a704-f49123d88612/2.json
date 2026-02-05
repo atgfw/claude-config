@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "Enhance hours microprompts with gotcha handling",
+  "description": "Update microprompts in website_locations category to handle:\n- \"24/7\" or \"Open 24 hours\"\n- Split hours (lunch break)\n- \"By appointment only\"\n- \"Call for hours\"\n- Emergency/after-hours\n- Multiple departments (Sales, Service, Parts, Body Shop, Idealease)",
+  "activeForm": "Enhancing hours microprompts",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

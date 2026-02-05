@@ -1,0 +1,9 @@
+{
+  "id": "3",
+  "subject": "Fix projectScope race condition in goal_stack.ts",
+  "description": "Add conditional guard at line 269 to only update projectScope if not already set by a different project.",
+  "activeForm": "Fixing projectScope race condition",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

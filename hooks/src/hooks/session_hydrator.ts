@@ -14,7 +14,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import type { SessionStartInput, SessionStartOutput } from '../types.js';
 import { registerHook } from '../runner.js';
-import { getClaudeDir, logTerse, logWarn } from '../utils.js';
+import { getClaudeDir, isPathMatch, logTerse, logWarn } from '../utils.js';
 import { loadGoal, type LinkedArtifacts } from './goal_injector.js';
 import { reconcileArtifact } from '../sync/checklist_reconciler.js';
 import {
@@ -59,12 +59,9 @@ function bootstrapGoalStack(sessionId: string): string | null {
   const goalProjectDir = goal.fields?.where;
 
   if (goalProjectDir && goalProjectDir !== 'unknown') {
-    // Normalize paths for comparison (handle Windows/Unix differences)
-    const normalizedCwd = currentWorkingDir.replace(/\\/g, '/').toLowerCase();
-    const normalizedGoalDir = goalProjectDir.replace(/\\/g, '/').toLowerCase();
-
-    // Check if goal is for a different project
-    if (!normalizedCwd.includes(normalizedGoalDir) && !normalizedGoalDir.includes(normalizedCwd)) {
+    // Use isPathMatch for proper path comparison (prevents sibling directory false positives)
+    // e.g., /projects/myapp should NOT match /projects/myapp2
+    if (!isPathMatch(currentWorkingDir, goalProjectDir)) {
       logTerse(
         `[!] Skipping global goal - different project (goal: ${goalProjectDir}, cwd: ${currentWorkingDir})`
       );

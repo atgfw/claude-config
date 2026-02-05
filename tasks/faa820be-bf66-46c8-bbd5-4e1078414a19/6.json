@@ -1,0 +1,9 @@
+{
+  "id": "6",
+  "subject": "Fix working directory drift in loadGoalStack()",
+  "description": "Detect and update working_directory when it differs from current process.cwd() on goal stack load.",
+  "activeForm": "Fixing working directory drift detection",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
