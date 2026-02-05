@@ -2,7 +2,7 @@
   "goal": "Expand ServiceTitan Test Coverage and Cleanup",
   "summary": "Expand ServiceTitan Test Coverage and Cleanup",
   "fields": {
-    "Focus": "Expand test coverage and maintain code quality for ServiceTitan integration workflows",
+    "focus": "Expand test coverage and maintain code quality for ServiceTitan integration workflows",
     "who": "ServiceTitan workflows (Auth Token Manager, Call Association, Job Reminder, Review Request)",
     "what": "Clean artifacts, expand test coverage, update documentation, enforce governance",
     "when": "Ongoing maintenance until [DEV] tags removed after 98%+ evaluation",
@@ -14,31 +14,6 @@
     "with": "Vitest test framework, n8n cloud workflows, ServiceTitan API",
     "measuredBy": "60 tests passing, clean project structure, accurate documentation"
   },
-  "updatedAt": "2026-02-05T19:35:00.000Z",
-  "linkedArtifacts": {
-    "workflows": {
-      "auth": "e8JlV1rxfR237HMu",
-      "callAssociation": "fkTzuzjXYwxSGtlr",
-      "jobReminder": "knB3ZyreIIQwZh9k",
-      "reviewRequest": "07ki4WkQol61XZPQ"
-    },
-    "tests": [
-      "tests/call-association/note-formatter.test.js",
-      "tests/call-association/record-router.test.js",
-      "tests/call-association/input-validator.test.js",
-      "tests/subworkflow-patterns/http-request-pattern.test.js"
-    ]
-  },
-  "completedTasks": [
-    "Moved Windows artifacts (nul, C:tmp) to old/",
-    "Reorganized tests from old/tests/ to proper tests/ directory",
-    "Updated project.md to reflect live API testing completed",
-    "Updated archive/README.md to remove version numbers",
-    "Created 42 new tests for note formatting, routing, validation",
-    "Updated vitest.config.ts for nested test discovery"
-  ],
-  "pendingTasks": [
-    "Remove [DEV] tags after 98%+ evaluation success rate"
-  ],
+  "updatedAt": "2026-02-05T19:40:00.000Z",
   "projectScope": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan"
 }
