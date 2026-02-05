@@ -249,9 +249,8 @@ describe('Pre-Bash Hook', () => {
       expect(output.hookSpecificOutput.permissionDecision).toBe('deny');
     });
 
-    // SECURITY GAP: unlink is not in deletion patterns
-    // TODO: Add unlink to deletion command list
-    it.skip('blocks unlink command (alternative to rm) - KNOWN GAP', async () => {
+    // unlink is now blocked
+    it('blocks unlink command (alternative to rm)', async () => {
       const input: PreToolUseInput = {
         tool_name: 'Bash',
         tool_input: { command: 'unlink file.txt' },
@@ -260,9 +259,8 @@ describe('Pre-Bash Hook', () => {
       expect(output.hookSpecificOutput.permissionDecision).toBe('deny');
     });
 
-    // SECURITY GAP: shred is not in deletion patterns
-    // TODO: Add shred to deletion command list
-    it.skip('blocks shred command (secure delete) - KNOWN GAP', async () => {
+    // shred is now blocked
+    it('blocks shred command (secure delete)', async () => {
       const input: PreToolUseInput = {
         tool_name: 'Bash',
         tool_input: { command: 'shred -u file.txt' },
@@ -271,9 +269,8 @@ describe('Pre-Bash Hook', () => {
       expect(output.hookSpecificOutput.permissionDecision).toBe('deny');
     });
 
-    // SECURITY GAP: find -delete is not blocked
-    // TODO: Add -delete flag detection
-    it.skip('blocks find -delete - KNOWN GAP', async () => {
+    // find -delete is now blocked
+    it('blocks find -delete', async () => {
       const input: PreToolUseInput = {
         tool_name: 'Bash',
         tool_input: { command: 'find . -name "*.tmp" -delete' },
@@ -282,9 +279,8 @@ describe('Pre-Bash Hook', () => {
       expect(output.hookSpecificOutput.permissionDecision).toBe('deny');
     });
 
-    // SECURITY GAP: git clean -fd deletes untracked files but not blocked
-    // TODO: Add git clean to deletion patterns
-    it.skip('blocks git clean -fd (removes untracked files) - KNOWN GAP', async () => {
+    // git clean is now blocked
+    it('blocks git clean -fd (removes untracked files)', async () => {
       const input: PreToolUseInput = {
         tool_name: 'Bash',
         tool_input: { command: 'git clean -fd' },
@@ -314,9 +310,8 @@ describe('Pre-Bash Hook', () => {
       expect(output.hookSpecificOutput.permissionDecision).toBe('deny');
     });
 
-    // SECURITY GAP: Regional indicator emojis (flags) not detected
-    // TODO: Extend emoji regex to include regional indicators U+1F1E6-1F1FF
-    it.skip('blocks regional indicators - KNOWN GAP', async () => {
+    // Regional indicators (flag emojis) are now blocked
+    it('blocks regional indicators', async () => {
       const input: PreToolUseInput = {
         tool_name: 'Bash',
         tool_input: { command: 'echo "\u{1F1FA}\u{1F1F8}"' }, // US flag

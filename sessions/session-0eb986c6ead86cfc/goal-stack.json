@@ -1,0 +1,30 @@
+{
+  "session_id": "session-0eb986c6ead86cfc",
+  "working_directory": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag",
+  "stack": [
+    {
+      "id": "global-goal",
+      "type": "epic",
+      "summary": "Harden Website RAG Pipeline for Reliability",
+      "fields": {
+        "who": "website_rag_orchestrator workflow (z3DOvsyLX5ICrEH6)",
+        "what": "Fix KB document naming schema drift, add result verification, deprecate conflicting workflows",
+        "when": "Daily 2:00 AM ET cron + on-demand webhook triggers",
+        "where": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag",
+        "why": "KB documents were empty due to extraction data access mismatch (.extracted vs .extraction) and {value, rationale} format not handled",
+        "how": "1. Fixed compute_diff to access .extracted first 2. Added getValue() helper for {value,rationale} 3. Added content validation in sync_kb_docs 4. Deprecated [DEV] website_rag_kb_upload",
+        "which": "ElevenLabs agent agent_0501kecpebg3e9p8skydse9sm1j4 KB documents: atgfw_com_agent_{agentId}_website_profile, atgfw_com_agent_{agentId}_website_locations",
+        "lest": "Empty KB documents cause voice agent to have no business knowledge, or naming conflicts create duplicate/orphaned documents",
+        "with": "website_rag_crawler (8t6QnPUcIjx4PaF2), LLM Data Extraction (8ZN0l9BHo1zBKDnl), ElevenLabs Conversational AI API",
+        "measuredBy": "Non-empty KB documents with correct naming schema after next cron run or manual webhook trigger with force=true"
+      },
+      "source": {
+        "manual": true
+      },
+      "pushedAt": "2026-02-05T19:04:51.107Z",
+      "pushedBy": "SessionStart"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-05T19:04:51.108Z"
+}

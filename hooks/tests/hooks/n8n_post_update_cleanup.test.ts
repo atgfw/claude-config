@@ -8,6 +8,9 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
+import { n8nPostUpdateCleanupHook } from '../../src/hooks/n8n_post_update_cleanup.js';
+import type { PostToolUseInput } from '../../src/types.js';
+
 // Mock fs module before importing the hook
 vi.mock('node:fs', async () => {
   const actual = await vi.importActual<typeof import('node:fs')>('node:fs');
@@ -20,9 +23,6 @@ vi.mock('node:fs', async () => {
     mkdirSync: vi.fn(),
   };
 });
-
-import { n8nPostUpdateCleanupHook } from '../../src/hooks/n8n_post_update_cleanup.js';
-import type { PostToolUseInput } from '../../src/types.js';
 
 describe('n8nPostUpdateCleanup', () => {
   beforeEach(() => {

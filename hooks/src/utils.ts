@@ -374,18 +374,40 @@ export function logBatch(prefix: string, items: string[], maxShow = 3): void {
  * Check if a string contains emojis
  */
 export function containsEmoji(text: string): boolean {
-  // Comprehensive emoji regex
+  // Comprehensive emoji regex including:
+  // - Misc symbols and pictographs (U+1F300-1F9FF)
+  // - Misc symbols (U+2600-26FF)
+  // - Dingbats (U+2700-27BF)
+  // - Emoticons (U+1F600-1F64F)
+  // - Transport and map symbols (U+1F680-1F6FF)
+  // - Regional indicator symbols for flags (U+1F1E6-1F1FF)
   const emojiRegex =
-    /[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]/u;
+    /[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E6}-\u{1F1FF}]/u;
   return emojiRegex.test(text);
 }
 
 /**
  * Check if a command contains deletion commands
+ * Blocks: rm, del, Remove-Item, rmdir, rd, unlink, shred, find -delete, git clean
  */
 export function containsDeletionCommand(command: string): boolean {
-  const deletionPattern = /\b(rm|del|Remove-Item|rmdir|rd)\b/i;
-  return deletionPattern.test(command);
+  // Basic deletion commands
+  const basicDeletionPattern = /\b(rm|del|Remove-Item|rmdir|rd|unlink|shred)\b/i;
+  if (basicDeletionPattern.test(command)) {
+    return true;
+  }
+
+  // find with -delete flag (deletes found files)
+  if (/\bfind\b.*\s-delete\b/i.test(command)) {
+    return true;
+  }
+
+  // git clean (removes untracked files)
+  if (/\bgit\s+clean\b/i.test(command)) {
+    return true;
+  }
+
+  return false;
 }
 
 /**

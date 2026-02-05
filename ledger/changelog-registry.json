@@ -266,11 +266,43 @@
           "description": "update tasks with webhook test results",
           "breaking": false,
           "timestamp": "2026-02-04T20:24:57.885Z"
+        },
+        {
+          "hash": "d7c24f4",
+          "type": "feat",
+          "scope": "llm-extraction",
+          "description": "generalize for all conversation types + restore microprompts",
+          "breaking": false,
+          "timestamp": "2026-02-05T19:12:23.083Z"
+        },
+        {
+          "hash": "a837bd2",
+          "type": "test",
+          "scope": "llm-extraction",
+          "description": "add ASR artifact test cases",
+          "breaking": false,
+          "timestamp": "2026-02-05T19:17:37.798Z"
+        },
+        {
+          "hash": "a692288",
+          "type": "docs",
+          "scope": "llm-extraction",
+          "description": "update test count to 93",
+          "breaking": false,
+          "timestamp": "2026-02-05T19:19:17.279Z"
+        },
+        {
+          "hash": "993e955",
+          "type": "docs",
+          "scope": "llm-extraction",
+          "description": "update RESPONSE-FORMAT.md for conversation types",
+          "breaking": false,
+          "timestamp": "2026-02-05T19:20:35.408Z"
         }
       ]
     }
   },
-  "lastUpdated": "2026-02-04T20:24:57.913Z",
+  "lastUpdated": "2026-02-05T19:20:35.410Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"

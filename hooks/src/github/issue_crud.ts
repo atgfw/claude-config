@@ -179,7 +179,7 @@ export function createIssue(opts: CreateIssueOpts): number | null {
     // gh issue create outputs the URL: https://github.com/owner/repo/issues/123
     const match = output.match(/\/issues\/(\d+)/);
     if (match) {
-      const issueNumber = Number.parseInt(match[1]!, 10);
+      const issueNumber = Number.parseInt(match[1] ?? '0', 10);
       logTerse(`[+] Created issue #${issueNumber}`);
       return issueNumber;
     }

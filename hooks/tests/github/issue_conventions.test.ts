@@ -9,6 +9,8 @@ import {
   issueConventionValidatorHook,
 } from '../../src/github/issue_conventions.js';
 
+import { execSync } from 'node:child_process';
+
 // Mock child_process
 vi.mock('node:child_process', () => ({
   execSync: vi.fn(),
@@ -18,8 +20,6 @@ vi.mock('node:child_process', () => ({
 vi.mock('../../src/runner.js', () => ({
   registerHook: vi.fn(),
 }));
-
-import { execSync } from 'node:child_process';
 
 const mockedExecSync = vi.mocked(execSync);
 

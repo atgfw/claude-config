@@ -3,7 +3,7 @@
  * Fires on PostToolUse for write/edit/bash operations.
  * Stages all changes, commits with sync message, and pushes to origin.
  */
-import { execSync } from 'child_process';
+import { execSync } from 'node:child_process';
 import { logTerse } from '../utils.js';
 
 const REPO_DIR = process.env.HOME
