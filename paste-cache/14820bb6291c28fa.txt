@@ -1,0 +1,35 @@
+
+ ▐▛███▜▌   Claude Code v2.1.31
+▝▜█████▛▘  Opus 4.5 · Claude API
+  ▘▘ ▝▝    ~\coding\rewst_workflow_development
+
+● UserPromptSubmit operation blocked by hook:
+  [python "$CLAUDE_PROJECT_DIR/.claude/hooks/route-request.py"]: python: can't open file
+  'C:\\Users\\codya\\coding\\rewst_workflow_development\\$CLAUDE_PROJECT_DIR\\.claude\\hooks\\
+  route-request.py': [Errno 2] No such file or directory
+
+
+  Original prompt: /init
+
+● UserPromptSubmit operation blocked by hook:
+  [python "$CLAUDE_PROJECT_DIR/.claude/hooks/route-request.py"]: python: can't open file
+  'C:\\Users\\codya\\coding\\rewst_workflow_development\\$CLAUDE_PROJECT_DIR\\.claude\\hooks\\
+  route-request.py': [Errno 2] No such file or directory
+
+
+  Original prompt: /init
+
+● UserPromptSubmit operation blocked by hook:
+  [python "$CLAUDE_PROJECT_DIR/.claude/hooks/route-request.py"]: python: can't open file
+  'C:\\Users\\codya\\coding\\rewst_workflow_development\\$CLAUDE_PROJECT_DIR\\.claude\\hooks\\
+  route-request.py': [Errno 2] No such file or directory
+
+
+  Original prompt: UserPromptSubmit operation blocked by hook:
+    [python "$CLAUDE_PROJECT_DIR/.claude/hooks/route-request.py"]: python: can't open file
+
+  'C:\\Users\\codya\\coding\\rewst_workflow_development\\$CLAUDE_PROJECT_DIR\\.claude\\hooks\\
+    route-request.py': [Errno 2] No such file or directory
+
+
+    Original prompt: /init
