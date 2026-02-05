@@ -1398,5 +1398,19 @@
         "severity": "warn"
       }
     ]
+  },
+  {
+    "timestamp": "2026-02-05T18:38:21.261Z",
+    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan\\nul",
+        "filename": "nul",
+        "suggestion": "mv \"nul\" old/misc/",
+        "severity": "warn"
+      }
+    ]
   }
 ]
