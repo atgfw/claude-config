@@ -1,50 +1,44 @@
 {
-  "goal": "Harden Website RAG Pipeline for Reliability",
+  "goal": "Maintain ServiceTitan CRM Integration Quality",
   "fields": {
-    "who": "website_rag_orchestrator workflow (z3DOvsyLX5ICrEH6)",
-    "what": "Fix KB document naming schema drift, add result verification, deprecate conflicting workflows",
-    "when": "Daily 2:00 AM ET cron + on-demand webhook triggers",
-    "where": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag",
-    "why": "KB documents were empty due to extraction data access mismatch (.extracted vs .extraction) and {value, rationale} format not handled",
-    "how": "1. Fixed compute_diff to access .extracted first 2. Added getValue() helper for {value,rationale} 3. Added content validation in sync_kb_docs 4. Deprecated [DEV] website_rag_kb_upload",
-    "which": "ElevenLabs agent agent_0501kecpebg3e9p8skydse9sm1j4 KB documents: atgfw_com_agent_{agentId}_website_profile, atgfw_com_agent_{agentId}_website_locations",
-    "lest": "Empty KB documents cause voice agent to have no business knowledge, or naming conflicts create duplicate/orphaned documents",
-    "with": "website_rag_crawler (8t6QnPUcIjx4PaF2), LLM Data Extraction (8ZN0l9BHo1zBKDnl), ElevenLabs Conversational AI API",
-    "measuredBy": "Non-empty KB documents with correct naming schema after next cron run or manual webhook trigger with force=true"
+    "who": "ServiceTitan workflows (Auth Token Manager, Call Association, Job Reminder, Review Request)",
+    "what": "Clean artifacts, expand test coverage, update documentation, enforce governance",
+    "when": "Ongoing maintenance until [DEV] tags removed after 98%+ evaluation",
+    "where": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan",
+    "why": "Project had stale artifacts, tests in wrong locations, outdated documentation",
+    "how": "1. Moved Windows artifacts to old/ 2. Reorganized tests to proper structure 3. Updated project.md status 4. Created 42 new tests for core logic",
+    "which": "e8JlV1rxfR237HMu (Auth), fkTzuzjXYwxSGtlr (Call), knB3ZyreIIQwZh9k (Reminder), 07ki4WkQol61XZPQ (Review)",
+    "lest": "Stale files accumulate, tests fail to run in CI, documentation becomes misleading",
+    "with": "Vitest test framework, n8n cloud workflows, ServiceTitan API",
+    "measuredBy": "60 tests passing, clean project structure, accurate documentation"
   },
-  "summary": "Harden Website RAG Pipeline for Reliability",
-  "updatedAt": "2026-02-05T18:59:31.841Z",
+  "summary": "Maintain ServiceTitan CRM Integration Quality",
+  "updatedAt": "2026-02-05T19:30:00.000Z",
+  "focus": "Expand test coverage and maintain code quality for ServiceTitan integration workflows",
   "linkedArtifacts": {
     "workflows": {
-      "orchestrator": "z3DOvsyLX5ICrEH6",
-      "crawler": "8t6QnPUcIjx4PaF2",
-      "extractor": "8ZN0l9BHo1zBKDnl",
-      "deprecated": "AGVlwHiM6GzIrMMy"
+      "auth": "e8JlV1rxfR237HMu",
+      "callAssociation": "fkTzuzjXYwxSGtlr",
+      "jobReminder": "knB3ZyreIIQwZh9k",
+      "reviewRequest": "07ki4WkQol61XZPQ"
     },
-    "specs": [
-      "workflows/website_rag/specs/website-rag-orchestrator/spec.md"
-    ],
     "tests": [
-      "tests/code-nodes/website-rag-orchestrator/build-report/build-report.test.ts",
-      "tests/code-nodes/website-rag-orchestrator/prepare-extractor-input/prepare-extractor-input.test.ts",
-      "tests/code-nodes/website-rag-orchestrator/check-freshness-cache/check-freshness-cache.test.ts",
-      "tests/code-nodes/website-rag-crawler/assemble-output/assemble-output.test.ts"
+      "tests/call-association/note-formatter.test.js",
+      "tests/call-association/record-router.test.js",
+      "tests/call-association/input-validator.test.js",
+      "tests/subworkflow-patterns/http-request-pattern.test.js"
     ]
   },
   "completedTasks": [
-    "#11 Fix KB document naming schema drift - compute_diff node updated",
-    "#12 Add result verification to sync_kb_docs - validation added",
-    "#13 Deprecate [DEV] website_rag_kb_upload - renamed and noted"
+    "Moved Windows artifacts (nul, C:tmp) to old/",
+    "Reorganized tests from old/tests/ to proper tests/ directory",
+    "Updated project.md to reflect live API testing completed",
+    "Updated archive/README.md to remove version numbers",
+    "Created 42 new tests for note formatting, routing, validation",
+    "Updated vitest.config.ts for nested test discovery"
   ],
-  "history": [
-    {
-      "goal": "Harden Website RAG Pipeline for Reliability",
-      "updatedAt": "2026-02-05T19:30:00.000Z"
-    },
-    {
-      "goal": "Proposal: Block n8n Local Workflow Files",
-      "updatedAt": "2026-02-05T17:52:06.587Z"
-    }
+  "pendingTasks": [
+    "Remove [DEV] tags after 98%+ evaluation success rate"
   ],
-  "projectScope": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag"
+  "projectScope": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan"
 }
