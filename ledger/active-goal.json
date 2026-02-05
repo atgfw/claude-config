@@ -1,12 +1,29 @@
 {
-  "goal": null,
-  "fields": null,
-  "summary": null,
-  "updatedAt": "2026-02-04T19:00:00.000Z",
+  "goal": "Generalize LLM extraction to handle human-to-human, outbound, and internal calls without hardcoded AI-to-human assumptions",
+  "fields": {
+    "who": "LLM Data Extraction Pipeline consumers (Rewst, ServiceTitan workflows, direct API callers)",
+    "what": "Add conversation context model to support AI-to-human, human-to-human, inbound, outbound, and internal conversation types",
+    "when": "Before next production deployment of extraction pipeline",
+    "where": "LLM Data Extraction Pipeline (workflow 8ZN0l9BHo1zBKDnl) and category configs",
+    "why": "Current implementation assumes AI-to-human inbound calls only, breaking extraction accuracy for other conversation types",
+    "how": "Add optional conversation_context input field, modify category prompts to use context-aware role mapping, maintain backward compatibility",
+    "which": "9 category configs (caller, contact, routing, request, consent, call_validity, sales, sentiment, coaching) + input validator",
+    "lest": "Incorrect role attribution (who is 'caller' vs 'agent'), wrong sentiment analysis, broken coaching metrics for human agents",
+    "with": "OpenAI Structured Outputs API, n8n-MCP, existing category architecture",
+    "measuredBy": "95%+ role attribution accuracy across 6 conversation types, zero regression on existing AI-to-human inbound extractions"
+  },
+  "summary": "Generalize LLM extraction to handle human-to-human, outbound, and internal calls without hardcoded AI-to-human assumptions",
+  "updatedAt": "2026-02-05T16:50:00.835Z",
   "linkedArtifacts": {
-    "openspec": null,
+    "openspec": "generalize-extraction-conversation-types",
     "plan_files": [],
     "github_issues": []
   },
-  "history": []
+  "history": [
+    {
+      "goal": null,
+      "updatedAt": "2026-02-04T19:00:00.000Z"
+    }
+  ],
+  "projectScope": "LLM Data Extraction Pipeline (workflow 8ZN0l9BHo1zBKDnl) and category configs"
 }
