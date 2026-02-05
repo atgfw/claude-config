@@ -1,19 +1,18 @@
 {
-  "goal": "Implement ServiceTitan Test Coverage Expansion",
-  "summary": "Implement ServiceTitan Test Coverage Expansion",
-  "focus": "Implement comprehensive test suite for ServiceTitan workflow logic",
+  "goal": "Implement comprehensive test coverage and cleanup for ServiceTitan CRM integration workflows",
+  "summary": "Implement comprehensive test coverage and cleanup for ServiceTitan CRM integration workflows",
   "fields": {
     "who": "ServiceTitan workflows (Auth Token Manager, Call Association, Job Reminder, Review Request)",
-    "what": "Clean artifacts, expand test coverage, update documentation, enforce governance",
-    "when": "Ongoing maintenance until [DEV] tags removed after 98%+ evaluation",
+    "what": "Clean artifacts, expand test coverage, update documentation, enforce governance rules",
+    "when": "Ongoing maintenance until [DEV] tags removed after 98%+ evaluation threshold",
     "where": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan",
-    "why": "Project had stale artifacts, tests in wrong locations, outdated documentation",
-    "how": "1. Moved Windows artifacts to old/ 2. Reorganized tests to proper structure 3. Updated project.md status 4. Created 42 new tests for core logic",
+    "why": "Project had stale Windows artifacts, tests in wrong locations, outdated documentation",
+    "how": "1. Moved Windows artifacts to old/ 2. Reorganized tests to proper structure 3. Updated project.md status 4. Created 42 new tests for core logic using Vitest",
     "which": "e8JlV1rxfR237HMu (Auth), fkTzuzjXYwxSGtlr (Call), knB3ZyreIIQwZh9k (Reminder), 07ki4WkQol61XZPQ (Review)",
-    "lest": "Stale files accumulate, tests fail to run in CI, documentation becomes misleading",
-    "with": "Vitest test framework, n8n cloud workflows, ServiceTitan API",
-    "measuredBy": "60 tests passing, clean project structure, accurate documentation"
+    "lest": "Stale files accumulate causing confusion, tests fail to run in CI pipelines, documentation becomes misleading and outdated",
+    "with": "Vitest test framework, n8n cloud workflows, ServiceTitan API, bun runtime",
+    "measuredBy": "60 tests passing with 100% success rate, clean project structure, accurate documentation"
   },
-  "updatedAt": "2026-02-05T19:45:00.000Z",
+  "updatedAt": "2026-02-05T19:50:00.000Z",
   "projectScope": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan"
 }
