@@ -16,8 +16,8 @@
     {
       "unified_id": "unified-gh-26",
       "github_issue": 26,
-      "status": "closed",
-      "last_synced": "2026-02-04T20:03:50.616Z"
+      "status": "open",
+      "last_synced": "2026-02-05T16:19:06.608Z"
     },
     {
       "unified_id": "unified-gh-25",
@@ -34,14 +34,14 @@
     {
       "unified_id": "unified-gh-23",
       "github_issue": 23,
-      "status": "closed",
-      "last_synced": "2026-02-05T16:17:40.988Z"
+      "status": "open",
+      "last_synced": "2026-02-05T16:19:06.608Z"
     },
     {
       "unified_id": "unified-gh-22",
       "github_issue": 22,
-      "status": "closed",
-      "last_synced": "2026-02-05T13:28:10.326Z"
+      "status": "open",
+      "last_synced": "2026-02-05T16:19:06.608Z"
     },
     {
       "unified_id": "unified-gh-21",
@@ -58,14 +58,14 @@
     {
       "unified_id": "unified-gh-19",
       "github_issue": 19,
-      "status": "closed",
-      "last_synced": "2026-02-04T20:03:50.616Z"
+      "status": "open",
+      "last_synced": "2026-02-05T16:19:06.608Z"
     },
     {
       "unified_id": "unified-gh-18",
       "github_issue": 18,
-      "status": "closed",
-      "last_synced": "2026-02-04T20:03:50.616Z"
+      "status": "open",
+      "last_synced": "2026-02-05T16:19:06.608Z"
     },
     {
       "unified_id": "unified-gh-17",
@@ -184,8 +184,8 @@
     {
       "unified_id": "unified-gh-33",
       "github_issue": 33,
-      "status": "closed",
-      "last_synced": "2026-02-04T20:03:51.586Z"
+      "status": "open",
+      "last_synced": "2026-02-05T16:19:06.608Z"
     },
     {
       "unified_id": "unified-gh-32",
@@ -1226,6 +1226,12 @@
           "content_hash": "887b82ce7caa1b73"
         }
       ]
+    },
+    {
+      "unified_id": "unified-gh-40",
+      "github_issue": 40,
+      "status": "closed",
+      "last_synced": "2026-02-05T16:19:06.608Z"
     }
   ]
 }
