@@ -4001,123 +4001,235 @@
       "plan_step": null,
       "goal_summary": null,
       "status": "open",
-      "last_synced": "2026-02-05T22:00:15.628Z",
+      "last_synced": "2026-02-05T22:04:58.101Z",
       "sync_hash": "",
       "plan_file": "C:\\Users\\codya\\.claude\\plans\\cozy-marinating-falcon.md",
       "checklist_items": [
         {
-          "id": "0b7cdaa9ec8f",
-          "text": "Simulate failure, verify notification sent",
+          "id": "0debfa72dcfe",
+          "text": "Add GET/DELETE handlers for registry management",
           "status": "pending",
-          "last_modified": "2026-02-05T22:00:15.626Z",
+          "last_modified": "2026-02-05T22:04:58.096Z",
           "modified_by": "plan"
         },
         {
-          "id": "101545e9d2b4",
-          "text": "Registered in sync schedule",
+          "id": "1ad5448e55a0",
+          "text": "Execute full crawl -> extract -> sync pipeline",
           "status": "pending",
-          "last_modified": "2026-02-05T22:00:15.626Z",
+          "last_modified": "2026-02-05T22:04:58.096Z",
           "modified_by": "plan"
         },
         {
-          "id": "3985422a60ef",
-          "text": "PATCH agent with webhook tool definition",
+          "id": "27044ee5e397",
+          "text": "Register `selkinginternational.com` with test agent via new registration endpoint",
           "status": "pending",
-          "last_modified": "2026-02-05T22:00:15.626Z",
+          "last_modified": "2026-02-05T22:04:58.095Z",
           "modified_by": "plan"
         },
         {
-          "id": "5018c6433022",
-          "text": "Ready for daily automated sync",
+          "id": "2c0166242845",
+          "text": "Validate agent can answer location/hours questions correctly",
           "status": "pending",
-          "last_modified": "2026-02-05T22:00:15.626Z",
+          "last_modified": "2026-02-05T22:04:58.095Z",
           "modified_by": "plan"
         },
         {
-          "id": "76ec9ebfc284",
-          "text": "Migrate existing domains via registration API",
+          "id": "2ed93a464471",
+          "text": "Document quality improvements",
           "status": "pending",
-          "last_modified": "2026-02-05T22:00:15.626Z",
+          "last_modified": "2026-02-05T22:04:58.096Z",
           "modified_by": "plan"
         },
         {
-          "id": "87b43c92aaa6",
-          "text": "Trigger manual sync via webhook",
+          "id": "301eb609069c",
+          "text": "Register selkinginternational.com with test agent `agent_3801kdf7fkhcev8tkhpm92d65jws`",
           "status": "pending",
-          "last_modified": "2026-02-05T22:00:15.626Z",
+          "last_modified": "2026-02-05T22:04:58.096Z",
           "modified_by": "plan"
         },
         {
-          "id": "9009ae916b49",
-          "text": "Remove legacy constants after verification",
+          "id": "4abfcaac24b2",
+          "text": "Trigger immediate sync",
           "status": "pending",
-          "last_modified": "2026-02-05T22:00:15.626Z",
+          "last_modified": "2026-02-05T22:04:58.095Z",
           "modified_by": "plan"
         },
         {
-          "id": "95fa688b49d4",
-          "text": "Register test domain via curl",
+          "id": "5427fdd36cbd",
+          "text": "Compare KB output against manually-created content",
           "status": "pending",
-          "last_modified": "2026-02-05T22:00:15.626Z",
+          "last_modified": "2026-02-05T22:04:58.095Z",
           "modified_by": "plan"
         },
         {
-          "id": "9aa31fbfe63a",
-          "text": "Check if refresh tool exists",
+          "id": "6ecd1f3c6a87",
+          "text": "**Quality**: Test agent can answer \"What are your Fort Wayne service hours?\" correctly",
           "status": "pending",
-          "last_modified": "2026-02-05T22:00:15.626Z",
+          "last_modified": "2026-02-05T22:04:58.096Z",
           "modified_by": "plan"
         },
         {
-          "id": "adee89c46202",
-          "text": "`load_domain_configs` merges staticData + legacy constants",
+          "id": "71303fe9f155",
+          "text": "Compare output against existing manual KB",
           "status": "pending",
-          "last_modified": "2026-02-05T22:00:15.626Z",
+          "last_modified": "2026-02-05T22:04:58.096Z",
           "modified_by": "plan"
         },
         {
-          "id": "c6b150777963",
-          "text": "Agent configured with refresh tool",
+          "id": "7727637e1bbc",
+          "text": "Test against selkinginternational.com",
           "status": "pending",
-          "last_modified": "2026-02-05T22:00:15.626Z",
+          "last_modified": "2026-02-05T22:04:58.096Z",
           "modified_by": "plan"
         },
         {
-          "id": "d59ad58f6c01",
-          "text": "Deploy staticData registry with empty initial state",
+          "id": "7c8b58efb01b",
+          "text": "Enhance prompts in workflow `8ZN0l9BHo1zBKDnl`",
           "status": "pending",
-          "last_modified": "2026-02-05T22:00:15.626Z",
+          "last_modified": "2026-02-05T22:04:58.095Z",
           "modified_by": "plan"
         },
         {
-          "id": "da8b4d65d94d",
-          "text": "Verify staticData contains registration",
+          "id": "7f27964a7a6e",
+          "text": "Validate 24-hour emergency service captured",
           "status": "pending",
-          "last_modified": "2026-02-05T22:00:15.626Z",
+          "last_modified": "2026-02-05T22:04:58.096Z",
           "modified_by": "plan"
         },
         {
-          "id": "e4676901b5a5",
-          "text": "GET current agent config",
+          "id": "83a93f4073bd",
+          "text": "**FAQs**: Any FAQ content from website",
           "status": "pending",
-          "last_modified": "2026-02-05T22:00:15.626Z",
+          "last_modified": "2026-02-05T22:04:58.095Z",
           "modified_by": "plan"
         },
         {
-          "id": "edfcc2c3831d",
-          "text": "Verify cron picks up registered domain",
+          "id": "8ff08bb04991",
+          "text": "Implement staticData registry persistence",
           "status": "pending",
-          "last_modified": "2026-02-05T22:00:15.626Z",
+          "last_modified": "2026-02-05T22:04:58.096Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "a4472b38c879",
+          "text": "Migrate `load_domain_configs` to use staticData",
+          "status": "pending",
+          "last_modified": "2026-02-05T22:04:58.096Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "a6a371ed8fb0",
+          "text": "Add emergency service detection microprompt",
+          "status": "pending",
+          "last_modified": "2026-02-05T22:04:58.096Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "a81a44dd6a8d",
+          "text": "Add optional agent tool auto-configuration",
+          "status": "pending",
+          "last_modified": "2026-02-05T22:04:58.096Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "a81e67664a54",
+          "text": "Update website_locations schema with emergency_phone, hours_notes, by_appointment",
+          "status": "pending",
+          "last_modified": "2026-02-05T22:04:58.096Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "aab6fc2fe49d",
+          "text": "**Completeness**: All 11 locations captured with addresses, phones, service areas",
+          "status": "pending",
+          "last_modified": "2026-02-05T22:04:58.095Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "ad4e7836827d",
+          "text": "**Department coverage**: Sales, Service, Parts, Body Shop, Idealease, Financing",
+          "status": "pending",
+          "last_modified": "2026-02-05T22:04:58.095Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "b2a4ec48d4b5",
+          "text": "**Prompt enhancement**: Run extraction on selking homepage, verify hours gotchas handled",
+          "status": "pending",
+          "last_modified": "2026-02-05T22:04:58.096Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "b94895fce898",
+          "text": "Validate all 11 locations captured correctly",
+          "status": "pending",
+          "last_modified": "2026-02-05T22:04:58.096Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "bd5c299292c7",
+          "text": "Enhance hours_of_operation microprompt with all gotchas",
+          "status": "pending",
+          "last_modified": "2026-02-05T22:04:58.096Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "c829ba6eb349",
+          "text": "**Registration**: `curl -X POST /domain-registration` succeeds, domain appears in staticData",
+          "status": "pending",
+          "last_modified": "2026-02-05T22:04:58.096Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "d76d54e2d963",
+          "text": "**Service list**: Complete inventory of services offered",
+          "status": "pending",
+          "last_modified": "2026-02-05T22:04:58.095Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "e1bb09714906",
+          "text": "Add `/domain-registration` webhook endpoint",
+          "status": "pending",
+          "last_modified": "2026-02-05T22:04:58.096Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "e402ce3406b5",
+          "text": "Add error notification subworkflow",
+          "status": "pending",
+          "last_modified": "2026-02-05T22:04:58.096Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "ed54594d0f57",
+          "text": "**Full pipeline**: Cron picks up registered domain, KB docs created in test agent",
+          "status": "pending",
+          "last_modified": "2026-02-05T22:04:58.096Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "f2e26e5fbb24",
+          "text": "**Hours accuracy**: 24-hour emergency service captured, standard hours for each department",
+          "status": "pending",
+          "last_modified": "2026-02-05T22:04:58.095Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "fa8b9b48f567",
+          "text": "Add multi-department detection microprompt",
+          "status": "pending",
+          "last_modified": "2026-02-05T22:04:58.096Z",
           "modified_by": "plan"
         }
       ],
-      "checklist_hash": "1ab9f4a1441f260a",
+      "checklist_hash": "2ceeb284a825b57a",
       "sync_sources": [
         {
           "type": "plan",
           "artifact_id": "C:\\Users\\codya\\.claude\\plans\\cozy-marinating-falcon.md",
-          "last_read": "2026-02-05T22:00:15.628Z",
-          "content_hash": "8f227a924bb95aca"
+          "last_read": "2026-02-05T22:04:58.101Z",
+          "content_hash": "5906fde9f755b418"
         }
       ]
     }

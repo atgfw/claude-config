@@ -13,6 +13,6 @@
     "with": "n8n workflow, ElevenLabs API, Discord/webhook notifications",
     "measuredBy": "Single API call registers domain and configures all downstream automation with zero additional human steps"
   },
-  "updatedAt": "2026-02-05T22:03:36.311Z",
+  "updatedAt": "2026-02-05T22:07:49.128Z",
   "projectScope": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag"
 }
