@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "description": "Tracks tool research decisions for pre-implementation validation",
-  "lastUpdated": "2026-02-05T22:33:44.018Z",
+  "lastUpdated": "2026-02-05T22:37:14.584Z",
   "entries": [
     {
       "id": "a1c86e41b82d4d1e",
@@ -1792,6 +1792,25 @@
       "problemDomain": "wrappers",
       "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-Kvq6sC\\wrappers",
       "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-Kvq6sC\\wrappers\\TOOL-RESEARCH.md",
+      "toolsEvaluated": [
+        {
+          "name": "axios",
+          "stars": 100000,
+          "decision": "REJECTED"
+        }
+      ],
+      "finalDecision": "BUILD",
+      "rationale": "Need lightweight solution.",
+      "warnings": [
+        "Rejected tool \"axios\" with 100,000 stars - ensure rationale is documented"
+      ]
+    },
+    {
+      "id": "d157ea8e15e2c4bd",
+      "timestamp": "2026-02-05T22:37:14.583Z",
+      "problemDomain": "wrappers",
+      "projectPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-NS4x6U\\wrappers",
+      "researchDocumentPath": "C:\\Users\\codya\\AppData\\Local\\Temp\\research-gate-test-NS4x6U\\wrappers\\TOOL-RESEARCH.md",
       "toolsEvaluated": [
         {
           "name": "axios",
