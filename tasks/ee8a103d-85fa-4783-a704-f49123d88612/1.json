@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "Enhance website_locations schema with emergency_phone and hours_notes fields",
-  "description": "Update the website_locations category config in workflow 8ZN0l9BHo1zBKDnl to add:\n- emergency_phone field for 24/7 emergency contact\n- hours_notes field for seasonal/holiday variations\n- by_appointment flag in hours_of_operation\n- Support for array type in hours (split hours like lunch break)",
-  "activeForm": "Enhancing website_locations schema",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}

@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "Test extraction against selkinginternational.com",
-  "description": "Run the enhanced extraction against selkinginternational.com and validate:\n- All 11 locations captured\n- 24-hour emergency service detected\n- All departments captured (Sales, Service, Parts, Body Shop, Idealease, Financing)\n- Hours gotchas handled correctly",
-  "activeForm": "Testing Selking extraction",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
