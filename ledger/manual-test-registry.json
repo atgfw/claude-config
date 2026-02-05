@@ -1,0 +1,66 @@
+{
+  "manualTests": {
+    "session-reinit/dirty-tree-detection": {
+      "testId": "session-reinit/dirty-tree-detection",
+      "feature": "Git Synchronization",
+      "description": "Verify session start warns when local has uncommitted changes and remote has new commits",
+      "hookFile": "hooks/src/session/git_synchronizer.ts",
+      "setupScript": "scripts/test-setup/session-reinit/setup-dirty-tree.ts",
+      "docFile": "docs/manual-tests/session-reinit/01-dirty-tree-detection.md",
+      "severity": "warn",
+      "executions": []
+    },
+    "session-reinit/governance-block": {
+      "testId": "session-reinit/governance-block",
+      "feature": "Child Project Governance",
+      "description": "Verify session blocks when child project contains prohibited override files",
+      "hookFile": "hooks/src/session/child_project_validator.ts",
+      "setupScript": "scripts/test-setup/session-reinit/setup-governance-violation.ts",
+      "docFile": "docs/manual-tests/session-reinit/02-governance-block.md",
+      "severity": "strict",
+      "executions": []
+    },
+    "session-reinit/self-heal": {
+      "testId": "session-reinit/self-heal",
+      "feature": "Hook Compilation Self-Heal",
+      "description": "Verify session auto-rebuilds hooks when dist/ is missing or stale",
+      "hookFile": "hooks/src/session/hook_compilation_validator.ts",
+      "setupScript": "scripts/test-setup/session-reinit/setup-stale-hooks.ts",
+      "docFile": "docs/manual-tests/session-reinit/03-self-heal.md",
+      "severity": "strict",
+      "executions": []
+    },
+    "session-reinit/cleanup": {
+      "testId": "session-reinit/cleanup",
+      "feature": "Project Cleanup",
+      "description": "Verify session moves stale temp files to old/YYYY-MM-DD/",
+      "hookFile": "hooks/src/session/project_cleanup.ts",
+      "setupScript": "scripts/test-setup/session-reinit/setup-temp-files.ts",
+      "docFile": "docs/manual-tests/session-reinit/04-cleanup.md",
+      "severity": "info",
+      "executions": []
+    },
+    "session-reinit/documentation-drift": {
+      "testId": "session-reinit/documentation-drift",
+      "feature": "Documentation Drift Detection",
+      "description": "Verify session warns when workflow JSON filename differs from internal name",
+      "hookFile": "hooks/src/session/documentation_drift_checker.ts",
+      "setupScript": "scripts/test-setup/session-reinit/setup-drift.ts",
+      "docFile": "docs/manual-tests/session-reinit/05-documentation-drift.md",
+      "severity": "warn",
+      "executions": []
+    }
+  },
+  "lastUpdated": null,
+  "schema": {
+    "version": "1.0.0",
+    "executionFormat": {
+      "executor": "string (who ran the test)",
+      "platform": "string (win32|linux|darwin)",
+      "timestamp": "string (YYYY-MM-DD)",
+      "result": "string (pass|fail|partial)",
+      "notes": "string (observations)",
+      "edgeCases": "array of strings (unexpected behaviors)"
+    }
+  }
+}

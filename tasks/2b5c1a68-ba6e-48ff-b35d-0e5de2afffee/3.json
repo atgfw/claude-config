@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "Create setup scripts for test scenarios",
-  "description": "Create scripts/test-setup/session-reinit/ with 6 TypeScript scripts: setup-dirty-tree.ts, setup-governance-violation.ts, setup-stale-hooks.ts, setup-temp-files.ts, setup-drift.ts, cleanup-all.ts",
-  "activeForm": "Creating setup scripts",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
