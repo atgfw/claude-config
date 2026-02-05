@@ -1,0 +1,530 @@
+{
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567890",
+      "name": "execute_workflow_trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        -200
+      ],
+      "notes": "Enables this orchestrator to be called as a subworkflow by parent workflows or external systems. Receives optional domain, agent_id, crawl_config, and force parameters. This is one of four triggers (alongside webhook, cron, and evaluation) that feed into load_domain_configs. The dual-trigger pattern ensures the orchestrator works both as a standalone scheduled job and as a callable component in larger automation pipelines.",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "path": "website-rag",
+        "httpMethod": "POST",
+        "authentication": "headerAuth",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+      "name": "webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "c8a9b2d3-f4e5-6789-0123-456789abcdef",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "NWE1deF2jeDvvgWJ",
+          "name": "Header Auth account"
+        }
+      },
+      "notes": "HTTP POST endpoint for manually triggering synchronization or integrating with external systems like ElevenLabs Conversational AI tools. Requires header authentication for security. Accepts JSON body with optional domain (defaults to atgfw.com), agent_id (defaults to env variable), crawl_config overrides, and force flag to bypass freshness cache. Returns the final sync report as response (responseMode: lastNode).",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 2 * * *"
+            }
+          ]
+        },
+        "timezone": "America/New_York"
+      },
+      "id": "b2c3d4e5-f6a7-8901-2345-6789abcdef01",
+      "name": "cron_trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        200
+      ],
+      "notes": "Scheduled trigger that runs daily at 2:00 AM Eastern Time to automatically keep ElevenLabs knowledge bases synchronized with website content. This ensures the voice agent always has fresh information without manual intervention. The timezone is explicitly set to America/New_York for consistent scheduling. When triggered, uses default domain configuration from load_domain_configs.",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Reads from webhook body or uses defaults\nlet webhookData = null;\nlet subworkflowData = null;\ntry { webhookData = $('webhook').first()?.json; } catch(e) {}\ntry { subworkflowData = $('execute_workflow_trigger').first()?.json; } catch(e) {}\n\nconst input = webhookData?.body || webhookData || subworkflowData || {};\n\n// Safe env var access - n8n task runner may block $env in code nodes\nlet envAgentId = 'agent_0501kecpebg3e9p8skydse9sm1j4';\ntry { envAgentId = $env.ELEVENLABS_AGENT_ID || envAgentId; } catch(e) {}\n\nlet apiKey = 'sk_ed30f0207f14b91a2cf8cf5ca9cc3c8f58ab8c1064568841';\ntry { apiKey = $env.ELEVENLABS_API_KEY || apiKey; } catch(e) {}\n\nconst configs = input.domain ? [{\n  domain: input.domain,\n  agent_id: input.agent_id || envAgentId,\n  crawl_config: input.crawl_config || { max_pages: 50, rate_limit_ms: 1000 }\n}] : [\n  {\n    domain: 'https://atgfw.com',\n    agent_id: envAgentId,\n    crawl_config: { max_pages: 50, rate_limit_ms: 1000 }\n  }\n];\n\nconst staticData = $getWorkflowStaticData('global');\nconst firstConfig = configs[0];\nstaticData._current_agent_id = firstConfig.agent_id;\nstaticData._current_domain = firstConfig.domain;\nstaticData._api_key = apiKey;\n\nreturn configs.map(c => ({ json: c }));"
+      },
+      "id": "c3d4e5f6-a7b8-9012-3456-789abcdef012",
+      "name": "load_domain_configs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "notes": "Configuration loader that determines which domain(s) to process. Checks for input from webhook body, execute_workflow_trigger, or falls back to default registry (currently atgfw.com). Resolves agent_id from input, environment variable ELEVENLABS_AGENT_ID, or hardcoded default. Stores configuration in workflow staticData for downstream nodes that need agent_id and domain without direct data flow access. Returns array of configs to support future multi-domain processing.",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const config = $input.first().json;\nconst staticData = $getWorkflowStaticData('global');\nconst cacheKey = `last_sync_${config.domain.replace(/[^a-z0-9]/gi, '_')}`;\nconst lastSync = staticData[cacheKey] || 0;\nconst fourHoursMs = 4 * 60 * 60 * 1000;\nconst now = Date.now();\n\n// Check if webhook/subworkflow input had force=true\nlet force = false;\ntry { force = $('webhook').first()?.json?.body?.force === true; } catch(e) {}\ntry { if (!force) force = $('execute_workflow_trigger').first()?.json?.force === true; } catch(e) {}\n\nif (!force && (now - lastSync) < fourHoursMs) {\n  return [{ json: { ...config, skipped: true, reason: 'Synced within last 4 hours', last_sync: new Date(lastSync).toISOString() } }];\n}\n\n// Store sync start time for later\nstaticData._current_sync_start = now;\n\nreturn [{ json: { ...config, skipped: false, sync_start: now } }];"
+      },
+      "id": "d4e5f6a7-b8c9-0123-4567-89abcdef0123",
+      "name": "check_freshness_cache",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ],
+      "notes": "Implements 4-hour freshness caching to prevent redundant crawls and API calls. Checks workflow staticData for last_sync timestamp using domain-specific cache key. If synced within 4 hours and force flag is not set, marks item as skipped with reason and routes to build_skip_report. Otherwise, records sync_start timestamp and allows processing to continue. This optimization significantly reduces unnecessary ElevenLabs API usage and crawl load on target websites.",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "source": "database",
+        "workflowId": "8t6QnPUcIjx4PaF2"
+      },
+      "id": "f6a7b8c9-d0e1-2345-6789-abcdef012345",
+      "name": "execute_crawler",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [
+        880,
+        0
+      ],
+      "notes": "Invokes the website_rag_crawler subworkflow to perform the actual website crawling. Passes domain and crawl_config as workflow inputs. The crawler fetches sitemap.xml and robots.txt, builds a URL queue respecting crawl policies, fetches each page with rate limiting, strips HTML to text, and returns structured output with pages array and crawl_metadata. This modular design allows the crawler to be tested and used independently.",
+      "notesInFlow": true,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "jsCode": "const crawlerOutput = $input.first().json;\nconst pages = crawlerOutput.pages || [];\nconst domain = crawlerOutput.domain;\nconst combinedText = pages.filter(p => p.text_content && p.word_count > 20).map(p => `## ${p.title || p.url}\\nSource: ${p.url}\\n\\n${p.text_content}`).join('\\n\\n---\\n\\n');\nconst staticData = $getWorkflowStaticData('global');\nconst agentId = staticData._current_agent_id;\nconst syncStart = staticData._current_sync_start;\nreturn [{ json: { input_data: combinedText, categories: ['website_profile', 'website_locations'], source_metadata: { domain, pages_crawled: pages.length, crawl_timestamp: new Date().toISOString() }, agent_id: agentId, sync_start: syncStart, domain } }];"
+      },
+      "id": "a8b9c0d1-e2f3-4567-890a-bcdef0123456",
+      "name": "prepare_extractor_input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        0
+      ],
+      "notes": "Transforms crawler output into the format expected by the LLM Data Extraction workflow. Concatenates all page text (filtering pages with fewer than 20 words as likely error pages) into a single document with markdown headers for each page and source URLs. Specifies extraction categories (website_profile, website_locations) and includes source_metadata for provenance tracking. Retrieves agent_id and sync_start from workflow staticData.",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://n8n.atgfw.com/webhook/llm-data-extraction",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "b9c0d1e2-f3a4-5678-901b-cdef01234567",
+      "name": "call_extractor_webhook",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1320,
+        0
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "D2LjgBrSEk8NsfBp",
+          "name": "Rewst Webhook Auth"
+        }
+      },
+      "notes": "Calls the LLM Data Extraction workflow via HTTP webhook instead of Execute Workflow node. This pattern is more reliable - the Execute Workflow node has known bugs causing data loss.",
+      "notesInFlow": true,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "jsCode": "// Fetch existing agent data from ElevenLabs API\nconst staticData = $getWorkflowStaticData('global');\nconst agentId = staticData._current_agent_id;\nconst apiKey = staticData._api_key;\n\nif (!apiKey) throw new Error('ELEVENLABS_API_KEY not available in static data');\nif (!agentId) throw new Error('Agent ID not available in static data');\n\nconst response = await this.helpers.httpRequest({\n  method: 'GET',\n  url: `https://api.elevenlabs.io/v1/convai/agents/${agentId}`,\n  headers: { 'xi-api-key': apiKey },\n  returnFullResponse: false,\n});\n\nreturn [{ json: response }];"
+      },
+      "id": "c0d1e2f3-a4b5-6789-012c-def012345678",
+      "name": "list_existing_kb_docs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        0
+      ],
+      "notes": "Fetches the current ElevenLabs agent configuration to retrieve the existing knowledge base document list. This is necessary to compare against new extraction results and determine which documents need to be replaced. Uses the ElevenLabs Conversational AI API with retry logic (3 attempts, 2-second delays) for resilience. The response includes conversation_config.agent.prompt.knowledge_base array.",
+      "notesInFlow": true,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "jsCode": "const crypto = require('crypto');\nconst extractionResult = $input.first().json;\n\n// Get extraction data - handle multiple possible nested structures from LLM Data Extraction\n// Priority: .extracted (current format) > .extraction > .result > root level\nconst extractedData = extractionResult.extracted || extractionResult.extraction || extractionResult.result || extractionResult;\nconst websiteProfile = extractedData.website_profile || {};\nconst websiteLocations = extractedData.website_locations || {};\n\n// Get agent info from the HTTP response (list_existing_kb_docs)\nlet agentData;\ntry { agentData = $('list_existing_kb_docs').first().json; } catch(e) { agentData = {}; }\n\nconst existingKb = agentData?.conversation_config?.agent?.prompt?.knowledge_base || [];\nconst staticData = $getWorkflowStaticData('global');\n\n// Get domain - try extraction result first, then staticData fallback\nconst domain = extractionResult.domain || extractionResult.source_metadata?.domain || staticData._current_domain;\nif (!domain) throw new Error('Domain not available in extraction result or staticData');\n\nconst agentId = extractionResult.agent_id || agentData?.agent_id;\nif (!agentId) { staticData._current_agent_id = staticData._current_agent_id || 'agent_0501kecpebg3e9p8skydse9sm1j4'; }\nconst finalAgentId = agentId || staticData._current_agent_id;\n\n// Build KB markdown for website_profile (global company info)\nfunction buildProfileMarkdown(profile) {\n  const sections = [];\n  \n  // Handle both direct values and {value, rationale} format\n  const getValue = (field) => field?.value !== undefined ? field.value : field;\n  \n  const companyName = getValue(profile.company_name);\n  const companyDesc = getValue(profile.company_description);\n  const industry = getValue(profile.industry);\n  const websiteUrl = getValue(profile.website_url);\n  const primaryPhone = getValue(profile.primary_phone);\n  const primaryEmail = getValue(profile.primary_email);\n  const services = getValue(profile.services);\n  const faqs = getValue(profile.faqs);\n  const socialMedia = getValue(profile.social_media);\n  \n  if (companyName) sections.push(`# ${companyName}`);\n  if (companyDesc) sections.push(companyDesc);\n  if (industry) sections.push(`**Industry:** ${industry}`);\n  if (websiteUrl) sections.push(`**Website:** ${websiteUrl}`);\n  if (primaryPhone) sections.push(`**Phone:** ${primaryPhone}`);\n  if (primaryEmail) sections.push(`**Email:** ${primaryEmail}`);\n\n  if (services?.length) {\n    sections.push('\\n## Services');\n    for (const svc of services) {\n      if (typeof svc === 'string') {\n        sections.push(`- ${svc}`);\n      } else {\n        const desc = svc.description ? ` - ${svc.description}` : '';\n        sections.push(`- ${svc.name || svc}${desc}`);\n      }\n    }\n  }\n\n  if (faqs?.length) {\n    sections.push('\\n## FAQ');\n    for (const faq of faqs) {\n      sections.push(`**Q:** ${faq.question}\\n**A:** ${faq.answer}`);\n    }\n  }\n\n  if (socialMedia?.length) {\n    sections.push('\\n## Social Media');\n    for (const url of socialMedia) {\n      sections.push(`- ${url}`);\n    }\n  }\n\n  return sections.join('\\n');\n}\n\n// Build KB markdown for website_locations (per-location data with departments)\nfunction buildLocationsMarkdown(locData) {\n  const sections = ['# Locations'];\n  \n  // Handle both direct array and {value, rationale} format\n  const getValue = (field) => field?.value !== undefined ? field.value : field;\n  const locations = getValue(locData.locations) || [];\n\n  for (const loc of locations) {\n    const locName = getValue(loc.location_name) || 'Location';\n    const address = getValue(loc.address);\n    const phone = getValue(loc.phone);\n    const serviceArea = getValue(loc.service_area);\n    const departments = getValue(loc.departments);\n    \n    sections.push(`\\n## ${locName}`);\n    if (address) sections.push(`**Address:** ${address}`);\n    if (phone) sections.push(`**Phone:** ${phone}`);\n    if (serviceArea) sections.push(`**Service Area:** ${serviceArea}`);\n\n    if (departments?.length) {\n      for (const dept of departments) {\n        const deptName = dept.department_name === 'general' ? 'Hours' : `${dept.department_name} Hours`;\n        sections.push(`\\n### ${deptName}`);\n        const h = dept.hours_of_operation || {};\n        const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];\n        for (const day of days) {\n          const hrs = h[day] || 'N/A';\n          sections.push(`- ${day.charAt(0).toUpperCase() + day.slice(1)}: ${hrs}`);\n        }\n      }\n    }\n  }\n\n  return sections.join('\\n');\n}\n\nconst profileContent = buildProfileMarkdown(websiteProfile);\nconst locationsContent = buildLocationsMarkdown(websiteLocations);\n\n// Validate we have actual content\nif (!profileContent || profileContent.trim() === '') {\n  throw new Error('Profile content is empty. Extraction may have failed. websiteProfile: ' + JSON.stringify(websiteProfile).substring(0, 500));\n}\n\nconst profileHash = crypto.createHash('sha256').update(profileContent).digest('hex');\nconst locationsHash = crypto.createHash('sha256').update(locationsContent).digest('hex');\nconst combinedHash = crypto.createHash('sha256').update(profileHash + locationsHash).digest('hex');\n\n// Build domain slug for consistent key naming\nconst domainSlug = domain.replace(/https?:\\/\\//, '').replace(/[^a-z0-9]/gi, '_');\n\n// Check if update needed via hash comparison using domain+agent key\nconst hashKey = `kb_hash_${domainSlug}_${finalAgentId}`;\nconst existingHash = staticData[hashKey] || '';\nconst needsUpdate = existingHash !== combinedHash;\n\nreturn [{\n  json: {\n    needs_update: needsUpdate,\n    profile_content: profileContent + `\\n\\n<!-- hash:${profileHash} -->`,\n    locations_content: locationsContent + `\\n\\n<!-- hash:${locationsHash} -->`,\n    combined_hash: combinedHash,\n    existing_doc_ids: existingKb.map(d => d.id),\n    existing_kb: existingKb,\n    agent_id: finalAgentId,\n    domain,\n    sync_start: extractionResult.sync_start\n  }\n}];"
+      },
+      "id": "d1e2f3a4-b5c6-7890-123d-ef0123456789",
+      "name": "compute_diff",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        0
+      ],
+      "notes": "Core diffing logic that determines if knowledge base update is needed. Builds markdown documents for website_profile and website_locations from extraction results using structured formatting optimized for RAG retrieval. Computes SHA-256 hashes of both documents and compares against cached hashes in workflow staticData. If hashes match, sets needs_update=false to skip unnecessary API calls. Also prepares existing_kb list for document management.",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\n\nif (!data.needs_update) {\n  return [{ json: { ...data, action: 'no_change', new_doc_ids: [] } }];\n}\n\nconst staticData = $getWorkflowStaticData('global');\nconst baseUrl = 'https://api.elevenlabs.io/v1/convai';\nconst apiKey = staticData._api_key;\n\nif (!apiKey) {\n  throw new Error('ELEVENLABS_API_KEY not available in static data');\n}\n\n// Validate content is not empty before uploading\nconst profileText = data.profile_content?.replace(/<!--.*?-->/g, '').trim();\nconst locationsText = data.locations_content?.replace(/<!--.*?-->/g, '').trim();\n\nif (!profileText || profileText.length < 50) {\n  throw new Error(`Profile content too short or empty (${profileText?.length || 0} chars). Content: ${data.profile_content?.substring(0, 200)}`);\n}\n\nif (!locationsText || locationsText === '# Locations') {\n  throw new Error(`Locations content is empty or only has header. Content: ${data.locations_content?.substring(0, 200)}`);\n}\n\n// Build naming components: domain slug and agent ID\nconst domainSlug = data.domain?.replace(/https?:\\/\\//, '').replace(/[^a-z0-9]/gi, '_') || 'default';\nconst agentId = data.agent_id || 'unknown_agent';\n\n// Use combined key for tracking docs per domain+agent\nconst domainAgentKey = `kb_docs_${domainSlug}_${agentId}`;\nconst previousDocIds = staticData[domainAgentKey] || [];\n\n// Delete existing KB docs that belong to this domain+agent\nlet deletedCount = 0;\nfor (const docId of previousDocIds) {\n  try {\n    await this.helpers.httpRequest({\n      method: 'DELETE',\n      url: `${baseUrl}/knowledge-base/documents/${docId}`,\n      headers: { 'xi-api-key': apiKey }\n    });\n    deletedCount++;\n  } catch (e) { /* Ignore delete failures - doc may already be gone */ }\n}\n\n// Create 2 KB documents using {domain}_{agent_id} naming pattern\nconst newDocIds = [];\nconst profileName = `${domainSlug}_${agentId}_website_profile`;\nconst locationsName = `${domainSlug}_${agentId}_website_locations`;\n\n// Create website_profile document\ntry {\n  const profileResult = await this.helpers.httpRequest({\n    method: 'POST',\n    url: `${baseUrl}/knowledge-base/text`,\n    headers: { 'xi-api-key': apiKey, 'Content-Type': 'application/json' },\n    body: JSON.stringify({ name: profileName, text: data.profile_content })\n  });\n  const profileData = typeof profileResult === 'string' ? JSON.parse(profileResult) : profileResult;\n  const profileDocId = profileData.id || profileData.document_id;\n  if (!profileDocId) {\n    throw new Error('ElevenLabs did not return document ID for profile. Response: ' + JSON.stringify(profileData).substring(0, 500));\n  }\n  newDocIds.push({ id: profileDocId, name: profileName, type: 'text' });\n} catch (e) { throw new Error('Failed to create website_profile doc: ' + e.message); }\n\n// Create website_locations document\ntry {\n  const locResult = await this.helpers.httpRequest({\n    method: 'POST',\n    url: `${baseUrl}/knowledge-base/text`,\n    headers: { 'xi-api-key': apiKey, 'Content-Type': 'application/json' },\n    body: JSON.stringify({ name: locationsName, text: data.locations_content })\n  });\n  const locData = typeof locResult === 'string' ? JSON.parse(locResult) : locResult;\n  const locDocId = locData.id || locData.document_id;\n  if (!locDocId) {\n    throw new Error('ElevenLabs did not return document ID for locations. Response: ' + JSON.stringify(locData).substring(0, 500));\n  }\n  newDocIds.push({ id: locDocId, name: locationsName, type: 'text' });\n} catch (e) { throw new Error('Failed to create website_locations doc: ' + e.message); }\n\n// Final verification - we should have exactly 2 new documents\nif (newDocIds.length !== 2) {\n  throw new Error(`Expected 2 new documents, got ${newDocIds.length}. IDs: ${JSON.stringify(newDocIds)}`);\n}\n\n// Store new doc IDs and hash in static data with domain+agent key\nstaticData[domainAgentKey] = newDocIds.map(d => d.id);\nconst hashKey = `kb_hash_${domainSlug}_${agentId}`;\nstaticData[hashKey] = data.combined_hash;\n\n// Build complete KB array: keep non-domain docs + add new ones\nconst otherDocs = data.existing_kb.filter(d => !previousDocIds.includes(d.id));\nconst completeKb = [...otherDocs.map(d => ({ type: d.type || 'text', id: d.id, name: d.name || '' })), ...newDocIds];\n\nreturn [{ json: { ...data, action: 'updated', new_doc_ids: newDocIds, complete_kb: completeKb, deleted_count: deletedCount } }];"
+      },
+      "id": "e2f3a4b5-c6d7-8901-234e-f01234567890",
+      "name": "sync_kb_docs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1980,
+        0
+      ],
+      "notes": "Handles the actual ElevenLabs Knowledge Base API operations when update is needed. First deletes any existing documents for this domain+agent combination (tracked in staticData). Then creates two new text documents: one for website_profile and one for website_locations, using naming convention {domain_slug}_{agent_id}_{type}. Updates staticData with new document IDs and content hashes for future diff comparisons. Builds complete_kb array combining other documents with new ones.",
+      "notesInFlow": true,
+      "credentials": {
+        "elevenLabsApi": {
+          "id": "cred_elevenlabs",
+          "name": "ElevenLabs API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// PATCH agent with complete KB doc list\nconst staticData = $getWorkflowStaticData('global');\nconst apiKey = staticData._api_key;\nconst data = $input.first().json;\nconst agentId = data.agent_id || staticData._current_agent_id;\n\nif (!apiKey) throw new Error('ELEVENLABS_API_KEY not available in static data');\n\nconst response = await this.helpers.httpRequest({\n  method: 'PATCH',\n  url: `https://api.elevenlabs.io/v1/convai/agents/${agentId}`,\n  headers: {\n    'xi-api-key': apiKey,\n    'Content-Type': 'application/json'\n  },\n  body: JSON.stringify({\n    conversation_config: {\n      agent: {\n        prompt: {\n          knowledge_base: data.complete_kb\n        }\n      }\n    }\n  }),\n  returnFullResponse: false,\n});\n\nreturn [{ json: { ...data, agent_update_response: response } }];"
+      },
+      "id": "f3a4b5c6-d7e8-9012-345f-012345678901",
+      "name": "update_agent_kb_array",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2200,
+        0
+      ],
+      "notes": "Updates the ElevenLabs agent configuration with the complete knowledge base array. Uses PATCH request to conversation_config.agent.prompt.knowledge_base endpoint with the merged document list (existing non-domain docs plus newly created domain docs). Includes retry logic for API resilience. This is the final API call that makes the new knowledge base documents active for the voice agent's RAG retrieval.",
+      "notesInFlow": true,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "jsCode": "const result = $input.first().json;\nconst staticData = $getWorkflowStaticData('global');\n\n// Update freshness cache\nconst cacheKey = `last_sync_${result.domain?.replace(/[^a-z0-9]/gi, '_') || 'default'}`;\nstaticData[cacheKey] = Date.now();\n\nreturn [{\n  json: {\n    status: 'success',\n    domain: result.domain,\n    agent_id: result.agent_id,\n    action: result.action,\n    new_doc_id: result.new_doc_id,\n    deleted_count: result.deleted_count || 0,\n    kb_doc_count: result.complete_kb?.length || 0,\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "a5b6c7d8-e9f0-1234-5678-901234567890",
+      "name": "build_report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2420,
+        0
+      ],
+      "notes": "Final node that assembles the execution report and updates the freshness cache. Records last_sync timestamp in workflow staticData using domain-specific key for the 4-hour cache. Returns comprehensive report including: status, domain, agent_id, action taken (updated/no_change/skipped), document counts (new, deleted, total KB), and ISO timestamp. This report is returned as webhook response and logged for monitoring.",
+      "notesInFlow": true
+    },
+    {
+      "id": "2aa3ea9c-aa6a-48e3-a3b7-3eddc193ea51",
+      "name": "build_skip_report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        -200
+      ],
+      "parameters": {
+        "jsCode": "// Handle skip case - return cached response\nconst skipData = $input.first().json;\nconst staticData = $getWorkflowStaticData('global');\n\n// Get stored doc info if available\nconst domainSlug = skipData.domain?.replace(/https?:\\/\\//, '').replace(/[^a-z0-9]/gi, '_') || 'default';\nconst agentId = staticData._current_agent_id || 'unknown';\nconst docKey = `kb_docs_${domainSlug}_${agentId}`;\nconst storedDocs = staticData[docKey] || [];\n\nreturn [{\n  json: {\n    status: 'skipped',\n    domain: skipData.domain,\n    agent_id: agentId,\n    action: 'cached',\n    reason: skipData.reason || 'Recently synced',\n    last_sync: skipData.last_sync,\n    kb_doc_count: storedDocs.length,\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "notes": "Generates a report when synchronization is skipped due to freshness cache hit. Returns status indicating the domain was recently synced, includes the last_sync timestamp, and the reason for skipping. This report flows to build_report for final assembly, ensuring consistent output format whether the sync was executed or skipped. Useful for debugging and monitoring sync frequency.",
+      "notesInFlow": true
+    },
+    {
+      "id": "7f19238b-005d-4106-872d-59caa0bc0e0b",
+      "name": "check_if_skipped",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        660,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "skip-condition-1",
+              "leftValue": "={{ $json.skipped }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "notes": "Routing node that branches execution based on the freshness cache check result. If skipped=true (recently synced and not forced), routes to build_skip_report which generates a skip report and exits early. If skipped=false (needs sync or forced), routes to execute_crawler to begin the full synchronization pipeline. This IF node is critical for the early-exit optimization that prevents unnecessary work.",
+      "notesInFlow": true
+    },
+    {
+      "id": "6ee13f05-809e-4f94-b661-9dee1929dd17",
+      "name": "evaluation_trigger",
+      "type": "n8n-nodes-base.evaluationTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        400
+      ],
+      "parameters": {},
+      "notes": "n8n Evaluation system trigger that enables automated testing of this workflow. When evaluations are run from the n8n UI, this trigger receives test cases from the evaluation dataset and executes the workflow with test inputs. Works in conjunction with evaluation_output node to compare actual results against expected outcomes. Essential for maintaining workflow quality through automated regression testing.",
+      "notesInFlow": true,
+      "disabled": true
+    },
+    {
+      "id": "1c2713e7-e4c0-43d4-bbab-58b3e87814be",
+      "name": "evaluation_output",
+      "type": "n8n-nodes-base.evaluation",
+      "typeVersion": 1,
+      "position": [
+        2640,
+        0
+      ],
+      "parameters": {
+        "operation": "setOutputs",
+        "outputFields": {
+          "values": [
+            {
+              "name": "status",
+              "value": "={{ $json.status }}"
+            },
+            {
+              "name": "action",
+              "value": "={{ $json.action }}"
+            },
+            {
+              "name": "kb_doc_count",
+              "value": "={{ $json.kb_doc_count }}"
+            }
+          ]
+        }
+      },
+      "notes": "Evaluation output node that captures workflow results for comparison against expected test outcomes. Receives the final report from build_report and makes it available to the n8n evaluation system for assertion checking. Test cases in the evaluation dataset can verify correct behavior for various scenarios: cache hits/misses, force flags, different domains, error handling. Enables continuous quality assurance for the RAG synchronization pipeline.",
+      "notesInFlow": true,
+      "disabled": true
+    }
+  ],
+  "connections": {
+    "execute_workflow_trigger": {
+      "main": [
+        [
+          {
+            "node": "load_domain_configs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "webhook": {
+      "main": [
+        [
+          {
+            "node": "load_domain_configs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cron_trigger": {
+      "main": [
+        [
+          {
+            "node": "load_domain_configs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "load_domain_configs": {
+      "main": [
+        [
+          {
+            "node": "check_freshness_cache",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "execute_crawler": {
+      "main": [
+        [
+          {
+            "node": "prepare_extractor_input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "prepare_extractor_input": {
+      "main": [
+        [
+          {
+            "node": "call_extractor_webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "list_existing_kb_docs": {
+      "main": [
+        [
+          {
+            "node": "compute_diff",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "compute_diff": {
+      "main": [
+        [
+          {
+            "node": "sync_kb_docs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "sync_kb_docs": {
+      "main": [
+        [
+          {
+            "node": "update_agent_kb_array",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "update_agent_kb_array": {
+      "main": [
+        [
+          {
+            "node": "build_report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "build_skip_report": {
+      "main": [
+        [
+          {
+            "node": "build_report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check_freshness_cache": {
+      "main": [
+        [
+          {
+            "node": "check_if_skipped",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check_if_skipped": {
+      "main": [
+        [
+          {
+            "node": "build_skip_report",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "execute_crawler",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "evaluation_trigger": {
+      "main": [
+        [
+          {
+            "node": "load_domain_configs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "build_report": {
+      "main": [
+        [
+          {
+            "node": "evaluation_output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "call_extractor_webhook": {
+      "main": [
+        [
+          {
+            "node": "list_existing_kb_docs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
