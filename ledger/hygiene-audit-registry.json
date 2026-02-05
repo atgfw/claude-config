@@ -1104,5 +1104,26 @@
         "severity": "warn"
       }
     ]
+  },
+  {
+    "timestamp": "2026-02-05T13:28:13.732Z",
+    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection",
+    "issueCount": 2,
+    "issues": [
+      {
+        "type": "naming_violation",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection\\elevenlabs-agent-old data collection.txt",
+        "filename": "elevenlabs-agent-old data collection.txt",
+        "suggestion": "mv \"elevenlabs-agent-old data collection.txt\" \"elevenlabs-agent-old-data-collection.txt\" # Contains spaces",
+        "severity": "warn"
+      },
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection\\nul",
+        "filename": "nul",
+        "suggestion": "mv \"nul\" old/misc/",
+        "severity": "warn"
+      }
+    ]
   }
 ]
