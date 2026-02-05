@@ -1,42 +1,50 @@
 {
-  "goal": "Proposal: Block n8n Local Workflow Files",
+  "goal": "Harden Website RAG Pipeline for Reliability",
   "fields": {
-    "who": "Claude Code session",
-    "what": "Proposal: Block n8n Local Workflow Files",
-    "when": "Current task",
-    "where": "C:\\Users\\codya\\.claude",
-    "why": "Task in progress",
-    "how": "Following implementation plan",
-    "which": "Target object not specified",
-    "lest": "Failure modes not defined",
-    "with": "Dependencies not enumerated",
-    "measuredBy": "Success metrics not defined"
+    "who": "website_rag_orchestrator workflow (z3DOvsyLX5ICrEH6)",
+    "what": "Fix KB document naming schema drift, add result verification, deprecate conflicting workflows",
+    "when": "Daily 2:00 AM ET cron + on-demand webhook triggers",
+    "where": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag",
+    "why": "KB documents were empty due to extraction data access mismatch (.extracted vs .extraction) and {value, rationale} format not handled",
+    "how": "1. Fixed compute_diff to access .extracted first 2. Added getValue() helper for {value,rationale} 3. Added content validation in sync_kb_docs 4. Deprecated [DEV] website_rag_kb_upload",
+    "which": "ElevenLabs agent agent_0501kecpebg3e9p8skydse9sm1j4 KB documents: atgfw_com_agent_{agentId}_website_profile, atgfw_com_agent_{agentId}_website_locations",
+    "lest": "Empty KB documents cause voice agent to have no business knowledge, or naming conflicts create duplicate/orphaned documents",
+    "with": "website_rag_crawler (8t6QnPUcIjx4PaF2), LLM Data Extraction (8ZN0l9BHo1zBKDnl), ElevenLabs Conversational AI API",
+    "measuredBy": "Non-empty KB documents with correct naming schema after next cron run or manual webhook trigger with force=true"
   },
-  "summary": "Proposal: Block n8n Local Workflow Files",
-  "updatedAt": "2026-02-05T17:52:06.587Z",
+  "summary": "Harden Website RAG Pipeline for Reliability",
+  "updatedAt": "2026-02-05T19:30:00.000Z",
   "linkedArtifacts": {
-    "openspec": "block-n8n-local-workflow-files",
-    "plan_files": [
-      "plans/concurrent-inventing-starfish.md"
+    "workflows": {
+      "orchestrator": "z3DOvsyLX5ICrEH6",
+      "crawler": "8t6QnPUcIjx4PaF2",
+      "extractor": "8ZN0l9BHo1zBKDnl",
+      "deprecated": "AGVlwHiM6GzIrMMy"
+    },
+    "specs": [
+      "workflows/website_rag/specs/website-rag-orchestrator/spec.md"
     ],
-    "github_issues": [
-      "#19",
-      "#33"
+    "tests": [
+      "tests/code-nodes/website-rag-orchestrator/build-report/build-report.test.ts",
+      "tests/code-nodes/website-rag-orchestrator/prepare-extractor-input/prepare-extractor-input.test.ts",
+      "tests/code-nodes/website-rag-orchestrator/check-freshness-cache/check-freshness-cache.test.ts",
+      "tests/code-nodes/website-rag-crawler/assemble-output/assemble-output.test.ts"
     ]
   },
+  "completedTasks": [
+    "#11 Fix KB document naming schema drift - compute_diff node updated",
+    "#12 Add result verification to sync_kb_docs - validation added",
+    "#13 Deprecate [DEV] website_rag_kb_upload - renamed and noted"
+  ],
   "history": [
     {
+      "goal": "Harden Website RAG Pipeline for Reliability",
+      "updatedAt": "2026-02-05T19:30:00.000Z"
+    },
+    {
       "goal": "Proposal: Block n8n Local Workflow Files",
-      "updatedAt": "2026-02-05T17:25:06.030Z"
-    },
-    {
-      "goal": "Generalize LLM extraction for all conversation types: phone, chat, video, in-person, and all directions",
-      "updatedAt": "2026-02-05T17:02:56.252Z"
-    },
-    {
-      "goal": null,
-      "updatedAt": "2026-02-04T19:00:00.000Z"
+      "updatedAt": "2026-02-05T17:52:06.587Z"
     }
   ],
-  "projectScope": "C:\\Users\\codya\\.claude"
+  "projectScope": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag"
 }

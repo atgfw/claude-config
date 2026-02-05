@@ -3,7 +3,7 @@
   "subject": "Create test documentation for 5 session reinit features",
   "description": "Create docs/manual-tests/session-reinit/ with README.md and 5 test procedure documents (dirty-tree, governance-block, self-heal, cleanup, documentation-drift)",
   "activeForm": "Creating test documentation",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
