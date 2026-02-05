@@ -11,19 +11,33 @@ import type { SessionStartInput } from '../src/types.js';
 import * as utils from '../src/utils.js';
 
 // Mock modules
-vi.mock('node:fs');
-vi.mock('node:child_process');
-vi.mock('../src/utils.js', async () => {
-  const actual = await vi.importActual('../src/utils.js');
-  return {
-    ...actual,
-    loadEnv: vi.fn(),
-    hasApiKey: vi.fn(),
-    getClaudeDir: vi.fn(() => '/mock/.claude'),
-    getEnvPath: vi.fn(() => '/mock/.claude/.env'),
-    markSessionValidated: vi.fn(),
-  };
-});
+vi.mock('node:fs', () => ({
+  existsSync: vi.fn(),
+  readFileSync: vi.fn(),
+  writeFileSync: vi.fn(),
+  mkdirSync: vi.fn(),
+  statSync: vi.fn(),
+  default: {},
+}));
+vi.mock('node:child_process', () => ({
+  execSync: vi.fn(),
+  default: {},
+}));
+vi.mock('../src/utils.js', () => ({
+  loadEnv: vi.fn(),
+  hasApiKey: vi.fn(),
+  getClaudeDir: vi.fn(() => '/mock/.claude'),
+  getEnvPath: vi.fn(() => '/mock/.claude/.env'),
+  markSessionValidated: vi.fn(),
+  logTerse: vi.fn(),
+  logWarn: vi.fn(),
+  log: vi.fn(),
+  logVerbose: vi.fn(),
+  logInfo: vi.fn(),
+  isSessionRecentlyValidated: vi.fn(() => false),
+  setVerbosity: vi.fn(),
+  getVerbosity: vi.fn(() => 'terse'),
+}));
 
 // Mock session validation functions to pass
 vi.mock('../src/session/index.js', () => ({
