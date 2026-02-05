@@ -1,8 +1,8 @@
 {
-  "goal": "Expand ServiceTitan Test Coverage",
-  "summary": "Expand ServiceTitan Test Coverage",
+  "goal": "Implement ServiceTitan Test Coverage Expansion",
+  "summary": "Implement ServiceTitan Test Coverage Expansion",
+  "focus": "Implement comprehensive test suite for ServiceTitan workflow logic",
   "fields": {
-    "focus": "Implement comprehensive test suite for ServiceTitan workflow logic",
     "who": "ServiceTitan workflows (Auth Token Manager, Call Association, Job Reminder, Review Request)",
     "what": "Clean artifacts, expand test coverage, update documentation, enforce governance",
     "when": "Ongoing maintenance until [DEV] tags removed after 98%+ evaluation",

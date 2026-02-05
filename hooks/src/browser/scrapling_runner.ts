@@ -45,10 +45,9 @@ export type ScraplingRunnerResult = {
 
 // #region Constants
 
+// Use PYTHON_PATH env var if set, otherwise use system python
 const PYTHON_EXECUTABLE =
-  process.platform === 'win32'
-    ? 'C:\\Users\\codya\\AppData\\Local\\Programs\\Python\\Python311\\python.exe'
-    : 'python3';
+  process.env.PYTHON_PATH || (process.platform === 'win32' ? 'python' : 'python3');
 
 const EXECUTOR_PATH = path.join(__dirname, 'scrapling_executor.py');
 
