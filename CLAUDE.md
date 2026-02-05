@@ -119,6 +119,9 @@ Setup will:
 | **Never fabricate versioning** | `version_fabrication_detector` | No _v2, _new, _backup suffixes unless project uses versioning |
 | **Integers Banned in Names** | `n8n_naming_validator` | No arbitrary integers unless canonical (base64, oauth2) |
 | **Webhook Path Naming** | `n8n_webhook_path_validator` | kebab-case, no nesting, no "test", must authenticate, **webhookId required** |
+| **n8n Cloud-Only Storage** | `stale_workflow_json_detector` | BLOCKS Write/Edit of workflow JSON outside temp/old |
+| **n8n Download Blocked** | `n8n_download_blocker` | BLOCKS downloading full workflows via MCP |
+| **n8n Temp Cleanup** | `n8n_post_update_cleanup` | Auto-archives temp/*.json after successful push |
 | **Secret Scanning** | `secret_scanner` | STRICT: Blocks commits containing API keys/secrets |
 | **Commit Conventions** | `commit_message_validator` | WARN: Conventional Commits format recommended |
 | **Default Branch** | `branch_naming_validator` | STRICT: Blocks `master`, enforces `main` only |
@@ -209,6 +212,26 @@ logBatch('Files checked', files, 3);   // Shows count in terse, list in normal
 3. Only proceed if no conflict found
 
 **Enforced for:** n8n workflows (`n8n_workflow_governance`), ElevenLabs agents (`elevenlabs_agent_governance`), ServiceTitan objects (`servicetitan_governance`).
+
+### n8n Workflow Storage (Cloud-Only)
+
+**n8n workflows MUST NOT be stored locally.** The following hooks enforce cloud-only storage:
+
+| Hook | Behavior |
+|------|----------|
+| `stale_workflow_json_detector` | BLOCKS Write/Edit of workflow JSON outside temp/old dirs |
+| `n8n_download_blocker` | BLOCKS `mcp__n8n-mcp__n8n_get_workflow` calls |
+| `n8n_post_update_cleanup` | Auto-archives temp/*.json after successful n8n update |
+
+**Allowed local files per n8n project folder:**
+- `CLAUDE.md` - Project context and goals
+- `temp/*.json` - Transient editing workspace (auto-cleaned after push)
+- `temp/*.js` - Code node local testing
+
+**Blocked:**
+- Persistent workflow JSON files
+- Downloaded workflow definitions
+- Local workflow "backups"
 
 ## Testing Context Interpretation
 
