@@ -1,18 +1,18 @@
 {
-  "goal": "Implement comprehensive test coverage and cleanup for ServiceTitan CRM integration workflows",
-  "summary": "Implement comprehensive test coverage and cleanup for ServiceTitan CRM integration workflows",
+  "goal": "Implement comprehensive test coverage, security hardening, and code quality improvements for the Spinal Cord hooks system",
+  "summary": "Implement comprehensive test coverage, security hardening, and code quality improvements for the Spinal Cord hooks system",
   "fields": {
-    "who": "ServiceTitan workflows (Auth Token Manager, Call Association, Job Reminder, Review Request)",
-    "what": "Clean artifacts, expand test coverage, update documentation, enforce governance rules",
-    "when": "Ongoing maintenance until [DEV] tags removed after 98%+ evaluation threshold",
-    "where": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan",
-    "why": "Project had stale Windows artifacts, tests in wrong locations, outdated documentation",
-    "how": "1. Moved Windows artifacts to old/ 2. Reorganized tests to proper structure 3. Updated project.md status 4. Created 42 new tests for core logic using Vitest",
-    "which": "e8JlV1rxfR237HMu (Auth), fkTzuzjXYwxSGtlr (Call), knB3ZyreIIQwZh9k (Reminder), 07ki4WkQol61XZPQ (Review)",
-    "lest": "Stale files accumulate causing confusion, tests fail to run in CI pipelines, documentation becomes misleading and outdated",
-    "with": "Vitest test framework, n8n cloud workflows, ServiceTitan API, bun runtime",
-    "measuredBy": "60 tests passing with 100% success rate, clean project structure, accurate documentation"
+    "who": "Spinal Cord hooks system (pre-bash, bun-enforcer, goal-compliance-gate, etc.)",
+    "what": "Fix security gaps, enable skipped tests, reduce lint warnings, fix goal compliance false positive",
+    "when": "Ongoing maintenance until all tests pass and lint warnings resolved",
+    "where": "C:\\Users\\codya\\.claude\\hooks",
+    "why": "Tests were skipped, security functions incomplete, goal compliance hook had false positive due to stale session goal",
+    "how": "1. Extended emoji detection to include regional indicators 2. Extended deletion detection to include unlink/shred/find-delete/git-clean 3. Enabled 5 skipped security tests 4. Created 27 bun-enforcer tests 5. Fixed goal stack session data",
+    "which": "hooks/src/utils.ts, hooks/tests/pre-bash.test.ts, hooks/tests/bun-enforcer.test.ts, sessions/*/goal-stack.json",
+    "lest": "Security gaps allow forbidden commands through hooks, tests remain skipped hiding real failures, stale goals cause false compliance rejections",
+    "with": "Vitest test framework, bun runtime, TypeScript, XO linter with Prettier",
+    "measuredBy": "All 1565 tests passing, 0 lint errors, goal compliance gate passes for valid goals"
   },
-  "updatedAt": "2026-02-05T19:50:00.000Z",
-  "projectScope": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan"
+  "updatedAt": "2026-02-05T22:00:00.000Z",
+  "projectScope": "C:\\Users\\codya\\.claude\\hooks"
 }
