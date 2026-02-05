@@ -11,6 +11,7 @@
  * 6. Webhook node name itself should always be just 'webhook'
  * 7. Path should never contain the word "test"
  * 8. All webhook triggers must authenticate by a unique secret key
+ * 9. webhookId field REQUIRED (undocumented n8n requirement - causes 404 without it)
  */
 
 import { describe, it, expect } from 'vitest';
@@ -281,6 +282,7 @@ describe('n8nWebhookPathValidator', () => {
     const validWebhookNode = {
       name: 'webhook',
       type: 'n8n-nodes-base.webhook',
+      webhookId: 'customer-sync-webhook-id',
       parameters: {
         path: 'customer-sync',
         httpMethod: 'POST',
@@ -294,10 +296,52 @@ describe('n8nWebhookPathValidator', () => {
       },
     };
 
-    it('should pass valid webhook node', () => {
+    it('should pass valid webhook node with webhookId', () => {
       const result = validateWebhookNode(validWebhookNode, 'customer_sync');
       expect(result.valid).toBe(true);
       expect(result.errors).toHaveLength(0);
+    });
+
+    it('should fail for missing webhookId', () => {
+      const node = {
+        name: 'webhook',
+        type: 'n8n-nodes-base.webhook',
+        // No webhookId
+        parameters: {
+          path: 'customer-sync',
+          httpMethod: 'POST',
+          authentication: 'headerAuth',
+          options: {
+            headerAuth: {
+              name: 'X-Webhook-Secret',
+              value: '={{$env.N8N_IN_SECRET_CUSTOMER_SYNC}}',
+            },
+          },
+        },
+      };
+      const result = validateWebhookNode(node, 'customer_sync');
+      expect(result.valid).toBe(false);
+      expect(result.errors.some((e) => e.includes('webhookId'))).toBe(true);
+    });
+
+    it('should fail for empty webhookId', () => {
+      const node = {
+        ...validWebhookNode,
+        webhookId: '',
+      };
+      const result = validateWebhookNode(node, 'customer_sync');
+      expect(result.valid).toBe(false);
+      expect(result.errors.some((e) => e.includes('webhookId'))).toBe(true);
+    });
+
+    it('should fail for whitespace-only webhookId', () => {
+      const node = {
+        ...validWebhookNode,
+        webhookId: '   ',
+      };
+      const result = validateWebhookNode(node, 'customer_sync');
+      expect(result.valid).toBe(false);
+      expect(result.errors.some((e) => e.includes('webhookId'))).toBe(true);
     });
 
     it('should fail for wrong node name', () => {
@@ -346,6 +390,7 @@ describe('n8nWebhookPathValidator', () => {
           {
             name: 'webhook',
             type: 'n8n-nodes-base.webhook',
+            webhookId: 'customer-sync-webhook',
             parameters: {
               path: 'customer-sync',
               authentication: 'headerAuth',
@@ -429,6 +474,7 @@ describe('n8nWebhookPathValidator', () => {
             {
               name: 'webhook',
               type: 'n8n-nodes-base.webhook',
+              webhookId: 'customer-sync-webhook',
               parameters: {
                 path: 'customer-sync',
                 authentication: 'headerAuth',
@@ -457,6 +503,7 @@ describe('n8nWebhookPathValidator', () => {
             {
               name: 'webhook',
               type: 'n8n-nodes-base.webhook',
+              webhookId: 'customer-sync-webhook',
               parameters: {
                 path: 'api/customer-sync',
                 authentication: 'headerAuth',
@@ -486,6 +533,7 @@ describe('n8nWebhookPathValidator', () => {
             {
               name: 'webhook',
               type: 'n8n-nodes-base.webhook',
+              webhookId: 'customer-sync-webhook',
               parameters: {
                 path: 'test-customer-sync',
                 authentication: 'headerAuth',
@@ -515,6 +563,7 @@ describe('n8nWebhookPathValidator', () => {
             {
               name: 'webhook',
               type: 'n8n-nodes-base.webhook',
+              webhookId: 'customer-sync-webhook',
               parameters: {
                 path: 'customer-sync',
               },
@@ -537,6 +586,7 @@ describe('n8nWebhookPathValidator', () => {
             {
               name: 'api_trigger',
               type: 'n8n-nodes-base.webhook',
+              webhookId: 'customer-sync-webhook',
               parameters: {
                 path: 'customer-sync',
                 authentication: 'headerAuth',
@@ -555,6 +605,36 @@ describe('n8nWebhookPathValidator', () => {
       const result = await n8nWebhookPathValidatorHook(input);
       expect(result.hookSpecificOutput.permissionDecision).toBe('deny');
       expect(result.hookSpecificOutput.permissionDecisionReason).toContain('webhook');
+    });
+
+    it('should block webhook without webhookId', async () => {
+      const input: PreToolUseInput = {
+        tool_name: 'mcp__n8n-mcp__n8n_create_workflow',
+        tool_input: {
+          name: 'customer_sync',
+          nodes: [
+            {
+              name: 'webhook',
+              type: 'n8n-nodes-base.webhook',
+              // No webhookId - will cause 404 at runtime
+              parameters: {
+                path: 'customer-sync',
+                authentication: 'headerAuth',
+                options: {
+                  headerAuth: {
+                    name: 'X-Webhook-Secret',
+                    value: '={{$env.N8N_IN_SECRET_CUSTOMER_SYNC}}',
+                  },
+                },
+              },
+            },
+          ],
+        },
+      };
+
+      const result = await n8nWebhookPathValidatorHook(input);
+      expect(result.hookSpecificOutput.permissionDecision).toBe('deny');
+      expect(result.hookSpecificOutput.permissionDecisionReason).toContain('webhookId');
     });
 
     it('should allow workflow without webhook nodes', async () => {

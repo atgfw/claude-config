@@ -2178,6 +2178,204 @@
           "content_hash": "79d51261ba7f760c"
         }
       ]
+    },
+    {
+      "unified_id": "plan-C:/Users/codya/.claude/plans/concurrent-inventing-starfish.md",
+      "github_issue": null,
+      "claude_task_id": null,
+      "openspec_change_id": null,
+      "plan_step": null,
+      "goal_summary": null,
+      "status": "open",
+      "last_synced": "2026-02-05T17:13:52.930Z",
+      "sync_hash": "",
+      "plan_file": "C:/Users/codya/.claude/plans/concurrent-inventing-starfish.md",
+      "checklist_items": [
+        {
+          "id": "07b4dc4485de",
+          "text": "Implement n8n_download_blocker",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.927Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "0a7a37fc8932",
+          "text": "Read workflow JSON → ALLOWED with WARNING",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.927Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "0f145ebf3b8f",
+          "text": "Failed `n8n_update_*` with temp file → File preserved",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.927Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "238f8e233ff1",
+          "text": "Implement n8n_post_update_cleanup",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.927Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "329875dd2eec",
+          "text": "`hooks/tests/hooks/n8n_post_update_cleanup.test.ts`",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.926Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "399d8812bb19",
+          "text": "Successful `n8n_update_*` with temp file → File archived",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.927Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "46973570719a",
+          "text": "Adding `n8n_download_blocker` to block `n8n_get_workflow` MCP calls",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.926Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "4c497bfe1bb8",
+          "text": "Manual verification",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.928Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "4fbe9a7b648b",
+          "text": "Create tests for n8n_download_blocker (TDD)",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.927Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "698adb9b6d1c",
+          "text": "Deprecate old spec",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.928Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "6e7c608d9ec1",
+          "text": "Create tests for n8n_post_update_cleanup (TDD)",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.927Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "7828ead025ee",
+          "text": "Upgrading `stale_workflow_json_detector` from WARN to BLOCK for Write/Edit",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.926Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "8ff3d044b602",
+          "text": "`n8n_get_workflow` with `documentation_only: true` → ALLOWED",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.927Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "92412592b9d9",
+          "text": "`n8n_get_workflow` call → BLOCKED",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.927Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "95d3f7f06b36",
+          "text": "Update `hooks/tests/governance/stale_workflow_json_detector.test.ts`",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.926Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "a5c54c943723",
+          "text": "Build and run all tests",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.928Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "bdf9d7d5bb8f",
+          "text": "Write workflow JSON to temp/ → ALLOWED",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.927Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "c9d2e5bc9750",
+          "text": "Update stale_workflow_json_detector tests",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.927Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "d34f2c95dd9a",
+          "text": "Update settings.json",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.928Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "d95299cce833",
+          "text": "Close issues #19, #33",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.928Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "e30984115bfd",
+          "text": "Update index.ts imports",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.928Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "e83a0dc6f154",
+          "text": "`hooks/tests/governance/n8n_download_blocker.test.ts`",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.926Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "ead16724bcab",
+          "text": "Upgrade stale_workflow_json_detector",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.928Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "f435625b1caf",
+          "text": "Adding `n8n_post_update_cleanup` to auto-archive temp files after successful pushes",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.926Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "fc0015ec88ba",
+          "text": "Write workflow JSON to project root → BLOCKED",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:13:52.927Z",
+          "modified_by": "plan"
+        }
+      ],
+      "checklist_hash": "51af014114b3c13e",
+      "sync_sources": [
+        {
+          "type": "plan",
+          "artifact_id": "C:/Users/codya/.claude/plans/concurrent-inventing-starfish.md",
+          "last_read": "2026-02-05T17:13:52.930Z",
+          "content_hash": "6f2b7f75d87177fc"
+        }
+      ]
     }
   ]
 }

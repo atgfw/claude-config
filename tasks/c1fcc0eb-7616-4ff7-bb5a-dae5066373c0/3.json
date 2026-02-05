@@ -1,9 +1,0 @@
-{
-  "id": "3",
-  "subject": "Update CLAUDE.md with correct n8n patterns",
-  "description": "Update servicetitan CLAUDE.md to:\n1. Remove/fix inline headerAuth pattern (doesn't work)\n2. Document credential reference pattern instead\n3. Add webhookId requirement documentation\n4. Reference N8N-SUBWORKFLOW-ARCHITECTURE.md",
-  "activeForm": "Updating CLAUDE.md documentation",
-  "status": "pending",
-  "blocks": [],
-  "blockedBy": []
-}

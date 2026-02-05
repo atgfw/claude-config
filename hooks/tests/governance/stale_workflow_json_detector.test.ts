@@ -1,3 +1,13 @@
+/**
+ * Tests for stale_workflow_json_detector hook
+ *
+ * Issue: #19, #33
+ *
+ * Behavior:
+ * - Read: WARN (allow with reason) - users may need to read for reference
+ * - Write/Edit: BLOCK (deny) - prevent creating/modifying workflow files outside temp/
+ */
+
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { staleWorkflowJsonDetectorHook } from '../../src/governance/stale_workflow_json_detector.js';
 import type { PreToolUseInput } from '../../src/types.js';
@@ -32,38 +42,75 @@ describe('staleWorkflowJsonDetector', () => {
     vi.clearAllMocks();
   });
 
-  it('should warn when reading a workflow JSON in project root', async () => {
-    const input: PreToolUseInput = {
-      tool_name: 'Read',
-      tool_input: {
-        file_path: '/projects/my-n8n-project/workflow.json',
-      },
-    };
+  describe('Read operations (WARN)', () => {
+    it('should warn when reading a workflow JSON in project root', async () => {
+      const input: PreToolUseInput = {
+        tool_name: 'Read',
+        tool_input: {
+          file_path: '/projects/my-n8n-project/workflow.json',
+        },
+      };
 
-    const result = await staleWorkflowJsonDetectorHook(input);
+      const result = await staleWorkflowJsonDetectorHook(input);
 
-    expect(result.hookSpecificOutput.permissionDecision).toBe('allow');
-    expect(result.hookSpecificOutput.permissionDecisionReason).toContain('workflow JSON');
-    expect(result.hookSpecificOutput.permissionDecisionReason).toContain('source of truth');
+      expect(result.hookSpecificOutput.permissionDecision).toBe('allow');
+      expect(result.hookSpecificOutput.permissionDecisionReason).toContain('WARNING');
+      expect(result.hookSpecificOutput.permissionDecisionReason).toContain('source of truth');
+    });
   });
 
-  it('should warn when writing a workflow JSON in project root', async () => {
-    const input: PreToolUseInput = {
-      tool_name: 'Write',
-      tool_input: {
-        file_path: '/projects/my-n8n-project/workflow.json',
-        content: JSON.stringify({
-          name: 'test',
-          nodes: [],
-          connections: {},
-        }),
-      },
-    };
+  describe('Write operations (BLOCK)', () => {
+    it('should BLOCK when writing a workflow JSON in project root', async () => {
+      const input: PreToolUseInput = {
+        tool_name: 'Write',
+        tool_input: {
+          file_path: '/projects/my-n8n-project/workflow.json',
+          content: JSON.stringify({
+            name: 'test',
+            nodes: [],
+            connections: {},
+          }),
+        },
+      };
 
-    const result = await staleWorkflowJsonDetectorHook(input);
+      const result = await staleWorkflowJsonDetectorHook(input);
 
-    expect(result.hookSpecificOutput.permissionDecision).toBe('allow');
-    expect(result.hookSpecificOutput.permissionDecisionReason).toContain('workflow JSON');
+      expect(result.hookSpecificOutput.permissionDecision).toBe('deny');
+      expect(result.hookSpecificOutput.permissionDecisionReason).toContain('BLOCKED');
+    });
+
+    it('should provide actionable guidance in block message', async () => {
+      const input: PreToolUseInput = {
+        tool_name: 'Write',
+        tool_input: {
+          file_path: '/projects/my-n8n-project/workflow.json',
+          content: JSON.stringify({ nodes: [], connections: {} }),
+        },
+      };
+
+      const result = await staleWorkflowJsonDetectorHook(input);
+
+      expect(result.hookSpecificOutput.permissionDecisionReason).toContain('temp/');
+      expect(result.hookSpecificOutput.permissionDecisionReason).toContain('n8n_update');
+    });
+  });
+
+  describe('Edit operations (BLOCK)', () => {
+    it('should BLOCK when editing a workflow JSON in project root', async () => {
+      const input: PreToolUseInput = {
+        tool_name: 'Edit',
+        tool_input: {
+          file_path: '/projects/my-n8n-project/workflow.json',
+          old_string: 'old',
+          new_string: 'new',
+        },
+      };
+
+      const result = await staleWorkflowJsonDetectorHook(input);
+
+      expect(result.hookSpecificOutput.permissionDecision).toBe('deny');
+      expect(result.hookSpecificOutput.permissionDecisionReason).toContain('BLOCKED');
+    });
   });
 
   it('should allow workflow JSON in temp/ subdirectory', async () => {
@@ -178,7 +225,7 @@ describe('staleWorkflowJsonDetector', () => {
     expect(result.hookSpecificOutput.permissionDecisionReason).toBeUndefined();
   });
 
-  it('should detect workflow JSON from Write content even without reading file', async () => {
+  it('should BLOCK workflow JSON Write even for new files', async () => {
     // When writing, check the content being written, not the existing file
     const input: PreToolUseInput = {
       tool_name: 'Write',
@@ -194,8 +241,8 @@ describe('staleWorkflowJsonDetector', () => {
 
     const result = await staleWorkflowJsonDetectorHook(input);
 
-    expect(result.hookSpecificOutput.permissionDecision).toBe('allow');
-    expect(result.hookSpecificOutput.permissionDecisionReason).toContain('workflow JSON');
+    expect(result.hookSpecificOutput.permissionDecision).toBe('deny');
+    expect(result.hookSpecificOutput.permissionDecisionReason).toContain('BLOCKED');
   });
 
   it('should skip excluded config filenames', async () => {

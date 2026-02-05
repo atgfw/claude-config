@@ -1,0 +1,13 @@
+{
+  "id": "1",
+  "subject": "Phase 1: Input Schema Extension",
+  "description": "Phase 1: Input Schema Extension - COMPLETED\n\nEvidence:\n- `workflows/llm_data_collection/old/temp_nodes_v56_cleanup/input-validator.js:27-38` - Added VALID_MODALITIES and VALID_DIRECTIONS constants:\n```javascript\nconst VALID_MODALITIES = [\n  \"phone_call\",\n  \"chat\",\n  \"video_meeting\",\n  \"in_person\",\n  \"voice_message\",\n  \"email\",\n];\n\nconst VALID_DIRECTIONS = [\"inbound\", \"outbound\", \"internal\", \"multi_party\"];\n```\n\n- `workflows/llm_data_collection/old/temp_nodes_v56_cleanup/input-validator.js:85-117` - Added `resolveConversationContext()` function\n- `workflows/llm_data_collection/old/temp_nodes_v56_cleanup/input-validator.js:122-175` - Added `buildRoleMap()` function\n- `workflows/llm_data_collection/old/temp_nodes_v56_cleanup/input-validator.js:180-242` - Added `validateConversationContext()` function\n- `workflows/llm_data_collection/CLAUDE.md:150-207` - Added conversation_context documentation with modality/direction tables\n- `workflows/llm_data_collection/CLAUDE.md:368-460` - Added 4 example requests (outbound, chat, video meeting, voicemail)",
+  "activeForm": "Implementing input schema extension",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": [],
+  "metadata": {
+    "userConfirmed": true,
+    "evidencePath": "workflows/llm_data_collection/old/temp_nodes_v56_cleanup/input-validator.js"
+  }
+}

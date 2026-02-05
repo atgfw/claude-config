@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "Phase 2: Category Config Updates",
+  "description": "Tasks 2.1-2.10: Create prompt template resolver, update all category configs (caller, contact, routing, consent, sentiment, coaching, conversation_validity, request, sales)",
+  "activeForm": "Updating category configs",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

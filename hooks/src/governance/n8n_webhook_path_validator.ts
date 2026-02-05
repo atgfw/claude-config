@@ -13,6 +13,9 @@
  * 6. Webhook node name itself should always be just 'webhook'
  * 7. Path should never contain the word "test"
  * 8. All webhook triggers must authenticate by a unique secret key
+ * 9. CRITICAL: webhookId field REQUIRED (undocumented n8n requirement)
+ *    - Without webhookId, n8n returns 404 "The requested webhook is not registered"
+ *    - See docs/N8N-SUBWORKFLOW-ARCHITECTURE.md for details
  */
 
 import type { PreToolUseInput, PreToolUseOutput } from '../types.js';
@@ -26,6 +29,7 @@ import { registerHook } from '../runner.js';
 interface N8nNode {
   name: string;
   type: string;
+  webhookId?: string;
   parameters?: Record<string, unknown>;
 }
 
@@ -256,6 +260,16 @@ export function validateWebhookNode(node: N8nNode, workflowName: string): Webhoo
     result.valid = false;
     result.errors.push(`Webhook node name must be exactly "webhook", got "${node.name}"`);
     result.suggestions.push('Rename the node to "webhook"');
+  }
+
+  // Check webhookId field exists (CRITICAL - undocumented requirement)
+  // Without webhookId, n8n returns 404 "The requested webhook is not registered"
+  if (!node.webhookId || node.webhookId.trim() === '') {
+    result.valid = false;
+    result.errors.push('Webhook node missing required "webhookId" field (causes 404 without it)');
+    result.suggestions.push(
+      'Add webhookId: "unique-id" to the webhook node (use UUID or descriptive slug)'
+    );
   }
 
   // Get parameters

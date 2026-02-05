@@ -118,7 +118,7 @@ Setup will:
 | **Version Numbers Banned** | `n8n_naming_validator` | No v1, v2, r1, _1 in any object names (global rule) |
 | **Never fabricate versioning** | `version_fabrication_detector` | No _v2, _new, _backup suffixes unless project uses versioning |
 | **Integers Banned in Names** | `n8n_naming_validator` | No arbitrary integers unless canonical (base64, oauth2) |
-| **Webhook Path Naming** | `n8n_webhook_path_validator` | kebab-case, no nesting, no "test", must authenticate |
+| **Webhook Path Naming** | `n8n_webhook_path_validator` | kebab-case, no nesting, no "test", must authenticate, **webhookId required** |
 | **Secret Scanning** | `secret_scanner` | STRICT: Blocks commits containing API keys/secrets |
 | **Commit Conventions** | `commit_message_validator` | WARN: Conventional Commits format recommended |
 | **Default Branch** | `branch_naming_validator` | STRICT: Blocks `master`, enforces `main` only |
@@ -368,6 +368,7 @@ Webhook trigger paths must follow these rules:
 | "test" word | BLOCKED (n8n has built-in test triggers) |
 | Authentication | REQUIRED via header auth |
 | Node name | Must be exactly "webhook" |
+| **webhookId** | **REQUIRED** - undocumented n8n requirement (causes 404 without it) |
 
 ### Valid vs Invalid Paths
 
@@ -387,6 +388,7 @@ All webhooks MUST authenticate using header auth with a unique secret key:
 {
   "name": "webhook",
   "type": "n8n-nodes-base.webhook",
+  "webhookId": "customer-sync-webhook",  // REQUIRED - without this, n8n returns 404!
   "parameters": {
     "path": "customer-sync",
     "httpMethod": "POST",
@@ -425,6 +427,28 @@ The webhook node name MUST be exactly `webhook`. This provides consistency and m
 | `trigger` | `webhook` |
 
 **Rationale:** Webhook nodes should be identified by their path, not their name. The path (`customer-sync`) provides the semantic meaning.
+
+### webhookId Field (CRITICAL)
+
+Every webhook node MUST have a `webhookId` field. This is an **undocumented n8n requirement**:
+
+| Without webhookId | Result |
+|-------------------|--------|
+| Missing field | n8n returns 404 "The requested webhook is not registered" |
+| Empty string | Same 404 error |
+
+**Format:** Use a unique identifier - UUID or descriptive slug matching the webhook path:
+
+```javascript
+{
+  "name": "webhook",
+  "type": "n8n-nodes-base.webhook",
+  "webhookId": "customer-sync-webhook",  // REQUIRED!
+  // ... parameters
+}
+```
+
+**Discovery:** This requirement was found through experimental testing. The Execute Workflow node's runtime validation differs from webhook execution, causing mysterious 404 errors until webhookId was added. See `docs/N8N-SUBWORKFLOW-ARCHITECTURE.md` for full documentation.
 
 ## Test Framework: Vitest
 

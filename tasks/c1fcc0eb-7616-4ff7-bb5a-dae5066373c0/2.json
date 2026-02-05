@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "Add webhookId enforcement hook",
-  "description": "Create governance hook to validate that all webhook nodes in n8n workflows have a webhookId field. Without webhookId, webhooks return 404 \"not registered\".",
-  "activeForm": "Creating webhookId enforcement hook",
-  "status": "pending",
-  "blocks": [],
-  "blockedBy": []
-}
