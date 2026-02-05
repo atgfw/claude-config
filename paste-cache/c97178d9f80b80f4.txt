@@ -1,0 +1,33 @@
+● Now let me replace the buggy comparison logic with isPathMatch.
+
+● Update(hooks\src\hooks\session_hydrator.ts)
+  ⎿  PreToolUse:Edit hook error
+  ⎿  Added 3 lines, removed 6 lines
+      59    const goalProjectDir = goal.fields?.where;
+      60
+      61    if (goalProjectDir && goalProjectDir !== 'unknown') {
+      62 -    // Normalize paths for comparison (handle Windows/Unix differences)
+      63 -    const normalizedCwd = currentWorkingDir.replace(/\\/g, '/').toLowerCase();
+      64 -    const normalizedGoalDir = goalProjectDir.replace(/\\/g, '/').toLowerCase();
+      65 -
+      66 -    // Check if goal is for a different project
+      67 -    if (!normalizedCwd.includes(normalizedGoalDir) && !normalizedGoalDir.includes(normalizedCwd))
+         - {
+      62 +    // Use isPathMatch for proper path comparison (prevents sibling directory false positives)
+      63 +    // e.g., /projects/myapp should NOT match /projects/myapp2
+      64 +    if (!isPathMatch(currentWorkingDir, goalProjectDir)) {
+      65        logTerse(
+      66          `[!] Skipping global goal - different project (goal: ${goalProjectDir}, cwd: ${currentWor
+          kingDir})`
+      67        );
+  ⎿  Running PostToolUse hooks…
+
+✻ Baked for 14m 38s
+
+  6 tasks (1 done, 1 in progress, 4 open) · ctrl+t to hide tasks
+  ◼ Fix path comparison in session_hydrator.ts
+  ◻ Fix projectScope race condition in goal_stack.ts
+  ◻ Add github_repo field to task_source_sync.ts
+  ◻ Add session cleanup mechanism
+  ◻ Fix working directory drift in loadGoalStack()
+  ✔ Add isPathMatch() function to utils.ts

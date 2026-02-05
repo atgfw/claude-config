@@ -298,11 +298,19 @@
           "description": "update RESPONSE-FORMAT.md for conversation types",
           "breaking": false,
           "timestamp": "2026-02-05T19:20:35.408Z"
+        },
+        {
+          "hash": "f9793b3",
+          "type": "chore",
+          "scope": "voice-ai",
+          "description": "cleanup stale files and add documentation",
+          "breaking": false,
+          "timestamp": "2026-02-05T22:13:37.747Z"
         }
       ]
     }
   },
-  "lastUpdated": "2026-02-05T19:20:35.410Z",
+  "lastUpdated": "2026-02-05T22:13:37.749Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"
