@@ -13,7 +13,7 @@
     "measuredBy": "Non-empty KB documents with correct naming schema after next cron run or manual webhook trigger with force=true"
   },
   "summary": "Harden Website RAG Pipeline for Reliability",
-  "updatedAt": "2026-02-05T19:30:00.000Z",
+  "updatedAt": "2026-02-05T18:53:41.964Z",
   "linkedArtifacts": {
     "workflows": {
       "orchestrator": "z3DOvsyLX5ICrEH6",
