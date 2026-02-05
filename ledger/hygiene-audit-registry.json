@@ -1356,5 +1356,19 @@
         "severity": "warn"
       }
     ]
+  },
+  {
+    "timestamp": "2026-02-05T17:41:26.216Z",
+    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents\\nul",
+        "filename": "nul",
+        "suggestion": "mv \"nul\" old/misc/",
+        "severity": "warn"
+      }
+    ]
   }
 ]
