@@ -1,23 +1,28 @@
 {
-  "goal": "Block n8n local workflow files - enforce cloud-only storage",
+  "goal": "Proposal: Block n8n Local Workflow Files",
   "fields": {
-    "who": "Claude Code sessions working with n8n workflows",
-    "what": "Block writing/downloading n8n workflow JSON locally; enforce cloud as single source of truth",
-    "when": "Implemented 2026-02-05",
-    "where": "~/.claude/hooks/src/governance/, ~/.claude/hooks/src/hooks/",
-    "why": "Local workflow files cause dangerous confusion - Claude overwrites cloud with stale local code (Issues #19, #33)",
-    "how": "Upgraded stale_workflow_json_detector (WARN->BLOCK for writes), added n8n_download_blocker and n8n_post_update_cleanup hooks",
-    "which": "C:/Users/codya/.claude/hooks/src/governance/stale_workflow_json_detector.ts, C:/Users/codya/.claude/hooks/src/governance/n8n_download_blocker.ts, C:/Users/codya/.claude/hooks/src/hooks/n8n_post_update_cleanup.ts, C:/Users/codya/.claude/settings.json",
-    "lest": "Continued drift between local and cloud state, data loss, workflow corruption",
-    "with": "Existing hook infrastructure, n8n MCP, temp directory pattern",
-    "measuredBy": "Zero persistent workflow JSON outside temp/, all n8n_get_workflow calls blocked"
+    "who": "Claude Code session",
+    "what": "Proposal: Block n8n Local Workflow Files",
+    "when": "Current task",
+    "where": "C:\\Users\\codya\\.claude",
+    "why": "Task in progress",
+    "how": "Following implementation plan",
+    "which": "Target object not specified",
+    "lest": "Failure modes not defined",
+    "with": "Dependencies not enumerated",
+    "measuredBy": "Success metrics not defined"
   },
-  "summary": "Block n8n local workflow files - enforce cloud-only storage",
-  "updatedAt": "2026-02-05T17:30:00.000Z",
+  "summary": "Proposal: Block n8n Local Workflow Files",
+  "updatedAt": "2026-02-05T17:52:06.587Z",
   "linkedArtifacts": {
     "openspec": "block-n8n-local-workflow-files",
-    "plan_files": ["plans/concurrent-inventing-starfish.md"],
-    "github_issues": ["#19", "#33"]
+    "plan_files": [
+      "plans/concurrent-inventing-starfish.md"
+    ],
+    "github_issues": [
+      "#19",
+      "#33"
+    ]
   },
   "history": [
     {
@@ -33,5 +38,5 @@
       "updatedAt": "2026-02-04T19:00:00.000Z"
     }
   ],
-  "projectScope": "Spinal Cord n8n governance hooks"
+  "projectScope": "C:\\Users\\codya\\.claude"
 }

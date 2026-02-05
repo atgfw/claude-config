@@ -1875,7 +1875,7 @@
       "plan_step": null,
       "goal_summary": null,
       "status": "open",
-      "last_synced": "2026-02-05T17:43:57.469Z",
+      "last_synced": "2026-02-05T17:52:06.402Z",
       "sync_hash": "",
       "plan_file": null,
       "checklist_items": [
@@ -2102,7 +2102,7 @@
         {
           "type": "openspec",
           "artifact_id": "block-n8n-local-workflow-files",
-          "last_read": "2026-02-05T17:43:57.469Z",
+          "last_read": "2026-02-05T17:52:06.402Z",
           "content_hash": "d0fa118a1c381ca1"
         }
       ]
@@ -2568,7 +2568,7 @@
       "plan_step": null,
       "goal_summary": null,
       "status": "open",
-      "last_synced": "2026-02-05T17:42:18.450Z",
+      "last_synced": "2026-02-05T17:52:06.441Z",
       "sync_hash": "",
       "plan_file": "C:\\Users\\codya\\.claude\\plans\\concurrent-inventing-starfish.md",
       "checklist_items": [
@@ -2753,7 +2753,7 @@
         {
           "type": "plan",
           "artifact_id": "C:\\Users\\codya\\.claude\\plans\\concurrent-inventing-starfish.md",
-          "last_read": "2026-02-05T17:42:18.450Z",
+          "last_read": "2026-02-05T17:52:06.441Z",
           "content_hash": "6fa0f86cae57c8bf"
         }
       ]
@@ -2908,6 +2908,108 @@
           "artifact_id": "#19",
           "last_read": "2026-02-05T17:42:19.569Z",
           "content_hash": "79d51261ba7f760c"
+        }
+      ]
+    },
+    {
+      "unified_id": "github_issue-#19",
+      "github_issue": null,
+      "claude_task_id": null,
+      "openspec_change_id": null,
+      "plan_step": null,
+      "goal_summary": null,
+      "status": "open",
+      "last_synced": "2026-02-05T17:52:07.606Z",
+      "sync_hash": "",
+      "plan_file": null,
+      "checklist_items": [
+        {
+          "id": "04b6ca3af73e",
+          "text": "Documentation updated to reflect working directory purpose",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:52:07.606Z",
+          "modified_by": "github_issue"
+        },
+        {
+          "id": "8af4ba85ec46",
+          "text": "Project folders do not persist workflow JSON long-term",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:52:07.606Z",
+          "modified_by": "github_issue"
+        },
+        {
+          "id": "e51f92a3673f",
+          "text": "Download-edit-upload pattern enforced for workflow modifications",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:52:07.606Z",
+          "modified_by": "github_issue"
+        },
+        {
+          "id": "ea2227e51623",
+          "text": "Session start or hook warns on stale local workflow files",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:52:07.606Z",
+          "modified_by": "github_issue"
+        }
+      ],
+      "checklist_hash": "bd663b76f7de8c69",
+      "sync_sources": [
+        {
+          "type": "github_issue",
+          "artifact_id": "#19",
+          "last_read": "2026-02-05T17:52:07.606Z",
+          "content_hash": "84ab5d3311e74912"
+        }
+      ]
+    },
+    {
+      "unified_id": "github_issue-#33",
+      "github_issue": null,
+      "claude_task_id": null,
+      "openspec_change_id": null,
+      "plan_step": null,
+      "goal_summary": null,
+      "status": "open",
+      "last_synced": "2026-02-05T17:52:08.552Z",
+      "sync_hash": "",
+      "plan_file": null,
+      "checklist_items": [
+        {
+          "id": "5f069024c05c",
+          "text": "Document ad-hoc code node workflow in CLAUDE.md",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:52:08.552Z",
+          "modified_by": "github_issue"
+        },
+        {
+          "id": "64076e59ac9e",
+          "text": "Restart LLM Data extraction work with fresh cloud workflow state",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:52:08.552Z",
+          "modified_by": "github_issue"
+        },
+        {
+          "id": "8dcba07b23d7",
+          "text": "Add post-update hook to clear `~/.claude/temp/nodes/` after n8n workflow update",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:52:08.552Z",
+          "modified_by": "github_issue"
+        },
+        {
+          "id": "b8d761c77d6b",
+          "text": "Block/warn on `gh` or n8n MCP commands that download full workflows",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:52:08.552Z",
+          "modified_by": "github_issue"
+        }
+      ],
+      "checklist_hash": "ef425b5bf9f37818",
+      "sync_sources": [
+        {
+          "type": "github_issue",
+          "artifact_id": "#33",
+          "last_read": "2026-02-05T17:52:08.552Z",
+          "content_hash": "a7e794e38fd6afa2"
         }
       ]
     }
