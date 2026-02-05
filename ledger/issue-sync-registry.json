@@ -1232,6 +1232,589 @@
       "github_issue": 40,
       "status": "closed",
       "last_synced": "2026-02-05T16:19:06.608Z"
+    },
+    {
+      "unified_id": "openspec-generalize-extraction-conversation-types",
+      "github_issue": null,
+      "claude_task_id": null,
+      "openspec_change_id": "generalize-extraction-conversation-types",
+      "plan_step": null,
+      "goal_summary": null,
+      "status": "open",
+      "last_synced": "2026-02-05T16:50:11.358Z",
+      "sync_hash": "",
+      "plan_file": null,
+      "checklist_items": [
+        {
+          "id": "0119d492b3be",
+          "text": "Test validity assessment",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.308Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "01d0347045b4",
+          "text": "Implement role resolution function",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.279Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "06433aafa1c9",
+          "text": "Pass `role_map` through to downstream nodes",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.279Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "0c82acfbc466",
+          "text": "Adjust validity assessment for internal calls",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "136b78d6b15e",
+          "text": "Implement default value resolution for missing fields",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.279Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "18846da5b399",
+          "text": "Adjust opportunity detection for outbound sales calls",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "18b39728d803",
+          "text": "Handle internal calls routing",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.280Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "1a311dcd58b9",
+          "text": "Handle B2B scenarios where caller != contact",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.280Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "1d9b22add788",
+          "text": "Implement `resolvePromptTemplate(template, role_map)` function",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.279Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "1e148fc20509",
+          "text": "Update sentiment_shifts to use role-neutral language",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.280Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "20248db3f39c",
+          "text": "Document all 6 conversation types",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.326Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "260067df7e99",
+          "text": "Add examples for each conversation type",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.325Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "26ba92897f46",
+          "text": "Add `external_party_sentiment` and `internal_party_tone` fields",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.280Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "2a7a842744d1",
+          "text": "Update all code nodes via n8n_update_partial_workflow",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "2af0ca6bfe1c",
+          "text": "Test customer identification (not \"caller\")",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "32b70cc9d13d",
+          "text": "Add 5 test cases verifying no regression",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "33a763cb890c",
+          "text": "Add Jinja access patterns for Rewst",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.326Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "355ebe5a54b0",
+          "text": "Test coaching metrics for human agents",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "37266b73e5b8",
+          "text": "Document all enum values and defaults",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.279Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "3e17593c8f6f",
+          "text": "Replace \"Agent:\" and \"Caller:\" with resolved labels",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.280Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "3ec32381bcf2",
+          "text": "Handle missing variables gracefully (fallback to literal)",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.279Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "43668ff35113",
+          "text": "Implement logic to skip coaching when not applicable",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.280Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "43f7223210bb",
+          "text": "Add context-aware rationale generation",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.280Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "4be786c20d1a",
+          "text": "Verify company_name not extracted from rep intro",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "503c4dff920d",
+          "text": "Add 4 test cases with human agent responses",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "537c53f35c00",
+          "text": "Provide decision tree for selecting context",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.326Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "5e542ff6e0f3",
+          "text": "Document `conversation_context` input field",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.325Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "63571144c20b",
+          "text": "Add context parsing logic after input_data validation",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.279Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "653bcc51be6e",
+          "text": "Add role-neutral field documentation",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.326Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "66bf43a7be46",
+          "text": "Update test runner to handle conversation_context",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.325Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "685f9fd4ffda",
+          "text": "Include `conversation_context` and `role_map` in success output",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.279Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "6976ddb4738d",
+          "text": "Add validation for enum values (direction, initiator_type, responder_type)",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.279Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "6b450ad4f14f",
+          "text": "Test caller_is_contact defaulting correctly",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.308Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "6f21430a2cb9",
+          "text": "Add new error code `INVALID_CONVERSATION_CONTEXT`",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.279Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "6f7096d7c758",
+          "text": "Include edge cases: short calls, transfers, abandonments",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "76243c2ae962",
+          "text": "Handle lead qualification in outbound context",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "7b9db0aed26d",
+          "text": "Call `resolvePromptTemplate` for each category's microprompts",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "7d0fe033b9ba",
+          "text": "Verify sentiment attribution",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "7fab2a11a8e8",
+          "text": "Update ABANDONED reasoning for outbound context",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "818dcb0a2e75",
+          "text": "Adjust detailed_description template for outbound calls",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "86887510bbe7",
+          "text": "Handle consent in outbound context",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.280Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "880589f23da5",
+          "text": "Handle internal calls (no coaching)",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "8c4bb1666d96",
+          "text": "Test representative/customer labels",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "8c5010cd3c49",
+          "text": "Integrate all new test cases into test profile",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.308Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "8d4963facd8d",
+          "text": "Support variables: `{{EXTERNAL_PARTY}}`, `{{INTERNAL_PARTY}}`, `{{INITIATOR}}`, `{{RESPONDER}}`",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.279Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "8f13cb945f29",
+          "text": "Document new output fields",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.325Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "91f86d2cfb84",
+          "text": "Document backward compatibility behavior",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.326Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "96a196cb220b",
+          "text": "Add outbound context where rep identifies location",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.280Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "976c305d639c",
+          "text": "Add AI-specific coaching metrics for AI agent scenarios",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "97804c276df2",
+          "text": "Include both new role-neutral fields and legacy fields",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "996fe14a0842",
+          "text": "Run full test suite",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.325Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "a474bf8b4488",
+          "text": "Verify coaching for human rep",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "a5d82c9e5ab7",
+          "text": "Add 4 test cases with AI-initiated calls",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "a783c7c21285",
+          "text": "Support human agent consent requests",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.280Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "a8245968ae61",
+          "text": "Add `conversation_context` field to input schema",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.279Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "ab9ef6b65b28",
+          "text": "Generate `role_map` from context",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.279Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "aebd880c3d3f",
+          "text": "Add 4 test cases with employee-initiated calls",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "b81aead76731",
+          "text": "Remove assumption \"agent greeting reveals location\"",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.280Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "ba218d37a48f",
+          "text": "Add `coaching_target` field with enum values",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.280Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "bac31fdf08a6",
+          "text": "Add 3 test cases with employee-to-employee",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.308Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "bcd66b311e75",
+          "text": "Maintain backward-compatible `caller_sentiment` and `agent_tone`",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.280Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "bfaa260923e7",
+          "text": "Replace \"caller\" references with `{{EXTERNAL_PARTY}}` in microprompts",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.279Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "c51446258c63",
+          "text": "Update `caller_is_contact` default logic for outbound calls",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.280Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "c53e6c8a15f1",
+          "text": "Update company_name extraction logic for outbound context",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.279Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "c6424af176a7",
+          "text": "Verify company_name extraction",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.308Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "cae3936f2fca",
+          "text": "Add example requests for each conversation type",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.279Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "cb5e5d8d52e1",
+          "text": "Verify coaching is skipped",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.308Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "cd93514ca351",
+          "text": "Include troubleshooting guide",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.326Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "d65db3e07922",
+          "text": "Add `conversation_context` to CLAUDE.md input schema section",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.279Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "d8a2ea5d668b",
+          "text": "Accept `role_map` from Input Validator",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "da9bfeb535de",
+          "text": "Implement backward-compatible field mapping",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "e254bee0644d",
+          "text": "Pass resolved prompts to LLM",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "e40f2f3d2d86",
+          "text": "Adjust contact name extraction for representative context",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.280Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "e5183fca95c3",
+          "text": "Verify dual-trigger pattern still works",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "e7affad986df",
+          "text": "Add `conversation_context` to response metadata",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "efbe0cb033bc",
+          "text": "Handle \"rep called customer\" vs \"customer called in\" language",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "f2a4c5da166f",
+          "text": "Add 3 test cases with business representative callers",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.308Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "f5b805bf87b2",
+          "text": "Adjust frustration_triggers for outbound context",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.280Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "f6f8dd411c4c",
+          "text": "Use role-neutral language in rationale",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "fd3fdcbf9d41",
+          "text": "Test webhook endpoint with new context parameter",
+          "status": "pending",
+          "last_modified": "2026-02-05T16:50:11.307Z",
+          "modified_by": "openspec"
+        }
+      ],
+      "checklist_hash": "1c316100947149ec",
+      "sync_sources": [
+        {
+          "type": "openspec",
+          "artifact_id": "generalize-extraction-conversation-types",
+          "last_read": "2026-02-05T16:50:11.358Z",
+          "content_hash": "9d30c085f86fd645"
+        }
+      ]
     }
   ]
 }
