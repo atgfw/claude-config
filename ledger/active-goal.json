@@ -4,7 +4,7 @@
     "who": "Claude Code session",
     "what": "Proposal: Block n8n Local Workflow Files",
     "when": "Current task",
-    "where": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents",
+    "where": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag",
     "why": "Task in progress",
     "how": "Following implementation plan",
     "which": "Target object not specified",
@@ -13,7 +13,7 @@
     "measuredBy": "Success metrics not defined"
   },
   "summary": "Proposal: Block n8n Local Workflow Files",
-  "updatedAt": "2026-02-05T17:09:28.906Z",
+  "updatedAt": "2026-02-05T17:25:06.030Z",
   "linkedArtifacts": {
     "openspec": "block-n8n-local-workflow-files",
     "plan_files": [],
@@ -36,5 +36,5 @@
       "updatedAt": "2026-02-04T19:00:00.000Z"
     }
   ],
-  "projectScope": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents"
+  "projectScope": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag"
 }
