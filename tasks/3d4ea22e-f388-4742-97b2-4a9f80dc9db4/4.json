@@ -1,9 +1,16 @@
 {
   "id": "4",
   "subject": "Phase 4-5: Testing",
-  "description": "Tasks 4.1-4.6, 5.1-5.6: Create test scenarios for all directions and modalities",
+  "description": "Phase 4-5: Testing complete. Added 27 test cases to `workflows/llm_data_collection/test-fixtures/test-profile.json:862-912` including TC063-TC089. Verified via webhook test execution_id `f07774c9-72af-481a-9f2b-62271c5720fb` showing `\"coaching_target\": {\"value\": \"not_applicable\"}` for internal calls.",
   "activeForm": "Creating test scenarios",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "executionId": "f07774c9-72af-481a-9f2b-62271c5720fb",
+    "testPassed": {
+      "testId": "TC080_internal_conversation",
+      "timestamp": "2026-02-05T18:03:23.394Z"
+    }
+  }
 }

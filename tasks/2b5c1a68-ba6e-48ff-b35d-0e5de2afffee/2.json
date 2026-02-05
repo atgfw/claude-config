@@ -1,9 +1,16 @@
 {
   "id": "2",
   "subject": "Create test documentation for 5 session reinit features",
-  "description": "Create docs/manual-tests/session-reinit/ with README.md and 5 test procedure documents (dirty-tree, governance-block, self-heal, cleanup, documentation-drift)",
+  "description": "Created 6 test documentation files in docs/manual-tests/session-reinit/. Evidence: `docs/manual-tests/session-reinit/README.md:1` contains `# Manual Verification Tests: Session Re-initialization`. All 5 test procedures documented with prerequisites, setup commands, expected output, and edge cases.",
   "activeForm": "Creating test documentation",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "evidencePath": "docs/manual-tests/session-reinit/README.md",
+    "testPassed": {
+      "testId": "file-creation",
+      "timestamp": "2026-02-05"
+    }
+  }
 }
