@@ -3,7 +3,7 @@
   "subject": "Deprecate or align [DEV] website_rag_kb_upload",
   "description": "The [DEV] workflow uses different naming (atgfw.com_business_profile) than orchestrator (atgfw_com_agent_xxx_website_profile). Either:\n- Deprecate this workflow since orchestrator handles uploads\n- Align naming convention if workflow is still needed",
   "activeForm": "Evaluating kb_upload workflow",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
