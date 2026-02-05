@@ -1,0 +1,9 @@
+{
+  "id": "6",
+  "subject": "Archive local scripts to old/",
+  "description": "Many scripts in scripts/ directory are one-time or stale:\n- benchmark_scrapling.py\n- docker_version.ps1\n- n8n_login.py\n- n8n_session_login.py\n- pull_scrapling.ps1\n- restart_docker.ps1\n- scrape_n8n.py\n- wait_docker.ps1\n\nKeep only: run-test-profile.js, test-assertions.js (active test infrastructure)",
+  "activeForm": "Archiving stale scripts",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

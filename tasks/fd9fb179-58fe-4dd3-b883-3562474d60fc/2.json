@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "Remove aspirational tests TC063-TC068 from test profile",
+  "description": "Tests TC063-TC068 test integration_context features that were never implemented:\n- business_unit_hint field doesn't exist in routing category\n- job_type_hint field doesn't exist in request category\n- integration_context passthrough not implemented\n- service_category enum mismatch\n\nEither remove these tests or move to separate \"future features\" test file.\n\nFile: test-fixtures/test-profile.json",
+  "activeForm": "Removing aspirational tests from profile",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

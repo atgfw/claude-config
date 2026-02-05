@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Delete workflow-ids.json (fabricated versioning)",
+  "description": "workflow-ids.json contains fabricated version numbers (v5.1.0) and stale metadata. Per governance, version numbers in object names are banned.\n\nFile: C:/Users/codya/coding/n8n_n8n/workflows/llm_data_collection/workflow-ids.json\n\nAlso delete: CUserscodyaAppDataLocalTempops.json (temp file)",
+  "activeForm": "Deleting fabricated versioning files",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

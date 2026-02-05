@@ -1,0 +1,9 @@
+{
+  "id": "5",
+  "subject": "Update OpenSpec tasks - check off completed items",
+  "description": "Mark completed tasks in:\n1. openspec/changes/implement-llm-data-extraction-pipeline/tasks.md - core workflow implemented\n2. openspec/changes/refactor-llm-extraction-extensibility/tasks.md - transforms, overrides implemented\n3. openspec/changes/migrate-rewst-llm-extraction-task/tasks.md - mark ALL complete per user confirmation",
+  "activeForm": "Updating OpenSpec task checkboxes",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

@@ -1,0 +1,9 @@
+{
+  "id": "3",
+  "subject": "Archive stale docs to old/ directory",
+  "description": "Move these files to old/:\n- docs/EVALUATION-DEPLOYMENT-STATUS.md\n- docs/EVALUATION-FINAL-REPORT.md\n- docs/EVALUATION-RESULTS.md\n- docs/EVALUATION-SETUP-GUIDE.md\n- docs/PINNED-DATA-SETUP-INSTRUCTIONS.md\n- docs/SCRAPLING-BENCHMARKS.md\n- docs/scrapling-automation.md\n- docs/SELKING-ROUTING-CONFIG-CORRECTIONS.md (or move to routing-config spec)\n\nKeep: CLAUDE.md, PROJECT-DIRECTIVE.md, docs/RESPONSE-FORMAT.md, docs/API.md",
+  "activeForm": "Archiving stale documentation",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
