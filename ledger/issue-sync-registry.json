@@ -1866,6 +1866,318 @@
           "content_hash": "79d51261ba7f760c"
         }
       ]
+    },
+    {
+      "unified_id": "openspec-block-n8n-local-workflow-files",
+      "github_issue": null,
+      "claude_task_id": null,
+      "openspec_change_id": "block-n8n-local-workflow-files",
+      "plan_step": null,
+      "goal_summary": null,
+      "status": "open",
+      "last_synced": "2026-02-05T17:12:22.799Z",
+      "sync_hash": "",
+      "plan_file": null,
+      "checklist_items": [
+        {
+          "id": "03cfa3570b72",
+          "text": "Add `n8n_download_blocker` to PreToolUse hooks",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "1682c5da9081",
+          "text": "Add \"n8n Project Folder Structure\" section",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "2139b1f18db6",
+          "text": "Move `hooks/specs/workflow-local-file-enforcer.yaml` to `hooks/specs/old/`",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "242e22cafe4d",
+          "text": "Validate change: `openspec validate block-n8n-local-workflow-files --strict`",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.497Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "2439b7f91e2d",
+          "text": "Add to Critical Rules table",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "38f8dff3ec04",
+          "text": "Add implementation notes to #19",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "56182ea3679a",
+          "text": "Add to settings.json PostToolUse hooks",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "5d11ef91672e",
+          "text": "Run tests, verify passing",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "5f4f1698e052",
+          "text": "Update block message with actionable guidance",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "61dacac4da01",
+          "text": "Modify hook to return BLOCK for Write/Edit operations (not just WARN)",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "6bc88ad8ef00",
+          "text": "Keep WARN behavior for Read operations",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "7b26d9d5d017",
+          "text": "Manual test: attempt `n8n_get_workflow` MCP call (should BLOCK)",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.497Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "822342caf377",
+          "text": "Implement hook in `hooks/src/governance/n8n_download_blocker.ts`",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "8ac25414d88f",
+          "text": "Implement hook in `hooks/src/governance/n8n_post_update_cleanup.ts`",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "8eb284586928",
+          "text": "Build hooks: `cd hooks && npm run build`",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "92e270f7cc79",
+          "text": "Register hook in runner",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "9535d5be0e6e",
+          "text": "Write tests for blocking `n8n_get_workflow` calls",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "9bf29b5fba76",
+          "text": "Document temp/ usage pattern",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "a1a8cb010a8b",
+          "text": "Add implementation notes to #33",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "b07ce76ccd85",
+          "text": "Verify hook loading on session start",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "bd081c0d97aa",
+          "text": "Create test file `hooks/tests/governance/n8n_post_update_cleanup.test.ts`",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "c225e40de177",
+          "text": "Add test cases for BLOCK behavior on Write/Edit",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "c37cfb76fb10",
+          "text": "Run all tests: `cd hooks && npm test`",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "cee3d2f4d23c",
+          "text": "Update \"Source of Truth: LIVE APIs\" section with new enforcement details",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "d57552ab44af",
+          "text": "Create test file `hooks/tests/governance/n8n_download_blocker.test.ts`",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "d679361d91fa",
+          "text": "Write tests for NO cleanup on failed update",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "d99c4d2bc743",
+          "text": "Lint: `cd hooks && npm run lint`",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "de8dd4ee58ed",
+          "text": "Register hook as PostToolUse",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "e07c9cb87e1b",
+          "text": "Add deprecation note explaining it contradicts cloud-only direction",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "e32aff20ab6b",
+          "text": "Write tests for temp/ cleanup after successful update",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "f8d4d7c95fe3",
+          "text": "Close both issues with reference to this change",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "fc8e888ed617",
+          "text": "Add `n8n_post_update_cleanup` to PostToolUse hooks",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "fca9cba0cb41",
+          "text": "Add to settings.json PreToolUse hooks",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.496Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "fff9893f128b",
+          "text": "Manual test: attempt to write workflow JSON outside temp/ (should BLOCK)",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:07:09.497Z",
+          "modified_by": "openspec"
+        }
+      ],
+      "checklist_hash": "61c947ed2c3b1d05",
+      "sync_sources": [
+        {
+          "type": "openspec",
+          "artifact_id": "block-n8n-local-workflow-files",
+          "last_read": "2026-02-05T17:12:22.799Z",
+          "content_hash": "7fc60cbf45fd999b"
+        }
+      ]
+    },
+    {
+      "unified_id": "github_issue-#19",
+      "github_issue": null,
+      "claude_task_id": null,
+      "openspec_change_id": null,
+      "plan_step": null,
+      "goal_summary": null,
+      "status": "open",
+      "last_synced": "2026-02-05T17:12:24.152Z",
+      "sync_hash": "",
+      "plan_file": null,
+      "checklist_items": [
+        {
+          "id": "0f67f7a76d87",
+          "text": "Test end-to-end webhook response includes new categories",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:12:24.152Z",
+          "modified_by": "github_issue"
+        },
+        {
+          "id": "70b86a8c8d28",
+          "text": "Verify array fields (sentiment_shifts, frustration_triggers, areas_for_improvement) serialize correctly",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:12:24.152Z",
+          "modified_by": "github_issue"
+        },
+        {
+          "id": "aa428b38c701",
+          "text": "Verify output_assembler passes through sentiment fields in all 3 response formats",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:12:24.152Z",
+          "modified_by": "github_issue"
+        },
+        {
+          "id": "ef70f76c126c",
+          "text": "Verify coaching integer scores are preserved (not stringified)",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:12:24.152Z",
+          "modified_by": "github_issue"
+        }
+      ],
+      "checklist_hash": "b1f835e37b8b63f5",
+      "sync_sources": [
+        {
+          "type": "github_issue",
+          "artifact_id": "#19",
+          "last_read": "2026-02-05T17:12:24.152Z",
+          "content_hash": "79d51261ba7f760c"
+        }
+      ]
     }
   ]
 }

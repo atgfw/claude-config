@@ -1,23 +1,26 @@
 {
-  "goal": "Block n8n local workflow files - enforce cloud-only storage with node notes for documentation",
+  "goal": "Proposal: Block n8n Local Workflow Files",
   "fields": {
-    "who": "Claude Code sessions working with n8n workflows",
-    "what": "Block writing/downloading n8n workflow JSON locally; enforce cloud as single source of truth",
-    "when": "Before next n8n workflow modification session",
-    "where": "Spinal Cord hooks (stale_workflow_json_detector, new n8n_download_blocker)",
-    "why": "Local workflow files cause dangerous confusion - Claude overwrites cloud with stale local code, creating ghost files",
-    "how": "Upgrade stale detector from WARN to BLOCK for writes, add download blocker for MCP get_workflow, auto-clean temp/ after push",
-    "which": "stale_workflow_json_detector.ts (upgrade), n8n_download_blocker.ts (new), post-update cleanup hook (new)",
-    "lest": "Continued drift between local and cloud state, data loss, workflow corruption",
-    "with": "Existing hook infrastructure, n8n MCP, temp directory pattern",
-    "measuredBy": "Zero persistent workflow JSON outside temp/, all documentation in n8n node notes"
+    "who": "Claude Code session",
+    "what": "Proposal: Block n8n Local Workflow Files",
+    "when": "Current task",
+    "where": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents",
+    "why": "Task in progress",
+    "how": "Following implementation plan",
+    "which": "Target object not specified",
+    "lest": "Failure modes not defined",
+    "with": "Dependencies not enumerated",
+    "measuredBy": "Success metrics not defined"
   },
-  "summary": "Block n8n local workflow files - enforce cloud-only storage with node notes for documentation",
-  "updatedAt": "2026-02-05T21:00:00.000Z",
+  "summary": "Proposal: Block n8n Local Workflow Files",
+  "updatedAt": "2026-02-05T17:09:28.906Z",
   "linkedArtifacts": {
     "openspec": "block-n8n-local-workflow-files",
     "plan_files": [],
-    "github_issues": ["#19", "#33"]
+    "github_issues": [
+      "#19",
+      "#33"
+    ]
   },
   "history": [
     {
@@ -33,5 +36,5 @@
       "updatedAt": "2026-02-04T19:00:00.000Z"
     }
   ],
-  "projectScope": "Spinal Cord n8n governance hooks"
+  "projectScope": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents"
 }
