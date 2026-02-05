@@ -1,0 +1,30 @@
+{
+  "session_id": "2b5c1a68-ba6e-48ff-b35d-0e5de2afffee",
+  "working_directory": "C:\\Users\\codya\\.claude",
+  "stack": [
+    {
+      "id": "openspec-block-n8n-local-workflow-files",
+      "type": "epic",
+      "summary": "Proposal: Block n8n Local Workflow Files",
+      "fields": {
+        "who": "Claude Code session",
+        "what": "Proposal: Block n8n Local Workflow Files",
+        "when": "Current task",
+        "where": "C:\\Users\\codya\\.claude",
+        "why": "Task in progress",
+        "how": "Following implementation plan",
+        "which": "Target object not specified",
+        "lest": "Failure modes not defined",
+        "with": "Dependencies not enumerated",
+        "measuredBy": "Success metrics not defined"
+      },
+      "source": {
+        "openspec_change": "block-n8n-local-workflow-files"
+      },
+      "pushedAt": "2026-02-05T17:52:06.576Z",
+      "pushedBy": "SessionStart"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-05T17:52:06.578Z"
+}

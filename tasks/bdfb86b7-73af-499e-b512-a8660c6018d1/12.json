@@ -1,0 +1,9 @@
+{
+  "id": "12",
+  "subject": "Add result verification to sync_kb_docs",
+  "description": "After creating KB documents, verify they:\n1. Have non-empty content\n2. Return valid document IDs\n3. Are properly associated with the agent\nAdd explicit error throwing on verification failure.",
+  "activeForm": "Adding result verification",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
