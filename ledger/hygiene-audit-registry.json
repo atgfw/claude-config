@@ -1209,5 +1209,19 @@
         "severity": "warn"
       }
     ]
+  },
+  {
+    "timestamp": "2026-02-05T16:17:46.366Z",
+    "project": "C:\\Users\\codya\\coding\\rewst_workflow_development",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "organization",
+        "path": "C:\\Users\\codya\\coding\\rewst_workflow_development",
+        "filename": "3 scripts",
+        "suggestion": "mkdir -p scripts && mv *.py *.js *.ts *.ps1 *.sh scripts/",
+        "severity": "warn"
+      }
+    ]
   }
 ]
