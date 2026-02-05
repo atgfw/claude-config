@@ -34,6 +34,7 @@ vi.mock('../src/utils.js', () => ({
   log: vi.fn(),
   logVerbose: vi.fn(),
   logInfo: vi.fn(),
+  logSeparator: vi.fn(),
   isSessionRecentlyValidated: vi.fn(() => false),
   setVerbosity: vi.fn(),
   getVerbosity: vi.fn(() => 'terse'),
