@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "Fix fallback model in input_validator (gemini-2.0-flash → gemini-3-flash-preview)",
-  "description": "The input_validator code node has wrong fallback models:\n- Current: `['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-pro']` with default `gemini-2.0-flash`\n- Should be: `['gemini-3-flash-preview']` with default `gemini-3-flash-preview`\n\nLocation: Workflow 8ZN0l9BHo1zBKDnl, node input_validator (id: input-validator)",
-  "activeForm": "Fixing fallback model configuration",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
