@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Create manual test registry and validate OpenSpec",
+  "description": "Create ledger/manual-test-registry.json with schema for tracking test executions, then run openspec validate add-manual-verification-tests --strict",
+  "activeForm": "Creating test registry",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

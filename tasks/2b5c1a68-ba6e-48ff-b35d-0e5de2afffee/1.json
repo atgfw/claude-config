@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Create OpenSpec scaffolding for add-manual-verification-tests",
+  "description": "Create the directory structure and core OpenSpec files: proposal.md, tasks.md, design.md, and spec delta under openspec/changes/add-manual-verification-tests/",
+  "activeForm": "Creating OpenSpec scaffolding",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

@@ -1,9 +1,0 @@
-{
-  "id": "11",
-  "subject": "Fix KB document naming schema drift",
-  "description": "The KB document naming convention has drifted. Need to:\n1. Verify current ElevenLabs KB state\n2. Clean up staticData with conflicting keys\n3. Ensure sync_kb_docs uses consistent {domain}_{agentId}_{category} naming\n4. Add result verification to check documents aren't empty",
-  "activeForm": "Fixing KB naming schema",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}

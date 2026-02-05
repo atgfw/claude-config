@@ -3114,6 +3114,85 @@
           "content_hash": "79d51261ba7f760c"
         }
       ]
+    },
+    {
+      "unified_id": "plan-C:\\Users\\codya\\.claude\\plans\\synthetic-churning-aho.md",
+      "github_issue": null,
+      "claude_task_id": null,
+      "openspec_change_id": null,
+      "plan_step": null,
+      "goal_summary": null,
+      "status": "open",
+      "last_synced": "2026-02-05T17:59:41.798Z",
+      "sync_hash": "",
+      "plan_file": "C:\\Users\\codya\\.claude\\plans\\synthetic-churning-aho.md",
+      "checklist_items": [
+        {
+          "id": "28d1a69455e2",
+          "text": "**Test Documentation**: `docs/manual-tests/session-reinit/` (5 test procedures)",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:59:41.796Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "3ddde88de11c",
+          "text": "**OpenSpec Change**: `openspec/changes/add-manual-verification-tests/`",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:59:41.796Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "71d4d97c8ffa",
+          "text": "At least 1 execution recorded per test in registry",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:59:41.796Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "c27e5f328c5d",
+          "text": "All 5 test procedures documented with exact expected output",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:59:41.796Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "c3d15323ccfc",
+          "text": "**Registry**: `ledger/manual-test-registry.json` (tracks test executions)",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:59:41.796Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "ca63a38ac531",
+          "text": "**Setup Scripts**: `scripts/test-setup/session-reinit/` (6 TypeScript scripts)",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:59:41.796Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "ecd83a73eddc",
+          "text": "`openspec validate add-manual-verification-tests --strict` passes",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:59:41.796Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "fd669ca4a78b",
+          "text": "All 6 setup scripts run without errors on Windows",
+          "status": "pending",
+          "last_modified": "2026-02-05T17:59:41.796Z",
+          "modified_by": "plan"
+        }
+      ],
+      "checklist_hash": "dcd3f2c3c5514e26",
+      "sync_sources": [
+        {
+          "type": "plan",
+          "artifact_id": "C:\\Users\\codya\\.claude\\plans\\synthetic-churning-aho.md",
+          "last_read": "2026-02-05T17:59:41.798Z",
+          "content_hash": "b917a669c3107403"
+        }
+      ]
     }
   ]
 }
