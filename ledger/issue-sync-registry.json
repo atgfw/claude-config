@@ -4577,6 +4577,79 @@
           "content_hash": "f5781a0c1fcad11f"
         }
       ]
+    },
+    {
+      "unified_id": "plan-C:\\Users\\codya\\.claude\\plans\\iridescent-shimmying-corbato.md",
+      "github_issue": null,
+      "github_repo": null,
+      "claude_task_id": null,
+      "openspec_change_id": null,
+      "plan_step": null,
+      "goal_summary": null,
+      "status": "open",
+      "last_synced": "2026-02-06T14:13:20.813Z",
+      "sync_hash": "",
+      "plan_file": "C:\\Users\\codya\\.claude\\plans\\iridescent-shimmying-corbato.md",
+      "checklist_items": [
+        {
+          "id": "112d3c8b819d",
+          "text": "**Manual test - Task completion → Issue close:** Complete a linked task, verify issue closed",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:13:20.806Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "371cfed7183e",
+          "text": "**Manual test - Session start sync:** Start new session, verify `syncFromGitHub()` populates registry",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:13:20.806Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "40c6c99a7756",
+          "text": "**Registry check:** Verify issue-sync-registry.json entries have `openspec_change_id` populated after OpenSpec bridge fires",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:13:20.806Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "85d8cf540e5d",
+          "text": "**Build:** `cd ~/.claude/hooks && bun run build` - must compile with no errors",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:13:20.806Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "9c019976d113",
+          "text": "**Manual test - Auto-commit throttle:** Make edits, verify intermediate commit within 5 minutes",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:13:20.806Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "d92bdf8d8411",
+          "text": "**Manual test - OpenSpec → Issue:** Create a test proposal, verify GitHub issue auto-created",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:13:20.806Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "f63e2d792736",
+          "text": "**Tests:** `cd ~/.claude/hooks && bun test` - all tests pass including new ones",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:13:20.806Z",
+          "modified_by": "plan"
+        }
+      ],
+      "checklist_hash": "153576d34410024b",
+      "sync_sources": [
+        {
+          "type": "plan",
+          "artifact_id": "C:\\Users\\codya\\.claude\\plans\\iridescent-shimmying-corbato.md",
+          "last_read": "2026-02-06T14:13:20.813Z",
+          "content_hash": "e8c5ec1e8174d2bd"
+        }
+      ]
     }
   ]
 }
