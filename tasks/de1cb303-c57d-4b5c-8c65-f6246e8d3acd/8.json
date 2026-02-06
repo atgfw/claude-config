@@ -1,0 +1,9 @@
+{
+  "id": "8",
+  "subject": "Ensure auto-codification of artifact state on session boundaries",
+  "description": "Check existing session hooks (session_start, autocommit) and ensure the voice agent testing framework state is codified:\n- At end of claude turn (autocommit)\n- On session clear\n- On session start (verification/sync)",
+  "activeForm": "Setting up auto-codification",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
