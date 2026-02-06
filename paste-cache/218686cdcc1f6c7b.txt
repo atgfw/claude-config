@@ -1,0 +1,17 @@
+pdate(~\coding\n8n_n8n\openspec\changes\optimize-website-rag-crawler\tasks.md)
+  ⎿  PreToolUse:Edit hook error
+  ⎿  Added 2 lines, removed 2 lines
+      72
+      73  ## Phase 6: Validation
+      74
+      75 -- [ ] 6.1 Test full pipeline against selkinginternational.com (expect primary race produces score >= 70)
+      75 +- [x] 6.1 Test full pipeline against selkinginternational.com (expect primary race produces score >= 70) -- RESULT
+         +: score 100, 20 pages, tavily_map discovery, 6.4s
+      76  - [ ] 6.2 Test fallback by skipping primary tiers (skip_tiers: ["tavily_crawl", "firecrawl_crawl"])
+      77 -- [ ] 6.3 Test Tavily-only mode (no FIRECRAWL_API_KEY) works identically to single-racer
+      77 +- [x] 6.3 Test Tavily-only mode (no FIRECRAWL_API_KEY) works identically to single-racer -- Firecrawl not configur
+         +ed, Tavily-only path produces score 100
+      78  - [ ] 6.4 Test basic HTTP tier against a known SSR site
+      79  - [ ] 6.5 Verify output schema compatibility with downstream extraction pipeline
+      80  - [ ] 6.6 Measure and document API costs per domain (Tavily credits, Firecrawl credits)
+  ⎿  Running PostToolUse hooks…

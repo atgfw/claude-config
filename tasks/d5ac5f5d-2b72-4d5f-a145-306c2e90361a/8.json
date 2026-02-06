@@ -1,0 +1,11 @@
+{
+  "id": "8",
+  "subject": "Expand test profile with CRM entity resolution test cases (task 8)",
+  "description": "Add CRM entity resolution test cases to test-fixtures/test-profile.json: company_match (8.1-8.2), contact_match (8.3), ticket_match selection+verification (8.4-8.5), taxonomy_classification (8.6), combined categories (8.7), resolution_config profiles (8.8)",
+  "activeForm": "Expanding test profile with CRM entity resolution cases",
+  "status": "in_progress",
+  "blocks": [
+    "10"
+  ],
+  "blockedBy": []
+}

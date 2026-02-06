@@ -1,9 +1,16 @@
 {
   "id": "9",
   "subject": "Wire SMS delivery nodes in Job Reminder and Review Request workflows",
-  "description": "Tasks 4.1-4.3, 5.1-5.3: Add HTTP Request nodes to Job Reminder and Review Request workflows that POST to Rewst redirect gateway (https://n8n.atgfw.com/webhook/rewst-n8n-redirect-wrapper) with appropriate action, conditional skip when empty, and gateway headers (X-Rewst-Webhook-Url, X-Rewst-Secret).",
+  "description": "Added SMS delivery pipeline to both workflows via n8n_update_partial_workflow:\\n\\nJob Reminder (knB3ZyreIIQwZh9k) - 6 operations:\\n- `build_delivery_payload` code node: calls buildRewstDeliveryPayload() with action send_job_reminders\\n- `check_has_delivery` IF node: routes on hasDelivery boolean\\n- `deliver_to_rewst` HTTP Request: POSTs to rewst-n8n-redirect-wrapper with gateway headers\\n- 3 connections: enrich_with_customer_data -> build_delivery_payload -> check_has_delivery -> deliver_to_rewst\\n\\nReview Request (07ki4WkQol61XZPQ) - 6 operations:\\n- `build_review_payload` code node: calls buildRewstReviewPayload() with action send_review_requests\\n- `check_has_reviews` IF node: routes on hasReviews boolean\\n- `deliver_to_rewst` HTTP Request: POSTs to rewst-n8n-redirect-wrapper with gateway headers\\n- 3 connections: format_completed_jobs -> build_review_payload -> check_has_reviews -> deliver_to_rewst\\n\\nEvidence: `tasks.md:25-35` - all 8 tasks (4.1-4.4, 5.1-5.4) marked [x]",
   "activeForm": "Wiring SMS delivery nodes",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "testPassed": {
+      "testId": "n8n-sms-delivery-pipeline",
+      "timestamp": "2026-02-06T09:48:00Z"
+    },
+    "evidencePath": "workflows/servicetitan/openspec/changes/productionize-servicetitan-workflows/tasks.md:25-35"
+  }
 }

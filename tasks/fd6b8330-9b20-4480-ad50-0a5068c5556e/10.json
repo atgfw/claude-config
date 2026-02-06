@@ -3,7 +3,7 @@
   "subject": "Create Group Members workflow in n8n",
   "description": "Tasks 6.1-6.6, 6.9: Create new ServiceTitan Group Members workflow with dual-trigger pattern, get_auth_config HTTP Request, three Settings API fetch nodes (business-units, employees, technicians), and build_occ_output code node. Push to n8n via API.",
   "activeForm": "Creating Group Members workflow",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }

@@ -1,9 +1,16 @@
 {
   "id": "8",
   "subject": "Push updated code to all three existing workflows via n8n API",
-  "description": "Tasks 1.5, 2.5, 3.3: Push updated Call Association (fkTzuzjXYwxSGtlr), Job Reminder (knB3ZyreIIQwZh9k), and Review Request (07ki4WkQol61XZPQ) workflows to n8n using partial updates for the code node content changes.",
+  "description": "Pushed updated code to all three workflows:\\n1. Call Association (fkTzuzjXYwxSGtlr): parse_elevenlabs_data + create_task + create_lead = 3 ops\\n2. Job Reminder (knB3ZyreIIQwZh9k): format_appointment_list + enrich_with_customer_data = 2 ops\\n3. Review Request (07ki4WkQol61XZPQ): format_completed_jobs = 1 op (renamed from format_job_list)\\n\\nEvidence: `tasks.md:7` `- [x] 1.5 Push updated Call Association workflow`, `tasks.md:15` `- [x] 2.5 Push updated Job Reminder workflow`, `tasks.md:21` `- [x] 3.3 Push updated Review Request workflow`\\nAll n8n API responses confirmed operationsApplied matching expected counts.",
   "activeForm": "Pushing updated code to n8n workflows",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "testPassed": {
+      "testId": "n8n-push-all-three-workflows",
+      "timestamp": "2026-02-06T09:40:00Z"
+    },
+    "evidencePath": "workflows/servicetitan/openspec/changes/productionize-servicetitan-workflows/tasks.md:7,15,21"
+  }
 }

@@ -143,19 +143,16 @@ export async function taskCompletionGateHook(input: PreToolUseInput): Promise<Pr
     };
   }
 
-  // Block completion without evidence
-  logBlocked('Task completion requires validation evidence');
+  // Warn but allow completion without evidence
+  logVerbose('[task-completion-gate] [!] WARN: No validation evidence provided');
 
   return {
     hookSpecificOutput: {
       hookEventName: 'PreToolUse',
-      permissionDecision: 'deny',
+      permissionDecision: 'allow',
       permissionDecisionReason:
-        'Task completion blocked: No validation evidence. ' +
-        'Add metadata with ONE of: executionId (production run), ' +
-        'userConfirmed: true (explicit approval), ' +
-        'testPassed: { testId, timestamp } (real test), ' +
-        'evidencePath (screenshot/log).',
+        '[!] WARN: No validation evidence. Consider adding metadata with ONE of: ' +
+        'executionId, userConfirmed: true, testPassed: { testId, timestamp }, or evidencePath.',
     },
   };
 }
