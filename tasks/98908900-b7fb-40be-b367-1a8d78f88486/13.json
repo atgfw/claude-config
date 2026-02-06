@@ -1,0 +1,9 @@
+{
+  "id": "13",
+  "subject": "Move input_timestamp out of candidate_sets",
+  "description": "Per audit: input_timestamp is metadata about the input event, not a candidate entity. Move to top-level input alongside candidate_sets, resolution_subsections, resolution_config.",
+  "activeForm": "Moving input_timestamp to top-level",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

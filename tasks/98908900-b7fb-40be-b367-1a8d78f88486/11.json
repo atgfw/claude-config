@@ -1,0 +1,9 @@
+{
+  "id": "11",
+  "subject": "Make taxonomy input schema explicit",
+  "description": "Per audit: taxonomy candidate_sets structure is implicit. Show explicit JSON structure with type/subtypes hierarchy and context_article in proposal.md and spec.md.",
+  "activeForm": "Making taxonomy schema explicit",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

@@ -1,0 +1,9 @@
+{
+  "id": "9",
+  "subject": "Add generated_initial_description back to ticket_match",
+  "description": "Per audit: add generated_initial_description as optional field in ticket_match subsection. Only populated when is_new_issue=true and existing ticket has weak description. Update proposal.md, design.md, spec.md, tasks.md.",
+  "activeForm": "Adding generated_initial_description to ticket_match",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

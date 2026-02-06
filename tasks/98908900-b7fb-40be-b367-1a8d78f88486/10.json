@@ -1,0 +1,9 @@
+{
+  "id": "10",
+  "subject": "Define match_signals schema explicitly",
+  "description": "Per audit: match_signals is currently described as \"string array\" but needs explicit schema definition with example values in spec and design docs.",
+  "activeForm": "Defining match_signals schema",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
