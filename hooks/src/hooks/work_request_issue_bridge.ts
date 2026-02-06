@@ -181,8 +181,8 @@ function isDuplicateOfOpenIssue(title: string): boolean {
 // ============================================================================
 
 async function workRequestIssueBridge(
-  input: UserPromptSubmitInput
-): Promise<{ hookSpecificOutput: UserPromptSubmitOutput }> {
+  input: UserPromptSubmitInput,
+): Promise<UserPromptSubmitOutput> {
   const prompt = input.prompt;
   const sessionId = input.session_id ?? getSessionId();
 
@@ -190,7 +190,7 @@ async function workRequestIssueBridge(
   const stack = loadGoalStack(sessionId);
   const hasIssueGoal = stack.stack.some((g) => g.type === 'issue' || g.type === 'epic');
   if (hasIssueGoal) {
-    return { hookSpecificOutput: { hookEventName: 'UserPromptSubmit' } };
+    return { hookEventName: 'UserPromptSubmit' };
   }
 
   // Detect work request
