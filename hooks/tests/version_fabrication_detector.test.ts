@@ -301,13 +301,16 @@ describe('Version Fabrication Detector', () => {
         const input: PreToolUseInput = {
           tool_name: 'Bash',
           tool_input: {
-            command: 'gh issue close 22 --reason completed --comment "Migration to LLM Extractor categories is complete." 2>&1',
+            command:
+              'gh issue close 22 --reason completed --comment "Migration to LLM Extractor categories is complete." 2>&1',
           },
         };
 
         const result = await versionFabricationDetectorHook(input);
         expect(result.hookSpecificOutput.permissionDecision).toBe('allow');
-        expect(result.hookSpecificOutput.permissionDecisionReason).toBe('Not a file write operation');
+        expect(result.hookSpecificOutput.permissionDecisionReason).toBe(
+          'Not a file write operation'
+        );
       });
 
       it('allows Bash commands without file redirects', async () => {
