@@ -62,7 +62,7 @@
 
 ## 8. Documentation and Migration
 
-- [ ] 8.1 Update CLAUDE.md "Active Goal Display" section with new behavior
+- [ ] 8.1 Update CLAUDE.md "Active Goal Display" section with new behavior (note: CLAUDE.md slimmed; section still exists)
 - [ ] 8.2 Document goal hierarchy format
 - [ ] 8.3 Add migration notes for users relying on global active-goal.json
 - [ ] 8.4 Update hook implementation table in CLAUDE.md

@@ -23,7 +23,7 @@
 
 - [ ] Register hook in settings.json
 - [ ] Add correction ledger integration
-- [ ] Document in CLAUDE.md (Tool Selection Protocol section)
+- [x] Document in hooks/docs/tool-routing.md (migrated from CLAUDE.md via slim-claudemd-to-governance-index)
 - [ ] Add to AGENTS.md subagent guidance
 
 ## Phase 4: Verification
