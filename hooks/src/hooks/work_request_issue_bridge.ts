@@ -85,9 +85,7 @@ const DUPLICATE_OVERLAP_THRESHOLD = 0.6;
  * Detect if a prompt is a substantive work request.
  * Returns the detected verb and cleaned title, or null if not a work request.
  */
-function detectWorkRequest(
-  prompt: string,
-): { verb: string; title: string; type: string } | null {
+function detectWorkRequest(prompt: string): { verb: string; title: string; type: string } | null {
   const trimmed = prompt.trim();
 
   // Length check
@@ -130,7 +128,9 @@ function detectWorkRequest(
   let issueType: string;
   if (['fix', 'repair', 'resolve', 'debug'].includes(foundVerb)) {
     issueType = 'fix';
-  } else if (['refactor', 'migrate', 'consolidate', 'extract', 'move', 'rename'].includes(foundVerb)) {
+  } else if (
+    ['refactor', 'migrate', 'consolidate', 'extract', 'move', 'rename'].includes(foundVerb)
+  ) {
     issueType = 'refactor';
   } else {
     issueType = 'feat';
@@ -182,7 +182,7 @@ function isDuplicateOfOpenIssue(title: string): boolean {
 // ============================================================================
 
 async function workRequestIssueBridge(
-  input: UserPromptSubmitInput,
+  input: UserPromptSubmitInput
 ): Promise<{ hookSpecificOutput: UserPromptSubmitOutput }> {
   const prompt = input.prompt;
   const sessionId = input.session_id ?? getSessionId();
@@ -235,11 +235,10 @@ async function workRequestIssueBridge(
 
   // Link issue to session goal stack
   try {
-    const goal = createIssueGoal(
-      detected.title,
-      issueNumber,
-      { what: detected.title, where: stack.working_directory || process.cwd() },
-    );
+    const goal = createIssueGoal(detected.title, issueNumber, {
+      what: detected.title,
+      where: stack.working_directory || process.cwd(),
+    });
     pushGoal(sessionId, goal);
     logTerse(`[+] Auto-created issue #${issueNumber} and linked to session`);
   } catch {
