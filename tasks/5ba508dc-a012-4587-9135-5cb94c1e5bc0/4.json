@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Phase 3: Session cleanup enhancement",
+  "description": "Archive test/debug sessions immediately, reduce max age to 3 days, archive empty stacks older than 1 day",
+  "activeForm": "Enhancing session cleanup",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

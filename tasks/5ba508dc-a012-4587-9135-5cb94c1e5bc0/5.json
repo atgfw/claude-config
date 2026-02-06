@@ -1,0 +1,9 @@
+{
+  "id": "5",
+  "subject": "Phase 4: Unify autocommit and remove --no-verify",
+  "description": "Unify auto_commit_push.ts, remove --no-verify, stage specific dirs, remove duplicate from session_start.ts",
+  "activeForm": "Unifying autocommit",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

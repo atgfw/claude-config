@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "Phase 1: Fix goal injection leak across sessions",
+  "description": "Fix goal_auto_derivation.ts (projectScope check), goal_stack.ts (thread workingDir), goal_injector.ts (remove dead param), CLAUDE.md (session-scoped display), clear active-goal.json",
+  "activeForm": "Fixing goal injection leak",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
