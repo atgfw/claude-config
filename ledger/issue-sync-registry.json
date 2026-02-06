@@ -829,8 +829,8 @@
     {
       "unified_id": "unified-gh-35",
       "github_issue": 35,
-      "status": "closed",
-      "last_synced": "2026-02-03T20:39:57.422Z",
+      "status": "open",
+      "last_synced": "2026-02-06T14:59:16.017Z",
       "github_repo": null
     },
     {
@@ -5112,6 +5112,22 @@
           "content_hash": "aa9809aadb2a8471"
         }
       ]
+    },
+    {
+      "unified_id": "issue-34",
+      "github_issue": 34,
+      "github_repo": "dlronray/n8n",
+      "claude_task_id": null,
+      "openspec_change_id": null,
+      "plan_step": null,
+      "goal_summary": null,
+      "status": "open",
+      "last_synced": "2026-02-06T14:59:16.018Z",
+      "sync_hash": "",
+      "plan_file": null,
+      "checklist_items": [],
+      "checklist_hash": "",
+      "sync_sources": []
     }
   ]
 }

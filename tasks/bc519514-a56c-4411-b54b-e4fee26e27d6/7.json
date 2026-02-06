@@ -1,9 +1,13 @@
 {
   "id": "7",
   "subject": "Update design.md with revised architecture",
-  "description": "Revise architecture from 5-tier to 3-tier based on experiments. Drop Scrapling and Firecrawl tiers. Add Tavily Map as URL discovery step.",
+  "description": "Rewrote design.md with 3-tier architecture. Reference: `C:\\Users\\codya\\coding\\n8n_n8n\\openspec\\changes\\optimize-website-rag-crawler\\design.md:1` contains `# Design: Optimize Website RAG Crawler`. Verification: `bunx openspec validate optimize-website-rag-crawler --strict` passed.",
   "activeForm": "Updating design with revised architecture",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "userConfirmed": true,
+    "evidencePath": "C:\\Users\\codya\\coding\\n8n_n8n\\openspec\\changes\\optimize-website-rag-crawler\\design.md"
+  }
 }

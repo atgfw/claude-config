@@ -1,9 +1,13 @@
 {
   "id": "6",
   "subject": "Update proposal.md with experiment results",
-  "description": "Revise the optimize-website-rag-crawler proposal to reflect empirical findings from selkinginternational.com testing. Simplify from 5 tiers to 3 tiers based on actual performance data.",
+  "description": "Rewrote proposal.md with empirical test results from selkinginternational.com. Simplified from 5 tiers to 3. Reference: `C:\\Users\\codya\\coding\\n8n_n8n\\openspec\\changes\\optimize-website-rag-crawler\\proposal.md:1` contains `# Proposal: Optimize Website RAG Crawler`. Verification: `bunx openspec validate optimize-website-rag-crawler --strict` returned \"Change 'optimize-website-rag-crawler' is valid\".",
   "activeForm": "Updating proposal with experiment results",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "userConfirmed": true,
+    "evidencePath": "C:\\Users\\codya\\coding\\n8n_n8n\\openspec\\changes\\optimize-website-rag-crawler\\proposal.md"
+  }
 }

@@ -1,19 +1,5 @@
 [
   {
-    "timestamp": "2026-02-03T14:37:52.370Z",
-    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan",
-    "issueCount": 1,
-    "issues": [
-      {
-        "type": "garbage_file",
-        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan\\nul",
-        "filename": "nul",
-        "suggestion": "mv \"nul\" old/misc/",
-        "severity": "warn"
-      }
-    ]
-  },
-  {
     "timestamp": "2026-02-03T14:38:24.362Z",
     "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan",
     "issueCount": 1,
@@ -1555,6 +1541,27 @@
   },
   {
     "timestamp": "2026-02-06T14:51:58.036Z",
+    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection",
+    "issueCount": 2,
+    "issues": [
+      {
+        "type": "naming_violation",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection\\elevenlabs-agent-old data collection.txt",
+        "filename": "elevenlabs-agent-old data collection.txt",
+        "suggestion": "mv \"elevenlabs-agent-old data collection.txt\" \"elevenlabs-agent-old-data-collection.txt\" # Contains spaces",
+        "severity": "warn"
+      },
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection\\nul",
+        "filename": "nul",
+        "suggestion": "mv \"nul\" old/misc/",
+        "severity": "warn"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-06T14:59:20.923Z",
     "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection",
     "issueCount": 2,
     "issues": [
