@@ -3,7 +3,7 @@
   "subject": "Run full end-to-end pipeline: crawl selking -> LLM extract -> structured output",
   "description": "Execute the complete pipeline against selkinginternational.com: crawler produces 20 pages, feed into LLM extraction workflow (8ZN0l9BHo1zBKDnl) with website_profile + website_locations categories. Capture and evaluate the structured output.",
   "activeForm": "Running full end-to-end extraction pipeline",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [
     "15",
     "16"

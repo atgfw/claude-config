@@ -58,6 +58,8 @@
 
 ## Phase 7: Update Stale Sibling Proposals (housekeeping)
 
-- [ ] 7.1 Update `add-global-github-framework/tasks.md` to check off tasks that are already done
-- [ ] 7.2 Update `enforce-n8n-object-governance/tasks.md` task 6.1 note: JSDoc references now point to hooks/docs/
+- [x] 7.1 Updated `add-global-github-framework/tasks.md`: checked off all implemented tasks (Phase 1-3 + verification), fixed `npm test` -> `bun test`
+- [x] 7.2 Updated `enforce-n8n-object-governance/tasks.md` task 6.1: JSDoc references now point to hooks/docs/
+- [x] 7.4 Fixed 8 stale `See CLAUDE.md` references in settings.json description fields -> hooks/docs/*.md
+- [x] 7.5 Fixed `full_path_validator.ts` stale `See CLAUDE.md "Full File Paths"` reference
 - [x] 7.3 Updated `tool-router/README.md` reference to hooks/docs/tool-routing.md (done in Phase 3.3)

@@ -47,7 +47,7 @@
             "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" tool-research-gate"
           }
         ],
-        "description": "BLOCK: Requires TOOL-RESEARCH.md before creating wrappers/integrations/automation files. See CLAUDE.md Tool Selection Protocol"
+        "description": "BLOCK: Requires TOOL-RESEARCH.md before creating wrappers/integrations/automation files. See hooks/docs/tool-routing.md"
       },
       {
         "matcher": "Write|Edit|MultiEdit|NotebookEdit",
@@ -125,7 +125,7 @@
             "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-naming-validator"
           }
         ],
-        "description": "Enforces naming conventions: snake_case nodes, no version numbers, full system prefixes. See CLAUDE.md 'n8n Naming Conventions'"
+        "description": "Enforces naming conventions: snake_case nodes, no version numbers, full system prefixes. See hooks/docs/n8n-governance.md"
       },
       {
         "matcher": "mcp__n8n-mcp__n8n_create_workflow|mcp__n8n-mcp__n8n_update_workflow",
@@ -135,7 +135,7 @@
             "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-node-note-validator"
           }
         ],
-        "description": "Enforces node documentation: 20+ char notes, Display Note enabled. See CLAUDE.md 'n8n Node Documentation'"
+        "description": "Enforces node documentation: 20+ char notes, Display Note enabled. See hooks/docs/n8n-governance.md"
       },
       {
         "matcher": "mcp__n8n-mcp__n8n_create_workflow|mcp__n8n-mcp__n8n_update_workflow",
@@ -145,7 +145,7 @@
             "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" code-node-linting-gate"
           }
         ],
-        "description": "Enforces JS linting on code node content. See CLAUDE.md 'n8n Code Node Governance'"
+        "description": "Enforces JS linting on code node content. See hooks/docs/n8n-governance.md"
       },
       {
         "matcher": "mcp__n8n-mcp__n8n_create_workflow|mcp__n8n-mcp__n8n_update_workflow",
@@ -155,7 +155,7 @@
             "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" n8n-webhook-path-validator"
           }
         ],
-        "description": "Enforces webhook path naming: kebab-case, no nesting, no 'test', must authenticate. See CLAUDE.md 'Webhook Path Naming'"
+        "description": "Enforces webhook path naming: kebab-case, no nesting, no 'test', must authenticate. See hooks/docs/n8n-governance.md"
       },
       {
         "matcher": "mcp__n8n-mcp__n8n_create_workflow|mcp__n8n-mcp__n8n_update_workflow",
@@ -193,7 +193,7 @@
             "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" secret-scanner"
           }
         ],
-        "description": "STRICT: Blocks git commit/push if secrets detected in staged files. See CLAUDE.md Security Scanning"
+        "description": "STRICT: Blocks git commit/push if secrets detected in staged files. See hooks/docs/github-framework.md"
       },
       {
         "matcher": "Bash",
@@ -203,7 +203,7 @@
             "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" commit-message-validator"
           }
         ],
-        "description": "WARN: Validates commit messages follow Conventional Commits 1.0.0. See CLAUDE.md Commit Conventions"
+        "description": "WARN: Validates commit messages follow Conventional Commits 1.0.0. See hooks/docs/github-framework.md"
       },
       {
         "matcher": "Bash",
@@ -213,7 +213,7 @@
             "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" branch-naming-validator"
           }
         ],
-        "description": "WARN: Validates branch names follow naming conventions. See CLAUDE.md Branch Naming"
+        "description": "WARN: Validates branch names follow naming conventions. See hooks/docs/github-framework.md"
       },
       {
         "matcher": "TaskUpdate",

@@ -51,7 +51,7 @@
 
 ## 6. Hook Documentation Alignment
 
-- [x] 6.1 Update hook JSDoc comments to reference CLAUDE.md sections
+- [x] 6.1 Update hook JSDoc comments to reference hooks/docs/ (updated by slim-claudemd-to-governance-index)
 - [x] 6.2 Ensure hook error messages reference correct tool names from hierarchy
 - [x] 6.3 Add hook description field in settings.json linking to CLAUDE.md
 - [x] 6.4 Verify all hook descriptions use same terminology as CLAUDE.md
