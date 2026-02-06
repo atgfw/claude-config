@@ -687,6 +687,32 @@
           "quality_audit": false
         }
       }
+    },
+    "elevenlabs-agent-testing-framework": {
+      "entityId": "elevenlabs-agent-testing-framework",
+      "entityType": "n8n-workflow",
+      "entityPath": "workflows/voice_ai_agents/",
+      "entityName": "ElevenLabs Agent Testing Framework - Enhanced",
+      "workflowId": "uShlKp2CxOsp0ubC",
+      "status": "local-tests-pass",
+      "version": "1.0.0",
+      "novelInputHashes": [],
+      "testRuns": [],
+      "totalNovelRuns": 0,
+      "healthyAt": null,
+      "selfAuditCompleted": {
+        "completed": false,
+        "completedAt": null,
+        "checklist": {
+          "spec_phase": true,
+          "enforcer_audit": false,
+          "build_phase": true,
+          "local_tests": true,
+          "primordial_pipeline": false,
+          "research_quota": false,
+          "quality_audit": false
+        }
+      }
     }
   },
   "hierarchies": {
@@ -733,11 +759,15 @@
     "[DEV] ServiceTitan_group_members": {
       "parent": null,
       "children": ["st-group-members/build-occ-output"]
+    },
+    "elevenlabs-agent-testing-framework": {
+      "parent": null,
+      "children": []
     }
   },
   "config": {
     "requiredNovelRuns": 3,
     "inputHashAlgorithm": "sha256-prefix-16"
   },
-  "lastUpdated": "2026-02-06T16:17:22.000Z"
+  "lastUpdated": "2026-02-06T22:00:00.000Z"
 }
