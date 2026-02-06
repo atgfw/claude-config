@@ -18,7 +18,7 @@ describe('computeKeywordOverlap', () => {
   it('returns partial overlap for similar strings', () => {
     const overlap = computeKeywordOverlap(
       'fix authentication login flow',
-      'fix authentication session timeout',
+      'fix authentication session timeout'
     );
     expect(overlap).toBeGreaterThan(0);
     expect(overlap).toBeLessThan(1);
