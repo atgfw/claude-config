@@ -1,7 +1,7 @@
 {
   "id": "10",
   "subject": "Create Group Members workflow in n8n",
-  "description": "Tasks 6.1-6.6, 6.9: Create new ServiceTitan Group Members workflow with dual-trigger pattern, get_auth_config HTTP Request, three Settings API fetch nodes (business-units, employees, technicians), and build_occ_output code node. Push to n8n via API.",
+  "description": "Create [DEV] ServiceTitan_group_members workflow. Steps: 1) Extract build_occ_output code into testable JS module, 2) Write Vitest unit tests, 3) Write primordial pipeline tests (3 novel runs), 4) Run tests to satisfy pipeline gate, 5) Create workflow via n8n MCP",
   "activeForm": "Creating Group Members workflow",
   "status": "in_progress",
   "blocks": [],

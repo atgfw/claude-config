@@ -44,6 +44,17 @@ Everything else moves into:
 - 3-5 new `hooks/docs/*.md` reference files for detailed guides
 - No behavioral changes to any hook logic
 
+## Relationship to Existing Changes
+
+| Change | Status | Relationship |
+|--------|--------|-------------|
+| `enforce-n8n-object-governance` | 41/45 done | Task 6.1 wired hook JSDoc to reference CLAUDE.md sections. This proposal **inverts** that: hooks reference `hooks/docs/*.md` instead. Natural successor, not conflict. |
+| `add-project-open-reinit` | 0/41 | Includes "documentation drift detection" comparing CLAUDE.md against implementation. The drift detector should be aware of the new slim structure - may need a minor update to its comparison targets. |
+| `add-self-escalation-mechanism` | 0/46 | References "Outdated CLAUDE.md" as an escalation pattern. Unaffected - the escalation concept still applies to the slim version. |
+| All other changes | Various | No overlap. This proposal does not touch hook logic, settings.json, or any enforcement behavior. |
+
+No existing proposal has attempted to reduce CLAUDE.md size or migrate its content elsewhere. This is net-new work.
+
 ## Out of Scope
 
 - Changing hook enforcement logic

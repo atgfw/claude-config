@@ -2,8 +2,8 @@
   "id": "9",
   "subject": "Update documentation with CRM entity resolution (task 9)",
   "description": "Update CLAUDE.md with crm_entity_resolution category docs (9.1), create/update docs/RESPONSE-FORMAT.md (9.2), add invocation examples (9.3)",
-  "activeForm": "Updating documentation for CRM entity resolution",
-  "status": "pending",
+  "activeForm": "Updating documentation",
+  "status": "in_progress",
   "blocks": [
     "10"
   ],
