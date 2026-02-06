@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Rename non-snake_case nodes",
+  "description": "Rename 7 nodes to snake_case: Manual Trigger, Edit Fields, Get Conversations, Split Out Items, Code in JavaScript, Get Full Conversation, Filter Fields",
+  "activeForm": "Renaming nodes to snake_case",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

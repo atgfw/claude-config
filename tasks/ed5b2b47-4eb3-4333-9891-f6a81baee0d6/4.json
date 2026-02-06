@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Remove or disable debug node",
+  "description": "The debug/NoOp node adds latency with no production value - disable or remove it",
+  "activeForm": "Cleaning up debug node",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

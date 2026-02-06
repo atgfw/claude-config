@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "Add notes to all 15 nodes",
+  "description": "Add 20+ char descriptive notes to all nodes and enable Display Note",
+  "activeForm": "Adding node documentation",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
