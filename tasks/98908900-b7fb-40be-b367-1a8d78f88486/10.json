@@ -1,9 +1,13 @@
 {
   "id": "10",
   "subject": "Define match_signals schema explicitly",
-  "description": "Per audit: match_signals is currently described as \"string array\" but needs explicit schema definition with example values in spec and design docs.",
+  "description": "Defined match_signals schema explicitly with canonical positive/negative signal examples, OpenAI strict-mode JSON schema, and spec scenario.\n\nEvidence:\n- `design.md:298` - `### match_signals Schema`\n- `design.md:300` - `The \\`match_signals\\` field is a \\`string[]\\` (array of short descriptive phrases). Values are NOT a closed enum`\n- `spec.md:291` - `#### Scenario: match_signals contains descriptive phrases`\n- Verification: grep for 'match_signals Schema' in design.md confirms section exists",
   "activeForm": "Defining match_signals schema",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "evidencePath": "openspec/changes/add-crm-entity-resolution/design.md:298",
+    "userConfirmed": true
+  }
 }

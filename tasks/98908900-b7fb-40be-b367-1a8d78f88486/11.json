@@ -1,9 +1,13 @@
 {
   "id": "11",
   "subject": "Make taxonomy input schema explicit",
-  "description": "Per audit: taxonomy candidate_sets structure is implicit. Show explicit JSON structure with type/subtypes hierarchy and context_article in proposal.md and spec.md.",
+  "description": "Made taxonomy input schema explicit with JSON example in proposal.md and new scenario in spec.md.\n\nEvidence:\n- `proposal.md:66` - `\\\"taxonomy\\\": { \\\"categories\\\": [ { \\\"type\\\": \\\"Voice Telephony\\\", \\\"subtypes\\\": [\\\"Extension Issue\\\", \\\"Voicemail\\\", \\\"Other\\\"] }`\n- `spec.md:320` - `#### Scenario: Taxonomy input uses hierarchical categories structure`\n- `design.md:108` already had the full schema\n- Verification: proposal.md now shows explicit JSON structure inline",
   "activeForm": "Making taxonomy schema explicit",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "evidencePath": "openspec/changes/add-crm-entity-resolution/proposal.md:66",
+    "userConfirmed": true
+  }
 }

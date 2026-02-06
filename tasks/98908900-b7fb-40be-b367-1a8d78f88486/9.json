@@ -1,9 +1,13 @@
 {
   "id": "9",
   "subject": "Add generated_initial_description back to ticket_match",
-  "description": "Per audit: add generated_initial_description as optional field in ticket_match subsection. Only populated when is_new_issue=true and existing ticket has weak description. Update proposal.md, design.md, spec.md, tasks.md.",
+  "description": "Added generated_initial_description back to ticket_match across all 4 OpenSpec files.\n\nEvidence:\n- `proposal.md:46` - `| \\`ticket_match\\` | \\`matched_id\\`, \\`ticket_matches_call_issue\\`, \\`is_new_issue\\`, \\`match_method\\`, \\`match_signals\\`, \\`generated_initial_description\\` |`\n- `design.md:327` - `## Decision: generated_initial_description in ticket_match`\n- `design.md:309` - `| \\`generated_initial_description\\` | string/null | prompt-6 \\`initial_description_from_call\\` | CRM-ready ticket description synthesized from transcript. Populated only when \\`is_new_issue\\` is true. Null otherwise. |`\n- `spec.md:283` - `#### Scenario: New issue generates initial description`\n- `tasks.md:65` - `Fields: matched_id, ticket_matches_call_issue, is_new_issue, match_method, match_signals, generated_initial_description`\n- Verification: grep for generated_initial_description across all 4 files confirms presence",
   "activeForm": "Adding generated_initial_description to ticket_match",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "evidencePath": "openspec/changes/add-crm-entity-resolution/design.md:327",
+    "userConfirmed": true
+  }
 }
