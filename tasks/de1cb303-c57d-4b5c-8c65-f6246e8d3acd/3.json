@@ -3,7 +3,7 @@
   "subject": "Create JSON test profile",
   "description": "Tasks 2.1-2.5: Create test-fixtures directory and test-profile.json with all 10 YAML scenarios ported, transformation cases, and integration case definitions",
   "activeForm": "Creating JSON test profile",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": []
 }

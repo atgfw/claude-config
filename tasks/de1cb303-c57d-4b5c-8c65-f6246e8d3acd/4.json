@@ -3,7 +3,7 @@
   "subject": "Enhance Voice Agent Tester workflow",
   "description": "Tasks 3.2-3.7: Add load_scenarios code node, route_by_category switch, enhanced generate_report, executeWorkflowTrigger, push updates, smoke test",
   "activeForm": "Enhancing workflow",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [
     "5"
   ],
