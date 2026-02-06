@@ -1,0 +1,13 @@
+{
+  "id": "15",
+  "subject": "Evaluate extraction quality: verify all 11 Selking locations captured",
+  "description": "Check extracted output for: all 11 locations (Decatur, Fort Wayne, LaGrange, Muncie, Richmond, South Bend, Elkhart, Greensburg, Stony Ridge, Bryan, Monroe), departments per location (Sales, Service, Parts, Body Shop, Idealease), 24-hour emergency service, hours of operation, phone numbers in E.164.",
+  "activeForm": "Evaluating extraction quality against ground truth",
+  "status": "pending",
+  "blocks": [
+    "17"
+  ],
+  "blockedBy": [
+    "14"
+  ]
+}
