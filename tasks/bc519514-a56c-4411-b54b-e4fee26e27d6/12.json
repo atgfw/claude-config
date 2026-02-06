@@ -1,0 +1,9 @@
+{
+  "id": "12",
+  "subject": "Fix runtime bugs in website_rag_crawler workflow",
+  "description": "Fix two runtime bugs found during live testing:\n1. $env.TAVILY_API_KEY blocked in HTTP Request node expressions - move API key resolution to Code node\n2. $workflow.staticData undefined in primary_evaluate - eliminate staticData, use $() node references\nApply fixes via n8n_update_partial_workflow to workflow 8t6QnPUcIjx4PaF2",
+  "activeForm": "Fixing runtime bugs in crawler workflow",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
