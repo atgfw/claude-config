@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Create format_job_reminder_output code node and tests",
+  "description": "Tasks 2.1-2.4: Create code node for Job Reminder that handles real API fields (arrivalWindowStart ISO 8601, jobNumber, jobTypeId), Appointment->Job->Customer traversal formatting, and defensive parsing for both mock and real schemas. Write Vitest tests.",
+  "activeForm": "Creating format_job_reminder_output code node",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

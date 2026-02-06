@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "Add Vitest tests for integration_context three-tier fallback",
+  "description": "Task 1.4: Add tests covering integration_context.assigned_to_id, business_unit_id, campaign_id extraction and three-tier fallback chain (integration_context -> field_mappings -> null/default).",
+  "activeForm": "Writing integration_context fallback tests",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

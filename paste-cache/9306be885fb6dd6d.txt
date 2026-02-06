@@ -1,0 +1,117 @@
+Let me read through all the uploaded files to get the complete picture before we discuss this.Alright, I've read everything carefully. Here's my honest assessment, coming at this fresh.
+
+---
+
+## What This System Actually Is
+
+At its core, this is: **give an LLM some candidate records and a transcript, ask it to pick the best match, and wrap the output in a structured format.** The proposal, spec, design, and tasks add up to ~2,500 lines of documentation for what is fundamentally a prompt engineering exercise layered on top of an existing extraction pipeline.
+
+That's not inherently wrong -- consolidating 6 bespoke prompts into a standardized framework is a good idea. But the amount of specification creates risks that are worth examining before building.
+
+---
+
+## The Things That Are Strong
+
+**The stateless pipeline decision is correct.** Keeping the extraction pipeline as a pure function (input → output, no memory) is the right architectural call. It makes testing, debugging, and composability straightforward. The temptation to add chained resolution within a single call would create hidden coupling that's hard to reason about.
+
+**CRM-agnostic candidate schema is right.** The canonical format for companies, contacts, tickets, and taxonomy means this works for ConnectWise, ServiceTitan, HaloPSA, or whatever else comes along. The mapping table examples in the design doc are practical and useful.
+
+**The subsection activation pattern is clean.** Explicit `resolution_subsections` with fallback to candidate_sets presence detection gives callers both precision and convenience. That's well thought out.
+
+**The input validation and size limits are necessary.** Token budget protection at the boundary is the right place to enforce it, and the specific limits seem reasonable for the entity types involved.
+
+---
+
+## The Things I'd Push Back On
+
+### 1. LLM confidence scores aren't what you're treating them as
+
+The entire downstream thresholding system -- the confidence_threshold per subsection, the action tables ("High >0.80 → Accept match", "Low <0.50 → Human review"), the match profiles that instruct the LLM to "return null if confidence is below threshold" -- all assume that when an LLM outputs `"confidence": 0.73`, that number has stable, comparable meaning.
+
+It doesn't. LLM-generated confidence scores are essentially the model's vibe about how sure it feels, expressed as a number. They're not calibrated. A 0.70 on one run might be a 0.82 on the next for the same input/candidate pair. They don't mean the same thing across subsections (the design doc acknowledges this in Non-Goals, which is good, but then the spec builds an entire thresholding system on them anyway).
+
+**What I'd do instead:** Keep the confidence field -- it's still useful as a *relative* signal within a single response. But don't build hard thresholding logic that the LLM is supposed to self-enforce ("return null if confidence is below 0.70"). Instead, always return the best match (or null if genuinely nothing fits), always include the confidence score, and let the **caller** decide what to do with it. The LLM's job is to match and explain. The caller's job is to threshold. Trying to get the LLM to self-censor based on its own confidence score adds a layer of unreliable behavior on top of an already-uncertain output.
+
+If you want the LLM to be more or less aggressive about returning matches vs null, the match profiles already handle that through behavioral instructions. You don't need confidence thresholds *on top of* profiles.
+
+### 2. Match profiles may not produce reliably distinct behavior
+
+The four profiles (conservative, balanced, phonetic_tolerant, exact_only) are prompt paragraphs injected into the system prompt. `exact_only` will probably work because it's a clear, binary instruction. `phonetic_tolerant` is useful because it tells the LLM to consider ASR artifacts, which it might otherwise not prioritize.
+
+But `conservative` vs `balanced` is a distinction that may not produce meaningfully different LLM behavior in practice. "Return null unless the match is unambiguous" vs "Return the best match if your confidence exceeds the threshold" -- these are subtle behavioral nudges, and the LLM may interpret them identically for most inputs. You'll spend time testing whether the profiles produce different results and may find they don't.
+
+**What I'd do:** Start with two profiles: `strict` (prefer null, require strong evidence) and `tolerant` (consider phonetic/fuzzy matches, be forgiving of ASR artifacts). Test whether these produce reliably different behavior. If they do, consider adding more. If they don't, you've saved yourself a configuration surface area that doesn't actually do anything.
+
+### 3. ticket_match is three different tools wearing a trenchcoat
+
+The ticket_match subsection handles:
+- **Multi-ticket selection** (pick best from many) -- this is prompt-5
+- **Single-ticket verification** (confirm/deny match against one) -- this is prompt-6
+- **Zero-ticket assessment** (assess is_new_issue from transcript alone) -- this is a third behavior
+- **Description generation** (synthesize a CRM-ready ticket body) -- this is a fourth behavior
+
+The mode is inferred from `tickets[]` length, which is clever but means the same subsection has three fundamentally different behavioral paths with six output fields, four of which change meaning depending on the mode. The boolean independence table (4 combinations of `ticket_matches_call_issue` × `is_new_issue`) adds another dimension.
+
+This is the most complex part of the system by a wide margin, and it's where I'd expect the most prompt engineering difficulty and the most confusing behavior for callers.
+
+**What I'd consider:** Split ticket_match into two subsections: `ticket_selection` (give me candidates, pick the best one or null) and `ticket_assessment` (given 0-1 tickets, assess is_new_issue and optionally generate a description). This maps more cleanly to the two source prompts (5 and 6) and eliminates the mode-inference-from-array-length pattern. The caller already knows whether they're selecting from many or verifying one -- let them express that explicitly.
+
+### 4. The 3-call chain is the real cost, not the 6 prompts
+
+The proposal frames this as "consolidating 6 separate LLM calls per interaction." But the recommended orchestration pattern is still 3 sequential calls:
+
+1. Extract + company match
+2. Contact match (scoped to matched company)
+3. Ticket match (scoped to matched contact)
+
+Plus potentially a 4th for taxonomy classification. So you're going from 6 calls to 3-4 calls. The savings are real but not as dramatic as "6 to 1." And each call now carries a heavier prompt (candidate sets + schemas + microprompts), which means higher token costs per call.
+
+This isn't necessarily a problem -- the standardization and consistency benefits are worth something even without dramatic call-count reduction. But the proposal's framing of "eliminates 6 separate LLM calls per interaction" is overstating it. Be honest with stakeholders about what the actual improvement is: fewer calls, consistent output format, shared confidence scoring, and elimination of 6 separate prompt maintenance burdens.
+
+### 5. The co-extraction coupling is fragile
+
+When `crm_entity_resolution` is co-requested with `caller` extraction, the microprompts say things like "Using the caller's company name as extracted from the input, match against the provided company candidates." This relies on the LLM understanding that it should use its own extraction results from the `caller` category as input to the `company_match` subsection, all within the same completion.
+
+This will probably work most of the time because LLMs are good at following instructions in context. But it's a coupling that's hard to test and debug. If the LLM extracts `company_name: "Akme"` in the caller category but then matches against the literal transcript text "I'm calling from Acme" for company_match, you won't notice unless you specifically test for it, and it might not even produce a wrong answer (just inconsistent reasoning).
+
+**What I'd do:** Keep the co-extraction capability (it saves a call), but don't treat it as the primary path. The docs should emphasize the 2-call pattern (extract first, then resolve) as the recommended approach, with single-call co-extraction as an optimization for latency-sensitive callers who accept the coupling risk.
+
+### 6. The spec is over-specified for LLM-dependent behavior
+
+The spec has 50+ scenarios with precise behavioral requirements like "confidence is above 0.95" for an exact match. These are instructions to the LLM via microprompts -- they're not deterministic code paths you can unit test. You can't write a test that fails reliably when the LLM returns 0.93 instead of 0.95 for an exact match.
+
+The spec is treating LLM behavior as if it were deterministic software. It's not. Every "THEN confidence is above X" scenario is aspirational, not enforceable.
+
+**What I'd do:** Restructure the spec into two layers. The **deterministic layer** covers input validation, schema generation, candidate formatting, error codes, subsection activation -- things you can test with unit tests. The **behavioral layer** covers LLM matching quality, confidence ranges, and match_method selection -- things you test with evaluation suites and acceptance thresholds ("company_match exact-match scenarios should return confidence > 0.85 in 90% of runs"), not pass/fail assertions.
+
+---
+
+## The Rough Draft vs. The Final Docs
+
+The rough draft (`rough_plan_draft.txt`) has some ideas that got dropped and are worth revisiting:
+
+**`crm_sales_lookup` subsection was cut.** Fair enough for v1, but the rough draft's instinct to include it suggests this is a near-term need. Make sure the design doesn't preclude adding it later (it doesn't -- subsections are extensible).
+
+**The "aggressive" profile was cut.** The rough draft had a profile that "accepts lower-confidence matches, flags for review." This was replaced by the caller's ability to set a lower confidence_threshold. That's fine -- the profile was redundant.
+
+**"Chained resolution within a single call" was an open question.** The rough draft explicitly flagged this and leaned toward separate calls. The final design commits to separate calls. I agree with this decision, but I'd note that the rough draft's instinct to keep questioning it suggests there's a real user experience cost to the multi-call pattern that should be measured.
+
+---
+
+## What I'd Actually Build
+
+If I were starting fresh and wanted the best outcomes:
+
+**Phase 1: Company + Contact matching.** These are the simplest, most well-understood patterns. Two subsections, two profiles (strict and tolerant), no confidence thresholds in the LLM (just output the score, let the caller decide). Get this working reliably against the existing prompt-1, prompt-2, and prompt-4 test cases.
+
+**Phase 2: Ticket matching, split into selection and assessment.** Two subsections instead of one overloaded one. `ticket_selection` picks from candidates. `ticket_assessment` evaluates is_new_issue and generates descriptions. Callers can use one or both.
+
+**Phase 3: Taxonomy classification.** This is the most independent subsection and can be built and tested in isolation.
+
+**Phase 4: Co-extraction optimization.** Once each subsection works well in isolation (resolution-only calls), add the co-extraction path as an optimization, with clear documentation that it's an optimization, not the primary pattern.
+
+This phasing matches the existing task ordering but separates the ticket_match complexity and defers the co-extraction coupling, which are the two riskiest areas.
+
+---
+
+What aspects of this do you want to dig into further?

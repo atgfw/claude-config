@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Update parse_elevenlabs_data to extract integration_context resolved IDs",
+  "description": "Task 1.1: Update parse_elevenlabs_data code node to extract assigned_to_id, business_unit_id, campaign_id from integration_context alongside existing field_mappings pattern. Three-tier fallback: integration_context.{field} -> mapValue(field_mappings) -> auth config default.",
+  "activeForm": "Updating parse_elevenlabs_data for integration_context",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
