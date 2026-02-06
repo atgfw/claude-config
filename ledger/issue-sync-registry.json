@@ -4843,6 +4843,275 @@
       "checklist_items": [],
       "checklist_hash": "",
       "sync_sources": []
+    },
+    {
+      "unified_id": "openspec-optimize-website-rag-crawler",
+      "github_issue": null,
+      "github_repo": null,
+      "claude_task_id": null,
+      "openspec_change_id": "optimize-website-rag-crawler",
+      "plan_step": null,
+      "goal_summary": null,
+      "status": "open",
+      "last_synced": "2026-02-06T14:58:20.072Z",
+      "sync_hash": "",
+      "plan_file": null,
+      "checklist_items": [
+        {
+          "id": "03489bbe70ee",
+          "text": "6.3 Test basic HTTP tier against a known SSR site",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.067Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "050c007e6576",
+          "text": "3.6 Create `tier_jina_reader` code node using HTTP Request to r.jina.ai",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.066Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "24397af63f4e",
+          "text": "2.2 Implement sitemap fallback when Tavily Map fails (reuse existing parse_sitemap logic)",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.066Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "2c3b9b3719fd",
+          "text": "1.3 Add `crawler_hints` parameter support to `input_validation` node (force_tier, skip_tiers)",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.066Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "370703be88b9",
+          "text": "6.1 Test full pipeline against selkinginternational.com (Tavily tier, expect score >= 70)",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.067Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "40f017aa3bf5",
+          "text": "4.2 Implement quality threshold checks between tiers using evaluate_crawl_quality",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.066Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "47ed76544a01",
+          "text": "3.11 Ensure output schema matches tier standard (url, title, text_content, word_count)",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.066Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "508b1b2dee3a",
+          "text": "5.1 Update `website_rag_orchestrator` to pass crawler_hints from domain config",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.067Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "5a50db43c820",
+          "text": "7.3 Update CLAUDE.md with new crawler architecture notes",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.067Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "60df6f2d2350",
+          "text": "3.1 Create `tier_tavily_crawl` code node using Tavily Crawl MCP tool",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.066Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "68bb0c756beb",
+          "text": "3.8 Add markdown title extraction and word count",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.066Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "6a5589c108e8",
+          "text": "3.2 Configure parameters (max_depth: 2, max_breadth: 10, extract_depth: advanced)",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.066Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "75f260f515a6",
+          "text": "3.5 Create local Vitest tests with mock Tavily responses",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.066Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "81d37ed91f19",
+          "text": "2.4 Integrate url_discovery into crawler workflow (replace sitemap-only path)",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.066Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "85b0c070c869",
+          "text": "3.4 Add error handling for API failures, rate limits, empty responses",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.066Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "9990f9321a5c",
+          "text": "6.5 Measure and document API costs per domain",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.067Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "99f7a7d0fa96",
+          "text": "4.3 Create `select_best_result` merge node that picks highest-scoring tier output",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.066Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "a654fc4344ce",
+          "text": "5.3 Push updated crawler workflow to n8n instance",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.067Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "a72fba5fec04",
+          "text": "2.3 Create local Vitest tests for URL discovery with mock Tavily responses",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.066Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "a8f374c65ced",
+          "text": "3.9 Create local Vitest tests with mock Jina responses",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.066Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "a93dae60ffc9",
+          "text": "1.2 Create local Vitest tests for quality scoring (target: 15+ test cases covering edge cases)",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.065Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "bd8d0c8a565d",
+          "text": "6.2 Test fallback chain by forcing Tavily failure (skip_tiers: [\"tavily_crawl\"])",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.067Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "be6fe77b9b56",
+          "text": "2.1 Create `url_discovery` code node using Tavily Map API",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.066Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "bf286e377804",
+          "text": "3.3 Implement result transformation to standard page format (url, title, text_content, word_count)",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.066Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "c187e131ee09",
+          "text": "4.4 Update `assemble_output` to include tier metadata (tier_used, quality_score, discovery_method, fallback_chain)",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.066Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "cb55c038cf53",
+          "text": "6.4 Verify output schema compatibility with downstream extraction pipeline",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.067Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "cd0077474070",
+          "text": "4.1 Create fallback chain: Tavily (score >= 50) -> Jina (score >= 30) -> HTTP (any result)",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.066Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "ce8ad68557cf",
+          "text": "3.7 Implement URL batching (iterate discovered_urls, max 15 pages)",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.066Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "d1377d4cd323",
+          "text": "5.2 Update error handling to return partial results when all tiers produce low-quality output",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.067Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "d16f5cebb4cc",
+          "text": "7.1 Update `specs/website-rag-crawler/spec.md` to reflect 3-tier architecture",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.067Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "d751f9ac86f8",
+          "text": "1.4 Create local Vitest tests for input validation with crawler_hints",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.066Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "e1a933876324",
+          "text": "4.5 Wire force_tier and skip_tiers hints into tier selection logic",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.067Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "eaf0a2af8124",
+          "text": "7.2 Remove \"No JavaScript rendering\" from Known Deferred Issues",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.067Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "f491d5f7d5ff",
+          "text": "3.10 Refactor existing `crawl_all_pages` loop into `tier_http_basic` with standard output format",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.066Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "fdc291ee7740",
+          "text": "1.1 Create `evaluate_crawl_quality` code node with scoring function (page count, word count, diversity, key pages)",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:58:20.065Z",
+          "modified_by": "openspec"
+        }
+      ],
+      "checklist_hash": "80d774bc364216bb",
+      "sync_sources": [
+        {
+          "type": "openspec",
+          "artifact_id": "optimize-website-rag-crawler",
+          "last_read": "2026-02-06T14:58:20.072Z",
+          "content_hash": "aa9809aadb2a8471"
+        }
+      ]
     }
   ]
 }
