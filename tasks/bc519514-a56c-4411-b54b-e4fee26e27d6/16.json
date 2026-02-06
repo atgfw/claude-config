@@ -2,8 +2,8 @@
   "id": "16",
   "subject": "Compare extracted KB against existing Selking KB content",
   "description": "Fetch the existing knowledge base content for selkinginternational.com from Uncle Bob's agent (agent_3801kdf7fkhcev8tkhpm92d65jws). Compare field-by-field: locations count, hours accuracy, department coverage, phone numbers, emergency service. Document where new extraction is superior and any gaps.",
-  "activeForm": "Comparing new extraction against existing KB",
-  "status": "pending",
+  "activeForm": "Comparing extracted KB against existing Selking KB",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": [
     "14"
