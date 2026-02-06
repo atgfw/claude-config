@@ -151,7 +151,7 @@ function logWarning(title: string, details?: string): void {
   log(`[WARNING] ${title}`);
   if (details) {
     log('');
-    log('From CLAUDE.md:');
+    log('Rule:');
     log(`> ${details}`);
   }
 }

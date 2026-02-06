@@ -291,7 +291,7 @@ export async function hierarchicalTestingGateHook(
     log('  2. Verify all tests pass in test-run-registry');
     log('  3. Re-run this operation after dependencies are healthy');
     log('');
-    log('From CLAUDE.md:');
+    log('Governance rule:');
     log('  "UNTESTED WORK IS UNSUITABLE TO BUILD UPON."');
     log('  "Single unhealthy child = Parent cannot be healthy"');
     log('');
