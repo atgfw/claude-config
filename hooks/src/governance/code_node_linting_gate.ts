@@ -388,7 +388,10 @@ export async function codeNodeLintingGateHook(input: PreToolUseInput): Promise<P
   if (!validation.valid) {
     const errorSummary = validation.errors.join('; ');
 
-    logBlocked(`Code node linting failed: ${errorSummary}`, 'Code Node Governance - see CLAUDE.md');
+    logBlocked(
+      `Code node linting failed: ${errorSummary}`,
+      'Code Node Governance - see hooks/docs/n8n-governance.md'
+    );
 
     return {
       hookSpecificOutput: {
