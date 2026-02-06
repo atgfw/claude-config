@@ -2,8 +2,8 @@
   "id": "6",
   "subject": "Write Vitest local tests (tasks 6.1-6.8)",
   "description": "Unit tests for input validation, resolution config, subsection activation, schema merging, candidate formatting, profile injection, boolean independence, generated_initial_description",
-  "activeForm": "Writing Vitest tests",
-  "status": "pending",
+  "activeForm": "Writing remaining Vitest local tests",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }

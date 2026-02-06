@@ -1,0 +1,9 @@
+{
+  "id": "9",
+  "subject": "Wire SMS delivery nodes in Job Reminder and Review Request workflows",
+  "description": "Tasks 4.1-4.3, 5.1-5.3: Add HTTP Request nodes to Job Reminder and Review Request workflows that POST to Rewst redirect gateway (https://n8n.atgfw.com/webhook/rewst-n8n-redirect-wrapper) with appropriate action, conditional skip when empty, and gateway headers (X-Rewst-Webhook-Url, X-Rewst-Secret).",
+  "activeForm": "Wiring SMS delivery nodes",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
