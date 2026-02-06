@@ -364,6 +364,17 @@ export function generateProposal(
 
     log(`[PROPOSAL] Generated proposal: ${changePath}`);
 
+    // Auto-create GitHub issue and link to OpenSpec proposal
+    try {
+      const issueNumber = createFromOpenSpec(changeId, primary.symptom);
+      if (issueNumber) {
+        linkOpenSpec(issueNumber, changeId);
+        log(`[PROPOSAL] Linked to GitHub issue #${issueNumber}`);
+      }
+    } catch (issueError) {
+      log(`[PROPOSAL] Issue creation failed: ${(issueError as Error).message}`);
+    }
+
     return {
       changeId,
       proposalPath: changePath,

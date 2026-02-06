@@ -1,9 +1,0 @@
-{
-  "id": "4",
-  "subject": "Rename registration/registry to catalog across website_rag_orchestrator",
-  "description": "Rename all registration/registry references in workflow z3DOvsyLX5ICrEH6:\n- Webhook path: domain-registration -> domain-catalog\n- webhookId: domain-registration-webhook -> domain-catalog-webhook  \n- Node names: registration_webhook -> catalog_webhook, handle_registration_* -> handle_catalog_*, respond_registration -> respond_catalog, route_registration_method -> route_catalog_method\n- staticData key: domain_registry -> domain_catalog\n- Code in load_domain_configs, handle_catalog_post, handle_catalog_get, handle_catalog_delete",
-  "activeForm": "Renaming registration to catalog",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
