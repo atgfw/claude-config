@@ -1,9 +1,0 @@
-{
-  "id": "4",
-  "subject": "Add from_phone and to_phone to parsed output",
-  "description": "The spec's input contract includes source_metadata.from_phone and to_phone, and the clean note format in redesign-call-record-association uses \"From: {from_phone} | To: {to_phone}\", but parse-elevenlabs-data.js doesn't extract these fields. Add them to the parsed output.",
-  "activeForm": "Adding phone fields to parsed output",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}

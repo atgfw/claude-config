@@ -1,0 +1,9 @@
+{
+  "id": "7",
+  "subject": "Update format-note.js to match redesigned clean note format",
+  "description": "format-note.js still uses the OLD note format (AI CALL SUMMARY banner). The redesign-call-record-association spec defines a cleaner format: `[MM/DD h:mma] Caller Name (Company)` header with From/To fields, URGENT prefix for emergencies, and streamlined layout. Update code and tests to match the spec.",
+  "activeForm": "Updating format-note.js to redesigned format",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

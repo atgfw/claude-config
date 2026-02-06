@@ -1,9 +1,13 @@
 {
   "id": "7",
   "subject": "Clear leaked CRM goal from current session stack",
-  "description": "The CRM Entity Resolution goal from n8n_n8n project was pushed to this session's stack before the Phase 1 fix. Need to clear it from the current session's goal-stack.json.",
+  "description": "Cleared leaked CRM goal from current session stack.\\n\\nEvidence:\\n- `sessions/5ba508dc-a012-4587-9135-5cb94c1e5bc0/goal-stack.json:5` - `\\\"stack\\\": []` - cleared\\n- `sessions/5ba508dc-a012-4587-9135-5cb94c1e5bc0/goal-stack.json:8` - `\\\"reason\\\": \\\"Goal injection leak - CRM goal from n8n_n8n project cleared from ~/.claude session\\\"`\\n\\nVerification: Read file confirmed stack is empty, history records the clearance.\"",
   "activeForm": "Clearing leaked goal from session",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "userConfirmed": true,
+    "evidencePath": "sessions/5ba508dc-a012-4587-9135-5cb94c1e5bc0/goal-stack.json:5"
+  }
 }
