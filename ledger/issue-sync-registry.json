@@ -589,7 +589,8 @@
           "last_read": "2026-02-03T20:14:49.263Z",
           "content_hash": "73756718d27f6a37"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "openspec-improve-goal-auto-derivation",
@@ -773,7 +774,8 @@
           "last_read": "2026-02-03T20:20:39.504Z",
           "content_hash": "18d26ec972d0df35"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "plan-C:\\Users\\codya\\.claude\\plans\\tender-imagining-cray.md",
@@ -824,7 +826,8 @@
           "last_read": "2026-02-03T20:21:20.344Z",
           "content_hash": "77b4f507ff3f4589"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "unified-gh-35",
@@ -931,7 +934,8 @@
           "last_read": "2026-02-04T14:13:45.942Z",
           "content_hash": "3708ca886407d20e"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "plan-C:\\Users\\codya\\.claude\\plans\\steady-wandering-pillow.md",
@@ -1017,7 +1021,8 @@
           "last_read": "2026-02-04T14:15:40.576Z",
           "content_hash": "f1769b40f10cde11"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "plan-C:\\Users\\codya\\.claude\\plans\\binary-beaming-quasar.md",
@@ -1096,7 +1101,8 @@
           "last_read": "2026-02-04T20:42:13.210Z",
           "content_hash": "446c3a2c736256bc"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "plan-C:\\Users\\codya\\.claude\\plans\\clever-crafting-prism.md",
@@ -1259,7 +1265,8 @@
           "last_read": "2026-02-05T14:03:00.842Z",
           "content_hash": "887b82ce7caa1b73"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "unified-gh-40",
@@ -1849,7 +1856,8 @@
           "last_read": "2026-02-05T16:50:11.358Z",
           "content_hash": "9d30c085f86fd645"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "github_issue-#19",
@@ -1900,7 +1908,8 @@
           "last_read": "2026-02-05T17:06:57.949Z",
           "content_hash": "79d51261ba7f760c"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "openspec-block-n8n-local-workflow-files",
@@ -2140,7 +2149,8 @@
           "last_read": "2026-02-05T17:57:48.748Z",
           "content_hash": "d0fa118a1c381ca1"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "github_issue-#19",
@@ -2191,7 +2201,8 @@
           "last_read": "2026-02-05T17:12:24.152Z",
           "content_hash": "79d51261ba7f760c"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "plan-C:/Users/codya/.claude/plans/concurrent-inventing-starfish.md",
@@ -2389,7 +2400,8 @@
           "last_read": "2026-02-05T17:13:52.930Z",
           "content_hash": "6f2b7f75d87177fc"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "github_issue-#19",
@@ -2440,7 +2452,8 @@
           "last_read": "2026-02-05T17:23:29.712Z",
           "content_hash": "79d51261ba7f760c"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "github_issue-#19",
@@ -2491,7 +2504,8 @@
           "last_read": "2026-02-05T17:25:09.773Z",
           "content_hash": "79d51261ba7f760c"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "github_issue-#19",
@@ -2542,7 +2556,8 @@
           "last_read": "2026-02-05T17:25:10.530Z",
           "content_hash": "79d51261ba7f760c"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "github_issue-#19",
@@ -2593,7 +2608,8 @@
           "last_read": "2026-02-05T17:28:30.140Z",
           "content_hash": "79d51261ba7f760c"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "plan-C:\\Users\\codya\\.claude\\plans\\concurrent-inventing-starfish.md",
@@ -2791,7 +2807,8 @@
           "last_read": "2026-02-05T17:57:48.780Z",
           "content_hash": "6fa0f86cae57c8bf"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "github_issue-#19",
@@ -2842,7 +2859,8 @@
           "last_read": "2026-02-05T17:38:34.271Z",
           "content_hash": "79d51261ba7f760c"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "github_issue-#19",
@@ -2893,7 +2911,8 @@
           "last_read": "2026-02-05T17:41:15.653Z",
           "content_hash": "79d51261ba7f760c"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "github_issue-#19",
@@ -2944,7 +2963,8 @@
           "last_read": "2026-02-05T17:42:19.569Z",
           "content_hash": "79d51261ba7f760c"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "github_issue-#19",
@@ -2995,7 +3015,8 @@
           "last_read": "2026-02-05T17:52:07.606Z",
           "content_hash": "84ab5d3311e74912"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "github_issue-#33",
@@ -3046,7 +3067,8 @@
           "last_read": "2026-02-05T17:52:08.552Z",
           "content_hash": "a7e794e38fd6afa2"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "github_issue-#19",
@@ -3097,7 +3119,8 @@
           "last_read": "2026-02-05T17:57:44.095Z",
           "content_hash": "79d51261ba7f760c"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "github_issue-#19",
@@ -3148,7 +3171,8 @@
           "last_read": "2026-02-05T17:57:49.950Z",
           "content_hash": "79d51261ba7f760c"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "plan-C:\\Users\\codya\\.claude\\plans\\synthetic-churning-aho.md",
@@ -3227,7 +3251,8 @@
           "last_read": "2026-02-05T17:59:41.798Z",
           "content_hash": "b917a669c3107403"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "openspec-add-manual-verification-tests",
@@ -3432,7 +3457,8 @@
           "last_read": "2026-02-05T18:37:00.056Z",
           "content_hash": "3f2d51b8daefb907"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "plan-C:\\Users\\codya\\.claude\\plans\\hashed-marinating-pike.md",
@@ -3532,7 +3558,8 @@
           "last_read": "2026-02-05T21:58:41.990Z",
           "content_hash": "3a4def60691b9444"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "openspec-lubricate-website-rag-lifecycle",
@@ -3828,7 +3855,8 @@
           "last_read": "2026-02-05T21:58:46.756Z",
           "content_hash": "2332b00972dd5a80"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "openspec-fix-session-isolation-bugs",
@@ -4026,7 +4054,8 @@
           "last_read": "2026-02-05T21:59:23.911Z",
           "content_hash": "2a8cfbd8a27bab87"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "plan-C:\\Users\\codya\\.claude\\plans\\cozy-marinating-falcon.md",
@@ -4266,7 +4295,8 @@
           "last_read": "2026-02-05T22:04:58.101Z",
           "content_hash": "5906fde9f755b418"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "openspec-add-crm-entity-resolution",
@@ -4276,10 +4306,31 @@
       "plan_step": null,
       "goal_summary": null,
       "status": "open",
-      "last_synced": "2026-02-05T22:18:27.413Z",
+      "last_synced": "2026-02-06T15:19:30.516Z",
       "sync_hash": "",
       "plan_file": null,
       "checklist_items": [
+        {
+          "id": "0f37f33a28b0",
+          "text": "6.7 Unit tests for ticket_match boolean independence",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:19:30.510Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "0f6ab3bc8369",
+          "text": "4.1 Update build_prompt to inject candidate_sets into LLM context",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:19:30.510Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "10f06acb8a14",
+          "text": "7.3 Test contact_match against prompt-2 test cases",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:19:30.510Z",
+          "modified_by": "openspec"
+        },
         {
           "id": "13eb2aef7022",
           "text": "1.2 Add `resolution_config` validation to input_validator node",
@@ -4295,17 +4346,10 @@
           "modified_by": "openspec"
         },
         {
-          "id": "1ce303b78452",
-          "text": "8.5 Add combined category test cases",
+          "id": "2400badc7c9f",
+          "text": "1.4 Add `resolution_subsections` validation",
           "status": "pending",
-          "last_modified": "2026-02-05T22:18:27.374Z",
-          "modified_by": "openspec"
-        },
-        {
-          "id": "1f41aed49c86",
-          "text": "4.1 Update build_prompt to handle candidate_sets context",
-          "status": "pending",
-          "last_modified": "2026-02-05T22:18:27.374Z",
+          "last_modified": "2026-02-06T15:19:30.510Z",
           "modified_by": "openspec"
         },
         {
@@ -4316,10 +4360,17 @@
           "modified_by": "openspec"
         },
         {
-          "id": "2904bd6e9767",
-          "text": "10.5 Update build_prompt with candidate set injection",
+          "id": "2a459817cb2c",
+          "text": "8.7 Add combined category test cases",
           "status": "pending",
-          "last_modified": "2026-02-05T22:18:27.382Z",
+          "last_modified": "2026-02-06T15:19:30.511Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "2c7958a3a337",
+          "text": "6.2 Unit tests for resolution_config validation",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:19:30.510Z",
           "modified_by": "openspec"
         },
         {
@@ -4330,17 +4381,17 @@
           "modified_by": "openspec"
         },
         {
+          "id": "3339598637da",
+          "text": "1.5 Add truncation logic for oversized candidate data",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:19:30.510Z",
+          "modified_by": "openspec"
+        },
+        {
           "id": "342829555184",
           "text": "10.2 Update category_merger node with new category registration",
           "status": "pending",
           "last_modified": "2026-02-05T22:18:27.382Z",
-          "modified_by": "openspec"
-        },
-        {
-          "id": "3777dd80c027",
-          "text": "7.5 Test combined extraction (crm_entity_resolution + other categories)",
-          "status": "pending",
-          "last_modified": "2026-02-05T22:18:27.374Z",
           "modified_by": "openspec"
         },
         {
@@ -4351,17 +4402,17 @@
           "modified_by": "openspec"
         },
         {
-          "id": "3d75a3c8ceaf",
-          "text": "7.2 Test contact_match against prompt-2 test cases",
+          "id": "3ef6da51b570",
+          "text": "6.4 Unit tests for schema merging with confidence field",
           "status": "pending",
-          "last_modified": "2026-02-05T22:18:27.374Z",
+          "last_modified": "2026-02-06T15:19:30.510Z",
           "modified_by": "openspec"
         },
         {
-          "id": "43cc19907aaf",
-          "text": "6.3 Unit tests for schema merging with confidence field",
+          "id": "42ebd4b05ed5",
+          "text": "8.3 Add contact_match test cases",
           "status": "pending",
-          "last_modified": "2026-02-05T22:18:27.374Z",
+          "last_modified": "2026-02-06T15:19:30.511Z",
           "modified_by": "openspec"
         },
         {
@@ -4372,17 +4423,10 @@
           "modified_by": "openspec"
         },
         {
-          "id": "500172f731ce",
-          "text": "6.4 Unit tests for resolution_config defaults and overrides",
+          "id": "592a16189ad9",
+          "text": "10.5 Update build_prompt with candidate set injection and profile instructions",
           "status": "pending",
-          "last_modified": "2026-02-05T22:18:27.374Z",
-          "modified_by": "openspec"
-        },
-        {
-          "id": "504533d5c8a9",
-          "text": "7.4 Test taxonomy_classification against prompt-3 test cases",
-          "status": "pending",
-          "last_modified": "2026-02-05T22:18:27.374Z",
+          "last_modified": "2026-02-06T15:19:30.511Z",
           "modified_by": "openspec"
         },
         {
@@ -4400,13 +4444,6 @@
           "modified_by": "openspec"
         },
         {
-          "id": "71dead8acec3",
-          "text": "7.3 Test ticket_match against prompt-5 and prompt-6 test cases",
-          "status": "pending",
-          "last_modified": "2026-02-05T22:18:27.374Z",
-          "modified_by": "openspec"
-        },
-        {
           "id": "76702ddf82e2",
           "text": "7.1 Test company_match against prompt-1 test cases",
           "status": "pending",
@@ -4414,17 +4451,31 @@
           "modified_by": "openspec"
         },
         {
-          "id": "8d706801d411",
-          "text": "3.3 Implement candidate set injection into prompt",
+          "id": "863b02d641e0",
+          "text": "8.4 Add ticket_match test cases (multi-ticket selection, from prompt-5)",
           "status": "pending",
-          "last_modified": "2026-02-05T22:18:27.374Z",
+          "last_modified": "2026-02-06T15:19:30.511Z",
           "modified_by": "openspec"
         },
         {
-          "id": "904002ded7d5",
-          "text": "3.2 Implement dynamic schema merging for active subsections",
+          "id": "8d4bbf0c3f6a",
+          "text": "4.2 Inject resolution_config profile instructions into system prompt",
           "status": "pending",
-          "last_modified": "2026-02-05T22:18:27.374Z",
+          "last_modified": "2026-02-06T15:19:30.510Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "8dd5fb989497",
+          "text": "8.8 Add resolution_config test cases",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:19:30.511Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "90497f362e7c",
+          "text": "6.6 Unit tests for match profile system prompt injection",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:19:30.510Z",
           "modified_by": "openspec"
         },
         {
@@ -4435,10 +4486,10 @@
           "modified_by": "openspec"
         },
         {
-          "id": "9745ec20e4b4",
-          "text": "8.4 Add taxonomy_classification test cases",
+          "id": "973502277c95",
+          "text": "8.2 Add company_match cross-reference test cases",
           "status": "pending",
-          "last_modified": "2026-02-05T22:18:27.374Z",
+          "last_modified": "2026-02-06T15:19:30.511Z",
           "modified_by": "openspec"
         },
         {
@@ -4463,10 +4514,17 @@
           "modified_by": "openspec"
         },
         {
-          "id": "a1791ddf8d0e",
-          "text": "4.2 Inject resolution_config profile instructions",
+          "id": "a16fb46a3fa6",
+          "text": "7.5 Test ticket_match against prompt-6 test cases (single-ticket verification)",
           "status": "pending",
-          "last_modified": "2026-02-05T22:18:27.374Z",
+          "last_modified": "2026-02-06T15:19:30.510Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "a237392b282a",
+          "text": "7.8 Test resolution_config profiles",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:19:30.510Z",
           "modified_by": "openspec"
         },
         {
@@ -4484,29 +4542,43 @@
           "modified_by": "openspec"
         },
         {
-          "id": "b1c080867a7e",
-          "text": "8.3 Add ticket_match test cases",
+          "id": "a9f210e8e374",
+          "text": "8.6 Add taxonomy_classification test cases",
           "status": "pending",
-          "last_modified": "2026-02-05T22:18:27.374Z",
+          "last_modified": "2026-02-06T15:19:30.511Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "b04ac72d5fe1",
+          "text": "4.3 Add extracted-value referencing in microprompts",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:19:30.510Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "b4f3af950544",
+          "text": "8.5 Add ticket_match test cases (single-ticket verification, from prompt-6)",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:19:30.511Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "b8f0d34db82f",
+          "text": "7.2 Test company_match cross-reference against prompt-4 test cases",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:19:30.510Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "b9ff6a3bef58",
+          "text": "7.6 Test taxonomy_classification against prompt-3 test cases",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:19:30.510Z",
           "modified_by": "openspec"
         },
         {
           "id": "c2aebbc9e5d7",
           "text": "6.5 Unit tests for candidate formatting in prompts",
-          "status": "pending",
-          "last_modified": "2026-02-05T22:18:27.374Z",
-          "modified_by": "openspec"
-        },
-        {
-          "id": "c3abd082e94e",
-          "text": "1.4 Add ticket notes truncation logic",
-          "status": "pending",
-          "last_modified": "2026-02-05T22:18:27.374Z",
-          "modified_by": "openspec"
-        },
-        {
-          "id": "c4cf9ff0cc7a",
-          "text": "7.6 Regression: verify existing test cases unaffected",
           "status": "pending",
           "last_modified": "2026-02-05T22:18:27.374Z",
           "modified_by": "openspec"
@@ -4526,20 +4598,6 @@
           "modified_by": "openspec"
         },
         {
-          "id": "d2ab4ba54196",
-          "text": "6.2 Unit tests for category_merger subsection activation",
-          "status": "pending",
-          "last_modified": "2026-02-05T22:18:27.374Z",
-          "modified_by": "openspec"
-        },
-        {
-          "id": "d5dfa0e7408a",
-          "text": "8.2 Add contact_match test cases",
-          "status": "pending",
-          "last_modified": "2026-02-05T22:18:27.374Z",
-          "modified_by": "openspec"
-        },
-        {
           "id": "d664682be7d6",
           "text": "8.1 Add company_match test cases to test-fixtures/test-profile.json",
           "status": "pending",
@@ -4554,10 +4612,45 @@
           "modified_by": "openspec"
         },
         {
+          "id": "deb6d88dd0b2",
+          "text": "7.4 Test ticket_match against prompt-5 test cases (multi-ticket)",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:19:30.510Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "dedece18d4ed",
+          "text": "3.2 Implement dynamic schema generation for active subsections",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:19:30.510Z",
+          "modified_by": "openspec"
+        },
+        {
           "id": "e57ae18b317f",
           "text": "3.1 Register crm_entity_resolution in category_merger CATEGORIES",
           "status": "pending",
           "last_modified": "2026-02-05T22:18:27.374Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "ef3c03769be0",
+          "text": "6.3 Unit tests for category_merger subsection activation",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:19:30.510Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "effdd50e2cd4",
+          "text": "7.9 Regression: verify existing test cases unaffected",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:19:30.510Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "f2e68fb6464f",
+          "text": "7.7 Test combined extraction (crm_entity_resolution + other categories)",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:19:30.510Z",
           "modified_by": "openspec"
         },
         {
@@ -4568,15 +4661,16 @@
           "modified_by": "openspec"
         }
       ],
-      "checklist_hash": "ae883b66cb3320c8",
+      "checklist_hash": "efb16e66bb8553e2",
       "sync_sources": [
         {
           "type": "openspec",
           "artifact_id": "add-crm-entity-resolution",
-          "last_read": "2026-02-05T22:18:27.414Z",
-          "content_hash": "f5781a0c1fcad11f"
+          "last_read": "2026-02-06T15:19:30.516Z",
+          "content_hash": "22438c1a71c1b62d"
         }
-      ]
+      ],
+      "github_repo": null
     },
     {
       "unified_id": "plan-C:\\Users\\codya\\.claude\\plans\\iridescent-shimmying-corbato.md",

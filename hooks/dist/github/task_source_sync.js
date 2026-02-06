@@ -42,6 +42,18 @@ export function saveRegistry(registry) {
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
     }
+    // Compact: remove closed entries older than 30 days with no linked artifacts
+    const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
+    registry.entries = registry.entries.filter((entry) => {
+        if (entry.status !== 'closed')
+            return true;
+        if (entry.claude_task_id || entry.openspec_change_id || entry.plan_file)
+            return true;
+        if (entry.checklist_items.length > 0)
+            return true;
+        const lastSynced = new Date(entry.last_synced).getTime();
+        return lastSynced > thirtyDaysAgo;
+    });
     fs.writeFileSync(p, JSON.stringify(registry, null, 2), 'utf-8');
 }
 // ---------------------------------------------------------------------------
@@ -129,18 +141,29 @@ export function syncFromGitHub() {
         let updated = 0;
         let closed = 0;
         const remoteNumbers = new Set();
+        const currentRepo = getCurrentRepo();
         for (const issue of issues) {
             remoteNumbers.add(issue.number);
             const ghStatus = issue.state === 'OPEN' ? 'open' : 'closed';
             const existing = findEntry(registry, { github_issue: issue.number });
             if (!existing) {
-                upsertEntry(registry, { github_issue: issue.number, status: ghStatus });
+                upsertEntry(registry, {
+                    github_issue: issue.number,
+                    status: ghStatus,
+                    github_repo: currentRepo,
+                });
                 created++;
             }
-            else if (existing.status !== ghStatus) {
-                existing.status = ghStatus;
-                existing.last_synced = new Date().toISOString();
-                updated++;
+            else {
+                // Backfill github_repo if missing
+                if (!existing.github_repo && currentRepo) {
+                    existing.github_repo = currentRepo;
+                }
+                if (existing.status !== ghStatus) {
+                    existing.status = ghStatus;
+                    existing.last_synced = new Date().toISOString();
+                    updated++;
+                }
             }
         }
         for (const entry of registry.entries) {

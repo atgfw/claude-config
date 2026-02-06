@@ -308,16 +308,34 @@ function writeToLedger(projectDirectory: string, issues: HygieneIssue[]): void {
       registry = JSON.parse(content) as typeof registry;
     }
 
-    // Add new entry (keep last 100 entries)
-    registry.push({
-      timestamp: new Date().toISOString(),
-      project: projectDirectory,
-      issueCount: issues.length,
-      issues,
-    });
+    // Deduplicate: if last entry for same project has identical issues, just update timestamp
+    const issueFingerprint = issues
+      .map((i) => `${i.type}:${i.filename}`)
+      .sort()
+      .join('|');
+    const lastSameProject = [...registry].reverse().find((e) => e.project === projectDirectory);
+    const lastFingerprint = lastSameProject
+      ? lastSameProject.issues
+          .map((i) => `${i.type}:${i.filename}`)
+          .sort()
+          .join('|')
+      : '';
 
-    if (registry.length > 100) {
-      registry = registry.slice(-100);
+    if (lastSameProject && lastFingerprint === issueFingerprint) {
+      // Same issues - just update timestamp, skip duplicate entry
+      lastSameProject.timestamp = new Date().toISOString();
+    } else {
+      registry.push({
+        timestamp: new Date().toISOString(),
+        project: projectDirectory,
+        issueCount: issues.length,
+        issues,
+      });
+    }
+
+    // Cap at 50 entries
+    if (registry.length > 50) {
+      registry = registry.slice(-50);
     }
 
     fs.writeFileSync(ledgerPath, JSON.stringify(registry, null, 2));

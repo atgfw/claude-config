@@ -1,0 +1,9 @@
+{
+  "id": "6",
+  "subject": "Re-validate openspec after all fixes",
+  "description": "Run bunx openspec validate productionize-servicetitan-workflows --strict after all spec refinements to ensure everything still passes.",
+  "activeForm": "Re-validating openspec",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

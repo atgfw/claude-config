@@ -1,0 +1,9 @@
+{
+  "id": "5",
+  "subject": "Update implement-servicetitan-crm-integration tasks for completion",
+  "description": "The implement-servicetitan-crm-integration change is 31/32 tasks. Task 5.5 (Remove [DEV] tags) is pending - this is now superseded by the productionize change which handles [DEV] tag removal in section 8. Update the tasks.md to reflect this.",
+  "activeForm": "Updating task completion status",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
