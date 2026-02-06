@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Wire escalation_trigger.ts to create GitHub issues",
+  "description": "Add `createFromEscalation()` call in escalation_trigger.ts when `result.patternDetected === true`. Import from `../github/issue_crud.js`.",
+  "activeForm": "Wiring escalation trigger to issue creation",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Wire task_completion_gate.ts to close linked issues",
+  "description": "After evidence validation passes in task_completion_gate.ts, call onTaskComplete(taskId) from ../github/task_source_sync.js to auto-close linked GitHub issues.",
+  "activeForm": "Wiring task completion to issue closure",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

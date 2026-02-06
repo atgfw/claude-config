@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "Wire proposal_generator.ts to create GitHub issues",
+  "description": "After scaffoldOpenSpecChange() succeeds, call createFromOpenSpec(changeId, summary) and linkOpenSpec(issueNumber, changeId). Import from ../github/issue_crud.js and ../github/task_source_sync.js.",
+  "activeForm": "Wiring proposal generator to issue creation",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

@@ -1,0 +1,9 @@
+{
+  "id": "6",
+  "subject": "Wire session_start.ts to sync GitHub issues",
+  "description": "Add syncFromGitHub() call during session initialization, after MCP health checks but before kanban context building.",
+  "activeForm": "Wiring session start to GitHub sync",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

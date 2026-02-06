@@ -1,0 +1,9 @@
+{
+  "id": "3",
+  "subject": "Create openspec_issue_bridge.ts PostToolUse hook",
+  "description": "New PostToolUse hook on Write/Edit that detects openspec/changes/*/proposal.md writes. Calls createFromOpenSpec(changeId) and linkOpenSpec(). Register in settings.json and index.ts.",
+  "activeForm": "Creating OpenSpec issue bridge hook",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

@@ -1,0 +1,9 @@
+{
+  "id": "8",
+  "subject": "Create OpenSpec proposal and update tasks.md",
+  "description": "Create openspec/changes/fix-lifecycle-wiring/ with proposal.md and tasks.md. Update add-github-issue-tracking-system/tasks.md to check off completed items.",
+  "activeForm": "Creating OpenSpec proposal for lifecycle fix",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

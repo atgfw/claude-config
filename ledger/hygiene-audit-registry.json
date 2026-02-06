@@ -1,33 +1,5 @@
 [
   {
-    "timestamp": "2026-01-30T20:46:50.621Z",
-    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan",
-    "issueCount": 1,
-    "issues": [
-      {
-        "type": "garbage_file",
-        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan\\nul",
-        "filename": "nul",
-        "suggestion": "mv \"nul\" old/misc/",
-        "severity": "warn"
-      }
-    ]
-  },
-  {
-    "timestamp": "2026-01-30T20:58:45.926Z",
-    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag",
-    "issueCount": 1,
-    "issues": [
-      {
-        "type": "garbage_file",
-        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag\\nul",
-        "filename": "nul",
-        "suggestion": "mv \"nul\" old/misc/",
-        "severity": "warn"
-      }
-    ]
-  },
-  {
     "timestamp": "2026-01-30T21:13:29.689Z",
     "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan",
     "issueCount": 1,
@@ -1564,6 +1536,34 @@
         "filename": "nul",
         "suggestion": "mv \"nul\" old/misc/",
         "severity": "warn"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-06T14:15:46.896Z",
+    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag\\CUserscodyaAppDataLocalTempclaudeagent_kb.json",
+        "filename": "CUserscodyaAppDataLocalTempclaudeagent_kb.json",
+        "suggestion": "mv \"CUserscodyaAppDataLocalTempclaudeagent_kb.json\" old/misc/ # Empty file",
+        "severity": "info"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-06T14:15:47.076Z",
+    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\website_rag\\CUserscodyaAppDataLocalTempclaudeagent_kb.json",
+        "filename": "CUserscodyaAppDataLocalTempclaudeagent_kb.json",
+        "suggestion": "mv \"CUserscodyaAppDataLocalTempclaudeagent_kb.json\" old/misc/ # Empty file",
+        "severity": "info"
       }
     ]
   }

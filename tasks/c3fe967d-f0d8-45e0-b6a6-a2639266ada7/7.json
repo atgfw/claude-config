@@ -1,0 +1,9 @@
+{
+  "id": "7",
+  "subject": "Add throttled auto-commit on PostToolUse",
+  "description": "Add throttled auto-commit logic (max once per 5 minutes) in unified_post_tool.ts. Uses file-based timestamp for throttling.",
+  "activeForm": "Adding throttled auto-commit to PostToolUse",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

@@ -9,6 +9,7 @@ import type { PostToolUseInput, PostToolUseOutput } from '../types.js';
 import { log } from '../utils.js';
 import { registerHook } from '../runner.js';
 import { escalateFromHook } from '../utils/escalate.js';
+import { createFromEscalation } from '../github/issue_crud.js';
 
 // ============================================================================
 // Pattern Definitions
@@ -201,6 +202,17 @@ export async function escalationTriggerHook(input: PostToolUseInput): Promise<Po
         );
         if (result.patternDetected) {
           log(`[ESCALATION] Pattern threshold met for: ${pattern.name}`);
+
+          // Auto-create GitHub issue for high/critical escalations
+          try {
+            createFromEscalation({
+              description: pattern.symptom(input),
+              category: pattern.category,
+              severity: pattern.severity,
+            });
+          } catch (issueErr) {
+            log(`[ESCALATION] Issue creation failed: ${(issueErr as Error).message}`);
+          }
         }
       }
     } catch (error) {

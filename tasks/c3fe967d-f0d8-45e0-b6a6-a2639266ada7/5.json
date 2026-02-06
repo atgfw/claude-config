@@ -1,0 +1,9 @@
+{
+  "id": "5",
+  "subject": "Wire task_goal_sync.ts to link tasks to GitHub issues",
+  "description": "When a task is pushed to the goal stack (status in_progress), check for linked GitHub issue in goal context. If found, call linkTask(issueNumber, taskId).",
+  "activeForm": "Wiring task-goal sync to issue linking",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
