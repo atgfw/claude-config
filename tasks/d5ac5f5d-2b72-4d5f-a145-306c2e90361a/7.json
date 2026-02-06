@@ -1,0 +1,9 @@
+{
+  "id": "7",
+  "subject": "Integration testing, test profile, docs, deployment (tasks 7-10)",
+  "description": "Integration tests against live workflow, test profile expansion, documentation updates, and deployment",
+  "activeForm": "Running integration tests and deploying",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

@@ -1,0 +1,9 @@
+{
+  "id": "5",
+  "subject": "Implement build_prompt and output_assembler integration (tasks 4.1-5.2)",
+  "description": "Update build_prompt to inject candidate_sets and profile instructions. Update output_assembler for confidence passthrough.",
+  "activeForm": "Implementing prompt and output integration",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

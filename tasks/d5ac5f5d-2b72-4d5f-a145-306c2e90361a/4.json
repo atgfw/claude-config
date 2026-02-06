@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Implement category merger integration (tasks 3.1-3.2)",
+  "description": "Register crm_entity_resolution in CATEGORIES, implement dynamic schema generation for active subsections",
+  "activeForm": "Implementing category merger integration",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

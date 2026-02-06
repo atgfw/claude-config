@@ -1,0 +1,9 @@
+{
+  "id": "3",
+  "subject": "Create crm_entity_resolution category config node (tasks 2.1-2.5)",
+  "description": "Create the category config with all 4 subsection schemas, microprompts, and system rules",
+  "activeForm": "Creating category config node",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
