@@ -5128,6 +5128,107 @@
       "checklist_items": [],
       "checklist_hash": "",
       "sync_sources": []
+    },
+    {
+      "unified_id": "plan-C:\\Users\\codya\\.claude\\plans\\playful-meandering-wall.md",
+      "github_issue": null,
+      "github_repo": null,
+      "claude_task_id": null,
+      "openspec_change_id": null,
+      "plan_step": null,
+      "goal_summary": null,
+      "status": "open",
+      "last_synced": "2026-02-06T15:01:06.876Z",
+      "sync_hash": "",
+      "plan_file": "C:\\Users\\codya\\.claude\\plans\\playful-meandering-wall.md",
+      "checklist_items": [
+        {
+          "id": "10916151943f",
+          "text": "**Session directory proliferation** - 80+ session dirs including 16+ test/debug leftovers",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:01:06.873Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "3b52c7f56d1a",
+          "text": "**Tests**: `cd ~/.claude/hooks && bun test` must pass",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:01:06.873Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "4ae58f7935ed",
+          "text": "**Session dirs**: Test/debug session dirs should be archived to `sessions/old/`",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:01:06.873Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "545234f1caf3",
+          "text": "**Unreliable autocommit** - only fires on Stop event; misses session crashes",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:01:06.873Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "7e496b21e3af",
+          "text": "**Autocommit**: After write operations, `git log` should show sync commits without `--no-verify`",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:01:06.873Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "8e503e510efa",
+          "text": "**Build**: `cd ~/.claude/hooks && bun run build` must succeed",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:01:06.873Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "b07116cf309e",
+          "text": "**Goal injection leaking across sessions** (user's top complaint) - a goal set in project A appears in project B",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:01:06.873Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "c89c227bbe71",
+          "text": "**Registry size**: `hygiene-audit-registry.json` should be < 5KB after cleanup",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:01:06.873Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "ce1100108afd",
+          "text": "**Registry bloat** - hygiene-audit-registry has 80+ duplicate entries; issue-sync-registry is 57k tokens",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:01:06.873Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "e1748cdd76dd",
+          "text": "**Goal leak test**: Start new session in `~/.claude` -- should NOT show CRM Entity Resolution goal",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:01:06.873Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "fae9d691abe8",
+          "text": "**Lifecycle gaps** - user requests don't auto-create GitHub issues; issues don't auto-trigger OpenSpec proposals",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:01:06.873Z",
+          "modified_by": "plan"
+        }
+      ],
+      "checklist_hash": "9eeb2b9f2ac00383",
+      "sync_sources": [
+        {
+          "type": "plan",
+          "artifact_id": "C:\\Users\\codya\\.claude\\plans\\playful-meandering-wall.md",
+          "last_read": "2026-02-06T15:01:06.876Z",
+          "content_hash": "8554b886b3fcde43"
+        }
+      ]
     }
   ]
 }
