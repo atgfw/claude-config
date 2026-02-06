@@ -570,8 +570,8 @@
       "entityType": "n8n-workflow",
       "entityPath": "workflows/servicetitan/",
       "entityName": "[DEV] ServiceTitan_group_members",
-      "workflowId": null,
-      "status": "local-tested",
+      "workflowId": "AGF0MzUFlhRt4AOq",
+      "status": "cloud-deployed",
       "version": "1.0.0",
       "novelInputHashes": [
         "521998fa0b951274",
@@ -639,8 +639,8 @@
       "entityType": "n8n-workflow",
       "entityPath": "workflows/servicetitan/",
       "entityName": "[DEV] ServiceTitan_group_members",
-      "workflowId": null,
-      "status": "local-tested",
+      "workflowId": "AGF0MzUFlhRt4AOq",
+      "status": "cloud-deployed",
       "version": "1.0.0",
       "novelInputHashes": [
         "521998fa0b951274",

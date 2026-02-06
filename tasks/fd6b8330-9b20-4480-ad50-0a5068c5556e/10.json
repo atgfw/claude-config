@@ -1,9 +1,0 @@
-{
-  "id": "10",
-  "subject": "Create Group Members workflow in n8n",
-  "description": "Create [DEV] ServiceTitan_group_members workflow. Steps: 1) Extract build_occ_output code into testable JS module, 2) Write Vitest unit tests, 3) Write primordial pipeline tests (3 novel runs), 4) Run tests to satisfy pipeline gate, 5) Create workflow via n8n MCP",
-  "activeForm": "Creating Group Members workflow",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
