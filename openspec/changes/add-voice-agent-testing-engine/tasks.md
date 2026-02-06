@@ -63,7 +63,67 @@
 - Tasks 2.3, 2.4, 2.5 can run in parallel
 - Section 5 can run in parallel with everything
 
+## 7. Architecture Pivot: Recursive Feedback Loop
+
+- [x] 7.1 Create `test-runner.ts` with scientific method loop (Hypothesis, Experiment, Observation, Analysis, Refinement, Repeat, Record)
+- [x] 7.2 Implement `loadScenarios()` to read from `test-profile.json` with category filtering, fallback to defaults
+- [x] 7.3 Implement `runSimulation()` with correct simulate_conversation request body (`simulation_specification.simulated_user_config.prompt = {prompt, llm, temperature}`)
+- [x] 7.4 Implement response transformation: `conversation_history` + `evaluation_results` -> `simulated_conversation` + `analysis.evaluation_criteria_results`
+- [x] 7.5 Implement `createTest()` with correct Tests API body (`chat_history[].time_in_call_secs`, examples as `{response, type}` objects)
+- [x] 7.6 Implement `runTests()` to execute tests via Tests API
+- [x] 7.7 Implement `analyzeIteration()` using existing `analyzeResults()` from `analyze-results.js`
+- [x] 7.8 Implement `generateRecommendations()` with CRITICAL/MODERATE/OK levels
+- [x] 7.9 Implement `recordResult()` writing to `test-run-registry.json` using object key access (not array)
+- [x] 7.10 Implement convergence detection (stop when aggregate_score >= threshold)
+- [x] 7.11 Implement CLI args: `--dry-run`, `--max-iterations N`, `--category CAT`
+- [x] 7.12 Dry run validation passes (loads 10 scenarios, 3 iterations, all phases execute)
+
+## 8. Test Runner Unit Tests
+
+- [x] 8.1 Create `test-runner.test.ts` with 18 Vitest tests
+- [x] 8.2 Scenario loading tests (3): file exists, required fields, correct IDs
+- [x] 8.3 Analysis pipeline tests (4): success scoring, failure scoring, null response, aggregation
+- [x] 8.4 Recommendation generation tests (3): critical, moderate, Tests API failures
+- [x] 8.5 Report generation tests (3): aggregated results, Excellent rating, Needs Improvement
+- [x] 8.6 Convergence logic tests (3): threshold stop, full iteration, pass rate calculation
+- [x] 8.7 Input hash uniqueness tests (2): different hashes, same hash
+- [x] 8.8 All 18 tests pass (`bun test ./tests/code-nodes/voice-agent-tester/test-runner.test.ts`)
+
+## 9. API Bug Fixes
+
+- [x] 9.1 Fix simulate_conversation 500: restructured `simulated_user_config` to nested `prompt` object
+- [x] 9.2 Fix Tests API 422: added `time_in_call_secs: 0` to `chat_history`
+- [x] 9.3 Fix Tests API 422: changed examples from strings to `{response, type}` objects
+- [x] 9.4 Fix registry access: changed from `registry.entities.find()` to `registry["entity-key"]`
+- [x] 9.5 Fix LLM model: changed banned model to `gemini-3-flash-preview`
+- [x] 9.6 Fix `entity.primordialRuns` -> `entity.testRuns` in log message
+- [x] 9.7 Fix duplicate `name` field in `createTest()` body
+- [x] 9.8 Fix test-runner.test.ts: `performance_rating` -> `performance` field name
+
+## 10. Live API Validation (NEXT)
+
+- [ ] 10.1 Run `bun run tests/code-nodes/voice-agent-tester/test-runner.ts --max-iterations 1 --category happy_path`
+- [ ] 10.2 If simulate_conversation still 500: try omitting `llm`/`temperature` or use `gpt-5.2`
+- [ ] 10.3 If Tests API still 422: add `content: scenario.prompt` to `chat_history` entries
+- [ ] 10.4 Verify at least 1 scenario passes end-to-end
+
+## 11. Primordial Pipeline
+
+- [ ] 11.1 (same as 4.2) Execute primordial pipeline run 1 with novel input data
+- [ ] 11.2 (same as 4.3) Execute primordial pipeline run 2 with novel input data
+- [ ] 11.3 (same as 4.4) Execute primordial pipeline run 3 with novel input data
+- [ ] 11.4 (same as 4.5) Verify registry has 3 entries with unique SHA-256 `inputHash` values
+
+## 12. [DEV] Tag Removal
+
+- [ ] 12.1 Verify 98%+ success rate across primordial runs
+- [ ] 12.2 Remove [DEV] tag from workflow `uShlKp2CxOsp0ubC`
+- [ ] 12.3 Update registry status to "healthy"
+
 ## Remaining (requires live API coordination)
 
-- 3.8: Smoke test with live ElevenLabs API
-- 4.2-4.5: Primordial pipeline runs (3 novel inputs required)
+- 3.8: Smoke test with live ElevenLabs API (subsumed by 10.1)
+- 4.2-4.5: Primordial pipeline runs (subsumed by 11.1-11.4)
+- 10.1-10.4: Live API validation (NEXT priority)
+- 11.1-11.4: Primordial pipeline (after live validation)
+- 12.1-12.3: [DEV] tag removal (after primordial complete)

@@ -1,0 +1,9 @@
+{
+  "id": "20",
+  "subject": "Create Vitest tests for prepare_extraction_request.js",
+  "description": "The most complex orchestrator code node (~660 lines) has no tests. Create comprehensive coverage for:\n1. stripHtml utility function\n2. Critical path detection (missing page identification)\n3. Strategy A - HTML href parsing for /locations/ sub-page URLs\n4. Strategy B - Text pattern fallback for location slug extraction\n5. Content concatenation and filtering (word_count > 20)\n6. Schema structure validation (OpenAI Structured Outputs compliance)\n7. Error handling (no domain, insufficient content)\n8. Diagnostic metadata (_subpage_diag)",
+  "activeForm": "Creating prepare_extraction_request tests",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
