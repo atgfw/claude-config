@@ -1,0 +1,11 @@
+{
+  "id": "6",
+  "subject": "Update tasks.md checklist",
+  "description": "Mark all completed tasks in openspec/changes/add-voice-agent-testing-engine/tasks.md as [x]",
+  "activeForm": "Updating checklist",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": [
+    "5"
+  ]
+}

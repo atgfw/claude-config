@@ -1,0 +1,13 @@
+{
+  "id": "2",
+  "subject": "Write Vitest tests for code nodes",
+  "description": "Tasks 1.3 + 1.4 + 1.5: Write parse-simulation-response.test.ts and generate-report.test.ts, run and verify all pass",
+  "activeForm": "Writing Vitest tests",
+  "status": "in_progress",
+  "blocks": [
+    "4"
+  ],
+  "blockedBy": [
+    "1"
+  ]
+}

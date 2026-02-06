@@ -1,0 +1,13 @@
+{
+  "id": "5",
+  "subject": "Governance integration and primordial pipeline",
+  "description": "Tasks 4.1-4.5: Register entity in test-run-registry, execute 3 novel primordial pipeline runs, verify unique hashes",
+  "activeForm": "Running governance pipeline",
+  "status": "pending",
+  "blocks": [
+    "6"
+  ],
+  "blockedBy": [
+    "4"
+  ]
+}
