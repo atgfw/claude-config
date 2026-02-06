@@ -8,10 +8,9 @@
  * Registered BEFORE goal-auto-derivation so the new issue exists when derivation runs.
  */
 
-import { execSync } from 'node:child_process';
 import * as path from 'node:path';
 import type { UserPromptSubmitInput, UserPromptSubmitOutput } from '../types.js';
-import { logTerse, logWarn, getClaudeDir } from '../utils.js';
+import { logTerse, logWarn } from '../utils.js';
 import { registerHook } from '../runner.js';
 import { createIssue, computeKeywordOverlap } from '../github/issue_crud.js';
 import { loadRegistry } from '../github/task_source_sync.js';

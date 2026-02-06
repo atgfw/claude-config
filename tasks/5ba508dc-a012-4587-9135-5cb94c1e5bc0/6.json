@@ -2,8 +2,8 @@
   "id": "6",
   "subject": "Phase 5: Intelligent auto-issue creation + lifecycle bridges",
   "description": "Create work_request_issue_bridge.ts, add issue-to-openspec bridge prompts, close orphan issues #41-44, add title guards to issue_crud.ts",
-  "activeForm": "Building lifecycle bridges",
-  "status": "pending",
+  "activeForm": "Building intelligent auto-issue creation",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }

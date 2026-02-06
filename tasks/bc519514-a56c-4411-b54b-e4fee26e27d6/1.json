@@ -1,9 +1,0 @@
-{
-  "id": "1",
-  "subject": "Test Tavily crawl against selkinginternational.com",
-  "description": "Use tavily_crawl MCP tool to crawl selkinginternational.com. Measure: pages found, word count, content quality, latency.",
-  "activeForm": "Testing Tavily crawl on selkinginternational.com",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}

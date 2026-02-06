@@ -1,9 +1,0 @@
-{
-  "id": "2",
-  "subject": "Test Tavily extract against selkinginternational.com",
-  "description": "Use tavily_extract MCP tool on selkinginternational.com homepage. Measure: content quality, word count, latency.",
-  "activeForm": "Testing Tavily extract on selkinginternational.com",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
