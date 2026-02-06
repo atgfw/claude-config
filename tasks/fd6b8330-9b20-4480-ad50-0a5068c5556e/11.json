@@ -1,9 +1,0 @@
-{
-  "id": "11",
-  "subject": "Run integration tests on all five ServiceTitan workflows",
-  "description": "Test all five workflows via their webhook endpoints to verify end-to-end functionality:\n- 6.10/7.5: Group Members webhook -> Settings API -> OCC output\n- 7.1: Call Association with integration_context payload\n- 7.2: Call Association without integration_context (fallback)\n- 7.3: Job Reminder end-to-end\n- 7.4: Review Request end-to-end",
-  "activeForm": "Running integration tests on ServiceTitan workflows",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
