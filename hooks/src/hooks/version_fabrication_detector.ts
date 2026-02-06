@@ -449,7 +449,7 @@ export async function versionFabricationDetectorHook(
     '- If updating existing code, modify in place instead of creating copies\n' +
     '- For backups, use git branches instead of file copies';
 
-  logBlocked(message, 'Version Fabrication Ban - see CLAUDE.md');
+  logBlocked(message, 'Version Fabrication Ban - see hooks/docs/n8n-governance.md');
 
   return {
     hookSpecificOutput: {
