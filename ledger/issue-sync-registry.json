@@ -4650,6 +4650,135 @@
           "content_hash": "e8c5ec1e8174d2bd"
         }
       ]
+    },
+    {
+      "unified_id": "openspec-fix-lifecycle-wiring",
+      "github_issue": null,
+      "github_repo": null,
+      "claude_task_id": null,
+      "openspec_change_id": "fix-lifecycle-wiring",
+      "plan_step": null,
+      "goal_summary": null,
+      "status": "open",
+      "last_synced": "2026-02-06T14:35:19.101Z",
+      "sync_hash": "",
+      "plan_file": null,
+      "checklist_items": [
+        {
+          "id": "0214ec94fad8",
+          "text": "Downgrade TS6133 (unused import/variable) from ERROR to WARNING in TypeScript checks",
+          "status": "completed",
+          "last_modified": "2026-02-06T14:35:19.097Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "0b8e7607ad36",
+          "text": "Wire `proposal_generator.ts` to call `createFromOpenSpec()` and `linkOpenSpec()`",
+          "status": "completed",
+          "last_modified": "2026-02-06T14:35:19.096Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "32d18d28279b",
+          "text": "File-based timestamp for cross-process persistence",
+          "status": "completed",
+          "last_modified": "2026-02-06T14:35:19.097Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "3e151f73104e",
+          "text": "Downgrade `@typescript-eslint/no-unused-vars` from ERROR to WARNING in XO checks",
+          "status": "completed",
+          "last_modified": "2026-02-06T14:35:19.097Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "60f28f9cc401",
+          "text": "Register `openspec_issue_bridge` in `index.ts` (import and export)",
+          "status": "completed",
+          "last_modified": "2026-02-06T14:35:19.097Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "750d612a83c5",
+          "text": "Build hooks: `cd ~/.claude/hooks && bun run build`",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:35:19.097Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "7fbee9b52417",
+          "text": "Add throttled auto-commit (5-minute interval) to `unified_post_tool.ts`",
+          "status": "completed",
+          "last_modified": "2026-02-06T14:35:19.097Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "a1da78b6f677",
+          "text": "Wire `escalation_trigger.ts` to call `createFromEscalation()` on pattern threshold",
+          "status": "completed",
+          "last_modified": "2026-02-06T14:35:19.096Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "b54ee90d2f1a",
+          "text": "Wire `task_goal_sync.ts` to call `linkTask()` when task linked to issue",
+          "status": "completed",
+          "last_modified": "2026-02-06T14:35:19.096Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "c0baa010392b",
+          "text": "Wire `session_start.ts` to use `syncFromGitHub()` instead of duplicated logic",
+          "status": "completed",
+          "last_modified": "2026-02-06T14:35:19.096Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "c2113428a89b",
+          "text": "Create `openspec_issue_bridge.ts` PostToolUse hook for manual proposal creation",
+          "status": "completed",
+          "last_modified": "2026-02-06T14:35:19.096Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "c85bf969ba18",
+          "text": "Register `openspec_issue_bridge` in `settings.json` (PostToolUse, Write|Edit)",
+          "status": "completed",
+          "last_modified": "2026-02-06T14:35:19.097Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "d17c64130ee4",
+          "text": "Verify compilation succeeds",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:35:19.097Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "f182a4068680",
+          "text": "Run tests: `cd ~/.claude/hooks && bun test`",
+          "status": "pending",
+          "last_modified": "2026-02-06T14:35:19.097Z",
+          "modified_by": "openspec"
+        },
+        {
+          "id": "f5e2f595fcac",
+          "text": "Wire `task_completion_gate.ts` to call `onTaskComplete()` on task completion",
+          "status": "completed",
+          "last_modified": "2026-02-06T14:35:19.096Z",
+          "modified_by": "openspec"
+        }
+      ],
+      "checklist_hash": "5fb1c0bda003cc9c",
+      "sync_sources": [
+        {
+          "type": "openspec",
+          "artifact_id": "fix-lifecycle-wiring",
+          "last_read": "2026-02-06T14:35:19.101Z",
+          "content_hash": "f9e0ba422b4dec50"
+        }
+      ]
     }
   ]
 }
