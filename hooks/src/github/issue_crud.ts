@@ -121,6 +121,20 @@ export function createIssue(opts: CreateIssueOpts): number | null {
   const { title, source } = opts;
   let { body } = opts;
 
+  // Guard: minimum title length (prevents garbage test issues)
+  const titleWithoutPrefix = title.replace(/^\[[\w-]+\]\s*\w+:\s*/, '').trim();
+  if (titleWithoutPrefix.length < 20) {
+    logWarn(`Title too short (${titleWithoutPrefix.length} chars): "${title}"`);
+    return null;
+  }
+
+  // Guard: reject test pattern titles
+  const testPatterns = /\b(pattern (one|two|three)|status update test|test issue creation)\b/i;
+  if (testPatterns.test(title)) {
+    logWarn(`Rejected test pattern title: "${title}"`);
+    return null;
+  }
+
   // Inject goal section if not already present
   if (!body.includes('## Goal')) {
     const goalCtx = getActiveGoalContext();
