@@ -20,7 +20,7 @@
  */
 
 import type { PreToolUseInput, PreToolUseOutput } from '../types.js';
-import { logVerbose, logBlocked } from '../utils.js';
+import { logVerbose } from '../utils.js';
 import { registerHook } from '../runner.js';
 import { onTaskComplete } from '../github/task_source_sync.js';
 
