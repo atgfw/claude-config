@@ -1,0 +1,9 @@
+{
+  "id": "7",
+  "subject": "Clear leaked CRM goal from current session stack",
+  "description": "The CRM Entity Resolution goal from n8n_n8n project was pushed to this session's stack before the Phase 1 fix. Need to clear it from the current session's goal-stack.json.",
+  "activeForm": "Clearing leaked goal from session",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

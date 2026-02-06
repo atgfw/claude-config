@@ -9,7 +9,7 @@ import { syncApiKeys } from '../mcp/api_key_sync.js';
 import { buildKanbanContext } from '../github/issue_kanban.js';
 import { detectImplementedFile } from '../github/issue_file_detector.js';
 import { closeIssue } from '../github/issue_crud.js';
-import { syncFromGitHub } from '../github/task_source_sync.js';
+import { syncFromGitHub, loadRegistry as loadSyncRegistry } from '../github/task_source_sync.js';
 import { auditFolderHygiene } from '../session/folder_hygiene_auditor.js';
 import { autoCommitAndPush as unifiedAutoCommit } from './auto_commit_push.js';
 import { getStats as getLedgerStats } from '../ledger/correction_ledger.js';
@@ -542,9 +542,24 @@ async function buildKanbanStep(_issues, successes) {
     log('Step 11: Issue Kanban Board');
     log('-'.repeat(30));
     try {
-        const context = buildKanbanContext();
+        let context = buildKanbanContext();
         if (context) {
             successes.push('Kanban board built');
+        }
+        // Issue-to-OpenSpec bridge: hint for feat issues missing proposals
+        try {
+            const registry = loadSyncRegistry();
+            const needsProposal = registry.entries.filter((e) => e.status === 'open' && !e.openspec_change_id && e.github_issue);
+            if (needsProposal.length > 0) {
+                const hints = needsProposal
+                    .slice(0, 3)
+                    .map((e) => `#${e.github_issue}`)
+                    .join(', ');
+                context += `\n\nIssues needing OpenSpec proposals: ${hints}. Use /openspec:proposal to create one.`;
+            }
+        }
+        catch {
+            // Non-fatal
         }
         log('');
         return context;

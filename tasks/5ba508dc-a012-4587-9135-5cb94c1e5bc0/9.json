@@ -1,0 +1,9 @@
+{
+  "id": "9",
+  "subject": "Run session cleanup and expand test coverage",
+  "description": "Manually trigger session cleanup to archive stale dirs. Add tests for folder_hygiene_auditor dedup logic and task_source_sync compaction.",
+  "activeForm": "Running cleanup and expanding tests",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}
