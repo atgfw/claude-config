@@ -1,0 +1,9 @@
+{
+  "id": "19",
+  "subject": "Investigate background task connection failures to n8n.atgfw.com",
+  "description": "PowerShell scripts in background tasks report \"Unable to connect to the remote server\" for https://n8n.atgfw.com despite the server being reachable. Need to test foreground connectivity, compare environment variables between foreground/background shells, and check TLS/proxy/timeout settings.",
+  "activeForm": "Investigating background task connection failures",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}

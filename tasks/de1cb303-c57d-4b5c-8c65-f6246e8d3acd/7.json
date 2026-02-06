@@ -1,9 +1,0 @@
-{
-  "id": "7",
-  "subject": "Update all voice agent testing artifacts to reflect live state",
-  "description": "Update proposal.md, design.md, spec.md, plan file, and GitHub issue #26 to reference:\n- Correct workflow ID: uShlKp2CxOsp0ubC (not IZIj5oh3VwCVJb34)\n- Correct function names: analyzeResults/generateReport (not parseSimulationResponse)\n- Correct agent ID: agent_01k07qdntze1w9q8d87jmx4w1n\n- Correct scenario count: 5 default scenarios (not 4 or 10)\n- Current implementation status with remaining items",
-  "activeForm": "Updating voice agent testing artifacts",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}

@@ -11,7 +11,7 @@ const REPO_DIR = process.env.HOME
     ? `${process.env.HOME}/.claude`
     : `${process.env.USERPROFILE}\\.claude`;
 /** Directories to stage for auto-commit (not `git add -A`) */
-const STAGE_DIRS = ['ledger/', 'openspec/', 'sessions/', 'hooks/src/', 'hooks/tests/'];
+const STAGE_DIRS = ['ledger/', 'openspec/', 'sessions/', 'hooks/src/', 'hooks/tests/', 'plans/'];
 function run(cmd, cwd) {
     try {
         return execSync(cmd, { cwd: cwd ?? REPO_DIR, timeout: 30_000, encoding: 'utf8' }).trim();
