@@ -390,7 +390,8 @@ function deriveGoalFromContext(workingDir: string): DerivedGoal {
   // 2-4: Check active-goal.json, but ONLY if projectScope matches current workingDir.
   // This prevents goals from project A leaking into sessions for project B.
   const activeGoal = loadActiveGoalFile();
-  const scopeMatches = !activeGoal?.projectScope || isPathMatch(workingDir, activeGoal.projectScope);
+  const scopeMatches =
+    !activeGoal?.projectScope || isPathMatch(workingDir, activeGoal.projectScope);
 
   if (scopeMatches) {
     // 2. Check active-goal.json for linked OpenSpec
@@ -440,7 +441,9 @@ function deriveGoalFromContext(workingDir: string): DerivedGoal {
       };
     }
   } else {
-    log(`[goal-auto-derivation] Skipping active-goal.json: projectScope "${activeGoal?.projectScope}" does not match workingDir "${workingDir}"`);
+    log(
+      `[goal-auto-derivation] Skipping active-goal.json: projectScope "${activeGoal?.projectScope}" does not match workingDir "${workingDir}"`
+    );
   }
 
   // 5. No goal derivable

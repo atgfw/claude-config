@@ -219,7 +219,7 @@ export function pushGoal(sessionId: string, goal: GoalLevel): void {
   // Only sync issue/epic goals to active-goal.json (not task goals)
   // Task goals are ephemeral session work; issue goals are the primary context
   if (goal.type === 'issue' || goal.type === 'epic') {
-    syncGoalToActiveGoalJson(goal);
+    syncGoalToActiveGoalJson(goal, stack.working_directory);
   }
 }
 
@@ -231,7 +231,7 @@ export function pushGoal(sessionId: string, goal: GoalLevel): void {
  * IMPORTANT: Includes project scope tracking to prevent cross-session bleeding.
  * The `fields.where` field is used to track which project owns this goal.
  */
-function syncGoalToActiveGoalJson(goal: GoalLevel): void {
+function syncGoalToActiveGoalJson(goal: GoalLevel, workingDir?: string): void {
   const activeGoalPath = path.join(getClaudeDir(), 'ledger', 'active-goal.json');
 
   try {
