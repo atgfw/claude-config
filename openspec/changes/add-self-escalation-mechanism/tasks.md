@@ -64,7 +64,7 @@
 
 ## Final Validation
 
-- [ ] Run full test suite: `npm test`
+- [ ] Run full test suite: `bun test`
 - [ ] Manual test: Create escalation from child project
 - [ ] Manual test: Verify pattern detection triggers
 - [ ] Manual test: Verify OpenSpec proposal generated

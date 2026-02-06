@@ -32,7 +32,7 @@
 - [ ] Test: Create valid research doc -> ALLOWED
 - [ ] Test: Reject high-star tool -> Warning logged
 - [ ] Test: Registry tracks all decisions
-- [ ] Run full test suite: `cd ~/.claude/hooks && npm test`
+- [ ] Run full test suite: `cd ~/.claude/hooks && bun test`
 
 ## Dependencies
 

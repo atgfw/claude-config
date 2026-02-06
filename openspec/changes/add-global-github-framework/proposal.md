@@ -86,4 +86,4 @@ Desired state:
 1. Commit with "test: verify commit hook" -> Warning displayed, commit allowed
 2. Stage file containing AWS key -> **BLOCKED** with clear error
 3. Push conventional commits to main -> Auto-version bump, changelog, release
-4. All hooks pass: `cd ~/.claude/hooks && npm test`
+4. All hooks pass: `cd ~/.claude/hooks && bun test`

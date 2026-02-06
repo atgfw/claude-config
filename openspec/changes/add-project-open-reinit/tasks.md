@@ -53,7 +53,7 @@
 - [ ] 7.1 Add configuration options to settings.json
 - [ ] 7.2 Support enabling/disabling individual checks
 - [ ] 7.3 Support customizing cleanup patterns
-- [ ] 7.4 Document configuration in CLAUDE.md
+- [ ] 7.4 Document configuration in hooks/docs/ (CLAUDE.md slimmed to governance index)
 
 ## 8. Validation
 
@@ -61,4 +61,4 @@
 - [ ] 8.2 Test on real project with dirty working tree
 - [ ] 8.3 Test governance blocking behavior
 - [ ] 8.4 Test self-heal scenarios
-- [ ] 8.5 Update CLAUDE.md with new hook documentation
+- [ ] 8.5 Document new hooks in hooks/docs/ (CLAUDE.md slimmed to governance index)

@@ -137,7 +137,7 @@ The `tool-filter` hook runs on PreToolUse with matcher `mcp__*`:
 Run tests:
 ```bash
 cd ~/.claude/hooks
-npm test tool_filter
+bun test tool_filter
 ```
 
 ## Editing Configuration

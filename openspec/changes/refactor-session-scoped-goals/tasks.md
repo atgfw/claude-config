@@ -65,11 +65,11 @@
 - [ ] 8.1 Update CLAUDE.md "Active Goal Display" section with new behavior (note: CLAUDE.md slimmed; section still exists)
 - [ ] 8.2 Document goal hierarchy format
 - [ ] 8.3 Add migration notes for users relying on global active-goal.json
-- [ ] 8.4 Update hook implementation table in CLAUDE.md
+- [x] 8.4 Hook implementation table removed from CLAUDE.md (hooks are self-documenting via hooks/docs/)
 
 ## 9. Validation
 
-- [ ] 9.1 Run `npm test` for all new tests
-- [ ] 9.2 Run `npm run lint` to ensure code quality
+- [ ] 9.1 Run `bun test` for all new tests
+- [ ] 9.2 Run `bun run lint` to ensure code quality
 - [ ] 9.3 Manual testing: start session, create task, verify goal injection
 - [ ] 9.4 Manual testing: complete task, verify goal pops

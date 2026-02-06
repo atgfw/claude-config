@@ -18,9 +18,9 @@ Active Development
 
 ## Build Commands
 ```bash
-npm run build    # Compile TypeScript to dist/
-npm test         # Run Vitest tests
-npm run lint     # Lint TypeScript
+bun run build    # Compile TypeScript to dist/
+bun test         # Run Vitest tests
+bun run lint     # Lint TypeScript
 ```
 
 ## Testing Requirements

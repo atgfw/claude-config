@@ -98,12 +98,12 @@
 - [ ] 12.1 Add new modules to hooks/src/index.ts exports
 - [ ] 12.2 Register all new hooks in CLI
 - [ ] 12.3 Update settings.json with all new hook matchers
-- [ ] 12.4 Document new capabilities in CLAUDE.md
+- [ ] 12.4 Document new capabilities in hooks/docs/ (CLAUDE.md slimmed to governance index)
 
 ## 13. Validation and Testing
 
-- [ ] 13.1 Run `npm test` for all new tests
-- [ ] 13.2 Run `npm run lint` to ensure code quality
+- [ ] 13.1 Run `bun test` for all new tests
+- [ ] 13.2 Run `bun run lint` to ensure code quality
 - [ ] 13.3 Manual test: create issue, create tasks, verify sync
 - [ ] 13.4 Manual test: update tasks.md, verify propagation
 - [ ] 13.5 Manual test: complete task, verify issue checkbox updated

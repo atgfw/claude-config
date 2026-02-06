@@ -102,7 +102,7 @@ Before implementing, the research document must contain:
 2. Creating research doc with proper sections -> ALLOWED
 3. Research doc with stars >5k tool rejected -> Warning logged
 4. All research decisions tracked in registry
-5. All hooks pass: `cd ~/.claude/hooks && npm test`
+5. All hooks pass: `cd ~/.claude/hooks && bun test`
 
 ## Related Changes
 
