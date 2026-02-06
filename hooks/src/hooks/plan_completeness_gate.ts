@@ -498,7 +498,7 @@ export async function planCompletenessGateHook(input: PreToolUseInput): Promise<
         log(`  - ${node}`);
       }
       log('');
-      log('  Per CLAUDE.md, every Code node needs:');
+      log('  Per governance rules, every Code node needs:');
       log('    inputs: exhaustive list with types/sources');
       log('    logic: step-by-step, no ambiguity');
       log('    outputs: exhaustive list with schemas');
