@@ -17,6 +17,8 @@ import {
 } from '../ledger/escalation_registry.js';
 import { getPatternsNeedingProposals } from './pattern_detector.js';
 import type { EscalationEntry, EscalationRegistry } from '../types.js';
+import { createFromOpenSpec } from '../github/issue_crud.js';
+import { linkOpenSpec } from '../github/task_source_sync.js';
 
 // ============================================================================
 // Types

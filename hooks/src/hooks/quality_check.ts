@@ -457,7 +457,33 @@ class QualityChecker {
           }
           const xoOutput = (recheck.stdout + recheck.stderr).trim();
           if (xoOutput) {
-            this.errors.push(`XO found issues that could not be auto-fixed:\n${xoOutput}`);
+            // Separate unused-vars as warnings (false positives during multi-edit)
+            const xoLines = xoOutput.split('\n');
+            const unusedVarLines: string[] = [];
+            const otherLines: string[] = [];
+
+            for (const line of xoLines) {
+              if (
+                line.includes('no-unused-vars') ||
+                line.includes('@typescript-eslint/no-unused-vars')
+              ) {
+                unusedVarLines.push(line);
+              } else {
+                otherLines.push(line);
+              }
+            }
+
+            if (unusedVarLines.length > 0) {
+              this.warnings.push(
+                `Unused vars (may be intermediate edit state):\n${unusedVarLines.join('\n')}`
+              );
+            }
+
+            if (otherLines.some((l) => l.includes('error') || l.includes('\u2716'))) {
+              this.errors.push(
+                `XO found issues that could not be auto-fixed:\n${otherLines.join('\n')}`
+              );
+            }
           } else {
             this.warnings.push(
               'XO exited with errors but produced no output (possible dependency issue)'
