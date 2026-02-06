@@ -399,6 +399,15 @@
         "hooks": [
           {
             "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" work-request-issue-bridge"
+          }
+        ],
+        "description": "Auto-creates GitHub issues from substantive work requests. Runs BEFORE goal-auto-derivation."
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
             "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" goal-auto-derivation-prompt"
           }
         ],
