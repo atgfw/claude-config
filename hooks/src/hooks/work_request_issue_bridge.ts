@@ -242,10 +242,8 @@ async function workRequestIssueBridge(
   }
 
   return {
-    hookSpecificOutput: {
-      hookEventName: 'UserPromptSubmit',
-      additionalContext: `Auto-created GitHub issue #${issueNumber} for this work request. Track progress there.`,
-    },
+    hookEventName: 'UserPromptSubmit',
+    additionalContext: `Auto-created GitHub issue #${issueNumber} for this work request. Track progress there.`,
   };
 }
 
