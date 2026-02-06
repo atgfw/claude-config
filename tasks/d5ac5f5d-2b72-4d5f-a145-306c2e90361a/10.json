@@ -2,8 +2,8 @@
   "id": "10",
   "subject": "Deploy CRM entity resolution to live n8n workflow (task 10)",
   "description": "Add crm_entity_resolution_category_config node (10.1), update category_merger (10.2), update input_validator (10.3), update output_assembler (10.4), update build_prompt (10.5), run full evaluation suite (10.6)",
-  "activeForm": "Deploying CRM entity resolution to live workflow",
-  "status": "pending",
+  "activeForm": "Deploying to live workflow",
+  "status": "in_progress",
   "blocks": [
     "11"
   ],

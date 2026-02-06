@@ -633,6 +633,60 @@
         {"run": 3, "inputHash": "88ea1a8451c45a2b", "passed": true, "timestamp": "2026-02-06T16:17:22.000Z", "description": "Degraded response with partial API errors"}
       ],
       "totalNovelRuns": 3
+    },
+    "[DEV] ServiceTitan_group_members": {
+      "entityId": "[DEV] ServiceTitan_group_members",
+      "entityType": "n8n-workflow",
+      "entityPath": "workflows/servicetitan/",
+      "entityName": "[DEV] ServiceTitan_group_members",
+      "workflowId": null,
+      "status": "local-tested",
+      "version": "1.0.0",
+      "novelInputHashes": [
+        "521998fa0b951274",
+        "96848bf7a3f9aa93",
+        "88ea1a8451c45a2b"
+      ],
+      "testRuns": [
+        {
+          "run": 1,
+          "inputHash": "521998fa0b951274",
+          "passed": true,
+          "timestamp": "2026-02-06T16:17:22.000Z",
+          "executionId": "vitest-local-gm-multi-bu",
+          "description": "Multi-BU company: 3 active BUs, inactive filtered, employees+technicians per BU"
+        },
+        {
+          "run": 2,
+          "inputHash": "96848bf7a3f9aa93",
+          "passed": true,
+          "timestamp": "2026-02-06T16:17:22.000Z",
+          "executionId": "vitest-local-gm-single-bu",
+          "description": "Single BU, technicians only: case-insensitive mobile, null phone handling"
+        },
+        {
+          "run": 3,
+          "inputHash": "88ea1a8451c45a2b",
+          "passed": true,
+          "timestamp": "2026-02-06T16:17:22.000Z",
+          "executionId": "vitest-local-gm-degraded",
+          "description": "Degraded API response: partial errors, orphaned employees, empty technicians"
+        }
+      ],
+      "totalNovelRuns": 3,
+      "healthyAt": null,
+      "selfAuditCompleted": {
+        "completed": false,
+        "checklist": {
+          "spec_phase": true,
+          "enforcer_audit": false,
+          "build_phase": true,
+          "local_tests": true,
+          "primordial_pipeline": true,
+          "research_quota": false,
+          "quality_audit": false
+        }
+      }
     }
   },
   "hierarchies": {
@@ -673,6 +727,10 @@
       "children": []
     },
     "st-group-members": {
+      "parent": null,
+      "children": ["st-group-members/build-occ-output"]
+    },
+    "[DEV] ServiceTitan_group_members": {
       "parent": null,
       "children": ["st-group-members/build-occ-output"]
     }
