@@ -664,7 +664,7 @@ async function buildKanbanStep(_issues: string[], successes: string[]): Promise<
       const { loadRegistry } = await import('../github/task_source_sync.js');
       const registry = loadRegistry();
       const needsProposal = registry.entries.filter(
-        (e) => e.status === 'open' && !e.openspec_change_id && e.github_issue,
+        (e) => e.status === 'open' && !e.openspec_change_id && e.github_issue
       );
       if (needsProposal.length > 0) {
         const hints = needsProposal
