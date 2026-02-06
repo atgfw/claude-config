@@ -1,0 +1,156 @@
+## Audit: Latest Proposal (v3)
+
+### What's Now Solid
+
+**Field names are explicit.** The subsection table now lists actual field names instead of counts. Contract is clear.
+
+**match_method enum defined.** `exact | fuzzy | phonetic | semantic | cross_reference | null` — closed set, applies to all subsections.
+
+**Match profiles have behavioral definitions AND defaults.** Each profile has a one-liner, and each subsection has a sensible default:
+- `company_match` → `phonetic_tolerant` (voice transcripts)
+- `contact_match` → `balanced`
+- `ticket_match` → `conservative` (prefer null)
+- `taxonomy_classification` → `balanced`
+
+**Confidence semantics table.** Clear guidance on what high/low confidence + null/non-null combinations mean. Downstream actions included.
+
+**Confidence thresholds have defaults.** 0.70 general, 0.60 for taxonomy. Reasonable.
+
+**ticket_match field names finalized.** `ticket_matches_call_issue` and `is_new_issue` — matches prompt-6 naming, consistent throughout.
+
+**match_signals added.** Captures the diagnostic reasoning from prompt-5/6.
+
+**Candidate schemas expanded.** Contacts now have `company_name` (not just ID), tickets have `contact_name`, `company_name`. Allows matching even when caller doesn't have ID relationships resolved.
+
+---
+
+### What's Missing or Unclear
+
+**1. generated_initial_description is gone.**
+
+Prompt-6's key output was `initial_description_from_call` — a CRM-ready ticket description generated when `is_new_issue` is true. This was explicitly discussed in my earlier audit. Now it's not in the field list at all.
+
+**Question:** Was this intentionally removed? If so, what's the plan for initial description generation? Options:
+- Add it back to `ticket_match` (my recommendation — the generation logic depends on `is_new_issue`)
+- Document that callers use `request.detailed_description` from a co-requested extraction category
+- Create a separate `ticket_description_generation` subsection
+
+**2. match_signals schema undefined.**
+
+The field is listed but there's no definition of what it contains. Is it:
+- A string (prose)?
+- An array of signal names?
+- An object with matching/non-matching signal arrays?
+
+From prompt-5/6, I'd expect something like:
+```json
+{
+  "value": {
+    "matching": ["same_system", "same_user", "references_prior_work"],
+    "non_matching": ["different_timeframe"]
+  },
+  "rationale": "...",
+  "confidence": 0.85
+}
+```
+
+**Recommendation:** Define the schema. Either prose string or structured object — pick one.
+
+**3. taxonomy input schema still implicit.**
+
+The proposal says `taxonomy` supports "optional knowledge base context" but doesn't show the structure. Prompt-3 took TWO inputs:
+- `type_key` — the hierarchical JSON
+- `type_article` — HTML knowledge base article
+
+**Clarify in proposal:**
+```json
+{
+  "taxonomy": {
+    "hierarchy": { "IT": ["Hardware", "Software", "Network"], "Security": [...] },
+    "context_article": "<html>...</html>"
+  }
+}
+```
+
+Or if it's a different structure, specify it.
+
+**4. ticket_match: Single vs Multi behavior not explicit.**
+
+The proposal says it "handles both multi-ticket selection (pick best from many) and single-ticket verification (confirm/deny match against one)" but doesn't explain HOW.
+
+**Clarify:** Is behavior inferred from `tickets[]` length, or does caller specify a mode? My recommendation from earlier: infer from length. Document:
+- `tickets.length > 1` → multi-selection mode (pick best or null)
+- `tickets.length === 1` → verification mode (assess match + new-issue on that ticket)
+
+**5. ServiceTitan coverage still unverified.**
+
+You mentioned needing to verify ServiceTitan coverage. The proposal is CRM-agnostic in design, but we haven't confirmed ServiceTitan entity types map cleanly:
+- ServiceTitan "jobs" → `tickets[]`?
+- ServiceTitan "customers" → `companies[]`? `contacts[]`?
+- ServiceTitan "locations" → need new candidate type?
+
+---
+
+### Minor Nits
+
+**input_timestamp placement.** It's listed under `candidate_sets` but it's not a candidate set — it's metadata about the input. Consider moving to top-level or `resolution_config`.
+
+**contacts[] company association fields.** Schema shows both `company_id` and `company_name` as optional. Clarify: if contact has no company association, can they still be matched? (Answer should be yes — some CRMs have standalone contacts.)
+
+---
+
+### Updated Verification Checklist
+
+| Requirement | Status |
+|-------------|--------|
+| Company fuzzy matching (phonetic, alias, partial) | ✅ Ready |
+| Contact fuzzy matching (liberal, single-name tolerance) | ✅ Ready |
+| Company-via-contact cross-reference | ✅ Ready (co_resolved_contact_id) |
+| Multi-ticket selection (N→1 or null) | ⚠️ Behavior inference needs documenting |
+| Single-ticket verification (match boolean) | ✅ Ready (ticket_matches_call_issue) |
+| New-issue detection | ✅ Ready (is_new_issue) |
+| Initial description generation | ❌ Missing — field removed |
+| Match signals output | ⚠️ Schema undefined |
+| Taxonomy classification (type/subtype) | ⚠️ Input schema needs explicit structure |
+| Deep taxonomy hierarchies (>2 levels) | ✅ Ready (taxonomy_path array) |
+| Match profiles defined | ✅ Ready |
+| Confidence thresholds | ✅ Ready |
+| Stateless orchestration documented | ✅ Ready |
+| ServiceTitan entity mapping | ❓ Unverified |
+
+---
+
+### Instructions for Claude Code
+
+```markdown
+## Before Implementation
+
+1. **Decide on generated_initial_description.** Either:
+   - Add `generated_initial_description` back to ticket_match (recommended)
+   - Document alternative approach in proposal
+   This is a key prompt-6 capability — don't lose it.
+
+2. **Define match_signals schema.** Add to spec:
+   - Is it a string or structured object?
+   - If structured, what are the signal names?
+   - Example value in the spec
+
+3. **Make taxonomy input schema explicit.** Show the expected structure:
+   - hierarchy object OR type_key (whatever you're calling it)
+   - context_article field for optional HTML
+
+4. **Document ticket_match mode inference.** Add a note:
+   - "When tickets[] contains multiple records, subsection performs multi-selection"
+   - "When tickets[] contains exactly one record, subsection performs verification"
+
+5. **Move input_timestamp out of candidate_sets.** It's input metadata, not a candidate set. Put it in resolution_config or top-level.
+
+6. **Verify with Cody on ServiceTitan entity mapping.** Before declaring full supersession, confirm:
+   - ServiceTitan jobs → tickets[]?
+   - ServiceTitan customers → companies[]? contacts[]?
+   - Any ServiceTitan-specific fields needed?
+```
+
+---
+
+The proposal is 90% there. The missing `generated_initial_description` is the biggest gap — that's a core use case from the original workflows that shouldn't disappear without explicit justification.
