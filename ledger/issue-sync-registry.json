@@ -5306,6 +5306,177 @@
           "content_hash": "8554b886b3fcde43"
         }
       ]
+    },
+    {
+      "unified_id": "plan-C:\\Users\\codya\\.claude\\plans\\wiggly-squishing-spark.md",
+      "github_issue": null,
+      "github_repo": null,
+      "claude_task_id": null,
+      "openspec_change_id": null,
+      "plan_step": null,
+      "goal_summary": null,
+      "status": "open",
+      "last_synced": "2026-02-06T15:08:06.448Z",
+      "sync_hash": "",
+      "plan_file": "C:\\Users\\codya\\.claude\\plans\\wiggly-squishing-spark.md",
+      "checklist_items": [
+        {
+          "id": "067eb3d9381b",
+          "text": "Job Reminder and Review Request produce correct output against real ST API",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:08:06.444Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "10d2f7c2e7d1",
+          "text": "`bunx openspec validate productionize-servicetitan-workflows --strict` passes",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:08:06.444Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "222d0e81aaae",
+          "text": "**Review Request - Schema Fixes** (3 tasks) -- jobNumber, completedOn, jobTypeId",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:08:06.443Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "373806a37f61",
+          "text": "**Hardcoded entity IDs** (BU, employee, campaign) that must become parameterized inputs from Rewst OCC",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:08:06.443Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "43246068a41f",
+          "text": "**Job Reminder - Schema Fixes** (5 tasks) -- ISO datetime, jobTypeId, Appointment->Job->Customer",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:08:06.443Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "43c716350efc",
+          "text": "**Integration Testing** (6 tasks) -- End-to-end validation",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:08:06.444Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "47f4490f110b",
+          "text": "Vitest tests pass for parse_elevenlabs_data with integration_context scenarios",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:08:06.444Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "684d5a415d3c",
+          "text": "**integration_context as pre-resolved values** -- Rewst passes `assigned_to_id`, `business_unit_id`, `campaign_id` directly. Three-tier fallback: integration_context -> field_mappings -> auth config defaults.",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:08:06.443Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "695c5da61b3f",
+          "text": "**No delivery mechanism** for Job Reminder / Review Request output (data stops at structured JSON)",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:08:06.443Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "711e17fd872b",
+          "text": "**Defensive schema parsing** -- Code handles both mock and real API formats during transition: `job.jobNumber || job.number`, ISO datetime extraction from `arrivalWindowStart`, Appointment->Job->Customer traversal.",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:08:06.443Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "7827914f75d8",
+          "text": "**Production Activation** (4 tasks) -- Eval suite, [DEV] tag removal, docs",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:08:06.444Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "827e0956e81f",
+          "text": "All workflows pass 98%+ evaluation threshold",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:08:06.444Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "8bdd497a7ad8",
+          "text": "Rewst gateway receives and processes SMS delivery payloads",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:08:06.444Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "8c25783f5c7b",
+          "text": "**New Workflow - Group Members** (10 tasks) -- Full workflow creation with OCC output mapping",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:08:06.444Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "a068f3f2a8fa",
+          "text": "**Schema mismatches** in Job Reminder / Review Request where code handles mock data formats instead of real ServiceTitan API responses",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:08:06.443Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "b2b037b6957d",
+          "text": "**Review Request - Wire SMS Delivery** (4 tasks) -- Rewst gateway HTTP node",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:08:06.444Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "e847436f878f",
+          "text": "Group Members returns valid OCC contacts model from ST Settings API",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:08:06.444Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "ea69460ad9a6",
+          "text": "**SMS delivery via Rewst redirect gateway** -- Job Reminder and Review Request add HTTP Request node to POST output to `https://n8n.atgfw.com/webhook/rewst-n8n-redirect-wrapper` with action type and Rewst headers.",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:08:06.443Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "ef17bce417db",
+          "text": "**Group Members matches OCC contacts model** -- Output uses `group_key: \"bu_{id}\"`, `person_key: \"emp_{id}\"/\"tech_{id}\"`, `source_refs` with `source: \"servicetitan\"`, same structure as 3CX/MS Groups branches.",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:08:06.443Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "f23f03fb6cfc",
+          "text": "**Job Reminder - Wire SMS Delivery** (4 tasks) -- Rewst gateway HTTP node",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:08:06.444Z",
+          "modified_by": "plan"
+        },
+        {
+          "id": "fccdaee7e314",
+          "text": "**Call Association - Parameterize Inputs** (5 tasks) -- integration_context extraction + fallback chain",
+          "status": "pending",
+          "last_modified": "2026-02-06T15:08:06.443Z",
+          "modified_by": "plan"
+        }
+      ],
+      "checklist_hash": "a395d528843f55c1",
+      "sync_sources": [
+        {
+          "type": "plan",
+          "artifact_id": "C:\\Users\\codya\\.claude\\plans\\wiggly-squishing-spark.md",
+          "last_read": "2026-02-06T15:08:06.448Z",
+          "content_hash": "c4fdac846cc629df"
+        }
+      ]
     }
   ]
 }
