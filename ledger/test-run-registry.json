@@ -564,6 +564,75 @@
           "quality_audit": false
         }
       }
+    },
+    "st-group-members": {
+      "entityId": "st-group-members",
+      "entityType": "n8n-workflow",
+      "entityPath": "workflows/servicetitan/",
+      "entityName": "[DEV] ServiceTitan_group_members",
+      "workflowId": null,
+      "status": "local-tested",
+      "version": "1.0.0",
+      "novelInputHashes": [
+        "76f69369f26d93ab",
+        "0d1821ad10b567f1",
+        "33bc757582e38afd"
+      ],
+      "testRuns": [
+        {
+          "run": 1,
+          "inputHash": "76f69369f26d93ab",
+          "passed": true,
+          "timestamp": "2026-02-06T16:00:00.000Z",
+          "executionId": "vitest-local-gm-001",
+          "description": "Single BU with employees and technicians - OCC group mapping"
+        },
+        {
+          "run": 2,
+          "inputHash": "0d1821ad10b567f1",
+          "passed": true,
+          "timestamp": "2026-02-06T16:00:01.000Z",
+          "executionId": "vitest-local-gm-002",
+          "description": "Multiple BUs with inactive entities filtered out"
+        },
+        {
+          "run": 3,
+          "inputHash": "33bc757582e38afd",
+          "passed": true,
+          "timestamp": "2026-02-06T16:00:02.000Z",
+          "executionId": "vitest-local-gm-003",
+          "description": "Empty results - no active entities returns empty groups"
+        }
+      ],
+      "totalNovelRuns": 3,
+      "healthyAt": null,
+      "selfAuditCompleted": {
+        "completed": false,
+        "checklist": {
+          "spec_phase": true,
+          "enforcer_audit": false,
+          "build_phase": true,
+          "local_tests": true,
+          "primordial_pipeline": true,
+          "research_quota": false,
+          "quality_audit": false
+        }
+      }
+    },
+    "st-group-members/build-occ-output": {
+      "entityId": "st-group-members/build-occ-output",
+      "entityType": "code-node",
+      "entityPath": "tests/code-nodes/st-group-members/build-occ-output.js",
+      "entityName": "Build OCC Output",
+      "parentWorkflow": "st-group-members",
+      "status": "mock-tested",
+      "novelInputHashes": ["76f69369f26d93ab", "0d1821ad10b567f1", "33bc757582e38afd"],
+      "testRuns": [
+        {"run": 1, "inputHash": "76f69369f26d93ab", "passed": true, "timestamp": "2026-02-06T16:00:00.000Z", "description": "Single BU OCC mapping"},
+        {"run": 2, "inputHash": "0d1821ad10b567f1", "passed": true, "timestamp": "2026-02-06T16:00:01.000Z", "description": "Multi-BU active filter"},
+        {"run": 3, "inputHash": "33bc757582e38afd", "passed": true, "timestamp": "2026-02-06T16:00:02.000Z", "description": "Empty entities handling"}
+      ],
+      "totalNovelRuns": 3
     }
   },
   "hierarchies": {
@@ -602,11 +671,15 @@
     "subworkflow_experiment_parent": {
       "parent": null,
       "children": []
+    },
+    "st-group-members": {
+      "parent": null,
+      "children": ["st-group-members/build-occ-output"]
     }
   },
   "config": {
     "requiredNovelRuns": 3,
     "inputHashAlgorithm": "sha256-prefix-16"
   },
-  "lastUpdated": "2026-02-03T21:30:00.000Z"
+  "lastUpdated": "2026-02-06T16:00:00.000Z"
 }
