@@ -1,0 +1,9 @@
+{
+  "id": "3",
+  "subject": "Test Scrapling against selkinginternational.com",
+  "description": "Use Scrapling MCP s_fetch_page to fetch selkinginternational.com. Measure: content quality, word count, latency, anti-bot handling.",
+  "activeForm": "Testing Scrapling on selkinginternational.com",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

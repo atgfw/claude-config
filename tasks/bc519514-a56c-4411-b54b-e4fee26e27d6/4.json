@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "Test Jina Reader against selkinginternational.com",
+  "description": "Use HTTP fetch to r.jina.ai/https://selkinginternational.com. Measure: content quality, word count, latency.",
+  "activeForm": "Testing Jina Reader on selkinginternational.com",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

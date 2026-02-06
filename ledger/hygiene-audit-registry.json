@@ -1,19 +1,5 @@
 [
   {
-    "timestamp": "2026-02-03T13:17:46.924Z",
-    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan",
-    "issueCount": 1,
-    "issues": [
-      {
-        "type": "garbage_file",
-        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan\\nul",
-        "filename": "nul",
-        "suggestion": "mv \"nul\" old/misc/",
-        "severity": "warn"
-      }
-    ]
-  },
-  {
     "timestamp": "2026-02-03T13:18:46.554Z",
     "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan",
     "issueCount": 1,
@@ -1564,6 +1550,20 @@
         "filename": "CUserscodyaAppDataLocalTempclaudeagent_kb.json",
         "suggestion": "mv \"CUserscodyaAppDataLocalTempclaudeagent_kb.json\" old/misc/ # Empty file",
         "severity": "info"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-06T14:39:38.301Z",
+    "project": "C:\\Users\\codya\\.claude",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\.claude\\nul",
+        "filename": "nul",
+        "suggestion": "mv \"nul\" old/misc/",
+        "severity": "warn"
       }
     ]
   }

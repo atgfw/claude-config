@@ -1,0 +1,9 @@
+{
+  "id": "5",
+  "subject": "Test basic HTTP request against selkinginternational.com",
+  "description": "Use plain HTTP GET to fetch selkinginternational.com raw HTML. Measure: response code, content size, whether JS-rendered content is missing.",
+  "activeForm": "Testing basic HTTP on selkinginternational.com",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
