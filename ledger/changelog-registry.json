@@ -306,11 +306,19 @@
           "description": "cleanup stale files and add documentation",
           "breaking": false,
           "timestamp": "2026-02-05T22:13:37.747Z"
+        },
+        {
+          "hash": "e2a8b50",
+          "type": "feat",
+          "scope": "llm-extraction",
+          "description": "add CRM entity resolution OpenSpec proposal",
+          "breaking": false,
+          "timestamp": "2026-02-06T13:35:03.157Z"
         }
       ]
     }
   },
-  "lastUpdated": "2026-02-05T22:13:37.749Z",
+  "lastUpdated": "2026-02-06T13:35:03.158Z",
   "schema": {
     "version": "1.0.0",
     "description": "Tracks unreleased changes for changelog generation"
