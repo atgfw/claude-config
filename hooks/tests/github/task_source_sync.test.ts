@@ -259,4 +259,79 @@ describe('task_source_sync', () => {
       expect(written.entries[0].openspec_change_id).toBe('change-001');
     });
   });
+
+  describe('saveRegistry compaction', () => {
+    it('removes closed entries older than 30 days with no linked artifacts', () => {
+      const oldDate = new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString();
+      const registry = makeRegistry([
+        makeEntry({ github_issue: 1, status: 'closed', last_synced: oldDate }),
+        makeEntry({ github_issue: 2, unified_id: 'issue-2', status: 'open' }),
+      ]);
+
+      mockedFs.existsSync.mockReturnValue(true);
+      saveRegistry(registry);
+
+      expect(mockedFs.writeFileSync).toHaveBeenCalled();
+      const written = JSON.parse(mockedFs.writeFileSync.mock.calls[0][1] as string) as SyncRegistry;
+      expect(written.entries).toHaveLength(1);
+      expect(written.entries[0].github_issue).toBe(2);
+    });
+
+    it('keeps closed entries with linked artifacts even if old', () => {
+      const oldDate = new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString();
+      const registry = makeRegistry([
+        makeEntry({
+          github_issue: 1,
+          status: 'closed',
+          last_synced: oldDate,
+          openspec_change_id: 'my-change',
+        }),
+      ]);
+
+      mockedFs.existsSync.mockReturnValue(true);
+      saveRegistry(registry);
+
+      const written = JSON.parse(mockedFs.writeFileSync.mock.calls[0][1] as string) as SyncRegistry;
+      expect(written.entries).toHaveLength(1);
+    });
+
+    it('keeps closed entries with checklist items even if old', () => {
+      const oldDate = new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString();
+      const registry = makeRegistry([
+        makeEntry({
+          github_issue: 1,
+          status: 'closed',
+          last_synced: oldDate,
+          checklist_items: [
+            {
+              id: 'item-1',
+              text: 'Test item',
+              status: 'completed',
+              last_modified: oldDate,
+              modified_by: 'github_issue',
+            },
+          ],
+        }),
+      ]);
+
+      mockedFs.existsSync.mockReturnValue(true);
+      saveRegistry(registry);
+
+      const written = JSON.parse(mockedFs.writeFileSync.mock.calls[0][1] as string) as SyncRegistry;
+      expect(written.entries).toHaveLength(1);
+    });
+
+    it('keeps recent closed entries without linked artifacts', () => {
+      const recentDate = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString();
+      const registry = makeRegistry([
+        makeEntry({ github_issue: 1, status: 'closed', last_synced: recentDate }),
+      ]);
+
+      mockedFs.existsSync.mockReturnValue(true);
+      saveRegistry(registry);
+
+      const written = JSON.parse(mockedFs.writeFileSync.mock.calls[0][1] as string) as SyncRegistry;
+      expect(written.entries).toHaveLength(1);
+    });
+  });
 });

@@ -1,0 +1,120 @@
+Let me map the coverage systematically. I have the 6 ConnectWise/Rewst prompts from earlier — but you mentioned ServiceTitan too. Do you have ServiceTitan workflow bundles to upload, or should I work from what you've described about that integration?
+
+For now, let me produce a coverage matrix for what I know:
+
+---
+
+## Coverage Matrix: Old Prompts → New crm_entity_resolution
+
+| Old Prompt | New Subsection | Field Mapping | Gap Analysis |
+|------------|----------------|---------------|--------------|
+| **prompt-1**: Company Fuzzy Matcher | `company_match` | `matched_id` ← company_id, `matched_name` ← company_name, `match_method` ← (inferred from rationale) | ✅ Covered. Phonetic/fuzzy matching, single-best-or-null behavior preserved in microprompts. |
+| **prompt-2**: Contact Fuzzy Matcher | `contact_match` | `matched_id` ← contact_id, `matched_name` ← (new, wasn't in original), `match_method` ← (new) | ✅ Covered. Liberal matching when company pre-filtered. Caller pre-filters candidates per stateless design. |
+| **prompt-3**: Ticket Categorizer | `taxonomy_classification` | `selected_type` ← type, `selected_subtype` ← subType, `taxonomy_path` ← (new, supports deeper hierarchies) | ⚠️ Partial. Original had `reason` field — now covered by standard `rationale`. Original took `type_key` JSON + `type_article` HTML — need to verify `taxonomy` input schema supports both. |
+| **prompt-4**: Contact-to-Company Resolver | `company_match` | `co_resolved_contact_id` ← contact_id (when cross-reference method used) | ✅ Covered. Cross-reference pattern when company matched via contact's company association. |
+| **prompt-5**: Multi-Ticket Selector | `ticket_match` | `matched_id` ← selected_ticket_id, `confidence` ← confidence_selected_ticket | ⚠️ Partial. Original had `reason_selected_ticket` — now `rationale`. Original operated on array of tickets — need to verify `tickets[]` candidate handling. |
+| **prompt-6**: Single-Ticket Verifier | `ticket_match` | `ticket_matches_issue` ← ticket_matches_call_issue, `is_new_issue` ← call_is_new_issue, `generated_initial_description` ← initial_description_from_call | ⚠️ Partial. See gaps below. |
+
+---
+
+## Identified Gaps
+
+### 1. ticket_match: Single vs Multi Mode
+
+The original workflows had TWO distinct prompts:
+- **prompt-5** (multi-ticket): Given N tickets, pick the best one or null
+- **prompt-6** (single-ticket): Given 1 ticket, verify match AND detect new-issue
+
+The new `ticket_match` subsection needs to handle BOTH cases:
+- When `tickets[]` has multiple items → multi-selection mode (pick best or null)
+- When `tickets[]` has one item → verification mode (match boolean + new-issue detection)
+
+**Question:** Does the current design distinguish these modes, or does one microprompt handle both?
+
+**Recommendation:** Single microprompt that handles both. When multiple tickets provided, first select best (or null), then assess new-issue on the selected ticket. When one ticket provided, skip selection, go straight to verification.
+
+---
+
+### 2. ticket_match: match_signals Field Missing
+
+Prompt-5 had explicit matching/non-matching signal lists:
+- Matching: same system/app, same error, same user/device, same timeframe, references prior work
+- Non-matching: different system, different user, different timeframe, new issue not captured
+
+The current field list doesn't capture this diagnostic output. The `rationale` field will contain this reasoning, but structured `match_signals` could help downstream workflows understand WHY a match was made.
+
+**Question:** Is `match_signals` needed as a structured array, or is `rationale` sufficient?
+
+---
+
+### 3. taxonomy_classification: context_article Support
+
+Prompt-3 took TWO inputs for taxonomy:
+- `type_key` — the hierarchical JSON structure
+- `type_article` — an HTML knowledge base article with definitions
+
+The new `taxonomy` input schema in the proposal only mentions "hierarchical type/subtype structure with optional knowledge base context" — not explicit about the article injection.
+
+**Verify:** Does `candidate_sets.taxonomy` support:
+```json
+{
+  "taxonomy": {
+    "type_key": {...},
+    "context_article": "<html>...</html>"
+  }
+}
+```
+
+---
+
+### 4. generated_initial_description: Formatting Requirements
+
+Prompt-6 had specific ConnectWise formatting instructions:
+- Use `\n` for newlines
+- Unordered lists as `* Item\n* Item`
+- Specific content requirements: who affected, what happening, impact, system/device, error messages, when started, troubleshooting attempted
+
+**Question:** Should `generated_initial_description` microprompt include formatting instructions, or should that be a post-processing concern / caller-specified template?
+
+**Recommendation:** Keep formatting CRM-agnostic in the extraction. Provide a `description_format` option in `resolution_config` if needed (e.g., `markdown`, `plaintext`, `connectwise`).
+
+---
+
+### 5. ServiceTitan Coverage Unknown
+
+I only have ConnectWise/Rewst workflows. ServiceTitan may have:
+- Different entity types (jobs, customers, locations vs tickets, contacts, companies)
+- Different matching requirements
+- Different taxonomy structures
+
+**Need:** ServiceTitan workflow bundles or at minimum a list of:
+- Entity types to resolve
+- Candidate set shapes
+- Any ServiceTitan-specific matching behaviors
+
+---
+
+## Verification Checklist
+
+Before declaring the new workflow supersedes the old:
+
+| Requirement | Status |
+|-------------|--------|
+| Company fuzzy matching (phonetic, alias, partial) | ✅ Designed |
+| Contact fuzzy matching (liberal, single-name tolerance) | ✅ Designed |
+| Company-via-contact cross-reference | ✅ Designed (co_resolved_contact_id) |
+| Multi-ticket selection (N→1 or null) | ⚠️ Needs microprompt verification |
+| Single-ticket verification (match boolean) | ⚠️ Needs field naming finalized |
+| New-issue detection | ⚠️ Needs field naming finalized |
+| Initial description generation | ⚠️ Needs formatting decision |
+| Taxonomy classification (type/subtype) | ⚠️ Needs context_article support verified |
+| Deep taxonomy hierarchies (>2 levels) | ✅ Designed (taxonomy_path array) |
+| ConnectWise field mapping | ⚠️ Needs integration layer spec |
+| ServiceTitan field mapping | ❓ Unknown — need requirements |
+| Confidence thresholds per-subsection | ✅ Designed |
+| Match profiles (conservative, phonetic, etc.) | ⚠️ Needs behavioral definitions |
+| Stateless orchestration pattern documented | ⚠️ Needs design.md verification |
+
+---
+
+Do you have ServiceTitan workflows to upload, or can you describe the ServiceTitan entity types and matching requirements? That'll let me complete the coverage verification.

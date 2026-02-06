@@ -1,0 +1,91 @@
+## Audit: Updated Proposal
+
+### What's Now Addressed
+
+**Input contract is clear.** The new "Input Contract: Resolution Operates on Extracted Values" section explicitly states resolution uses extracted values from co-requested categories. Success criteria #10 reinforces this. Good.
+
+**Chained resolution is explicitly stateless.** The "Stateless Resolution" section makes it unambiguous: caller pre-filters, pipeline doesn't chain internally. References design.md for the orchestration pattern.
+
+**ticket_match now mentions both booleans.** Success criteria #4 explicitly calls out `ticket_matches_call_issue` + `call_is_new_issue` as independent assessments. The subsection table says "5 fields" which accounts for both.
+
+**input_timestamp added.** Smart addition for temporal reasoning in ticket matching ("was this call before or after the ticket was created?").
+
+**resources added to ticket candidates.** Matches prompt-6's use of `ticket_resources` for engineer/assignee matching.
+
+---
+
+### What's Still Missing or Unclear
+
+**1. Field lists are still just counts.**
+
+The subsection table says "4 fields", "3 fields", "5 fields", "3 fields" but doesn't name them. The tasks doc lists them, but the proposal should too — it's the source of truth for what's being built.
+
+Recommend adding to proposal:
+
+| Subsection | Fields |
+|------------|--------|
+| `company_match` | `matched_id`, `matched_name`, `match_method`, `co_resolved_contact_id` |
+| `contact_match` | `matched_id`, `matched_name`, `match_method` |
+| `ticket_match` | `matched_id`, `ticket_matches_issue`, `is_new_issue`, `match_method`, `generated_initial_description` |
+| `taxonomy_classification` | `selected_type`, `selected_subtype`, `taxonomy_path` |
+
+**2. match_method enum values not defined.**
+
+The proposal mentions `match_method` as a field but never defines the allowed values. Add:
+
+```
+match_method enum: exact | fuzzy | phonetic | semantic | cross_reference | null
+```
+
+**3. Match profile behavioral definitions missing.**
+
+The proposal lists profile names but not what they mean. Either add a brief definition here or explicitly reference where they're defined:
+
+| Profile | Behavior |
+|---------|----------|
+| `conservative` | Prefer null over uncertain. Only match if unambiguous. |
+| `balanced` | Return best match if confidence ≥ threshold. Null if ambiguous. |
+| `phonetic_tolerant` | Account for ASR artifacts, phonetic spellings, partial names. |
+| `exact_only` | Only match if extracted value exactly matches candidate name/alias. |
+
+**4. generated_initial_description trigger condition.**
+
+The table says "optionally generate initial description" but doesn't specify when. Clarify:
+
+> `generated_initial_description` is populated only when `is_new_issue` is true. When false or when `ticket_matches_issue` is false, this field is null.
+
+**5. ticket_match field naming inconsistency.**
+
+The success criteria says `ticket_matches_call_issue` and `call_is_new_issue` (matching prompt-6 naming), but my recommended field list above uses `ticket_matches_issue` and `is_new_issue`. Pick one and be consistent. I'd go with the shorter names since this is a new abstraction, not a direct port.
+
+**6. No mention of confidence semantics for null values.**
+
+The proposal says "high confidence on a null value means the LLM is certain there is no match" — good. But it should also clarify: what does LOW confidence on a null mean? (Answer: uncertain whether there's a match, might warrant human review or broader candidate search.)
+
+---
+
+### Instructions for Claude Code
+
+```markdown
+## Before Starting Implementation
+
+1. **Expand the subsection field table in proposal.md.** Replace field counts with actual field names. This is the contract — don't make implementers cross-reference tasks.md.
+
+2. **Add match_method enum definition.** Values: exact, fuzzy, phonetic, semantic, cross_reference. Add to proposal and spec.
+
+3. **Add match profile behavioral definitions.** Either in proposal or spec. These get injected into system prompt — the wording matters.
+
+4. **Clarify generated_initial_description trigger.** Only populated when is_new_issue is true. Document this constraint.
+
+5. **Standardize ticket_match field names.** Use short names (ticket_matches_issue, is_new_issue) consistently across proposal, spec, tasks, and implementation.
+
+6. **Add confidence semantics for edge cases.** Document what low-confidence null means (uncertain, needs review) vs high-confidence null (definitely no match).
+
+7. **Verify design.md has the "Multi-Step Orchestration Pattern" section.** The proposal references it — make sure it exists and shows the company-then-contact sequential call example.
+
+8. **Read the 6 source prompts before writing microprompts.** The behavioral nuances (liberal matching when company pre-filtered, prefer-null-over-uncertain, matching signals list) come from these. They're in `workflows/llm_data_collection/old_connectwise_prompts/`.
+```
+
+---
+
+Want me to look at the design.md and spec.md to verify they cover the gaps, or produce a consolidated revision of the proposal?
