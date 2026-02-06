@@ -62,6 +62,63 @@ describe('n8nDownloadBlocker', () => {
     });
   });
 
+  describe('read-only modes', () => {
+    it('should allow mode: structure', async () => {
+      const input: PreToolUseInput = {
+        tool_name: 'mcp__n8n-mcp__n8n_get_workflow',
+        tool_input: { id: '123', mode: 'structure' },
+      };
+
+      const result = await n8nDownloadBlockerHook(input);
+
+      expect(result.hookSpecificOutput.permissionDecision).toBe('allow');
+    });
+
+    it('should allow mode: minimal', async () => {
+      const input: PreToolUseInput = {
+        tool_name: 'mcp__n8n-mcp__n8n_get_workflow',
+        tool_input: { id: '123', mode: 'minimal' },
+      };
+
+      const result = await n8nDownloadBlockerHook(input);
+
+      expect(result.hookSpecificOutput.permissionDecision).toBe('allow');
+    });
+
+    it('should allow mode: details', async () => {
+      const input: PreToolUseInput = {
+        tool_name: 'mcp__n8n-mcp__n8n_get_workflow',
+        tool_input: { id: '123', mode: 'details' },
+      };
+
+      const result = await n8nDownloadBlockerHook(input);
+
+      expect(result.hookSpecificOutput.permissionDecision).toBe('allow');
+    });
+
+    it('should block mode: full', async () => {
+      const input: PreToolUseInput = {
+        tool_name: 'mcp__n8n-mcp__n8n_get_workflow',
+        tool_input: { id: '123', mode: 'full' },
+      };
+
+      const result = await n8nDownloadBlockerHook(input);
+
+      expect(result.hookSpecificOutput.permissionDecision).toBe('deny');
+    });
+
+    it('should block when no mode specified (defaults to full)', async () => {
+      const input: PreToolUseInput = {
+        tool_name: 'mcp__n8n-mcp__n8n_get_workflow',
+        tool_input: { id: '123' },
+      };
+
+      const result = await n8nDownloadBlockerHook(input);
+
+      expect(result.hookSpecificOutput.permissionDecision).toBe('deny');
+    });
+  });
+
   describe('allowed tools', () => {
     it('should allow n8n_list_workflows', async () => {
       const input: PreToolUseInput = {

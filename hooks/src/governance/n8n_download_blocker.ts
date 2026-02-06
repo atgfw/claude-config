@@ -18,7 +18,12 @@ import { registerHook } from '../runner.js';
 
 const BLOCKED_TOOLS = new Set(['mcp__n8n-mcp__n8n_get_workflow']);
 
+const ALLOWED_READ_MODES = new Set(['structure', 'minimal', 'details']);
+
 const ALLOWED_ALTERNATIVES = [
+  'mcp__n8n-mcp__n8n_get_workflow with mode: "structure" - Node/connection topology',
+  'mcp__n8n-mcp__n8n_get_workflow with mode: "minimal" - ID/name/active/tags only',
+  'mcp__n8n-mcp__n8n_get_workflow with mode: "details" - Metadata + execution stats',
   'mcp__n8n-mcp__n8n_list_workflows - View workflow metadata',
   'mcp__n8n-mcp__n8n_update_partial_workflow - Update specific nodes/fields',
   'mcp__n8n-mcp__n8n_update_full_workflow - Push complete workflow from spec',
@@ -38,8 +43,16 @@ export async function n8nDownloadBlockerHook(input: PreToolUseInput): Promise<Pr
     return allow();
   }
 
-  // Check for documentation_only escape hatch
   const toolInput = input.tool_input as Record<string, unknown>;
+
+  // Allow read-only inspection modes (structure, minimal, details)
+  const mode = toolInput['mode'] as string | undefined;
+  if (mode && ALLOWED_READ_MODES.has(mode)) {
+    log(`[+] n8n_get_workflow allowed for read-only mode: ${mode}`);
+    return allow();
+  }
+
+  // Check for documentation_only escape hatch
   if (toolInput['documentation_only'] === true) {
     log('[+] n8n_get_workflow allowed for documentation (documentation_only: true)');
     return allow();
