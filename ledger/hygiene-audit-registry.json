@@ -1,19 +1,5 @@
 [
   {
-    "timestamp": "2026-01-23T16:25:23.717Z",
-    "project": "C:\\Users\\codya\\.claude",
-    "issueCount": 1,
-    "issues": [
-      {
-        "type": "garbage_file",
-        "path": "C:\\Users\\codya\\.claude\\nul",
-        "filename": "nul",
-        "suggestion": "mv \"nul\" old/misc/",
-        "severity": "warn"
-      }
-    ]
-  },
-  {
     "timestamp": "2026-01-23T16:25:41.398Z",
     "project": "C:\\Users\\codya\\.claude",
     "issueCount": 1,
@@ -1527,6 +1513,20 @@
   },
   {
     "timestamp": "2026-02-06T13:07:11.975Z",
+    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents\\nul",
+        "filename": "nul",
+        "suggestion": "mv \"nul\" old/misc/",
+        "severity": "warn"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-06T13:10:20.498Z",
     "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents",
     "issueCount": 1,
     "issues": [
