@@ -1,9 +1,13 @@
 {
   "id": "4",
   "subject": "Remove or disable debug node",
-  "description": "The debug/NoOp node adds latency with no production value - disable or remove it",
+  "description": "Disabled debug node (renamed to `debug_passthrough`, set `disabled: true`). Evidence at `C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents\\CLAUDE.md:15`: workflow `5CmDvqF0GloEr7be`. Applied in 15-op batch.",
   "activeForm": "Cleaning up debug node",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "executionId": "n8n_partial_update_15ops",
+    "evidencePath": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents\\CLAUDE.md:15"
+  }
 }

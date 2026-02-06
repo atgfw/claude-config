@@ -1,12 +1,13 @@
 {
   "id": "3",
   "subject": "Add error handling to HTTP Request nodes",
-  "description": "Add continueOnFail or onError config to Get Full Conversation, Get Conversations, post_to_webhook HTTP nodes",
+  "description": "Added `onError: \"continueErrorOutput\"` to `get_full_conversation`, `get_conversations`, `post_to_webhook`. Evidence at `C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents\\CLAUDE.md:15`: workflow `5CmDvqF0GloEr7be`. API returned `\"operationsApplied\": 3`",
   "activeForm": "Adding error handling",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
   "blockedBy": [],
   "metadata": {
-    "evidencePath": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents\\CLAUDE.md:15"
+    "evidencePath": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents\\CLAUDE.md:15",
+    "executionId": "n8n_partial_update_error_handling"
   }
 }

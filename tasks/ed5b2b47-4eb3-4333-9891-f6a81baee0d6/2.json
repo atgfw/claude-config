@@ -1,9 +1,13 @@
 {
   "id": "2",
   "subject": "Add notes to all 15 nodes",
-  "description": "Add 20+ char descriptive notes to all nodes and enable Display Note",
+  "description": "Added 20+ char notes with `notesInFlow: true` to all 15 nodes. Evidence at `C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents\\CLAUDE.md:15`: workflow `5CmDvqF0GloEr7be`. API returned `\"operationsApplied\": 15`. Example: `\"Transforms ElevenLabs conversation export into post-call webhook body.data format for Rewst\"`",
   "activeForm": "Adding node documentation",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "executionId": "n8n_partial_update_15ops",
+    "evidencePath": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents\\CLAUDE.md:15"
+  }
 }
