@@ -19,7 +19,7 @@ import { syncApiKeys } from '../mcp/api_key_sync.js';
 import { buildKanbanContext } from '../github/issue_kanban.js';
 import { detectImplementedFile } from '../github/issue_file_detector.js';
 import { closeIssue } from '../github/issue_crud.js';
-import { syncFromGitHub } from '../github/task_source_sync.js';
+import { syncFromGitHub, loadRegistry as loadSyncRegistry } from '../github/task_source_sync.js';
 import { auditFolderHygiene } from '../session/folder_hygiene_auditor.js';
 import { autoCommitAndPush as unifiedAutoCommit } from './auto_commit_push.js';
 import { getStats as getLedgerStats } from '../ledger/correction_ledger.js';
