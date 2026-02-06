@@ -4,7 +4,7 @@
  * ENFORCES webhook path naming conventions for n8n workflows.
  * Part of the Spinal Cord - global governance for child projects.
  *
- * Rules (see CLAUDE.md "Webhook Path Naming"):
+ * Rules (see hooks/docs/n8n-governance.md "Webhook Path Naming"):
  * 1. Webhook trigger paths must be named (not empty)
  * 2. Must be kebab-case
  * 3. Same or similar name as workflow

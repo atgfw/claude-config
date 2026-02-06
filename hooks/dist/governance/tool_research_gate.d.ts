@@ -8,7 +8,7 @@
  * - Path patterns: wrappers/, integrations/, automation/, clients/, adapters/, connectors/
  * - Requires TOOL-RESEARCH.md in same directory with valid sections
  *
- * See CLAUDE.md "Tool Selection Protocol" section.
+ * See hooks/docs/tool-routing.md "Tool Selection Protocol" section.
  */
 import type { PreToolUseInput, PreToolUseOutput } from '../types.js';
 export type ResearchValidationResult = {

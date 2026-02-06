@@ -1,0 +1,9 @@
+{
+  "id": "11",
+  "subject": "Slim CLAUDE.md to governance index (Phase 5)",
+  "description": "Remove sections migrated to hooks/docs/*.md. Trim remaining sections. Target ~280-300 lines from current 938.",
+  "activeForm": "Slimming CLAUDE.md",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

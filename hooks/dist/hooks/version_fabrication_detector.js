@@ -6,7 +6,7 @@
  * Detects when Write/Edit/Bash operations introduce version-like patterns
  * that didn't exist before in the file or codebase context.
  *
- * Rules (see CLAUDE.md):
+ * Rules (see hooks/docs/n8n-governance.md "Version Numbers Banned"):
  * - If a project has no versioning, don't add one
  * - Don't append _v2, _new, _backup to files/functions/classes
  * - Version numbers only valid when:
@@ -392,7 +392,7 @@ export async function versionFabricationDetectorHook(input) {
         '- Use descriptive names instead of version suffixes\n' +
         '- If updating existing code, modify in place instead of creating copies\n' +
         '- For backups, use git branches instead of file copies';
-    logBlocked(message, 'Version Fabrication Ban - see CLAUDE.md');
+    logBlocked(message, 'Version Fabrication Ban - see hooks/docs/n8n-governance.md');
     return {
         hookSpecificOutput: {
             hookEventName: 'PreToolUse',

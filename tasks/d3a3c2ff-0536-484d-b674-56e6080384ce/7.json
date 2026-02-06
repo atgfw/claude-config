@@ -1,9 +1,0 @@
-{
-  "id": "7",
-  "subject": "Create hooks/docs/github-framework.md (Phase 3.2)",
-  "description": "Consolidate commit conventions, branch naming, secret scanning, semver, release automation from CLAUDE.md GitHub Framework section.",
-  "activeForm": "Creating GitHub framework reference doc",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}

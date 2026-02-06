@@ -4,7 +4,7 @@
  * ENFORCES JavaScript quality standards for n8n code nodes.
  * Part of the Spinal Cord - global governance for child projects.
  *
- * Rules (see CLAUDE.md "Code Node Governance"):
+ * Rules (see hooks/docs/n8n-governance.md "Code Node Governance"):
  * - Code node JavaScript must pass standard linting rules
  * - Centralize logic in code nodes (warn on complex inline expressions)
  * - n8n-specific patterns are allowed (documented exceptions)
@@ -299,7 +299,7 @@ export async function codeNodeLintingGateHook(input) {
     // Block on errors
     if (!validation.valid) {
         const errorSummary = validation.errors.join('; ');
-        logBlocked(`Code node linting failed: ${errorSummary}`, 'Code Node Governance - see CLAUDE.md');
+        logBlocked(`Code node linting failed: ${errorSummary}`, 'Code Node Governance - see hooks/docs/n8n-governance.md');
         return {
             hookSpecificOutput: {
                 hookEventName: 'PreToolUse',

@@ -4,7 +4,7 @@
  * ENFORCES documentation requirements for n8n nodes.
  * Part of the Spinal Cord - global governance for child projects.
  *
- * Rules (see CLAUDE.md "n8n Node Documentation"):
+ * Rules (see hooks/docs/n8n-governance.md "Node Documentation"):
  * - All nodes MUST have substantial notes (minimum 20 characters)
  * - Notes MUST describe purpose, not just repeat node name
  * - "Display Note in Flow?" MUST be enabled (notesInFlow: true)

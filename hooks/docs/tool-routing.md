@@ -1,11 +1,12 @@
-# Dynamic Tool Router
+# Tool Routing & Selection Reference
 
-> **Canonical documentation moved to `~/.claude/hooks/docs/tool-routing.md`.**
-> This file is kept as a pointer. See the canonical location for the full reference including Tool Selection Protocol.
+Covers both the Dynamic Tool Router (runtime tool selection) and the Tool Selection Protocol (pre-implementation research gate). Configuration lives in `~/.claude/tool-router/tool-router.json`.
 
-The Dynamic Tool Router provides runtime tool selection based on MCP server health and operation type. This enables graceful degradation when preferred tools are unavailable.
+## Dynamic Tool Router
 
-## Architecture
+Provides runtime tool selection based on MCP server health and operation type. Enables graceful degradation when preferred tools are unavailable.
+
+### Architecture
 
 ```
 tool-router.json
@@ -22,7 +23,7 @@ tool-router.json
     +-- lastResearchUpdate         # When exceptions were verified
 ```
 
-## Route Selection Logic
+### Route Selection Logic
 
 1. Identify operation type (e.g., `cloud-object-modify`)
 2. Iterate preferences by priority (1, 2, 3...)
@@ -32,13 +33,11 @@ tool-router.json
 4. Return first tool where all conditions pass
 5. If no conditions pass, use `fallback`
 
-## Operation Categories
+### Operation Categories
 
-### cloud-object-modify
+#### cloud-object-modify
 
-**Purpose:** Creating or modifying cloud objects (n8n workflows, ServiceTitan objects, ElevenLabs agents, etc.)
-
-**Rationale for preference order:**
+Creating or modifying cloud objects (n8n workflows, ServiceTitan objects, ElevenLabs agents, etc.)
 
 | Priority | Tool | Rationale |
 |----------|------|-----------|
@@ -48,13 +47,11 @@ tool-router.json
 | 4 | Scrapling CLI | Browser automation for systems without APIs |
 | 5 | AskUserQuestion | Human-in-the-loop when all automation fails |
 
-**Key principle:** Always download cloud objects to temp directory first, modify locally, then upload. Never modify cloud objects in-place without local backup.
+**Key principle:** Always download cloud objects to temp directory first, modify locally, then upload.
 
-### local-object-modify
+#### local-object-modify
 
-**Purpose:** Creating or modifying local files
-
-**Rationale for preference order:**
+Creating or modifying local files.
 
 | Priority | Tool | Rationale |
 |----------|------|-----------|
@@ -66,11 +63,9 @@ tool-router.json
 | 6 | Bash | Built-in shell, always available |
 | 7 | AskUserQuestion | Last resort |
 
-### adhoc-code-execute
+#### adhoc-code-execute
 
-**Purpose:** Running one-off code snippets (data transforms, API calls, calculations)
-
-**Rationale for preference order:**
+Running one-off code snippets (data transforms, API calls, calculations).
 
 | Priority | Tool | Rationale |
 |----------|------|-----------|
@@ -80,41 +75,41 @@ tool-router.json
 | 4 | Bash | Built-in, always available |
 | 5 | AskUserQuestion | Last resort |
 
-**Constraints:**
-- Prefer Node.js/JavaScript over Python (consistency with codebase)
-- Avoid creating full script files (use temp directory if needed)
-- Clean up temp files after execution
+**Constraints:** Prefer bun/JavaScript over Python. Avoid creating full script files. Use temp directory for any required files.
 
-### browser-navigate / browser-screenshot / browser-interact
+#### browser-navigate / browser-screenshot / browser-interact
 
-**Purpose:** Web automation and scraping
-
-**Rationale for preference order:**
+Web automation and scraping.
 
 | Priority | Tool | Rationale |
 |----------|------|-----------|
 | 1 | Scrapling MCP | Anti-bot capabilities, handles protected sites |
 | 2 | Playwright MCP | Full browser automation when Scrapling insufficient |
 
-### web-search
-
-**Purpose:** Searching the web for information
+#### web-search
 
 | Priority | Tool | Rationale |
 |----------|------|-----------|
 | 1 | Exa MCP | Semantic search, better for code/technical queries |
 | 2 | WebSearch | Built-in, always available |
 
-### code-search
-
-**Purpose:** Searching codebases
+#### code-search
 
 | Priority | Tool | Rationale |
 |----------|------|-----------|
 | 1 | Warpgrep (filesystem-with-morph) | Faster, better pattern matching |
 | 2 | Grep | Built-in, always available |
 
-## Framework Exceptions
+### Legacy Routes
+
+| Operation | Primary | Fallback |
+|-----------|---------|----------|
+| File edit | `mcp__morph__edit_file` | `Edit` |
+| Browser navigate | `mcp__scrapling__s_fetch_page` | `mcp__playwright__browser_navigate` |
+| Web search | `mcp__exa__search` | `WebSearch` |
+| Code search | `mcp__filesystem-with-morph__warpgrep_codebase_search` | `Grep` |
+
+### Framework Exceptions
 
 Some tools require specific programming languages. These exceptions override the default JavaScript preference:
 
@@ -125,9 +120,9 @@ Some tools require specific programming languages. These exceptions override the
 
 **Research requirement:** Before adding a new exception, verify via research that no JavaScript alternative exists. Document the research in `researchSources`.
 
-## Extending the Router
+### Extending the Router
 
-### Adding a New Route
+#### Adding a New Route
 
 ```json
 {
@@ -151,7 +146,7 @@ Some tools require specific programming languages. These exceptions override the
 }
 ```
 
-### Adding a Framework Exception
+#### Adding a Framework Exception
 
 1. Research if the tool genuinely requires a specific language
 2. Document the research source
@@ -166,7 +161,7 @@ Some tools require specific programming languages. These exceptions override the
 }
 ```
 
-## Integration with Hooks
+### Integration with Hooks
 
 The tool router is consumed by:
 
@@ -174,16 +169,60 @@ The tool router is consumed by:
 - **pre_write** - Checks Morph MCP health before Write/Edit
 - **session_start** - Reports MCP health for router decisions
 
-## Testing Route Selection
-
-To verify route selection works correctly:
+### Testing Route Selection
 
 1. **MCP Health Variations:** Manually disable MCPs and verify fallback selection
 2. **Framework Exceptions:** Verify Python allowed for Scrapling operations
 3. **Condition Evaluation:** Test `runtime: node` conditions
 
+## Tool Selection Protocol
+
+**Enforced by:** `tool_research_gate.ts`
+
+Before implementing automation wrappers, integrations, or client libraries, research existing tools to prevent reinventing the wheel.
+
+### Detection Patterns
+
+The hook triggers when creating code files in these directories:
+
+| Directory Pattern | Description |
+|------------------|-------------|
+| `**/wrappers/**` | Wrapper modules for external APIs |
+| `**/integrations/**` | Third-party integrations |
+| `**/automation/**` | Automation scripts/modules |
+| `**/clients/**` | API client implementations |
+| `**/adapters/**` | Adapter pattern implementations |
+| `**/connectors/**` | Service connectors |
+
+### Research Document Requirement
+
+Before creating code files in these directories, create `TOOL-RESEARCH.md` in the same directory with:
+
+| Required Section | Description |
+|-----------------|-------------|
+| Problem Statement | What capability is needed |
+| Search Queries Executed | Document `gh search repos`, `npm search` queries |
+| Candidates Found | Evaluate tools with >1k stars |
+| Final Decision | BUILD or USE with rationale |
+
+### Validation Rules
+
+| Rule | Severity |
+|------|----------|
+| Missing TOOL-RESEARCH.md | BLOCK |
+| Missing required sections | BLOCK |
+| No tools evaluated | BLOCK |
+| Missing BUILD/USE decision | BLOCK |
+| Rejecting tool with >5k stars | WARN (logged to registry) |
+
+### Template & Registry
+
+- Template: `~/.claude/templates/TOOL-RESEARCH.template.md`
+- Registry: `~/.claude/ledger/tool-research-registry.json`
+
 ## References
 
-- `~/.claude/hooks/docs/tool-routing.md` - Canonical reference (includes Tool Selection Protocol)
+- `~/.claude/tool-router/tool-router.json` - Route configuration
 - `~/.claude/mcp/mcp-registry.json` - MCP server inventory
 - `~/.claude/hooks/src/hooks/browser_automation_gate.ts` - Route consumption example
+- `~/.claude/hooks/src/governance/tool_research_gate.ts` - Research gate implementation

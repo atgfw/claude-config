@@ -4,7 +4,7 @@
  * ENFORCES webhook path naming conventions for n8n workflows.
  * Part of the Spinal Cord - global governance for child projects.
  *
- * Rules (see CLAUDE.md "Webhook Path Naming"):
+ * Rules (see hooks/docs/n8n-governance.md "Webhook Path Naming"):
  * 1. Webhook trigger paths must be named (not empty)
  * 2. Must be kebab-case
  * 3. Same or similar name as workflow
@@ -333,7 +333,7 @@ export async function n8nWebhookPathValidatorHook(input) {
         const suggestionSummary = validation.suggestions.length > 0
             ? `\n\nSuggestions:\n${validation.suggestions.map((s) => `  - ${s}`).join('\n')}`
             : '';
-        logBlocked(`Webhook path validation failed: ${errorSummary}`, 'Webhook Path Naming Convention - see CLAUDE.md');
+        logBlocked(`Webhook path validation failed: ${errorSummary}`, 'Webhook Path Naming Convention - see hooks/docs/n8n-governance.md');
         return {
             hookSpecificOutput: {
                 hookEventName: 'PreToolUse',

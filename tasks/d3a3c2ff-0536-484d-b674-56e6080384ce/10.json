@@ -1,9 +1,0 @@
-{
-  "id": "10",
-  "subject": "Update all JSDoc CLAUDE.md references (Phase 4)",
-  "description": "Update ~15 source file references from CLAUDE.md sections to hooks/docs/*.md. Keep file-existence checks and references to rules staying in slim CLAUDE.md.",
-  "activeForm": "Updating JSDoc references",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}

@@ -291,7 +291,7 @@ export function logBlocked(reason, directive) {
         log(`[BLOCKED] ${reason}`);
         if (directive && verbosity === 'verbose') {
             log('');
-            log('From CLAUDE.md:');
+            log('Rule:');
             log(`> ${directive}`);
         }
     }

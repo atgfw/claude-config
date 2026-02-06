@@ -4,7 +4,7 @@
  * ENFORCES JavaScript quality standards for n8n code nodes.
  * Part of the Spinal Cord - global governance for child projects.
  *
- * Rules (see CLAUDE.md "Code Node Governance"):
+ * Rules (see hooks/docs/n8n-governance.md "Code Node Governance"):
  * - Code node JavaScript must pass standard linting rules
  * - Centralize logic in code nodes (warn on complex inline expressions)
  * - n8n-specific patterns are allowed (documented exceptions)
