@@ -661,8 +661,7 @@ async function buildKanbanStep(_issues: string[], successes: string[]): Promise<
 
     // Issue-to-OpenSpec bridge: hint for feat issues missing proposals
     try {
-      const { loadRegistry } = await import('../github/task_source_sync.js');
-      const registry = loadRegistry();
+      const registry = loadSyncRegistry();
       const needsProposal = registry.entries.filter(
         (e) => e.status === 'open' && !e.openspec_change_id && e.github_issue
       );
