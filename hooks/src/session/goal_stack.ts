@@ -687,7 +687,7 @@ export function extractFieldsFromDescription(description: string): GoalFields {
  *
  * @param maxAgeDays - Maximum age in days before archiving (default: 7)
  */
-export function cleanupStaleSessions(maxAgeDays: number = 7): number {
+export function cleanupStaleSessions(maxAgeDays: number = 3): number {
   const sessionsDir = path.join(getClaudeDir(), 'sessions');
   if (!fs.existsSync(sessionsDir)) {
     return 0;
@@ -695,8 +695,12 @@ export function cleanupStaleSessions(maxAgeDays: number = 7): number {
 
   const now = Date.now();
   const maxAgeMs = maxAgeDays * 24 * 60 * 60 * 1000;
+  const emptyStackMaxAgeMs = 1 * 24 * 60 * 60 * 1000; // 1 day for empty-stack sessions
   const oldDir = path.join(sessionsDir, 'old');
   let archived = 0;
+
+  // Test/debug session patterns - archive immediately regardless of age
+  const testPatterns = /^(test-|debug-|final-|fresh-)/i;
 
   try {
     const entries = fs.readdirSync(sessionsDir, { withFileTypes: true });
@@ -712,9 +716,39 @@ export function cleanupStaleSessions(maxAgeDays: number = 7): number {
 
       // Check modification time (prefer goal-stack.json if exists, else directory)
       const stat = fs.existsSync(stackPath) ? fs.statSync(stackPath) : fs.statSync(sessionDir);
+      const ageMs = now - stat.mtimeMs;
 
-      if (now - stat.mtimeMs > maxAgeMs) {
-        // Archive to old/ directory
+      // Determine if this session should be archived
+      let shouldArchive = false;
+
+      // Rule 1: Test/debug sessions archive immediately
+      if (testPatterns.test(entry.name)) {
+        shouldArchive = true;
+      }
+      // Rule 2: Sessions older than maxAgeDays
+      else if (ageMs > maxAgeMs) {
+        shouldArchive = true;
+      }
+      // Rule 3: Empty-stack sessions older than 1 day
+      else if (ageMs > emptyStackMaxAgeMs) {
+        try {
+          if (fs.existsSync(stackPath)) {
+            const raw = fs.readFileSync(stackPath, 'utf-8');
+            const stack = JSON.parse(raw);
+            if (!stack.stack || stack.stack.length === 0) {
+              shouldArchive = true;
+            }
+          } else {
+            // No goal-stack.json at all - treat as empty
+            shouldArchive = true;
+          }
+        } catch {
+          // Corrupt stack file - archive it
+          shouldArchive = true;
+        }
+      }
+
+      if (shouldArchive) {
         fs.mkdirSync(oldDir, { recursive: true });
         const archivePath = path.join(oldDir, entry.name);
 

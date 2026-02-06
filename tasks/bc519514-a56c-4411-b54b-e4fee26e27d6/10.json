@@ -1,0 +1,9 @@
+{
+  "id": "10",
+  "subject": "Create and run tests for Phase 2-3 code node implementations",
+  "description": "Write test files for url-discovery, tier-tavily-crawl, tier-firecrawl-crawl, tier-jina-reader, tier-http-basic, and pick-best-primary. Run all tests and fix any failures.",
+  "activeForm": "Running Phase 2-3 tests",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
