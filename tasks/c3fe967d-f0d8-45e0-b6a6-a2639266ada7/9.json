@@ -1,9 +1,0 @@
-{
-  "id": "9",
-  "subject": "Build, test, and verify all changes",
-  "description": "Run bun run build, bun test, verify compilation. Check that all wiring is correct.",
-  "activeForm": "Building and testing all changes",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}

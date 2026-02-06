@@ -28,6 +28,6 @@
 
 ## Phase 5: Build and Verify
 
-- [ ] Build hooks: `cd ~/.claude/hooks && bun run build`
-- [ ] Run tests: `cd ~/.claude/hooks && bun test`
-- [ ] Verify compilation succeeds
+- [x] Build hooks: `cd ~/.claude/hooks && bun run build`
+- [x] Run tests: `cd ~/.claude/hooks && bun test`
+- [x] Verify compilation succeeds
