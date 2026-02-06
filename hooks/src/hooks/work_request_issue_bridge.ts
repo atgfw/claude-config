@@ -181,7 +181,7 @@ function isDuplicateOfOpenIssue(title: string): boolean {
 // ============================================================================
 
 async function workRequestIssueBridge(
-  input: UserPromptSubmitInput,
+  input: UserPromptSubmitInput
 ): Promise<UserPromptSubmitOutput> {
   const prompt = input.prompt;
   const sessionId = input.session_id ?? getSessionId();
