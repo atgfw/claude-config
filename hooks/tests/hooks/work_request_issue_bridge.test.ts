@@ -7,7 +7,7 @@ import {
 describe('detectWorkRequest', () => {
   it('detects action verb prompts as work requests', () => {
     const result = detectWorkRequest(
-      'Implement a new authentication flow using JWT tokens and refresh mechanism',
+      'Implement a new authentication flow using JWT tokens and refresh mechanism'
     );
     expect(result).not.toBeNull();
     expect(result!.verb).toBe('implement');
@@ -16,7 +16,7 @@ describe('detectWorkRequest', () => {
 
   it('detects fix requests as fix type', () => {
     const result = detectWorkRequest(
-      'Fix the broken authentication system that causes 500 errors on login',
+      'Fix the broken authentication system that causes 500 errors on login'
     );
     expect(result).not.toBeNull();
     expect(result!.verb).toBe('fix');
@@ -25,7 +25,7 @@ describe('detectWorkRequest', () => {
 
   it('detects refactor requests as refactor type', () => {
     const result = detectWorkRequest(
-      'Refactor the database connection pooling to use async/await patterns',
+      'Refactor the database connection pooling to use async/await patterns'
     );
     expect(result).not.toBeNull();
     expect(result!.verb).toBe('refactor');
@@ -39,24 +39,16 @@ describe('detectWorkRequest', () => {
 
   it('skips question prompts', () => {
     expect(
-      detectWorkRequest('What is the best way to implement authentication in this project?'),
+      detectWorkRequest('What is the best way to implement authentication in this project?')
     ).toBeNull();
-    expect(
-      detectWorkRequest('How do I configure the database connection pooling?'),
-    ).toBeNull();
-    expect(
-      detectWorkRequest('Can you explain how the authentication flow works?'),
-    ).toBeNull();
+    expect(detectWorkRequest('How do I configure the database connection pooling?')).toBeNull();
+    expect(detectWorkRequest('Can you explain how the authentication flow works?')).toBeNull();
   });
 
   it('skips meta commands', () => {
     expect(detectWorkRequest('/commit all the changes we just made')).toBeNull();
-    expect(
-      detectWorkRequest('audit the system for any pending issues and fix quirks'),
-    ).toBeNull();
-    expect(
-      detectWorkRequest('review the code changes in the last commit please'),
-    ).toBeNull();
+    expect(detectWorkRequest('audit the system for any pending issues and fix quirks')).toBeNull();
+    expect(detectWorkRequest('review the code changes in the last commit please')).toBeNull();
   });
 
   it('skips conversational responses', () => {
@@ -66,9 +58,7 @@ describe('detectWorkRequest', () => {
   });
 
   it('skips prompts ending with question mark', () => {
-    expect(
-      detectWorkRequest('Should I implement the feature using React or Vue?'),
-    ).toBeNull();
+    expect(detectWorkRequest('Should I implement the feature using React or Vue?')).toBeNull();
   });
 
   it('truncates long titles to 120 chars', () => {
@@ -82,7 +72,9 @@ describe('detectWorkRequest', () => {
 
   it('returns null for no action verb', () => {
     expect(
-      detectWorkRequest('The authentication system needs a complete overhaul to support new requirements'),
+      detectWorkRequest(
+        'The authentication system needs a complete overhaul to support new requirements'
+      )
     ).toBeNull();
   });
 });
