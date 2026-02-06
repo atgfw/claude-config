@@ -2,7 +2,7 @@
 
 ## Overview
 
-These hooks enforce the development framework defined in CLAUDE.md files.
+These hooks enforce the development framework defined in CLAUDE.md and `hooks/docs/` reference files.
 All hooks are **global/user-wide** - configured in `~/.claude/settings.json`, they apply to ALL projects.
 All hooks are **portable** - they use relative paths and environment variables, no hardcoded user paths.
 

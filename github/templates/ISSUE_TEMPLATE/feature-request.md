@@ -14,7 +14,7 @@ labels: type/feat, lifecycle/triage
 - [ ] Feature implemented
 - [ ] Tests written (Vitest)
 - [ ] Hook registered in settings.json
-- [ ] Documented in CLAUDE.md
+- [ ] Documented in hooks/docs/ reference files
 
 ## Source
 - Correction ledger: N/A

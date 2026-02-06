@@ -22,7 +22,7 @@ labels: type/feat, system/hooks, lifecycle/triage
 ## Acceptance Criteria
 - [ ] Hook implemented with TDD (Vitest)
 - [ ] Registered in settings.json
-- [ ] Documented in CLAUDE.md
+- [ ] Documented in hooks/docs/ reference files
 - [ ] Correction ledger entry linked
 
 ## Source

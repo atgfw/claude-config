@@ -111,7 +111,7 @@ async function fullPathValidator(input) {
             hookSpecificOutput: {
                 hookEventName: 'PreToolUse',
                 permissionDecision: 'deny',
-                permissionDecisionReason: `BLOCK: Relative file paths detected. All file paths must be absolute.\n\nRelative paths found:\n${suggestions}\n\nUse the suggested absolute paths instead. See CLAUDE.md "Full File Paths" rule.`,
+                permissionDecisionReason: `BLOCK: Relative file paths detected. All file paths must be absolute.\n\nRelative paths found:\n${suggestions}\n\nUse the suggested absolute paths instead. All file paths must be absolute (governance rule).`,
             },
         };
     }

@@ -156,7 +156,7 @@ describe('n8nDualTriggerValidatorHook', () => {
 
       const result = await n8nDualTriggerValidatorHook(input);
 
-      // Per CLAUDE.md: paths should be flat kebab-case, no nesting
+      // Per governance rules: paths should be flat kebab-case, no nesting
       expect(result.hookSpecificOutput?.permissionDecision).toBe('allow');
     });
 
@@ -173,7 +173,7 @@ describe('n8nDualTriggerValidatorHook', () => {
 
       const result = await n8nDualTriggerValidatorHook(input);
 
-      // Per CLAUDE.md: flat kebab-case paths are valid
+      // Per governance rules: flat kebab-case paths are valid
       expect(result.hookSpecificOutput?.permissionDecision).toBe('allow');
     });
 
