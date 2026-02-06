@@ -3,7 +3,7 @@
   "subject": "Create build_occ_output code node and Vitest tests for Group Members",
   "description": "Task 6.7-6.8: Create the build_occ_output code node logic that maps ServiceTitan business units, employees, and technicians to the OCC contacts data model. Write comprehensive Vitest tests.",
   "activeForm": "Creating build_occ_output code node and tests",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }
