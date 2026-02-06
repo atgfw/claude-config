@@ -102,3 +102,53 @@ The Voice Agent Tester workflow SHALL produce a structured report containing exe
 - **GIVEN** a scenario result with overall_score
 - **WHEN** the report is generated
 - **THEN** it provides performance rating (Excellent >= 80, Good 60-79, Needs Improvement < 60) and context-appropriate next steps
+
+### Requirement: Recursive feedback loop test runner [IMPLEMENTED]
+
+The system SHALL provide a local test runner script at `tests/code-nodes/voice-agent-tester/test-runner.ts` that orchestrates both ElevenLabs APIs in a recursive feedback loop following the scientific method.
+
+#### Scenario: Dry run executes all phases without API calls
+
+- **GIVEN** the test runner is invoked with `--dry-run`
+- **WHEN** it loads scenarios and iterates through phases
+- **THEN** it logs all phases (Hypothesis through Record) without making HTTP requests, and completes successfully
+
+#### Scenario: Live run calls simulate_conversation API with correct request body
+
+- **GIVEN** the test runner is invoked without `--dry-run`
+- **WHEN** `runSimulation()` is called for a scenario
+- **THEN** it POSTs to `/v1/convai/agents/{id}/simulate-conversation` with `simulation_specification.simulated_user_config.prompt = {prompt, llm, temperature}` and `extra_evaluation_criteria` array
+
+#### Scenario: Response transformation maps API format to internal format
+
+- **GIVEN** simulate_conversation returns `{conversation_history, evaluation_results}`
+- **WHEN** the response is processed by `runSimulation()`
+- **THEN** it is transformed to `{simulated_conversation, analysis: {evaluation_criteria_results, data_collection_results, call_successful}}` for consumption by `analyzeResults()`
+
+#### Scenario: Live run calls Tests API with correct request body
+
+- **GIVEN** the test runner is invoked without `--dry-run`
+- **WHEN** `createTest()` is called for a scenario
+- **THEN** it POSTs to `/v1/convai/agent-testing/create` with `{name, chat_history: [{role, time_in_call_secs}], success_condition, success_examples: [{response, type}], failure_examples: [{response, type}]}`
+
+#### Scenario: Convergence detection stops iteration
+
+- **GIVEN** the test runner is configured with `--max-iterations 3` and threshold 70
+- **WHEN** an iteration produces aggregate_score >= 70
+- **THEN** the loop terminates early without running remaining iterations
+
+#### Scenario: Results recorded to test-run-registry
+
+- **GIVEN** a live run completes an iteration
+- **WHEN** `recordResult()` is called
+- **THEN** it writes to `ledger/test-run-registry.json` under the `elevenlabs-agent-testing-framework` entity key with a novel SHA-256 input hash
+
+### Requirement: Test runner unit tests [IMPLEMENTED]
+
+The system SHALL have 18 Vitest tests at `tests/code-nodes/voice-agent-tester/test-runner.test.ts` covering scenario loading, analysis pipeline, recommendation generation, report generation, convergence logic, and input hash uniqueness.
+
+#### Scenario: All test runner unit tests pass
+
+- **GIVEN** the test runner test file exists
+- **WHEN** `bun test ./tests/code-nodes/voice-agent-tester/test-runner.test.ts` is executed
+- **THEN** all 18 tests pass with 0 failures
