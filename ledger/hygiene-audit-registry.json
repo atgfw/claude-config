@@ -1,33 +1,5 @@
 [
   {
-    "timestamp": "2026-01-22T21:37:15.595Z",
-    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\rewst_redirect_gateway",
-    "issueCount": 1,
-    "issues": [
-      {
-        "type": "organization",
-        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\rewst_redirect_gateway",
-        "filename": "6 scripts",
-        "suggestion": "mkdir -p scripts && mv *.py *.js *.ts *.ps1 *.sh scripts/",
-        "severity": "warn"
-      }
-    ]
-  },
-  {
-    "timestamp": "2026-01-23T15:05:38.113Z",
-    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\rewst_redirect_gateway",
-    "issueCount": 1,
-    "issues": [
-      {
-        "type": "organization",
-        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\rewst_redirect_gateway",
-        "filename": "6 scripts",
-        "suggestion": "mkdir -p scripts && mv *.py *.js *.ts *.ps1 *.sh scripts/",
-        "severity": "warn"
-      }
-    ]
-  },
-  {
     "timestamp": "2026-01-23T16:25:23.717Z",
     "project": "C:\\Users\\codya\\.claude",
     "issueCount": 1,
@@ -1536,6 +1508,34 @@
         "filename": "CUserscodyaAppDataLocalTempclaudeagent_kb.json",
         "suggestion": "mv \"CUserscodyaAppDataLocalTempclaudeagent_kb.json\" old/misc/ # Empty file",
         "severity": "info"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-06T13:07:03.243Z",
+    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents\\nul",
+        "filename": "nul",
+        "suggestion": "mv \"nul\" old/misc/",
+        "severity": "warn"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-06T13:07:11.975Z",
+    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\voice_ai_agents\\nul",
+        "filename": "nul",
+        "suggestion": "mv \"nul\" old/misc/",
+        "severity": "warn"
       }
     ]
   }
