@@ -13,7 +13,7 @@ const REPO_DIR = process.env.HOME
   : `${process.env.USERPROFILE}\\.claude`;
 
 /** Directories to stage for auto-commit (not `git add -A`) */
-const STAGE_DIRS = ['ledger/', 'openspec/', 'sessions/', 'hooks/src/', 'hooks/tests/'];
+const STAGE_DIRS = ['ledger/', 'openspec/', 'sessions/', 'hooks/src/', 'hooks/tests/', 'plans/'];
 
 function run(cmd: string, cwd?: string): string {
   try {
