@@ -1,0 +1,14 @@
+For business unit routing: 
+"C:\Users\codya\coding\n8n_n8n\workflows\servicetitan\workflow-019b4be0-e790-73d2-b11b-c5feed4a7a91_20260206_142659.bundle.json"
+"C:\Users\codya\coding\n8n_n8n\workflows\servicetitan\workflow-019a0806-cd55-7abc-bdc5-095263c19fab_20260206_142636.bundle.json"
+Those 2 workflows are rewst workflows that will remain mostly unchanged except for the actual CRM branch will be partitioned away. Those workflows dictate how the records are routed to the underlying recipients, in this case the locations and crm units. It's ready for enterprise scale via a stored structured settings variable with ALL the tenant's related OnCall Connect settings. That will get passed to the llm data collection along with comprehensive field extractions. We might have to add dynamically pulling ServiceTitan groups and members into a new branch on occ contacts workflow, but that could be a new n8n workflow. 
+So we will end up hardcoding those group IDs or names whatever to the config settings object, then LLM will choose based on the bullous of context per each conversation. The n8n ServiceTitan workflows need to receive the necessary parameters as input basically. Help refine that. 
+
+Deploying the schema fixes sounds good.
+
+Task assignees should be based on the contacts extraction workflow described before. 
+lead to campaign assignment and customer and contact matching etc will be a separate project to enhance the llm data extraction workflow. 
+
+The SMS deliverability will be handled by a Rewst SMS workflow. If you want an example you can explore some past executions for the n8n workflow called rewst redirect gateway wrapper n8n workflow which is needed due to rewst webhook limitations.
+
+Refine and codify and finalize the plan  

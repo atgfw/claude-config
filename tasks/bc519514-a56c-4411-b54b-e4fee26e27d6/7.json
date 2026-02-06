@@ -1,0 +1,9 @@
+{
+  "id": "7",
+  "subject": "Update design.md with revised architecture",
+  "description": "Revise architecture from 5-tier to 3-tier based on experiments. Drop Scrapling and Firecrawl tiers. Add Tavily Map as URL discovery step.",
+  "activeForm": "Updating design with revised architecture",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

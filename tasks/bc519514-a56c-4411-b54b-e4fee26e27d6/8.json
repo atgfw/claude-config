@@ -1,0 +1,9 @@
+{
+  "id": "8",
+  "subject": "Update tasks.md with simplified task list",
+  "description": "Simplify tasks to match 3-tier architecture. Remove Scrapling and Firecrawl tasks. Add Tavily Map discovery step.",
+  "activeForm": "Updating tasks with simplified plan",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

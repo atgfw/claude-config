@@ -1,0 +1,9 @@
+{
+  "id": "6",
+  "subject": "Update proposal.md with experiment results",
+  "description": "Revise the optimize-website-rag-crawler proposal to reflect empirical findings from selkinginternational.com testing. Simplify from 5 tiers to 3 tiers based on actual performance data.",
+  "activeForm": "Updating proposal with experiment results",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
