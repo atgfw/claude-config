@@ -66,10 +66,15 @@ export function autoCommitAndPush(repoDir?: string): boolean {
   return true;
 }
 
-// When run as main entry point (Stop hook)
-function main() {
+// When run as main entry point (Stop hook via `bun run auto_commit_push.js`)
+// Guard: only run main() when this is the entry point, not when imported
+const isMainModule =
+  typeof process !== 'undefined' &&
+  process.argv[1] &&
+  (process.argv[1].endsWith('auto_commit_push.js') ||
+    process.argv[1].endsWith('auto_commit_push.ts'));
+
+if (isMainModule) {
   autoCommitAndPush();
   process.stdout.write(JSON.stringify({ decision: undefined }));
 }
-
-main();
