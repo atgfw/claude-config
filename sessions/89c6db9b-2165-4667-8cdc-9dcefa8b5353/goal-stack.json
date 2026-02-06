@@ -1,0 +1,30 @@
+{
+  "session_id": "89c6db9b-2165-4667-8cdc-9dcefa8b5353",
+  "working_directory": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection",
+  "stack": [
+    {
+      "id": "global-active-goal",
+      "type": "epic",
+      "summary": "Add CRM Entity Resolution category to LLM Data Extraction Pipeline",
+      "fields": {
+        "who": "LLM Data Extraction Pipeline workflow (8ZN0l9BHo1zBKDnl)",
+        "what": "Consolidate 6 ConnectWise/Rewst LLM prompts into a crm_entity_resolution category with 4 subsections (company_match, contact_match, ticket_match, taxonomy_classification)",
+        "when": "Proposal stage - OpenSpec change created, awaiting user approval",
+        "where": "C:\\Users\\codya\\coding\\n8n_n8n\\openspec\\changes\\add-crm-entity-resolution\\proposal.md | C:\\Users\\codya\\coding\\n8n_n8n\\openspec\\changes\\add-crm-entity-resolution\\design.md | C:\\Users\\codya\\coding\\n8n_n8n\\openspec\\changes\\add-crm-entity-resolution\\specs\\crm-entity-resolution\\spec.md | C:\\Users\\codya\\coding\\n8n_n8n\\openspec\\changes\\add-crm-entity-resolution\\tasks.md | https://n8n.atgfw.com (workflow 8ZN0l9BHo1zBKDnl)",
+        "why": "Six independent LLM prompts with inconsistent matching behavior, no shared confidence scoring, duplicated candidate-set injection logic across Rewst workflows",
+        "how": "1. Create OpenSpec proposal with design, spec deltas, and tasks 2. Implement category config node 3. Update input_validator, category_merger, build_prompt, output_assembler 4. Test against original prompt outcomes",
+        "which": "Target objects: C:\\Users\\codya\\coding\\n8n_n8n\\openspec\\changes\\add-crm-entity-resolution\\proposal.md | C:\\Users\\codya\\coding\\n8n_n8n\\openspec\\changes\\add-crm-entity-resolution\\design.md | C:\\Users\\codya\\coding\\n8n_n8n\\openspec\\changes\\add-crm-entity-resolution\\specs\\crm-entity-resolution\\spec.md | C:\\Users\\codya\\coding\\n8n_n8n\\openspec\\changes\\add-crm-entity-resolution\\tasks.md | Pipeline nodes: input-validator, category-merger, build-prompt, output-assembler on workflow 8ZN0l9BHo1zBKDnl at https://n8n.atgfw.com",
+        "lest": "Continued proliferation of bespoke LLM prompts per CRM workflow, inconsistent matching quality, no standardized confidence scoring for downstream thresholding",
+        "with": "OpenSpec spec-driven development, n8n-MCP partial workflow updates, Vitest local testing",
+        "measuredBy": "Company/contact/ticket/taxonomy matching produces equivalent or better results than the 6 source ConnectWise prompts on test transcripts, with standardized confidence scores and zero regression on existing 93 test cases"
+      },
+      "source": {
+        "manual": true
+      },
+      "pushedAt": "2026-02-06T13:10:06.037Z",
+      "pushedBy": "SessionStart"
+    }
+  ],
+  "history": [],
+  "lastModified": "2026-02-06T13:11:50.646Z"
+}
