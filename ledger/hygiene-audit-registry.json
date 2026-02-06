@@ -1,19 +1,5 @@
 [
   {
-    "timestamp": "2026-02-03T14:38:24.362Z",
-    "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan",
-    "issueCount": 1,
-    "issues": [
-      {
-        "type": "garbage_file",
-        "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\servicetitan\\nul",
-        "filename": "nul",
-        "suggestion": "mv \"nul\" old/misc/",
-        "severity": "warn"
-      }
-    ]
-  },
-  {
     "timestamp": "2026-02-03T14:49:11.786Z",
     "project": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection",
     "issueCount": 1,
@@ -1575,6 +1561,20 @@
       {
         "type": "garbage_file",
         "path": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection\\nul",
+        "filename": "nul",
+        "suggestion": "mv \"nul\" old/misc/",
+        "severity": "warn"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-06T15:09:19.995Z",
+    "project": "C:\\Users\\codya\\.claude",
+    "issueCount": 1,
+    "issues": [
+      {
+        "type": "garbage_file",
+        "path": "C:\\Users\\codya\\.claude\\nul",
         "filename": "nul",
         "suggestion": "mv \"nul\" old/misc/",
         "severity": "warn"

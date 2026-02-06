@@ -283,8 +283,9 @@ function syncGoalToActiveGoalJson(goal: GoalLevel, workingDir?: string): void {
     const currentProjectScope = existing.projectScope;
     const goalProjectDir = goal.fields.where !== 'unknown' ? goal.fields.where : null;
 
-    if (!currentProjectScope || isPathMatch(process.cwd(), currentProjectScope)) {
-      existing.projectScope = goalProjectDir ?? process.cwd();
+    const effectiveCwd = workingDir ?? process.cwd();
+    if (!currentProjectScope || isPathMatch(effectiveCwd, currentProjectScope)) {
+      existing.projectScope = goalProjectDir ?? effectiveCwd;
     }
     // If projectScope is set and doesn't match current cwd, do NOT overwrite
 
