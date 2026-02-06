@@ -1,0 +1,9 @@
+{
+  "id": "8",
+  "subject": "Final validation and test",
+  "description": "Run strict validator again and test both paths to confirm all issues resolved",
+  "activeForm": "Running final validation",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

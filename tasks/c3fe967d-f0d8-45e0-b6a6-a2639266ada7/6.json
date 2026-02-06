@@ -1,9 +1,12 @@
 {
   "id": "6",
   "subject": "Wire session_start.ts to sync GitHub issues",
-  "description": "Add syncFromGitHub() call during session initialization, after MCP health checks but before kanban context building.",
+  "description": "Wired session_start.ts to use syncFromGitHub() instead of duplicated manual sync.\n\nEvidence:\n- `hooks/src/hooks/session_start.ts:22`: `import { syncFromGitHub } from '../github/task_source_sync.js';`\n- `hooks/src/hooks/session_start.ts:751`: `const result = syncFromGitHub();`\n- Verification: Replaced ~50 lines of duplicated sync logic with single function call",
   "activeForm": "Wiring session start to GitHub sync",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "evidencePath": "C:\\Users\\codya\\.claude\\hooks\\src\\hooks\\session_start.ts:751"
+  }
 }

@@ -1,9 +1,12 @@
 {
   "id": "3",
   "subject": "Create openspec_issue_bridge.ts PostToolUse hook",
-  "description": "New PostToolUse hook on Write/Edit that detects openspec/changes/*/proposal.md writes. Calls createFromOpenSpec(changeId) and linkOpenSpec(). Register in settings.json and index.ts.",
+  "description": "Created openspec_issue_bridge.ts PostToolUse hook.\n\nEvidence:\n- `hooks/src/hooks/openspec_issue_bridge.ts:16`: `import { createFromOpenSpec } from '../github/issue_crud.js';`\n- `hooks/src/hooks/openspec_issue_bridge.ts:17`: `import { linkOpenSpec } from '../github/task_source_sync.js';`\n- `hooks/src/hooks/openspec_issue_bridge.ts:52`: `const issueNumber = createFromOpenSpec(changeId);`\n- Verification: New file created with extractChangeId, PostToolUse handler, and hook registration",
   "activeForm": "Creating OpenSpec issue bridge hook",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "evidencePath": "C:\\Users\\codya\\.claude\\hooks\\src\\hooks\\openspec_issue_bridge.ts:52"
+  }
 }

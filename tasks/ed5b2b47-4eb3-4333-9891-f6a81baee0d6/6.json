@@ -1,0 +1,9 @@
+{
+  "id": "6",
+  "subject": "Fix 5 validator errors from strict validation",
+  "description": "Fix: extract_webhook_params optional chaining, error output connections for HTTP nodes, split_conversations include value",
+  "activeForm": "Fixing validator errors",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

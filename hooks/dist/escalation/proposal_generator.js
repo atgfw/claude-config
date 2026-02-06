@@ -10,6 +10,8 @@ import * as path from 'node:path';
 import { getClaudeDir, log } from '../utils.js';
 import { loadRegistry, saveRegistry, updateStatus, findBySymptomHash, } from '../ledger/escalation_registry.js';
 import { getPatternsNeedingProposals } from './pattern_detector.js';
+import { createFromOpenSpec } from '../github/issue_crud.js';
+import { linkOpenSpec } from '../github/task_source_sync.js';
 // ============================================================================
 // Slug Generation
 // ============================================================================
@@ -305,6 +307,17 @@ export function generateProposal(symptomHash, registry) {
             saveRegistry(reg);
         }
         log(`[PROPOSAL] Generated proposal: ${changePath}`);
+        // Auto-create GitHub issue and link to OpenSpec proposal
+        try {
+            const issueNumber = createFromOpenSpec(changeId, primary.symptom);
+            if (issueNumber) {
+                linkOpenSpec(issueNumber, changeId);
+                log(`[PROPOSAL] Linked to GitHub issue #${issueNumber}`);
+            }
+        }
+        catch (issueError) {
+            log(`[PROPOSAL] Issue creation failed: ${issueError.message}`);
+        }
         return {
             changeId,
             proposalPath: changePath,

@@ -123,6 +123,8 @@ export { cloudObjectCreationGateHook } from './governance/cloud_object_creation_
 export { llmModelValidatorHook } from './governance/llm_model_validator.js';
 export { detectsCredentialDiscussion, getConfiguredServices, buildContextMessage, CREDENTIAL_PATTERNS, } from './hooks/credential_context_injector.js';
 export { isTestCommand, parseTestOutput, generateSuspicionMessage, SUSPICION_THRESHOLD, } from './hooks/metavitest_suspicion.js';
+// OpenSpec issue bridge
+export { openspecIssueBridge, extractChangeId } from './hooks/openspec_issue_bridge.js';
 // Import governance hooks to register them
 import './governance/n8n_workflow_governance.js';
 import './governance/elevenlabs_agent_governance.js';
@@ -179,6 +181,8 @@ import './hooks/context-summary-trigger.js';
 import './hooks/credential_context_injector.js';
 // Metavitest suspicion (warns on 100% test pass rates)
 import './hooks/metavitest_suspicion.js';
+// OpenSpec issue bridge (auto-creates GitHub issues from proposals)
+import './hooks/openspec_issue_bridge.js';
 // Git hooks (GitHub framework)
 import './git/secret_scanner.js';
 import './git/commit_message_validator.js';

@@ -12,6 +12,7 @@
 import { registerHook } from '../runner.js';
 import { log } from '../utils.js';
 import { getSessionId, loadGoalStack, pushGoal, popGoalById, createTaskGoal, getCurrentGoal, } from '../session/goal_stack.js';
+import { linkTask } from '../github/task_source_sync.js';
 // ============================================================================
 // PostToolUse Hook Implementation
 // ============================================================================
@@ -85,6 +86,18 @@ function handleTaskUpdate(sessionId, input, output) {
             const goal = createTaskGoal(taskId, taskSubject, taskDescription);
             pushGoal(sessionId, goal);
             log(`[task-goal-sync] Pushed goal: "${taskSubject}"`);
+            // Auto-link task to GitHub issue if goal context has one
+            const refreshedStack = loadGoalStack(sessionId);
+            const parentGoal = refreshedStack.stack.find((g) => g.source.github_issue && g.id !== goalId);
+            if (parentGoal?.source.github_issue) {
+                try {
+                    linkTask(parentGoal.source.github_issue, taskId);
+                    log(`[task-goal-sync] Linked task ${taskId} to issue #${parentGoal.source.github_issue}`);
+                }
+                catch {
+                    // Non-blocking
+                }
+            }
             return {
                 hookSpecificOutput: {
                     hookEventName: 'PostToolUse',

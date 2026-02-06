@@ -1,9 +1,12 @@
 {
   "id": "5",
   "subject": "Wire task_goal_sync.ts to link tasks to GitHub issues",
-  "description": "When a task is pushed to the goal stack (status in_progress), check for linked GitHub issue in goal context. If found, call linkTask(issueNumber, taskId).",
+  "description": "Wired task_goal_sync.ts to link tasks to GitHub issues.\n\nEvidence:\n- `hooks/src/hooks/task_goal_sync.ts:25`: `import { linkTask } from '../github/task_source_sync.js';`\n- `hooks/src/hooks/task_goal_sync.ts:156`: `linkTask(parentGoal.source.github_issue, taskId);`\n- Verification: grep confirmed import and usage, fixed redeclaration of `stack` variable",
   "activeForm": "Wiring task-goal sync to issue linking",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "evidencePath": "C:\\Users\\codya\\.claude\\hooks\\src\\hooks\\task_goal_sync.ts:156"
+  }
 }

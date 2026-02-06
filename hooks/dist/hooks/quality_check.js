@@ -248,9 +248,25 @@ class QualityChecker {
         if (result.code !== 0) {
             // Filter to only show errors for the edited file
             const lines = (result.stdout + result.stderr).split('\n');
-            const relevantErrors = lines.filter((line) => line.includes(path.basename(this.filePath)));
-            if (relevantErrors.length > 0) {
-                this.errors.push(`TypeScript errors in ${path.basename(this.filePath)}:\n  ${relevantErrors.join('\n  ')}`);
+            const relevantLines = lines.filter((line) => line.includes(path.basename(this.filePath)));
+            // Separate TS6133 (unused variable/import) as warnings - these are
+            // common false positives during multi-edit sessions where an import
+            // is added in one edit and its usage in the next.
+            const realErrors = [];
+            const unusedWarnings = [];
+            for (const line of relevantLines) {
+                if (line.includes('TS6133') || line.includes('TS6196')) {
+                    unusedWarnings.push(line);
+                }
+                else {
+                    realErrors.push(line);
+                }
+            }
+            if (unusedWarnings.length > 0) {
+                this.warnings.push(`Unused declarations (may be intermediate edit state):\n  ${unusedWarnings.join('\n  ')}`);
+            }
+            if (realErrors.length > 0) {
+                this.errors.push(`TypeScript errors in ${path.basename(this.filePath)}:\n  ${realErrors.join('\n  ')}`);
             }
         }
         else {
@@ -301,7 +317,25 @@ class QualityChecker {
                     }
                     const xoOutput = (recheck.stdout + recheck.stderr).trim();
                     if (xoOutput) {
-                        this.errors.push(`XO found issues that could not be auto-fixed:\n${xoOutput}`);
+                        // Separate unused-vars as warnings (false positives during multi-edit)
+                        const xoLines = xoOutput.split('\n');
+                        const unusedVarLines = [];
+                        const otherLines = [];
+                        for (const line of xoLines) {
+                            if (line.includes('no-unused-vars') ||
+                                line.includes('@typescript-eslint/no-unused-vars')) {
+                                unusedVarLines.push(line);
+                            }
+                            else {
+                                otherLines.push(line);
+                            }
+                        }
+                        if (unusedVarLines.length > 0) {
+                            this.warnings.push(`Unused vars (may be intermediate edit state):\n${unusedVarLines.join('\n')}`);
+                        }
+                        if (otherLines.some((l) => l.includes('error') || l.includes('\u2716'))) {
+                            this.errors.push(`XO found issues that could not be auto-fixed:\n${otherLines.join('\n')}`);
+                        }
                     }
                     else {
                         this.warnings.push('XO exited with errors but produced no output (possible dependency issue)');

@@ -9,6 +9,7 @@ import { syncApiKeys } from '../mcp/api_key_sync.js';
 import { buildKanbanContext } from '../github/issue_kanban.js';
 import { detectImplementedFile } from '../github/issue_file_detector.js';
 import { closeIssue } from '../github/issue_crud.js';
+import { syncFromGitHub } from '../github/task_source_sync.js';
 import { auditFolderHygiene } from '../session/folder_hygiene_auditor.js';
 import { getStats as getLedgerStats } from '../ledger/correction_ledger.js';
 import { formatForSessionStart as formatEscalationReport } from '../escalation/reporter.js';
@@ -620,47 +621,16 @@ async function buildKanbanStep(_issues, successes) {
     }
 }
 /**
- * Sync GitHub issues to local registry (non-blocking)
+ * Sync GitHub issues to local registry using task_source_sync (non-blocking)
  */
 async function syncGitHubIssues(_issues, successes) {
     log('Step 10: GitHub Issue Sync');
     log('-'.repeat(30));
     try {
-        const result = execSync('gh issue list --state all --json number,title,state,labels --limit 100', { encoding: 'utf-8', stdio: 'pipe', timeout: 15_000 });
-        const remoteIssues = JSON.parse(result);
-        // Load local registry
-        const registryPath = path.join(getClaudeDir(), 'ledger', 'issue-sync-registry.json');
-        let registry;
-        try {
-            registry = JSON.parse(fs.readFileSync(registryPath, 'utf-8'));
-        }
-        catch {
-            registry = { version: 1, entries: [] };
-        }
-        let created = 0;
-        let updated = 0;
-        for (const issue of remoteIssues) {
-            const existing = registry.entries.find((e) => e.github_issue === issue.number);
-            const remoteStatus = issue.state === 'OPEN' ? 'open' : 'closed';
-            if (!existing) {
-                registry.entries.push({
-                    unified_id: `unified-gh-${issue.number}`,
-                    github_issue: issue.number,
-                    status: remoteStatus,
-                    last_synced: new Date().toISOString(),
-                });
-                created++;
-            }
-            else if (existing.status !== remoteStatus) {
-                existing.status = remoteStatus;
-                existing.last_synced = new Date().toISOString();
-                updated++;
-            }
-        }
-        fs.writeFileSync(registryPath, JSON.stringify(registry, null, 2));
-        if (created > 0 || updated > 0) {
-            log(`[+] Sync: ${created} new, ${updated} updated`);
-            successes.push(`Issue sync: ${created} new, ${updated} updated`);
+        const result = syncFromGitHub();
+        if (result.created > 0 || result.updated > 0 || result.closed > 0) {
+            log(`[+] Sync: ${result.created} new, ${result.updated} updated, ${result.closed} closed`);
+            successes.push(`Issue sync: ${result.created} new, ${result.updated} updated`);
         }
         else {
             log('[--] Issues in sync');

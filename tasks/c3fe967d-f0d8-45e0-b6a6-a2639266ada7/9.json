@@ -3,7 +3,7 @@
   "subject": "Build, test, and verify all changes",
   "description": "Run bun run build, bun test, verify compilation. Check that all wiring is correct.",
   "activeForm": "Building and testing all changes",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }

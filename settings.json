@@ -358,6 +358,16 @@
         "description": "Validates goal context in OpenSpec proposals and plan files"
       },
       {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun -e \"process.argv.splice(1,0,'cli.js');require(require('path').join(require('os').homedir(),'.claude','hooks','dist','cli.js'))\" openspec-issue-bridge"
+          }
+        ],
+        "description": "Auto-creates GitHub issue when OpenSpec proposal.md is written"
+      },
+      {
         "matcher": "TaskCreate|TaskUpdate",
         "hooks": [
           {

@@ -7,6 +7,7 @@
 import { log } from '../utils.js';
 import { registerHook } from '../runner.js';
 import { escalateFromHook } from '../utils/escalate.js';
+import { createFromEscalation } from '../github/issue_crud.js';
 const ESCALATION_PATTERNS = [
     {
         name: 'morph-fallback-detected',
@@ -157,6 +158,17 @@ export async function escalationTriggerHook(input) {
                 log(`[ESCALATION] Pattern detected: ${pattern.name}${result.isNovel ? ' (new)' : ' (existing)'}`);
                 if (result.patternDetected) {
                     log(`[ESCALATION] Pattern threshold met for: ${pattern.name}`);
+                    // Auto-create GitHub issue for high/critical escalations
+                    try {
+                        createFromEscalation({
+                            description: pattern.symptom(input),
+                            category: pattern.category,
+                            severity: pattern.severity,
+                        });
+                    }
+                    catch (issueErr) {
+                        log(`[ESCALATION] Issue creation failed: ${issueErr.message}`);
+                    }
                 }
             }
         }

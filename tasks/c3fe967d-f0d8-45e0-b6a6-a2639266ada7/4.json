@@ -1,9 +1,12 @@
 {
   "id": "4",
   "subject": "Wire task_completion_gate.ts to close linked issues",
-  "description": "After evidence validation passes in task_completion_gate.ts, call onTaskComplete(taskId) from ../github/task_source_sync.js to auto-close linked GitHub issues.",
+  "description": "Wired task_completion_gate.ts to close linked GitHub issues.\n\nEvidence:\n- `hooks/src/hooks/task_completion_gate.ts:25`: `import { onTaskComplete } from '../github/task_source_sync.js';`\n- `hooks/src/hooks/task_completion_gate.ts:131`: `onTaskComplete(toolInput.taskId);`\n- Verification: grep confirmed import and usage",
   "activeForm": "Wiring task completion to issue closure",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "evidencePath": "C:\\Users\\codya\\.claude\\hooks\\src\\hooks\\task_completion_gate.ts:131"
+  }
 }

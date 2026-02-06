@@ -1,9 +1,12 @@
 {
   "id": "7",
   "subject": "Add throttled auto-commit on PostToolUse",
-  "description": "Add throttled auto-commit logic (max once per 5 minutes) in unified_post_tool.ts. Uses file-based timestamp for throttling.",
+  "description": "Added throttled auto-commit on PostToolUse to unified_post_tool.ts.\n\nEvidence:\n- `hooks/src/hooks/unified_post_tool.ts:23`: `const AUTOCOMMIT_INTERVAL_MS = 5 * 60 * 1000;`\n- `hooks/src/hooks/unified_post_tool.ts:113`: `if (shouldAutoCommit()) { runAutoCommit(); markAutoCommitted(); }`\n- Uses file-based timestamp at `~/.claude/cache/last-autocommit.txt` for cross-process persistence\n- Verification: Full rewrite of unified_post_tool.ts with auto-commit logic, API key detection preserved",
   "activeForm": "Adding throttled auto-commit to PostToolUse",
-  "status": "pending",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "evidencePath": "C:\\Users\\codya\\.claude\\hooks\\src\\hooks\\unified_post_tool.ts:113"
+  }
 }

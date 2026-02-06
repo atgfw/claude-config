@@ -22,6 +22,7 @@
 import type { PreToolUseInput, PreToolUseOutput } from '../types.js';
 import { logVerbose, logBlocked } from '../utils.js';
 import { registerHook } from '../runner.js';
+import { onTaskComplete } from '../github/task_source_sync.js';
 
 /**
  * Valid evidence types for task completion
@@ -123,6 +124,16 @@ export async function taskCompletionGateHook(input: PreToolUseInput): Promise<Pr
 
   if (valid) {
     logVerbose(`[task-completion-gate] Valid evidence: ${evidenceType}`);
+
+    // Auto-close linked GitHub issue when task completes with evidence
+    if (toolInput.taskId) {
+      try {
+        onTaskComplete(toolInput.taskId);
+      } catch {
+        // Non-blocking - issue close failure should not block task completion
+      }
+    }
+
     return {
       hookSpecificOutput: {
         hookEventName: 'PreToolUse',

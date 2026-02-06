@@ -1,0 +1,9 @@
+{
+  "id": "7",
+  "subject": "Rewire around disabled debug_passthrough node",
+  "description": "Remove debug_passthrough from connection chain - rewire extract_webhook_params directly to route_by_mode",
+  "activeForm": "Fixing validator errors and rewiring debug node",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
