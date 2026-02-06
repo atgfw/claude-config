@@ -13,6 +13,6 @@
     "with": "OpenSpec spec-driven development, n8n-MCP partial workflow updates, Vitest local testing",
     "measuredBy": "Company/contact/ticket/taxonomy matching produces equivalent or better results than the 6 source ConnectWise prompts on test transcripts, with standardized confidence scores and zero regression on existing 93 test cases"
   },
-  "updatedAt": "2026-02-05T23:45:00.000Z",
+  "updatedAt": "2026-02-06T13:06:31.391Z",
   "projectScope": "C:\\Users\\codya\\coding\\n8n_n8n\\workflows\\llm_data_collection"
 }
