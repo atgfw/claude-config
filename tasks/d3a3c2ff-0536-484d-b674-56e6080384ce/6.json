@@ -1,0 +1,9 @@
+{
+  "id": "6",
+  "subject": "Create hooks/docs/n8n-governance.md (Phase 3.1)",
+  "description": "Consolidate webhook paths, naming conventions, node notes, code node linting from CLAUDE.md + existing JSDoc headers into single reference doc.",
+  "activeForm": "Creating n8n governance reference doc",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

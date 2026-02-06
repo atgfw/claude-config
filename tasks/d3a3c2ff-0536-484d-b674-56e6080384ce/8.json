@@ -1,0 +1,9 @@
+{
+  "id": "8",
+  "subject": "Consolidate tool-router/README.md into hooks/docs/tool-routing.md (Phase 3.3)",
+  "description": "Move tool-router/README.md to hooks/docs/tool-routing.md, merge Tool Selection Protocol + Legacy Routes from CLAUDE.md, fix bun-e discrepancy. Leave pointer at old location.",
+  "activeForm": "Consolidating tool routing docs",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

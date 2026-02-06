@@ -1,0 +1,9 @@
+{
+  "id": "9",
+  "subject": "Create hooks/docs/verbosity-system.md (Phase 3.4)",
+  "description": "Consolidate output levels, prefix meanings, anti-patterns, hook output functions from CLAUDE.md Context-Optimized Output section.",
+  "activeForm": "Creating verbosity system reference doc",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}

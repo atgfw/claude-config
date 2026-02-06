@@ -4,7 +4,7 @@
  * ENFORCES documentation requirements for n8n nodes.
  * Part of the Spinal Cord - global governance for child projects.
  *
- * Rules (see CLAUDE.md "n8n Node Documentation"):
+ * Rules (see hooks/docs/n8n-governance.md "Node Documentation"):
  * - All nodes MUST have substantial notes (minimum 20 characters)
  * - Notes MUST describe purpose, not just repeat node name
  * - "Display Note in Flow?" MUST be enabled (notesInFlow: true)
@@ -186,26 +186,40 @@ export function validateNodeNote(node: N8nNode): NoteValidationResult {
   // Check note presence
   if (!noteTrimmed) {
     result.valid = false;
-    result.errors.push('Node must have a note describing its purpose');
+    result.errors.push(
+      `Node must have a note describing its purpose. ` +
+        `Example: "Fetches active jobs from ServiceTitan API for current dispatch zone"`
+    );
     return result;
   }
 
   // Check minimum length
   if (noteTrimmed.length < MIN_NOTE_LENGTH) {
     result.valid = false;
-    result.errors.push(`Note too short (${noteTrimmed.length} chars, minimum ${MIN_NOTE_LENGTH})`);
+    result.errors.push(
+      `Note too short (${noteTrimmed.length} chars, minimum ${MIN_NOTE_LENGTH}). ` +
+        `Describe WHAT data is processed and WHERE it comes from`
+    );
   }
 
   // Check for placeholder text
   if (isPlaceholderNote(noteTrimmed)) {
     result.valid = false;
-    result.errors.push('Placeholder notes not allowed - describe the actual purpose');
+    result.errors.push(
+      `Placeholder notes not allowed - describe the actual purpose. ` +
+        `Bad: "TODO: add description". ` +
+        `Good: "Transforms raw API response into normalized format for downstream processing"`
+    );
   }
 
   // Check if note just duplicates name
   if (isDuplicateOfName(noteTrimmed, node.name)) {
     result.valid = false;
-    result.errors.push('Note must describe purpose, not just repeat the node name');
+    result.errors.push(
+      `Note must describe purpose, not just repeat the node name. ` +
+        `Bad: "${node.name}". ` +
+        `Good: "Retrieves customer records filtered by status and creation date"`
+    );
   }
 
   // Check for action verb (warning, not blocking)
@@ -297,7 +311,7 @@ export async function n8nNodeNoteValidatorHook(input: PreToolUseInput): Promise<
 
     logBlocked(
       `Node documentation validation failed: ${errorSummary}`,
-      'n8n Node Documentation - see CLAUDE.md'
+      'n8n Node Documentation - see hooks/docs/n8n-governance.md'
     );
 
     return {

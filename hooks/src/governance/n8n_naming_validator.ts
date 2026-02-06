@@ -4,7 +4,7 @@
  * ENFORCES naming conventions for n8n workflows and nodes.
  * Part of the Spinal Cord - global governance for child projects.
  *
- * Rules (see CLAUDE.md "n8n Naming Conventions"):
+ * Rules (see hooks/docs/n8n-governance.md "Naming Conventions"):
  * - Reserve [TAG] syntax for systems without built-in tags (n8n has native tags)
  * - Use full system names as prefixes (ServiceTitan_ not [ST])
  * - Ban version numbers in names (v1, v2, r1, r2)
@@ -412,7 +412,7 @@ export async function n8nNamingValidatorHook(input: PreToolUseInput): Promise<Pr
 
     logBlocked(
       `Naming validation failed: ${errorSummary}`,
-      'n8n Naming Conventions - see CLAUDE.md'
+      'n8n Naming Conventions - see hooks/docs/n8n-governance.md'
     );
 
     return {

@@ -1,0 +1,9 @@
+{
+  "id": "5",
+  "subject": "Enrich n8n_node_note_validator error messages (Phase 2)",
+  "description": "Add concrete good/bad note examples to block messages. Only hook that needs enrichment from audit.",
+  "activeForm": "Enriching note validator error messages",
+  "status": "in_progress",
+  "blocks": [],
+  "blockedBy": []
+}
