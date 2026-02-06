@@ -235,10 +235,7 @@ async function workRequestIssueBridge(
 
   // Link issue to session goal stack
   try {
-    const goal = createIssueGoal(detected.title, issueNumber, {
-      what: detected.title,
-      where: stack.working_directory || process.cwd(),
-    });
+    const goal = createIssueGoal(issueNumber, detected.title);
     pushGoal(sessionId, goal);
     logTerse(`[+] Auto-created issue #${issueNumber} and linked to session`);
   } catch {
