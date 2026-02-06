@@ -303,8 +303,12 @@ export async function versionFabricationDetectorHook(input) {
     // For Bash, only check echo/cat/printf that write files
     if (isBashOp) {
         const command = toolInput['command'] ?? '';
-        const isFileWrite = /(?:echo|cat|printf).*>/.test(command);
-        if (!isFileWrite) {
+        // Use word boundaries to avoid substring matches (e.g., "categories" matching "cat")
+        const hasWriteCommand = /\b(?:echo|cat|printf)\b/.test(command);
+        // Strip shell stderr/stdout redirects (2>&1, 2>/dev/null) before checking for file redirects
+        const commandSansRedirects = command.replace(/\d+>&?\d*/g, '');
+        const hasFileRedirect = />{1,2}/.test(commandSansRedirects);
+        if (!hasWriteCommand || !hasFileRedirect) {
             return {
                 hookSpecificOutput: {
                     hookEventName: 'PreToolUse',

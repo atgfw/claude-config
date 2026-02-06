@@ -1,0 +1,25 @@
+  ⎿  UserPromptSubmit hook error
+
+● Bash(cd /c/Users/codya/.claude && gh issue close 22 --reason completed --comment "Migration to LLM Extractor
+      categories is complete." 2>&1)
+  ⎿  PreToolUse:Bash hook returned blocking error
+  ⎿  Error: Fabricated versioning detected: &1. Never create version suffixes (_v2, _new, _backup) or version
+     numbers unless the project already uses versioning or the user explicitly requests it.
+
+     DETECTED PATTERNS:
+       - &1
+
+     ALLOWED EXCEPTIONS:
+     - Canonical terms: oauth2, base64, sha256, es6, etc.
+     - Projects with existing versioning (package.json, CHANGELOG.md, etc.)
+     - User explicitly requests versioning
+
+     … +4 lines (ctrl+o to see all)
+
+● The hook false-flagged 2>&1 as a version number. Let me retry without the redirect.
+
+● Bash(cd /c/Users/codya/.claude && gh issue close 22 --reason completed --comment "Migration to LLM Extractor
+      categories is complete.")
+  ⎿  ✓ Closed issue atgfw/claude-config#22 (ElevenLabs Agent: Migrate to LLM Extractor categories)
+  ⎿  (timeout 30s)
+  ⎿  Running PostToolUse hooks…
