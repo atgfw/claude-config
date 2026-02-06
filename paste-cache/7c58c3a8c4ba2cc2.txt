@@ -1,0 +1,144 @@
+## Audit: Latest Proposal (v4)
+
+### What's Been Fixed
+
+**generated_initial_description is back.** Listed in ticket_match fields with clear trigger: "populated only when `is_new_issue` is true." Success criteria #4 updated to match. ✅
+
+**taxonomy input schema is explicit.** Example JSON shows `categories[]` array with `type`/`subtypes[]` structure, plus `context_article` field with 10,000 char limit. ✅
+
+**ticket_match mode inference documented.** Clear breakdown:
+- `>1` tickets → multi-selection
+- `1` ticket → verification  
+- `0` tickets → input-only assessment (new issue detection without candidates)
+
+The zero-ticket mode is a smart addition — assess new-issue from transcript alone when no open tickets exist. ✅
+
+**input_timestamp moved to top-level.** Explicitly called out as input metadata, not a candidate entity. ✅
+
+**Size limits defined.** Companies 200, contacts 100, tickets 50, taxonomy 100, notes 10/ticket @ 500 chars, context_article 10K chars. ✅
+
+**match_method usage guidance added.** Notes which values are typical per subsection — helpful for implementers. ✅
+
+---
+
+### What's Still Missing
+
+**1. match_signals schema undefined.**
+
+Field is listed but structure never specified. Options:
+
+```json
+// Option A: Prose string
+"match_signals": {
+  "value": "Matching: same system (email), same user (John). Non-matching: different timeframe.",
+  "rationale": "...",
+  "confidence": 0.85
+}
+
+// Option B: Structured object
+"match_signals": {
+  "value": {
+    "matching": ["same_system", "same_user", "references_prior_work"],
+    "non_matching": ["different_timeframe"]
+  },
+  "rationale": "...",
+  "confidence": 0.85
+}
+```
+
+**Recommendation:** Go with prose string (Option A). Structured signals would require a closed enum of signal names, which is brittle. The rationale already provides structured reasoning — match_signals can be a human-readable summary.
+
+**2. generated_initial_description format undefined.**
+
+Prompt-6 had ConnectWise-specific formatting:
+- `\n` for newlines
+- `* Item` for bullets
+- Specific content structure (who, what, impact, system, errors, when, troubleshooting)
+
+**Question:** Should this be:
+- CRM-agnostic prose (caller transforms to CRM format)?
+- Format-specified via `resolution_config.description_format`?
+- Always markdown-ish (bullets, newlines) as a reasonable default?
+
+**Recommendation:** Default to plain prose with `\n` newlines and `- ` bullets. Keep it generic. If callers need CRM-specific formatting, they can post-process or request a `description_format` option later.
+
+**3. taxonomy_path field format undefined.**
+
+What's the structure? Presumably an array tracing the full hierarchy path:
+```json
+"taxonomy_path": {
+  "value": ["IT Support", "Hardware", "Printer Issue"],
+  "rationale": "...",
+  "confidence": 0.75
+}
+```
+
+**Add to spec:** "Array of strings representing the full classification path from root to selected leaf."
+
+---
+
+### Minor Observations
+
+**Standalone contacts.** Schema shows `company_id`/`company_name` as optional on contacts. Confirms standalone contacts can be matched. Good — some CRMs have contacts without company associations.
+
+**Zero-ticket mode.** When `tickets[]` is empty, the subsection assesses `is_new_issue` from transcript alone. What happens to `ticket_matches_call_issue` in this mode? Presumably always `false` or `null` since there's no ticket to match against. Worth a clarifying note.
+
+**ticket_match with 0 tickets + is_new_issue false.** Edge case: what does it mean if there are no tickets AND it's not a new issue? (Implies the conversation isn't about a support issue at all.) The rationale should explain, but worth considering in test cases.
+
+---
+
+### Updated Verification Checklist
+
+| Requirement | Status |
+|-------------|--------|
+| Company fuzzy matching | ✅ Ready |
+| Contact fuzzy matching | ✅ Ready |
+| Company-via-contact cross-reference | ✅ Ready |
+| Multi-ticket selection | ✅ Ready |
+| Single-ticket verification | ✅ Ready |
+| Zero-ticket new-issue detection | ✅ Ready |
+| New-issue detection | ✅ Ready |
+| Initial description generation | ✅ Ready (format TBD) |
+| Match signals output | ⚠️ Schema undefined |
+| Taxonomy classification | ✅ Ready |
+| Taxonomy path output | ⚠️ Format undefined |
+| Deep taxonomy hierarchies | ✅ Ready |
+| Match profiles | ✅ Ready |
+| Confidence thresholds | ✅ Ready |
+| Size limits | ✅ Ready |
+| Stateless orchestration | ✅ Ready |
+| ServiceTitan mapping | ❓ Deferred (CRM-agnostic design covers it) |
+
+---
+
+### Instructions for Claude Code
+
+```markdown
+## Final Pre-Implementation Items
+
+1. **Define match_signals as prose string.** Add to spec:
+   - Type: string (not structured object)
+   - Content: Human-readable summary of matching/non-matching signals
+   - Example: "Matching: same system (email client), same user (John Smith), references 'yesterday's call'. Non-matching: different error message."
+
+2. **Define taxonomy_path format.** Add to spec:
+   - Type: array of strings
+   - Content: Full path from root to selected classification
+   - Example: ["Voice Telephony", "Extension Issue"]
+
+3. **Define generated_initial_description format.** Add to spec:
+   - Plain prose with `\n` for line breaks and `- ` for bullets
+   - Content should include: who affected, what's happening, impact, system/device, error messages (if any), when started, troubleshooting attempted
+   - CRM-specific formatting is caller's responsibility via post-processing
+
+4. **Clarify zero-ticket mode behavior.** Add note:
+   - When `tickets[]` is empty, `ticket_matches_call_issue` is always `null` (no ticket to match against)
+   - `is_new_issue` can still be true/false based on transcript content alone
+   - `matched_id` is `null`
+
+5. **Proceed to implementation.** The proposal is ready. Start with company_match and contact_match — they're the simplest and map directly to prompts 1, 2, 4.
+```
+
+---
+
+The proposal is solid. Three minor schema clarifications needed (match_signals, taxonomy_path, description format), then it's ready for implementation.

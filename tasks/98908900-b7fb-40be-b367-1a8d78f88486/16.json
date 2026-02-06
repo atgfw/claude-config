@@ -1,9 +1,0 @@
-{
-  "id": "16",
-  "subject": "Validate openspec after all audit fixes",
-  "description": "Run bunx openspec validate add-crm-entity-resolution --strict to verify all changes pass validation.",
-  "activeForm": "Validating openspec",
-  "status": "pending",
-  "blocks": [],
-  "blockedBy": []
-}

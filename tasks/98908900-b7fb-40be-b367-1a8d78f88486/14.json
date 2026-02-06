@@ -1,9 +1,0 @@
-{
-  "id": "14",
-  "subject": "Add ServiceTitan entity mapping note",
-  "description": "Per audit: document how ServiceTitan entities map to candidate_sets (Customers->companies, Contacts->contacts, Jobs->tickets, BU/JobTypes->taxonomy). Note as example mapping, not authoritative.",
-  "activeForm": "Adding ServiceTitan entity mapping",
-  "status": "pending",
-  "blocks": [],
-  "blockedBy": []
-}

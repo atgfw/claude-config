@@ -1,9 +1,0 @@
-{
-  "id": "15",
-  "subject": "Add contact company_id optionality note",
-  "description": "Per audit minor nit: clarify that contacts without company_id are valid (standalone contacts, or when company isn't known yet). Already marked optional in schema but could use explicit note.",
-  "activeForm": "Clarifying contact company_id optionality",
-  "status": "pending",
-  "blocks": [],
-  "blockedBy": []
-}

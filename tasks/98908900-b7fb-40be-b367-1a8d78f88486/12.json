@@ -1,9 +1,0 @@
-{
-  "id": "12",
-  "subject": "Document ticket_match mode inference from tickets[] length",
-  "description": "Per audit: document that tickets[].length determines behavior (>1=selection, 1=verification, 0=input-only assessment). Already in design.md microprompts but needs prominence in proposal and spec.",
-  "activeForm": "Documenting ticket_match mode inference",
-  "status": "in_progress",
-  "blocks": [],
-  "blockedBy": []
-}
