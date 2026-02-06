@@ -296,6 +296,69 @@ describe('Version Fabrication Detector', () => {
       });
     });
 
+    describe('Bash operations', () => {
+      it('allows Bash commands with stderr redirect (not a file write)', async () => {
+        const input: PreToolUseInput = {
+          tool_name: 'Bash',
+          tool_input: {
+            command: 'gh issue close 22 --reason completed --comment "Migration to LLM Extractor categories is complete." 2>&1',
+          },
+        };
+
+        const result = await versionFabricationDetectorHook(input);
+        expect(result.hookSpecificOutput.permissionDecision).toBe('allow');
+        expect(result.hookSpecificOutput.permissionDecisionReason).toBe('Not a file write operation');
+      });
+
+      it('allows Bash commands without file redirects', async () => {
+        const input: PreToolUseInput = {
+          tool_name: 'Bash',
+          tool_input: {
+            command: 'git status',
+          },
+        };
+
+        const result = await versionFabricationDetectorHook(input);
+        expect(result.hookSpecificOutput.permissionDecision).toBe('allow');
+      });
+
+      it('allows Bash with words containing cat/echo as substrings', async () => {
+        const input: PreToolUseInput = {
+          tool_name: 'Bash',
+          tool_input: {
+            command: 'gh issue list --label "categories" 2>&1',
+          },
+        };
+
+        const result = await versionFabricationDetectorHook(input);
+        expect(result.hookSpecificOutput.permissionDecision).toBe('allow');
+      });
+
+      it('still blocks actual echo file writes with version patterns', async () => {
+        const input: PreToolUseInput = {
+          tool_name: 'Bash',
+          tool_input: {
+            command: 'echo "function handler_v2() {}" > /tmp/test.ts',
+          },
+        };
+
+        const result = await versionFabricationDetectorHook(input);
+        expect(result.hookSpecificOutput.permissionDecision).toBe('deny');
+      });
+
+      it('still blocks cat heredoc writes with version patterns', async () => {
+        const input: PreToolUseInput = {
+          tool_name: 'Bash',
+          tool_input: {
+            command: 'cat << EOF > /tmp/config_v2.json\n{"key": "value"}\nEOF',
+          },
+        };
+
+        const result = await versionFabricationDetectorHook(input);
+        expect(result.hookSpecificOutput.permissionDecision).toBe('deny');
+      });
+    });
+
     // Note: Tests for "Project with existing versioning" and "File already has versioning"
     // are skipped because bun's test runner doesn't allow mocking node:fs module exports.
     // These behaviors are tested manually or via integration tests.
