@@ -13,6 +13,6 @@
     "with": "OpenSpec spec-driven development, n8n-MCP partial workflow updates, Vitest local testing",
     "measuredBy": "Company/contact/ticket/taxonomy matching produces equivalent or better results than the 6 source ConnectWise prompts on test transcripts, with standardized confidence scores and zero regression on existing 93 test cases"
   },
-  "updatedAt": "2026-02-06T14:50:41.559Z",
+  "updatedAt": "2026-02-06T14:51:45.063Z",
   "projectScope": "C:\\Users\\codya\\coding\\n8n_n8n\\openspec\\changes\\add-crm-entity-resolution\\proposal.md | C:\\Users\\codya\\coding\\n8n_n8n\\openspec\\changes\\add-crm-entity-resolution\\design.md | C:\\Users\\codya\\coding\\n8n_n8n\\openspec\\changes\\add-crm-entity-resolution\\specs\\crm-entity-resolution\\spec.md | C:\\Users\\codya\\coding\\n8n_n8n\\openspec\\changes\\add-crm-entity-resolution\\tasks.md | https://n8n.atgfw.com (workflow 8ZN0l9BHo1zBKDnl)"
 }
