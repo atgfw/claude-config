@@ -1,9 +1,15 @@
 {
   "id": "10",
   "subject": "Create and run tests for Phase 2-3 code node implementations",
-  "description": "Write test files for url-discovery, tier-tavily-crawl, tier-firecrawl-crawl, tier-jina-reader, tier-http-basic, and pick-best-primary. Run all tests and fix any failures.",
+  "description": "Created 6 test files for Phase 2-3 code nodes. All 294 tests pass across 13 files.\n\nEvidence:\n- `tests/code-nodes/website-rag-crawler/url-discovery/url-discovery.test.ts:1` - 21 tests for `parseSitemapXml`, `generateDefaultUrls`, `processTavilyMapResponse`, `discoverUrls`\n- `tests/code-nodes/website-rag-crawler/tier-tavily-crawl/tier-tavily-crawl.test.ts:1` - 14 tests for `transformTavilyResponse`, `buildTavilyCrawlParams`\n- `tests/code-nodes/website-rag-crawler/tier-firecrawl-crawl/tier-firecrawl-crawl.test.ts:1` - 19 tests for `transformFirecrawlResponse`, `buildFirecrawlCrawlBody`, `shouldSkipFirecrawl`\n- `tests/code-nodes/website-rag-crawler/tier-jina-reader/tier-jina-reader.test.ts:1` - 20 tests for `buildJinaUrl`, `extractMarkdownTitle`, `transformJinaResponse`, `assembleJinaResult`\n- `tests/code-nodes/website-rag-crawler/tier-http-basic/tier-http-basic.test.ts:1` - 29 tests for `stripHtmlToText`, `assembleHttpResult`\n- `tests/code-nodes/website-rag-crawler/pick-best-primary/pick-best-primary.test.ts:1` - 20 tests for `pickBestPrimary`, `evaluateTierResult`\n\nVerification: `bunx vitest run tests/code-nodes/website-rag-crawler/` => 13 passed, 294 tests passed, 4 skipped",
   "activeForm": "Running Phase 2-3 tests",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "testPassed": {
+      "testId": "website-rag-crawler-phase-2-3",
+      "timestamp": "2026-02-06T07:23:02Z"
+    }
+  }
 }

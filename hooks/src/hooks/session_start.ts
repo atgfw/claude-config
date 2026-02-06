@@ -21,6 +21,7 @@ import { detectImplementedFile } from '../github/issue_file_detector.js';
 import { closeIssue } from '../github/issue_crud.js';
 import { syncFromGitHub } from '../github/task_source_sync.js';
 import { auditFolderHygiene } from '../session/folder_hygiene_auditor.js';
+import { autoCommitAndPush as unifiedAutoCommit } from './auto_commit_push.js';
 import { getStats as getLedgerStats } from '../ledger/correction_ledger.js';
 import { formatForSessionStart as formatEscalationReport } from '../escalation/reporter.js';
 import {
@@ -306,8 +307,20 @@ export async function sessionStartHook(input: SessionStartInput): Promise<Sessio
   log('');
   log('[COMPACT MODE] Session validation cached - pre-task checks will skip for 1 hour');
 
-  // Step 9: Auto-commit and push ~/.claude repo
-  await autoCommitAndPush(issues, successes);
+  // Step 9: Auto-commit and push ~/.claude repo (unified module)
+  log('Step 9: Auto-commit and Push');
+  log('-'.repeat(30));
+  try {
+    const committed = unifiedAutoCommit(getClaudeDir());
+    if (committed) {
+      successes.push('Session state auto-pushed');
+    }
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : 'Unknown error';
+    log(`[!] Push failed: ${msg}`);
+  }
+
+  log('');
 
   // Step 10: Sync GitHub issues to local registry
   await syncGitHubIssues(issues, successes);
@@ -631,91 +644,7 @@ async function checkEscalationStatus(issues: string[], successes: string[]): Pro
   }
 }
 
-/**
- * Auto-commit and push ~/.claude repo state (non-blocking)
- */
-async function autoCommitAndPush(issues: string[], successes: string[]): Promise<void> {
-  log('Step 9: Auto-commit and Push');
-  log('-'.repeat(30));
-
-  const claudeDir = getClaudeDir();
-
-  try {
-    // Check for uncommitted changes in tracked directories
-    const status = execSync('git status --porcelain ledger/ openspec/', {
-      cwd: claudeDir,
-      encoding: 'utf-8',
-      stdio: 'pipe',
-    }).trim();
-
-    if (!status) {
-      log('[--] No changes to push');
-      log('');
-      return;
-    }
-
-    // Stage ledger and openspec changes
-    execSync('git add ledger/ openspec/', {
-      cwd: claudeDir,
-      encoding: 'utf-8',
-      stdio: 'pipe',
-    });
-
-    // Check if there are staged changes
-    try {
-      execSync('git diff --cached --quiet', {
-        cwd: claudeDir,
-        encoding: 'utf-8',
-        stdio: 'pipe',
-      });
-      // No staged changes
-      log('[--] No staged changes');
-      log('');
-      return;
-    } catch {
-      // diff --cached returns exit 1 when there ARE changes - this is expected
-    }
-
-    // Commit
-    execSync('git commit -m "chore(sync): session state sync"', {
-      cwd: claudeDir,
-      encoding: 'utf-8',
-      stdio: 'pipe',
-    });
-
-    // Pull with rebase before push
-    try {
-      execSync('git pull --rebase origin main', {
-        cwd: claudeDir,
-        encoding: 'utf-8',
-        stdio: 'pipe',
-        timeout: 15_000,
-      });
-    } catch {
-      log('[!] Rebase conflict, skipping push');
-      issues.push('Git rebase conflict on auto-push');
-      log('');
-      return;
-    }
-
-    // Push
-    execSync('git push origin main', {
-      cwd: claudeDir,
-      encoding: 'utf-8',
-      stdio: 'pipe',
-      timeout: 15_000,
-    });
-
-    log('[+] Session state pushed');
-    successes.push('Session state auto-pushed');
-  } catch (error) {
-    const msg = error instanceof Error ? error.message : 'Unknown error';
-    log(`[!] Push failed: ${msg}`);
-    // Non-blocking: warn but do not add to issues that block session
-  }
-
-  log('');
-}
+// Auto-commit function removed - now imported from auto_commit_push.ts as unifiedAutoCommit
 
 /**
  * Build kanban board and return context string (non-blocking)
