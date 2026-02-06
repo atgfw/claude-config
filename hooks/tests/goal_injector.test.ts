@@ -104,12 +104,12 @@ describe('loadGoal (legacy global)', () => {
 
 describe('formatGoalContext (session-scoped)', () => {
   it('returns empty string when no session goal', () => {
-    expect(formatGoalContext(createEmptyGoal())).toBe('');
+    expect(formatGoalContext()).toBe('');
   });
 
   it('formats session goal hierarchy', () => {
     pushTestGoal('Build dashboard', { what: 'a metrics dashboard' });
-    const result = formatGoalContext(createEmptyGoal());
+    const result = formatGoalContext();
     expect(result).toContain('ACTIVE GOAL HIERARCHY');
     expect(result).toContain('Build dashboard');
   });

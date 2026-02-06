@@ -8,7 +8,9 @@ This is the **Spinal Cord** - a centralized nervous system that superintends the
 
 ## Active Goal Display (MANDATORY)
 
-**EVERY response MUST end with the active goal from `~/.claude/ledger/active-goal.json`.**
+**EVERY response MUST end with the active goal from the session-scoped goal stack (injected via hooks).**
+
+The authoritative goal source is the session goal stack (`sessions/{id}/goal-stack.json`), NOT `active-goal.json`. The `active-goal.json` file is a sync artifact for cross-tool visibility and MUST NOT be used as the primary source - it is scoped by `projectScope` to prevent cross-session bleeding.
 
 Format (append to end of every message):
 

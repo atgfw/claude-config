@@ -3,7 +3,7 @@
   "subject": "Phase 2: Fix registry bloat and deduplication",
   "description": "Deduplicate hygiene-audit-registry writes, compact issue-sync-registry, backfill github_repo, clean existing bloated files",
   "activeForm": "Fixing registry bloat",
-  "status": "pending",
+  "status": "in_progress",
   "blocks": [],
   "blockedBy": []
 }

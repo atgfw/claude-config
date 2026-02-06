@@ -1,9 +1,16 @@
 {
   "id": "2",
   "subject": "Phase 1: Fix goal injection leak across sessions",
-  "description": "Fix goal_auto_derivation.ts (projectScope check), goal_stack.ts (thread workingDir), goal_injector.ts (remove dead param), CLAUDE.md (session-scoped display), clear active-goal.json",
+  "description": "Phase 1 complete: Fixed goal injection leak.\\n\\nEvidence:\\n- `hooks/src/hooks/goal_auto_derivation.ts:424` - `if (scopeMatches) {` wraps steps 2-4 in projectScope check\\n- `hooks/src/session/goal_stack.ts:234` - `function syncGoalToActiveGoalJson(goal: GoalLevel, workingDir?: string): void {`\\n- `hooks/src/session/goal_stack.ts:286` - `const effectiveCwd = workingDir ?? process.cwd();`\\n- `hooks/src/hooks/goal_injector.ts:111` - `export function formatGoalContext(sessionId?: string): string {` (removed dead _goal param)\\n- `CLAUDE.md:11` - Updated to reference session-scoped goal stack\\n- `ledger/active-goal.json` - Cleared stale CRM goal\\n\\nVerification: `bun test ./tests/goal_injector.test.ts` - 13 pass, 0 fail. `bun test ./tests/session/goal_stack.test.ts` - 57 pass, 1 pre-existing known bug fail. `bun run build` - success.",
   "activeForm": "Fixing goal injection leak",
-  "status": "in_progress",
+  "status": "completed",
   "blocks": [],
-  "blockedBy": []
+  "blockedBy": [],
+  "metadata": {
+    "testPassed": {
+      "testId": "goal_injector+goal_stack",
+      "timestamp": "2026-02-06T15:30:00Z"
+    },
+    "evidencePath": "hooks/src/hooks/goal_auto_derivation.ts:424|hooks/src/session/goal_stack.ts:286|hooks/src/hooks/goal_injector.ts:111"
+  }
 }

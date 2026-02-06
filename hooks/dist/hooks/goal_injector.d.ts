@@ -44,7 +44,7 @@ export declare function saveGoal(goal: ActiveGoal): void;
  * Format goal context using the session-scoped system.
  * NO GLOBAL FALLBACK - each session has its own goals.
  */
-export declare function formatGoalContext(_goal: ActiveGoal, sessionId?: string): string;
+export declare function formatGoalContext(sessionId?: string): string;
 export declare function hasDehydratedFields(goal: ActiveGoal): boolean;
 /**
  * UserPromptSubmit hook - inject goal context on every user prompt

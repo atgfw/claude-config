@@ -1,0 +1,121 @@
+Looking at the proposal and tasks against what I know about the source prompts and the existing extraction workflow:
+
+---
+
+## Audit: What Claude Code Got Right
+
+**Naming is better than my draft.** `crm_entity_resolution` with short subsection names (`company_match`, `contact_match`) is cleaner than my redundant `crm_lookup` / `crm_company_lookup` pattern.
+
+**Confidence per-field is correct.** The `{value, rationale, confidence}` wrapper is the right pattern.
+
+**Size limits and truncation logic.** Task 1.5 addresses ticket notes and taxonomy article truncation — this is essential for token budget.
+
+**Subsection activation based on candidate_sets presence.** Smart fallback when `resolution_subsections` isn't explicitly provided.
+
+**co_resolved_contact_id on company_match.** This captures prompt-4's cross-reference behavior where you find a company via a contact match. Good catch.
+
+---
+
+## Audit: What's Missing or Unclear
+
+### 1. The Input Data Question
+
+The plan never clarifies: does `crm_entity_resolution` operate on raw `input_data` (the transcript), or does it consume the output of other extraction categories (`extracted.caller.caller_first_name`)?
+
+The original Rewst prompts work on raw transcripts. But if the extraction workflow already pulled `caller_first_name` and `company_name` in the `caller` category, the resolution shouldn't re-extract — it should match those values against candidates.
+
+**Clarify:** Resolution subsections should be able to reference extracted values from other categories in the same request. The LLM sees both raw input AND extraction results for other categories. The microprompts should instruct: "Using the extracted `caller.caller_first_name` and `caller.company_name` values, match against the provided company candidates."
+
+### 2. ticket_match is Under-Specified
+
+Claude Code's ticket_match has:
+- matched_id
+- is_new_issue
+- match_method
+- match_signals
+
+But prompt-6 has TWO distinct boolean questions:
+- `ticket_matches_call_issue` — does the input relate to this ticket?
+- `call_is_new_issue` — is this the first report?
+
+These are independent. You can have:
+- Match + not new issue (follow-up call on existing ticket)
+- Match + new issue (first call, ticket was just opened as placeholder)
+- No match + new issue (completely new problem, no ticket exists)
+
+**Fix:** Add `is_match` field (or rename `matched_id` semantics). A null `matched_id` means no match, but when `matched_id` is populated, `is_new_issue` tells you whether this is first contact or follow-up.
+
+### 3. Missing: Generated Description
+
+Prompt-6 outputs `initial_description_from_call` when `is_new_issue` is true. This is synthesis, not matching. But it's tightly coupled to ticket resolution — you only generate it when you've determined this is a new issue.
+
+The user flagged overlap with `request.detailed_description`. They're different:
+- `request.detailed_description` — what the caller said about their problem (extraction)
+- `initial_description_from_call` — a formatted, CRM-ready ticket description synthesized from the transcript
+
+**Decision needed:** Does ticket_match include a `generated_initial_description` field, or does the parent workflow handle synthesis separately? I'd lean toward keeping it in ticket_match since the generation decision depends on `is_new_issue`.
+
+### 4. Chained Resolution Pattern Not Addressed
+
+The common pattern is: resolve company → filter contacts by company → resolve contact. The plan mentions the parent workflow handles this, but doesn't specify the interface.
+
+**Clarify:** When calling with both `companies` and `contacts` candidate sets:
+- Does `contact_match` automatically scope to the `company_match` result?
+- Or does the caller pre-filter contacts before calling?
+
+Recommend: Let the caller pre-filter. Keep resolution stateless. But document this expectation.
+
+### 5. Match Profile Behavioral Specs Missing
+
+Task 4.2 says "map profile names to behavioral instruction paragraphs" but doesn't define what those paragraphs say.
+
+**Add to spec or design doc:**
+- `conservative`: "Return null unless match is unambiguous. It is better to return no match than a wrong match."
+- `balanced`: "Return best match if confidence exceeds threshold. Null if ambiguous or below threshold."
+- `phonetic_tolerant`: "Account for voice transcription artifacts: phonetic spellings, ASR errors, partial names. Apply Soundex/Metaphone-style reasoning."
+- `exact_only`: "Only match if extracted value exactly matches a candidate name or alias."
+
+### 6. No Mention of match_method Enum Values
+
+Tasks mention `match_method` field but don't define the allowed values. From my earlier plan:
+- `exact` — name matched exactly
+- `fuzzy` — minor spelling differences
+- `phonetic` — sounds-alike matching
+- `semantic` — contextual inference
+- `cross_reference` — matched via related entity (e.g., company via contact's company_id)
+- `null` — no match
+
+**Add to schema definition in tasks 2.2–2.5.**
+
+---
+
+## Instructions for Claude Code
+
+```markdown
+## Before You Start
+
+1. **Read the 6 source prompts in full.** They're in `workflows/llm_data_collection/old_connectwise_prompts/`. The proposal references them but the tasks assume you've internalized the matching logic, null-preference behavior, and confidence semantics.
+
+2. **Clarify the input contract.** Add a section to the design doc specifying:
+   - crm_entity_resolution sees BOTH raw input_data AND extracted values from other categories requested in the same call
+   - Microprompts should reference extracted values by path (e.g., "the extracted caller.company_name value")
+   - Resolution doesn't re-extract — it matches already-extracted values against candidates
+
+3. **Expand ticket_match fields.** Add `is_match` boolean or clarify that non-null `matched_id` implies match. Keep `is_new_issue` separate — it answers "first report?" not "does it match?"
+
+4. **Decide on generated_initial_description.** Either:
+   - Add it to ticket_match (couples synthesis with resolution)
+   - Document that parent workflow handles it separately using request.detailed_description + is_new_issue flag
+
+5. **Define match_method enum values.** Add to each subsection schema: exact, fuzzy, phonetic, semantic, cross_reference.
+
+6. **Write out match profile behavioral paragraphs.** These get injected into system prompt. Define exact wording for conservative, balanced, phonetic_tolerant, exact_only.
+
+7. **Document the chained resolution pattern.** State explicitly: this workflow is stateless, caller pre-filters candidates if needed, company_match result is NOT automatically used to filter contact_match candidates within the same call.
+
+8. **Start with company_match and contact_match.** These are the simplest and have the clearest source prompts (1, 2, 4). Get those working before tackling ticket_match complexity.
+```
+
+---
+
+Want me to produce a revised design.md or spec.md that addresses these gaps?

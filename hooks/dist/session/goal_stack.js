@@ -132,7 +132,7 @@ export function pushGoal(sessionId, goal) {
     // Only sync issue/epic goals to active-goal.json (not task goals)
     // Task goals are ephemeral session work; issue goals are the primary context
     if (goal.type === 'issue' || goal.type === 'epic') {
-        syncGoalToActiveGoalJson(goal);
+        syncGoalToActiveGoalJson(goal, stack.working_directory);
     }
 }
 /**
@@ -143,7 +143,7 @@ export function pushGoal(sessionId, goal) {
  * IMPORTANT: Includes project scope tracking to prevent cross-session bleeding.
  * The `fields.where` field is used to track which project owns this goal.
  */
-function syncGoalToActiveGoalJson(goal) {
+function syncGoalToActiveGoalJson(goal, workingDir) {
     const activeGoalPath = path.join(getClaudeDir(), 'ledger', 'active-goal.json');
     try {
         // Load existing to preserve history
@@ -178,8 +178,9 @@ function syncGoalToActiveGoalJson(goal) {
         // This prevents race conditions when two sessions work on the same issue from different projects
         const currentProjectScope = existing.projectScope;
         const goalProjectDir = goal.fields.where !== 'unknown' ? goal.fields.where : null;
-        if (!currentProjectScope || isPathMatch(process.cwd(), currentProjectScope)) {
-            existing.projectScope = goalProjectDir ?? process.cwd();
+        const effectiveCwd = workingDir ?? process.cwd();
+        if (!currentProjectScope || isPathMatch(effectiveCwd, currentProjectScope)) {
+            existing.projectScope = goalProjectDir ?? effectiveCwd;
         }
         // If projectScope is set and doesn't match current cwd, do NOT overwrite
         // Track linked GitHub issue if present

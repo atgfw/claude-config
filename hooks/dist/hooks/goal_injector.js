@@ -68,7 +68,7 @@ export function saveGoal(goal) {
  * Format goal context using the session-scoped system.
  * NO GLOBAL FALLBACK - each session has its own goals.
  */
-export function formatGoalContext(_goal, sessionId) {
+export function formatGoalContext(sessionId) {
     // Session-scoped hierarchy only (legacy goal param ignored)
     const resolvedSessionId = sessionId ?? getSessionId();
     const stack = loadGoalStack(resolvedSessionId);

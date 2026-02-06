@@ -18,7 +18,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { execSync } from 'node:child_process';
 import { registerHook } from '../runner.js';
-import { getClaudeDir, log } from '../utils.js';
+import { getClaudeDir, log, isPathMatch } from '../utils.js';
 import { getSessionId, loadGoalStack, saveGoalStack, pushGoal, createDefaultFields, } from '../session/goal_stack.js';
 // ============================================================================
 // Context Detection (minimal - just detect, don't parse)
@@ -308,49 +308,57 @@ function deriveGoalFromContext(workingDir) {
             issueNumber: branchInfo.issueNumber,
         };
     }
-    // 2. Check active-goal.json for linked OpenSpec
+    // 2-4: Check active-goal.json, but ONLY if projectScope matches current workingDir.
+    // This prevents goals from project A leaking into sessions for project B.
     const activeGoal = loadActiveGoalFile();
-    if (activeGoal?.linkedArtifacts?.openspec) {
-        const proposal = loadOpenSpecProposal(activeGoal.linkedArtifacts.openspec);
-        if (proposal && proposal.status !== 'completed' && proposal.status !== 'archived') {
-            const goal = createMinimalOpenSpecGoal(proposal.changeId, proposal.title);
-            return {
-                source: 'openspec',
-                goal,
-                confidence: 'high',
-                reason: `Linked OpenSpec proposal: ${proposal.changeId}`,
-                needsExtraction: true,
-            };
+    const scopeMatches = !activeGoal?.projectScope || isPathMatch(workingDir, activeGoal.projectScope);
+    if (scopeMatches) {
+        // 2. Check active-goal.json for linked OpenSpec
+        if (activeGoal?.linkedArtifacts?.openspec) {
+            const proposal = loadOpenSpecProposal(activeGoal.linkedArtifacts.openspec);
+            if (proposal && proposal.status !== 'completed' && proposal.status !== 'archived') {
+                const goal = createMinimalOpenSpecGoal(proposal.changeId, proposal.title);
+                return {
+                    source: 'openspec',
+                    goal,
+                    confidence: 'high',
+                    reason: `Linked OpenSpec proposal: ${proposal.changeId}`,
+                    needsExtraction: true,
+                };
+            }
         }
-    }
-    // 3. Check active-goal.json for linked GitHub issues
-    if (activeGoal?.linkedArtifacts?.github_issues?.length) {
-        const issueNumber = activeGoal.linkedArtifacts.github_issues[0];
-        if (issueNumber) {
-            const title = fetchGitHubIssueTitle(issueNumber, workingDir);
-            const goalTitle = title ?? `Issue #${issueNumber}`;
-            const goal = createMinimalIssueGoal(issueNumber, goalTitle);
+        // 3. Check active-goal.json for linked GitHub issues
+        if (activeGoal?.linkedArtifacts?.github_issues?.length) {
+            const issueNumber = activeGoal.linkedArtifacts.github_issues[0];
+            if (issueNumber) {
+                const title = fetchGitHubIssueTitle(issueNumber, workingDir);
+                const goalTitle = title ?? `Issue #${issueNumber}`;
+                const goal = createMinimalIssueGoal(issueNumber, goalTitle);
+                return {
+                    source: 'active-goal',
+                    goal,
+                    confidence: 'high',
+                    reason: `Linked GitHub issue from active-goal.json: #${issueNumber}`,
+                    needsExtraction: needsExtraction(goal.fields),
+                    issueNumber,
+                };
+            }
+        }
+        // 4. Use active-goal.json if it has a defined goal
+        if (activeGoal?.goal || activeGoal?.summary) {
+            const goal = goalFromActiveGoalFile(activeGoal);
             return {
                 source: 'active-goal',
                 goal,
-                confidence: 'high',
-                reason: `Linked GitHub issue from active-goal.json: #${issueNumber}`,
+                confidence: 'medium',
+                reason: 'Using goal from active-goal.json',
                 needsExtraction: needsExtraction(goal.fields),
-                issueNumber,
+                issueNumber: activeGoal.linkedArtifacts?.github_issues?.[0],
             };
         }
     }
-    // 4. Use active-goal.json if it has a defined goal
-    if (activeGoal?.goal || activeGoal?.summary) {
-        const goal = goalFromActiveGoalFile(activeGoal);
-        return {
-            source: 'active-goal',
-            goal,
-            confidence: 'medium',
-            reason: 'Using goal from active-goal.json',
-            needsExtraction: needsExtraction(goal.fields),
-            issueNumber: activeGoal.linkedArtifacts?.github_issues?.[0],
-        };
+    else {
+        log(`[goal-auto-derivation] Skipping active-goal.json: projectScope "${activeGoal?.projectScope}" does not match workingDir "${workingDir}"`);
     }
     // 5. No goal derivable
     return {
