@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "Audit contact_group_name migration in OnCall Connect workflow",
+  "description": "Trace the contact_group_name field through the Rewst workflow to determine if the old elevenlabs_body_data_analysis is fully superseded by the new LLM Data Extraction pipeline. Identify all remaining legacy dependencies.",
+  "activeForm": "Auditing contact_group_name migration status",
+  "status": "pending",
+  "blocks": [],
+  "blockedBy": []
+}

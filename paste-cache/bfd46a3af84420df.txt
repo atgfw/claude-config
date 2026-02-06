@@ -1,0 +1,1662 @@
+{
+  "019a0806cd5479f6aa30cc87cd446061": {
+    "input": {
+      "message": "{{CTX.failure_message}}"
+    },
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 1,
+    "metadata": {
+      "x": 1727.9999999999998,
+      "y": 2592.0000000000005
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "3dcf7e07-234a-4581-bba4-dd80a57bee36",
+        "when": "{{ SUCCEEDED }}",
+        "do": [],
+        "publish": [],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "core_fail",
+    "description": "Action that fails",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "019a0806cd5479f6aa30cc86d85fd0c2": {
+    "input": {
+      "company_name": "{{CTX.company_name|d(none)}}",
+      "contact_last_name": "{{CTX.contact_last_name|d(none)}}",
+      "contact_first_name": "{{CTX.contact_first_name|d(none)}}",
+      "contact_phone_number": "{{CTX.contact_phone_number|d(none)}}",
+      "contact_email_address": null
+    },
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 0,
+    "metadata": {
+      "x": 744,
+      "y": 1296
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "find_client_and_contact",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "019a0806-cd55-7abc-bdc5-096ef2a74c44",
+        "when": "{{ SUCCEEDED }}",
+        "do": [
+          "019a0806cd5479f6aa30cc78c64d8a12"
+        ],
+        "publish": [
+          {
+            "key": "contact_id",
+            "value": "{{CTX.find_client_and_contact.contact_id}}"
+          },
+          {
+            "key": "contact_name",
+            "value": "{{CTX.find_client_and_contact.contact_name}}"
+          }
+        ],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "find_client_and_contact",
+    "description": "",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "3826065fdeed4b49b7c7fad4c4f4541f": {
+    "input": {},
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 1,
+    "metadata": {
+      "x": 2136,
+      "y": 1176
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "5e6ba768-82c6-4064-b069-5b9f34823dbd",
+        "when": "{{ SUCCEEDED }}",
+        "do": [
+          "95831ea236e34f449506df3740ce0ec5"
+        ],
+        "publish": [
+          {
+            "key": "on_call_responder_phone_number",
+            "value": "{%- set output = CTX.occ_contacts.result.workflow_output|d({}) -%}\r\n{%- set contacts = output.resolved_contacts|d([]) -%}\r\n{%- set eligible = [] -%}\r\n{%- for c in contacts -%}\r\n{%- set qh = c.notification_logic|d({}) -%}\r\n{%- set qh_action = qh.action|d('deliver_immediately') -%}\r\n{%- set is_suppressed = qh.is_in_quiet_hours|d(false) and qh_action not in ['deliver_immediately','suppress_sms'] -%}\r\n{%- if not is_suppressed -%}\r\n{%- set _ = eligible.append(c) -%}\r\n{%- endif -%}\r\n{%- endfor -%}\r\n{%- set matches = [] -%}\r\n{%- for c in eligible -%}\r\n{%- if c.source in ['schedule', 'mock_data'] and matches|length == 0 -%}\r\n{%- set _ = matches.append(c) -%}\r\n{%- endif -%}\r\n{%- endfor -%}\r\n{%- if matches|length == 0 -%}\r\n{%- for c in eligible -%}\r\n{%- set g_names = c.contact_groups|d([])|map(attribute='name')|map('lower')|list -%}\r\n{%- if 'oncall connect' in g_names and matches|length == 0 -%}\r\n{%- set _ = matches.append(c) -%}\r\n{%- endif -%}\r\n{%- endfor -%}\r\n{%- endif -%}\r\n{%- if matches|length == 0 and contacts|length > 0 -%}\r\n{%- for c in contacts -%}\r\n{%- if c.source in ['schedule', 'mock_data'] and matches|length == 0 -%}\r\n{%- set _ = matches.append(c) -%}\r\n{%- endif -%}\r\n{%- endfor -%}\r\n{%- endif -%}\r\n{%- set target = matches|first|d(none) -%}\r\n{%- set phones = target.contact_info.phone_numbers|d([]) if target else [] -%}\r\n{%- set phone_number = phones[0].value if phones else None -%}\r\n{%- if not phone_number -%}\r\n{%- set fallback_raw = CTX.occ_settings.vars.occ_alert_escalation_phone_number|d(None) -%}\r\n{%- if fallback_raw -%}\r\n{%- set fallback_str = fallback_raw|string -%}\r\n{%- set fallback_clean = fallback_str|regex_replace('[^0-9]','') -%}\r\n{%- set phone_number = '+1' ~ fallback_clean if fallback_clean|length == 10 else ('+' ~ fallback_clean if not fallback_clean.startswith('+') else fallback_clean) -%}\r\n{%- endif -%}\r\n{%- endif -%}\r\n{{ phone_number }}"
+          },
+          {
+            "key": "conversation_initiation_client_data",
+            "value": "{%- set raw_company = CTX.company_name|d('')|string|trim -%}\r\n{%- set company = '' if raw_company|lower in ['','none','null','unspecified','unknown'] else raw_company -%}\r\n{%- set company_display = company if company else 'a customer' -%}\r\n{%- set raw_first = CTX.caller_first_name|d('')|string|trim -%}\r\n{%- set first = '' if raw_first|lower in ['','none','null','unspecified','unknown'] else raw_first -%}\r\n{%- set raw_last = CTX.caller_last_name|d('')|string|trim -%}\r\n{%- set last = '' if raw_last|lower in ['','none','null','unspecified','unknown'] else raw_last -%}\r\n{%- set name_parts = [] -%}\r\n{%- if first -%}{%- set _ = name_parts.append(first) -%}{%- endif -%}\r\n{%- if last -%}{%- set _ = name_parts.append(last) -%}{%- endif -%}\r\n{%- set caller_name = name_parts|join(' ') -%}\r\n{%- if caller_name and company -%}\r\n{%- set caller_desc = caller_name ~ ' from ' ~ company -%}\r\n{%- elif caller_name -%}\r\n{%- set caller_desc = caller_name -%}\r\n{%- elif company -%}\r\n{%- set caller_desc = 'Someone from ' ~ company -%}\r\n{%- else -%}\r\n{%- set caller_desc = 'A caller' -%}\r\n{%- endif -%}\r\n{%- set raw_summary = CTX.request_summary|d('')|string|trim -%}\r\n{%- set summary = '' if raw_summary|lower in ['','none','null','unspecified','unknown'] else raw_summary -%}\r\n{%- set raw_dept = CTX.department|d('')|string|trim -%}\r\n{%- set dept = '' if raw_dept|lower in ['','none','null','unspecified','unknown','general'] else raw_dept -%}\r\n{%- if summary -%}\r\n{%- set request_context = 'regarding ' ~ summary -%}\r\n{%- elif dept -%}\r\n{%- set request_context = 'for the ' ~ dept ~ ' department' -%}\r\n{%- else -%}\r\n{%- set request_context = 'with a service request' -%}\r\n{%- endif -%}\r\n{%- set raw_callback = CTX.caller_phone_number|d('')|string|trim -%}\r\n{%- set callback = '' if raw_callback|lower in ['','none','null'] or raw_callback|replace('-','')|replace(' ','')|length < 7 else raw_callback -%}\r\n{%- set callback_info = ('The callback number is ' ~ callback ~ '.') if callback else '' -%}\r\n{%- set raw_group = CTX.contact_group_name|d('')|string|trim -%}\r\n{%- set group = '' if raw_group|lower in ['','none','null','unspecified','unknown','service','general'] else raw_group -%}\r\n{%- set group_display = group if group else 'your team' -%}\r\n{%- set raw_time = CTX.event_time_call_start|d('')|string|trim -%}\r\n{%- set event_time = '' if raw_time|lower in ['','none','null','recently'] else raw_time -%}\r\n{%- set event_time_display = ('at ' ~ event_time) if event_time else 'recently' -%}\r\n{%- set ack_methods = [] -%}\r\n{%- set teams_on = (CTX.teams_notifications_enabled|d(false)|string).lower() in ['true','1','yes','y'] -%}\r\n{%- set sms_on = (CTX.sms_notifications_enabled|d(false)|string).lower() in ['true','1','yes','y'] -%}\r\n{%- set email_on = (CTX.email_notifications_enabled|d(false)|string).lower() in ['true','1','yes','y'] -%}\r\n{%- set sms_recipients = CTX.sms_consented_numbers|d([]) -%}\r\n{%- if teams_on -%}\r\n{%- set _ = ack_methods.append('respond to the Teams alert') -%}\r\n{%- endif -%}\r\n{%- if sms_on and sms_recipients|length > 0 -%}\r\n{%- set _ = ack_methods.append('reply to the SMS') -%}\r\n{%- endif -%}\r\n{%- if email_on -%}\r\n{%- set _ = ack_methods.append('reply to the alert email') -%}\r\n{%- endif -%}\r\n{%- if ack_methods|length == 0 -%}\r\n{%- set ack_method = 'contact your dispatcher' -%}\r\n{%- elif ack_methods|length == 1 -%}\r\n{%- set ack_method = ack_methods[0] -%}\r\n{%- elif ack_methods|length == 2 -%}\r\n{%- set ack_method = ack_methods[0] ~ ' or ' ~ ack_methods[1] -%}\r\n{%- else -%}\r\n{%- set ack_method = ack_methods[:-1]|join(', ') ~ ', or ' ~ ack_methods[-1] -%}\r\n{%- endif -%}\r\n{{ {\"dynamic_variables\": {\r\n  \"firstName\": \"On-Call\",\r\n  \"lastName\": \"Responder\",\r\n  \"system_name\": \"OnCall Connect\",\r\n  \"ack_method\": ack_method,\r\n  \"company_name\": company_display,\r\n  \"contact_group_name\": group_display,\r\n  \"session_id\": CTX.session_id,\r\n  \"event_time_call_start\": event_time_display,\r\n  \"request_summary\": summary if summary else 'a service request',\r\n  \"alert_type\": \"an\",\r\n  \"alert_mode\": \"after_hours\",\r\n  \"caller_description\": caller_desc,\r\n  \"request_context\": request_context,\r\n  \"callback_info\": callback_info,\r\n  \"callback_number\": callback,\r\n  \"is_urgent\": false\r\n}} }}"
+          }
+        ],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "call_template",
+    "description": "Selects the on-call responder and assembles dynamic variables for initiating an ElevenLabs outbound voice alert.",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "aed26b10b133494f832e50bed7d191b5": {
+    "input": {},
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 0,
+    "metadata": {
+      "x": 2088,
+      "y": 96
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_ALL",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "fe532538-1118-48ec-b6c7-9e644124866d",
+        "when": "",
+        "do": [
+          "7377ccafa1c74088b52f99776920c0d3"
+        ],
+        "publish": [
+          {
+            "key": "elevenlabs_body_data_analysis",
+            "value": "{{ CTX.elevenlabs_body_data_analysis | from_yaml_string }}"
+          },
+          {
+            "key": "sms_recap",
+            "value": "{%- set ct = CTX.call_transcript|from_yaml_string if CTX.call_transcript is string else CTX.call_transcript|d({}) -%}\r\n{%- set ns = namespace(text=None, sent=false, error=false) -%}\r\n{%- for turn in ct.transcript|d([]) -%}\r\n{%- for tc in turn.tool_calls|d([]) -%}\r\n{%- if tc.tool_name|d('')|regex_search('send_recap_sms$') and tc.called -%}\r\n{%- set ns.text = tc.params.outbound_message_text|d(None) -%}\r\n{%- endif -%}\r\n{%- endfor -%}\r\n{%- for tr in turn.tool_results|d([]) -%}\r\n{%- if tr.tool_name|d('')|regex_search('send_recap_sms$') -%}\r\n{%- set ns.sent = tr.called and not tr.is_error -%}\r\n{%- set ns.error = tr.is_error|d(false) -%}\r\n{%- endif -%}\r\n{%- endfor -%}\r\n{%- endfor -%}\r\n{{ {'text': ns.text, 'sent': ns.sent, 'error': ns.error} }}"
+          },
+          {
+            "key": "recording_url",
+            "value": "{{ (\"https://n8n.atgfw.com/webhook/telnyx-recording?recording_id=\" ~ (CTX.recording_id|d(None))) if CTX.recording_id is defined and CTX.recording_id|d(None) else None }}"
+          },
+          {
+            "key": "call_duration_secs",
+            "value": "{{ (CTX.call_transcript|from_yaml_string).call.duration_secs|d(0) }}"
+          },
+          {
+            "key": "call_transferred",
+            "value": "{%- set ct = CTX.call_transcript|from_yaml_string if CTX.call_transcript is string else CTX.call_transcript|d({}) -%}{%- set transferred = false -%}{%- for turn in ct.transcript|d([]) -%}{%- for tc in turn.tool_calls|d([]) -%}{%- if tc.tool_name == 'transfer_to_human' and tc.called -%}{%- set transferred = true -%}{%- endif -%}{%- endfor -%}{%- endfor -%}{{ transferred }}"
+          },
+          {
+            "key": "call_transfer_destination",
+            "value": "{%- set ct = CTX.call_transcript|from_yaml_string if CTX.call_transcript is string else CTX.call_transcript|d({}) -%}{%- set dest = None -%}{%- for turn in ct.transcript|d([]) -%}{%- for tc in turn.tool_calls|d([]) -%}{%- if tc.tool_name == 'transfer_to_human' and tc.called -%}{%- set dest = tc.params.destination|d(tc.params.department|d(None)) -%}{%- endif -%}{%- endfor -%}{%- endfor -%}{{ dest }}"
+          },
+          {
+            "key": "transfer_reason",
+            "value": "{%- set ct = CTX.call_transcript|from_yaml_string if CTX.call_transcript is string else CTX.call_transcript|d({}) -%}{%- set reason = None -%}{%- for turn in ct.transcript|d([]) -%}{%- for tc in turn.tool_calls|d([]) -%}{%- if tc.tool_name == 'transfer_to_human' and tc.called -%}{%- set reason = tc.params.reason|d(None) -%}{%- endif -%}{%- endfor -%}{%- endfor -%}{{ reason }}"
+          },
+          {
+            "key": "event_time_call_start",
+            "value": "{%- set ct = CTX.call_transcript|from_yaml_string if CTX.call_transcript is string else CTX.call_transcript|d({}) -%}{%- set start_epoch = ct.call.start_time_unix_secs|d(0)|int -%}{%- set tz = ct.call.timezone|d('') or 'America/New_York' -%}{{ start_epoch|convert_from_epoch|as_timezone(tz)|format_datetime('%-I:%M %p') if start_epoch > 0 else None }}"
+          },
+          {
+            "key": "event_time_details_captured",
+            "value": "{%- set ct = CTX.call_transcript|from_yaml_string if CTX.call_transcript is string else CTX.call_transcript|d({}) -%}{%- set start_epoch = ct.call.start_time_unix_secs|d(0)|int -%}{%- set tz = ct.call.timezone|d('') or 'America/New_York' -%}{%- set recap_time = None -%}{%- for turn in ct.transcript|d([]) -%}{%- if turn.role == 'agent' and ('recap' in turn.text|d('')|lower or 'submitted' in turn.text|d('')|lower or 'let me confirm' in turn.text|d('')|lower) -%}{%- set recap_time = turn.time_in_call_secs|d(0)|int -%}{%- endif -%}{%- endfor -%}{%- set event_epoch = start_epoch + (recap_time if recap_time else (ct.call.duration_secs|d(0)|int // 2)) -%}{{ event_epoch|convert_from_epoch|as_timezone(tz)|format_datetime('%-I:%M %p') if start_epoch > 0 else None }}"
+          },
+          {
+            "key": "event_time_sms_sent",
+            "value": "{%- set ct = CTX.call_transcript|from_yaml_string if CTX.call_transcript is string else CTX.call_transcript|d({}) -%}\r\n{%- set start_epoch = ct.call.start_time_unix_secs|d(0)|int -%}\r\n{%- set tz = ct.call.timezone|d('')|trim or 'America/New_York' -%}\r\n{%- set ns = namespace(sms_time=None) -%}\r\n{%- for turn in ct.transcript|d([]) -%}\r\n{%- for tc in turn.tool_calls|d([]) -%}\r\n{%- if tc.tool_name|d('')|regex_search('send_recap_sms$') and tc.called -%}\r\n{%- set ns.sms_time = turn.time_in_call_secs|d(0)|int -%}\r\n{%- endif -%}\r\n{%- endfor -%}\r\n{%- endfor -%}\r\n{% if ns.sms_time is not none %}{%- set event_epoch = start_epoch + ns.sms_time -%}{{ event_epoch|convert_from_epoch|as_timezone(tz)|format_datetime('%-I:%M %p') }}{% else %}{{ None }}{% endif %}"
+          },
+          {
+            "key": "event_time_transfer",
+            "value": "{%- set ct = CTX.call_transcript|from_yaml_string if CTX.call_transcript is string else CTX.call_transcript|d({}) -%}{%- set start_epoch = ct.call.start_time_unix_secs|d(0)|int -%}{%- set tz = ct.call.timezone|d('')|trim or 'America/New_York' -%}{%- set xfer_time = None -%}{%- for turn in ct.transcript|d([]) -%}{%- for tc in turn.tool_calls|d([]) -%}{%- if tc.tool_name == 'transfer_to_human' and tc.called -%}{%- set xfer_time = turn.time_in_call_secs|d(0)|int -%}{%- endif -%}{%- endfor -%}{%- endfor -%}{% if xfer_time is not none %}{%- set event_epoch = start_epoch + xfer_time -%}{{ event_epoch|convert_from_epoch|as_timezone(tz)|format_datetime('%-I:%M %p') }}{% else %}{{ None }}{% endif %}"
+          },
+          {
+            "key": "event_time_call_end",
+            "value": "{%- set ct = CTX.call_transcript|from_yaml_string if CTX.call_transcript is string else CTX.call_transcript|d({}) -%}{%- set start_epoch = ct.call.start_time_unix_secs|d(0)|int -%}{%- set duration = ct.call.duration_secs|d(0)|int -%}{%- set tz = ct.call.timezone|d('') or 'America/New_York' -%}{%- set end_epoch = start_epoch + duration -%}{{ end_epoch|convert_from_epoch|as_timezone(tz)|format_datetime('%-I:%M %p') if start_epoch > 0 else None }}"
+          },
+          {
+            "key": "agent_phone_number",
+            "value": "{%- set ct = CTX.call_transcript|from_yaml_string if CTX.call_transcript is string else CTX.call_transcript|d({}) -%}{%- set raw = ct.call.agent_number|d('')|string|trim -%}{%- set clean = raw|replace('+1','')|replace('+','') -%}{%- set formatted = clean[0:3] ~ '-' ~ clean[3:6] ~ '-' ~ clean[6:10] if clean|length == 10 else clean -%}{{ formatted if formatted and formatted|lower not in ['','none','null'] else None }}"
+          },
+          {
+            "key": "call_direction",
+            "value": "{%- set ct = CTX.call_transcript|from_yaml_string if CTX.call_transcript is string else CTX.call_transcript|d({}) -%}{{ ct.call.direction|d('inbound')|title }}"
+          },
+          {
+            "key": "call_type",
+            "value": "{%- set ct = CTX.call_transcript|from_yaml_string if CTX.call_transcript is string else CTX.call_transcript|d({}) -%}{%- set raw = ct.call.type|d('')|string -%}{{ raw|replace('_',' ')|title if raw else 'Phone' }}"
+          },
+          {
+            "key": "sms_consent_status",
+            "value": "{%- set ct = CTX.call_transcript|from_yaml_string if CTX.call_transcript is string else CTX.call_transcript|d({}) -%}\r\n{%- set ns = namespace(granted=false, checked=false) -%}\r\n{%- for turn in ct.transcript|d([]) -%}\r\n{%- for tc in turn.tool_calls|d([]) -%}\r\n{%- if tc.tool_name == 'store_sms_consent' and tc.called -%}\r\n{%- set ns.checked = true -%}\r\n{%- if tc.params.opt_in_status|d(0)|int == 1 -%}\r\n{%- set ns.granted = true -%}\r\n{%- endif -%}\r\n{%- endif -%}\r\n{%- endfor -%}\r\n{%- endfor -%}\r\n{%- if ns.granted -%}Granted{%- elif ns.checked -%}Declined{%- else -%}Not Requested{%- endif -%}"
+          }
+        ],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "elevenlabs",
+    "description": "init: Parses elevenlabs_body_data_analysis and publishes extracted caller info, contact details, SLA settings, and notification configuration",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "89380af5f73b41a6980abc38d1c6d7fa": {
+    "input": {
+      "parent_ctx": {
+        "rewst_makes_me_nest_this": "{{ CTX }}"
+      }
+    },
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {
+        "mocked": "true"
+      }
+    },
+    "join": 1,
+    "metadata": {
+      "x": 1295.9999999999998,
+      "y": 1296
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "b7151f05-7193-4d0e-b9ae-4698fe112836",
+        "when": "{{ SUCCEEDED }}",
+        "do": [],
+        "publish": [],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "send_emails_wrapper",
+    "description": "Completion handler workaround allows sending emails from MSP org through a subworkflow.",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "7377ccafa1c74088b52f99776920c0d3": {
+    "input": {},
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 0,
+    "metadata": {
+      "x": 1728,
+      "y": 360
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "41b00abb-e48c-4847-b8f4-7b6f700f0142",
+        "when": "{%- set data = CTX.call_transcript | d(\"{}\") | from_yaml_string -%}\r\n{%- set user_turns = data.transcript | d([]) | selectattr(\"role\", \"equalto\", \"user\") | list -%}\r\n{%- set is_inbound = (data.call | d({})).direction == \"inbound\" -%}\r\n{%- set user_texts = user_turns | map(attribute=\"text\") | map(\"trim\") | list -%}\r\n{%- set texts_no_empty = user_texts | reject(\"equalto\", \"\") | list -%}\r\n{%- set meaningful_texts = texts_no_empty | reject(\"equalto\", \"...\") | list -%}\r\n{%- set has_meaningful_text = meaningful_texts | length > 0 -%}\r\n{%- set call_duration = (data.call | d({})).duration_secs | d(0) | int -%}\r\n{%- set min_duration = CTX.occ_minimum_call_duration | d(20) | int -%}\r\n{{ (is_inbound and (not has_meaningful_text or call_duration < min_duration)) }}",
+        "do": [
+          "c2789bcbc8804f42a0218cea5700dcb5"
+        ],
+        "publish": [
+          {
+            "key": "call_validity_type",
+            "value": "{%- set data = CTX.call_transcript | d(\"{}\") | from_yaml_string -%}\r\n{%- set call_duration = (data.call | d({})).duration_secs | d(0) | int -%}\r\n{{ 'ABANDONED' if call_duration < 5 else 'TOO_SHORT' }}"
+          },
+          {
+            "key": "call_validity_reason",
+            "value": "{%- set data = CTX.call_transcript | d(\"{}\") | from_yaml_string -%}\r\n{%- set user_turns = data.transcript | d([]) | selectattr(\"role\", \"equalto\", \"user\") | list -%}\r\n{%- set user_texts = user_turns | map(attribute=\"text\") | map(\"trim\") | list -%}\r\n{%- set texts_no_empty = user_texts | reject(\"equalto\", \"\") | list -%}\r\n{%- set meaningful_texts = texts_no_empty | reject(\"equalto\", \"...\") | list -%}\r\n{%- set call_duration = (data.call | d({})).duration_secs | d(0) | int -%}\r\n{%- if call_duration < 5 -%}\r\nCall abandoned before conversation began ({{ call_duration }}s).\r\n{%- elif meaningful_texts | length == 0 -%}\r\nNo meaningful caller input detected.\r\n{%- else -%}\r\nCall too short for data collection ({{ call_duration }}s).\r\n{%- endif -%}"
+          },
+          {
+            "key": "caller_phone_number",
+            "value": "{%- set ct = CTX.call_transcript|from_yaml_string if CTX.call_transcript is string else CTX.call_transcript|d({}) -%}\r\n{%- set ext_raw = ct.call.external_number|d('')|string|trim -%}\r\n{%- set clean = ext_raw|replace('+1','')|replace('+','')|replace('-','')|replace('(','')|replace(')','')|replace(' ','')|trim -%}\r\n{%- set clean = clean|regex_replace('^1','') if clean|length == 11 and clean[0] == '1' else clean -%}\r\n{%- set formatted = clean[0:3] ~ '-' ~ clean[3:6] ~ '-' ~ clean[6:10] if clean|length == 10 else clean -%}\r\n{{ formatted if formatted and formatted|lower not in ['','none','null','unknown'] else None }}"
+          },
+          {
+            "key": "contact_group_name",
+            "value": "{{ None }}"
+          },
+          {
+            "key": "request_summary",
+            "value": "{{ 'Incomplete Call' }}"
+          },
+          {
+            "key": "detailed_description",
+            "value": "{%- set data = CTX.call_transcript | d(\"{}\") | from_yaml_string -%}\r\n{%- set call_duration = (data.call | d({})).duration_secs | d(0) | int -%}\r\nCall ended before sufficient data collection. Duration: {{ call_duration }} seconds."
+          }
+        ],
+        "label": "short_or_empty_call",
+        "left": null,
+        "top": null,
+        "orientation": null
+      },
+      {
+        "__typename": "WorkflowTransition",
+        "id": "4b98c999-91d1-4572-9b02-2ea97ffc016e",
+        "when": "{{ CTX.call_direction|lower|d(\"inbound\") == \"outbound\" }}",
+        "do": [
+          "019a0806cd5479f6aa30cc87cd446061"
+        ],
+        "publish": [
+          {
+            "key": "failure_message",
+            "value": "outbound_call_unsupported"
+          }
+        ],
+        "label": "outbound_call_unsupported",
+        "left": null,
+        "top": null,
+        "orientation": null
+      },
+      {
+        "__typename": "WorkflowTransition",
+        "id": "2105a3a1-02cb-4eac-9b5a-ba8262ddc01f",
+        "when": "",
+        "do": [
+          "b8211c1e44ea472ebc4cb3d4bf34f81f"
+        ],
+        "publish": [],
+        "label": "valid_call",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "check_valid_call",
+    "description": "Validates inbound call eligibility (direction, duration, meaningful input) before continuing workflow processing.",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "019a0806cd5479f6aa30cc83340b3960": {
+    "input": {
+      "company_name": "{{CTX.company_name|d(none)}}",
+      "contact_last_name": "{{CTX.caller_last_name|d(none)}}",
+      "contact_first_name": "{{CTX.caller_first_name|d(none)}}",
+      "contact_phone_number": "{%- set raw_phone = CTX.caller_phone_number | string -%}\r\n{%- set sanitized_phone = raw_phone\r\n  | replace('+1', '')\r\n  | replace('(', '')\r\n  | replace(')', '')\r\n  | replace('-', '')\r\n  | replace(' ', '')\r\n  | replace('.', '')\r\n  | trim\r\n-%}\r\n{{ sanitized_phone|d(none) }}",
+      "contact_email_address": null
+    },
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 1,
+    "metadata": {
+      "x": 408,
+      "y": 1392
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "find_caller_contact",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "019a0806-cd55-7abc-bdc5-096a893792bd",
+        "when": "{{ SUCCEEDED }}",
+        "do": [
+          "019a0806cd5479f6aa30cc78c64d8a12"
+        ],
+        "publish": [
+          {
+            "key": "caller_name",
+            "value": "{{CTX.find_caller_contact.contact_name}}"
+          }
+        ],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "find_caller_contact",
+    "description": "",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "019a0806cd5479f6aa30cc78c64d8a12": {
+    "input": {},
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 2,
+    "metadata": {
+      "x": 72,
+      "y": 1488
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "a1ce7ddc-a9ef-4138-97e4-cf3c98b8411b",
+        "when": "{{ CTX.find_client_and_contact.company_id == none and CTX.find_caller_contact is defined and CTX.find_caller_contact.company_id != none }}",
+        "do": [],
+        "publish": [
+          {
+            "key": "contact_id",
+            "value": "{{CTX.find_caller_contact.contact_id}}"
+          },
+          {
+            "key": "not_contact_msg",
+            "value": "Contact could not be found, instead caller was added as contact. Verify that caller is the correct contact."
+          },
+          {
+            "key": "contact_name",
+            "value": "{{CTX.find_caller_contact.contact_name}}"
+          },
+          {
+            "key": "company_id",
+            "value": "{{CTX.find_caller_contact.company_id}}"
+          },
+          {
+            "key": "company_name",
+            "value": "{{CTX.find_caller_contact.company_name}}"
+          }
+        ],
+        "label": "found caller not contact",
+        "left": null,
+        "top": null,
+        "orientation": null
+      },
+      {
+        "__typename": "WorkflowTransition",
+        "id": "019a0806-cd55-7abc-bdc5-0959aee96e16",
+        "when": "{{ SUCCEEDED }}",
+        "do": [
+          "019a0806cd5479f6aa30cc77f6ba760b"
+        ],
+        "publish": [],
+        "label": "contact_found_or_catchall",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "contact_verify",
+    "description": "Check if contact can't be found",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "07075bed8a0e45faa6759b1cdf04ca2e": {
+    "input": {
+      "name": "occ_session_{{ CTX.session_id }}",
+      "value": "{%- set now_ts = now() | string -%}\r\n{%- set wf_output = CTX.occ_contacts.workflow_output | d({}) -%}\r\n{%- set resolved = wf_output.resolved_contacts | d([]) -%}\r\n\r\n{#- Build recipients array with canonical field names -#}\r\n{%- set recipients_list = [] -%}\r\n{%- for c in resolved -%}\r\n  {%- set phones = c.contact_info.phone_numbers | d([]) -%}\r\n  {%- set emails = c.contact_info.emails | d([]) -%}\r\n  {%- set primary_phone = phones[0] if phones else {} -%}\r\n  {%- set primary_email = emails[0] if emails else {} -%}\r\n  {%- set recipient = {\r\n    \"contact_id\": c.contact_id | d(none),\r\n    \"display_name\": c.display_name | d(\"Unknown\"),\r\n    \"role\": \"primary\" if loop.index == 1 else \"cc\",\r\n    \"resolution_reason\": c.resolution_reason | d(\"on_call_rotation\"),\r\n    \"notification_action\": c.notification_logic.action | d(\"deliver_immediately\"),\r\n    \"is_in_quiet_hours\": c.notification_logic.is_in_quiet_hours | d(false),\r\n    \"sms_consent_status\": primary_phone.sms_consent.status | d(\"unknown\") if primary_phone else \"unknown\",\r\n    \"source\": c.source | d(\"schedule\"),\r\n    \"phone\": primary_phone.value | d(none) if primary_phone else none,\r\n    \"email\": primary_email.value | d(none) if primary_email else none\r\n  } -%}\r\n  {%- set _ = recipients_list.append(recipient) -%}\r\n{%- endfor -%}\r\n\r\n{{ {\r\n  \"schema_name\": \"occ_activity_session\",\r\n  \"schema_version\": \"2.0\",\r\n  \"session_id\": CTX.session_id,\r\n  \"created_at\": now_ts,\r\n  \"updated_at\": now_ts,\r\n  \"alert_acknowledged\": false,\r\n  \r\n  \"status\": {\r\n    \"state\": \"active\",\r\n    \"outcome\": \"pending\",\r\n    \"resolved_by\": none,\r\n    \"resolved_at\": none\r\n  },\r\n  \r\n  \"caller_info\": {\r\n    \"first_name\": CTX.caller_first_name or none,\r\n    \"last_name\": CTX.caller_last_name or none,\r\n    \"company_name\": CTX.company_name or none,\r\n    \"callback_number\": CTX.caller_phone_number or none,\r\n    \"service_address\": CTX.service_address or none\r\n  },\r\n  \r\n  \"request\": {\r\n    \"request_summary\": CTX.request_summary or \"New Alert\",\r\n    \"detailed_description\": CTX.detailed_description or none,\r\n    \"department\": CTX.department or none,\r\n    \"affected_asset\": CTX.affected_asset or none,\r\n    \"priority\": CTX.requested_due_date or \"Standard\"\r\n  },\r\n  \r\n  \"routing\": {\r\n    \"contact_group_name\": CTX.contact_group_name or none,\r\n    \"site_location_name\": CTX.site_location or none,\r\n    \"event_time_call_start\": CTX.event_time_call_start or none,\r\n    \"business_state\": \"closed\",\r\n    \"routing_mode\": \"on_call\"\r\n  },\r\n  \r\n  \"recipients\": recipients_list,\r\n  \r\n  \"technical_refs\": {\r\n    \"execution_id\": CTX.execution_id,\r\n    \"elevenlabs_conversation_id\": CTX.elevenlabs_conversation_id or none,\r\n    \"recording_url\": CTX.recording_url or none\r\n  },\r\n  \r\n  \"timeline\": [\r\n    {\r\n      \"timestamp\": now_ts,\r\n      \"event_type\": \"inbound_call_analyzed\",\r\n      \"status\": \"success\",\r\n      \"description\": \"Alert session created from inbound call analysis.\"\r\n    }\r\n  ]\r\n} }}",
+      "org_id": "{{ ORG().id }}",
+      "cascade": false,
+      "category": "general",
+      "run_as_user": null,
+      "pack_config_id": null
+    },
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 0,
+    "metadata": {
+      "x": 1727.9999999999995,
+      "y": 695.9999999999999
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_ALL",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "7078e90f-049f-4680-a17a-2717e5b8f1c0",
+        "when": "{{ SUCCEEDED }}",
+        "do": [
+          "432b279afd994ea1a61df2b1144a9fb3"
+        ],
+        "publish": [],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "initialize_session_state",
+    "description": "Creates the occ_activity_session object in Org Variables. Includes the legacy shim alert_acknowledgement_status so the Child Workflow can read it immediately.",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "019a0806cd5479f6aa30cc7c0ce92427": {
+    "input": {
+      "json_body": {
+        "text": "Call Recording and Transcript:\r\nhttps://elevenlabs.io/app/conversational-ai/history/{{ CTX.body.data.conversation_id }}\r\n\r\nRewst Workflow Execution:\r\n{{ CTX.execution_url }}",
+        "_info": null,
+        "member": {
+          "id": null
+        },
+        "contact": {
+          "id": null
+        },
+        "createdBy": null,
+        "issueFlag": false,
+        "dateCreated": null,
+        "externalFlag": false,
+        "internalFlag": true,
+        "resolutionFlag": false,
+        "customerUpdatedFlag": null,
+        "internalAnalysisFlag": true,
+        "processNotifications": false,
+        "detailDescriptionFlag": false
+      },
+      "path_params": {
+        "parentId": "{{CTX.new_ticket.id}}"
+      }
+    },
+    "isMocked": true,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 1,
+    "metadata": {
+      "x": 72,
+      "y": 1848
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_ALL",
+    "packOverrides": [],
+    "publishResultAs": "ticket_note",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "019a0806-cd55-7abc-bdc5-095fb8de23b4",
+        "when": "{{ SUCCEEDED }}",
+        "do": [],
+        "publish": [],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "ticket_note",
+    "description": "",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "b8211c1e44ea472ebc4cb3d4bf34f81f": {
+    "input": {
+      "url": "https://n8n.atgfw.com/webhook/llm-data-extraction",
+      "body": "{%- set ct_raw = CTX.call_transcript -%}\r\n{%- set ct = ct_raw|from_yaml_string if ct_raw is string else ct_raw|d({}) -%}\r\n{%- set transcript_entries = ct.transcript|d([]) -%}\r\n{%- set ns = namespace(transcript_lines=[]) -%}\r\n{%- for turn in transcript_entries -%}\r\n{%- set turn_text = turn.text|d('')|string -%}\r\n{%- if turn_text and turn_text|lower not in ['','none','null'] -%}\r\n{%- set role_label = 'Agent' if turn.role == 'agent' else 'Caller' -%}\r\n{%- set ns.transcript_lines = ns.transcript_lines + [role_label ~ ': ' ~ turn_text] -%}\r\n{%- endif -%}\r\n{%- endfor -%}\r\n{%- set occ_vars = CTX.occ_settings.vars|d({}) -%}\r\n{%- set routing_prefs = occ_vars.occ_notification_routing_preferences|d({}) -%}\r\n{{ {\r\n  'input_data': {\r\n    'transcript': ns.transcript_lines|join('\\n'),\r\n    'routing_config': routing_prefs,\r\n    'routing_observation': CTX.threecx_calls,\r\n    'call_metadata': {\r\n      'conversation_id': ct.conversation_id|d(CTX.conversation_id)|d(''),\r\n      'agent_id': ct.agent_id|d(CTX.agent_id)|d(''),\r\n      'caller_number': ct.call.caller_number|d(CTX.caller_number)|d(''),\r\n      'duration_secs': ct.call.duration_secs|d(CTX.call_duration_secs)|d(0)\r\n    }\r\n  },\r\n  'categories': ['caller','contact','routing','request','consent_acknowledgement','call_validity','sales'],\r\n  'source_metadata': {\r\n    'session_id': CTX.session_id|d(''),\r\n    'channel': 'oncall-connect-elevenlabs-inbound'\r\n  },\r\n  'llm_config': {\r\n    'model': 'gpt-5.2',\r\n    'temperature': 0.1\r\n  }\r\n}|tojson }}\r\n",
+      "json": null,
+      "files": [],
+      "method": "POST",
+      "params": null,
+      "cookies": null,
+      "headers": {
+        "Content-Type": "application/json",
+        "x-rewst-secret": "asdasdasdasdasdasdasdasdjkyhvltycfiy57dr6976t"
+      },
+      "timeout": "59",
+      "auth_password": null,
+      "auth_username": null,
+      "allow_redirects": true,
+      "require_2xx_status": null
+    },
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 0,
+    "metadata": {
+      "x": 2232,
+      "y": 456
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "llm_extraction_result",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "d99ec609-a30f-415e-b091-23704ca0cb3b",
+        "when": "",
+        "do": [
+          "c2789bcbc8804f42a0218cea5700dcb5"
+        ],
+        "publish": [
+          {
+            "key": "contact_group_name",
+            "value": "{%- set lde = CTX.llm_extraction_result.data.extracted|d({}) -%}\r\n{%- set dcr = {\r\n  'site_location_name': {'value': lde.routing.site_location_name.value|d(none, true)},\r\n  'department': {'value': lde.routing.department.value|d(none, true)},\r\n  'contact_group_name': {'value': lde.routing.contact_group_name.value|d(none, true)},\r\n  'routing_group_name': {'value': lde.routing.routing_group_name.value|d(none, true)}\r\n} -%}\r\n{%- set vars = CTX.occ_settings.vars|d({}) -%}\r\n{%- set prefs = CTX.occ_notification_routing_preferences|d({}) -%}\r\n{%- set invalid = ['','none','null','undefined','error','unknown'] -%}\r\n{%- set def_loc_from_schema = (prefs.company.locations|d([]))|selectattr('is_default', 'eq', true)|map(attribute='location_name')|first|d(none, true) -%}\r\n{%- set def_loc_from_vars = vars.occ_global_default_location|d(none, true) -%}\r\n{%- set def_loc = def_loc_from_schema if def_loc_from_schema else def_loc_from_vars -%}\r\n{%- set def_dept_obj = ((prefs.company.locations|d([]))|selectattr('is_default', 'eq', true)|first|d({})).departments|d([])|selectattr('is_default', 'eq', true)|first|d({}) -%}\r\n{%- set def_dept_from_schema = def_dept_obj.department_name|d(none, true) -%}\r\n{%- set def_dept_from_vars = vars.occ_global_default_department|d(none, true) -%}\r\n{%- set def_dept = def_dept_from_schema if def_dept_from_schema else def_dept_from_vars -%}\r\n{%- set valid_locations = [] -%}\r\n{%- set location_name_map = {} -%}\r\n{%- set valid_departments = [] -%}\r\n{%- set department_name_map = {} -%}\r\n{%- for loc in prefs.company.locations|d([]) -%}\r\n  {%- if loc.enabled|d(true) -%}\r\n    {%- if loc.location_name|d(none, true) -%}\r\n      {%- set loc_key = loc.location_name|string|lower|trim -%}\r\n      {%- set _ = valid_locations.append(loc_key) -%}\r\n      {%- set _ = location_name_map.update({loc_key: loc.location_name}) -%}\r\n    {%- endif -%}\r\n    {%- for dept in loc.departments|d([]) -%}\r\n      {%- if dept.enabled|d(true) and dept.department_name|d(none, true) -%}\r\n        {%- set dept_key = dept.department_name|string|lower|trim -%}\r\n        {%- set _ = valid_departments.append(dept_key) -%}\r\n        {%- set _ = department_name_map.update({dept_key: dept.department_name}) -%}\r\n      {%- endif -%}\r\n    {%- endfor -%}\r\n  {%- endif -%}\r\n{%- endfor -%}\r\n{%- set ai_loc = lde.routing.site_location_name.value|d(none, true) -%}\r\n{%- set ai_dept = lde.routing.department.value|d(none, true) -%}\r\n{%- set ai_cg = lde.routing.contact_group_name.value|d(none, true) -%}\r\n{%- set ai_rg = lde.routing.routing_group_name.value|d(none, true) -%}\r\n{%- set ai_loc_basic_valid = ai_loc and ai_loc|string|lower|trim not in invalid and 'error' not in (ai_loc|string|lower) -%}\r\n{%- set ai_loc_key = ai_loc|string|lower|trim if ai_loc_basic_valid else none -%}\r\n{%- set ai_loc_in_schema = ai_loc_key and ai_loc_key in valid_locations -%}\r\n{%- set ai_loc_valid = ai_loc_basic_valid and (ai_loc_in_schema or (valid_locations|length == 0)) -%}\r\n{%- set ai_dept_basic_valid = ai_dept and ai_dept|string|lower|trim not in invalid and 'error' not in (ai_dept|string|lower) -%}\r\n{%- set ai_dept_key = ai_dept|string|lower|trim if ai_dept_basic_valid else none -%}\r\n{%- set ai_dept_in_schema = ai_dept_key and ai_dept_key in valid_departments -%}\r\n{%- set ai_dept_valid = ai_dept_basic_valid and (ai_dept_in_schema or (valid_departments|length == 0)) -%}\r\n{%- set ai_cg_valid = ai_cg and ai_cg|string|lower|trim not in invalid and 'error' not in (ai_cg|string|lower) -%}\r\n{%- set ai_rg_valid = ai_rg and ai_rg|string|lower|trim not in invalid and 'error' not in (ai_rg|string|lower) -%}\r\n{%- set threecx_loc = CTX.threecx_calls.threecx_location_name|d(none, true) -%}\r\n{%- set threecx_loc_basic_valid = threecx_loc and threecx_loc|string|lower|trim not in invalid -%}\r\n{%- set threecx_loc_key = threecx_loc|string|lower|trim if threecx_loc_basic_valid else none -%}\r\n{%- set threecx_loc_in_schema = threecx_loc_key and threecx_loc_key in valid_locations -%}\r\n{%- set threecx_loc_valid = threecx_loc_basic_valid and (threecx_loc_in_schema or (valid_locations|length == 0)) -%}\r\n{%- set current_loc = ai_loc if ai_loc_valid else def_loc -%}\r\n{%- set current_dept = ai_dept if ai_dept_valid else def_dept -%}\r\n{%- set def_loc_key = def_loc|string|lower|trim if def_loc else none -%}\r\n{%- set caller_specified_loc = ai_loc_valid and def_loc_key and ai_loc_key != def_loc_key -%}\r\n{%- set ai_dept_key_cmp = ai_dept|string|lower|trim if ai_dept_valid else none -%}\r\n{%- set def_dept_key = def_dept|string|lower|trim if def_dept else none -%}\r\n{%- set caller_specified_dept = ai_dept_valid and def_dept_key and ai_dept_key_cmp != def_dept_key -%}\r\n{%- set current_loc_key = current_loc|string|lower|trim if current_loc else none -%}\r\n{%- set threecx_differs = threecx_loc_valid and current_loc_key and threecx_loc_key != current_loc_key -%}\r\n{%- set apply_threecx_loc_override = (not caller_specified_loc) and threecx_loc_valid and threecx_differs -%}\r\n{%- set raw_final_loc = threecx_loc if apply_threecx_loc_override else current_loc -%}\r\n{%- set raw_final_dept = current_dept -%}\r\n{%- set final_loc_key = raw_final_loc|string|lower|trim if raw_final_loc else none -%}\r\n{%- set final_dept_key = raw_final_dept|string|lower|trim if raw_final_dept else none -%}\r\n{%- set final_loc = location_name_map.get(final_loc_key, raw_final_loc) if final_loc_key else raw_final_loc -%}\r\n{%- set final_dept = department_name_map.get(final_dept_key, raw_final_dept) if final_dept_key else raw_final_dept -%}\r\n{%- if ai_cg_valid -%}\r\n  {{- ai_cg -}}\r\n{%- elif ai_rg_valid -%}\r\n  {{- ai_rg -}}\r\n{%- elif final_loc and final_dept -%}\r\n  {%- set built = (final_loc ~ ' ' ~ final_dept)|trim -%}\r\n  {%- if built and built|string|lower|trim not in invalid -%}\r\n    {{- built -}}\r\n  {%- else -%}\r\n    {{- (def_loc ~ ' ' ~ def_dept)|trim if def_loc and def_dept else none -}}\r\n  {%- endif -%}\r\n{%- elif final_loc -%}\r\n  {{- (final_loc ~ ' ' ~ def_dept)|trim if def_dept else final_loc -}}\r\n{%- elif final_dept -%}\r\n  {{- (def_loc ~ ' ' ~ final_dept)|trim if def_loc else final_dept -}}\r\n{%- else -%}\r\n  {{- (def_loc ~ ' ' ~ def_dept)|trim if def_loc and def_dept else none -}}\r\n{%- endif -%}"
+          },
+          {
+            "key": "caller_phone_number",
+            "value": "{%- set ct = CTX.call_transcript|from_yaml_string if CTX.call_transcript is string else CTX.call_transcript|d({}) -%}\r\n{%- set ext_raw = ct.call.external_number|d('')|string|trim -%}\r\n{%- set contact_phone_raw = CTX.llm_extraction_result.data.extracted.contact.contact_phone.value|d('')|string|trim -%}\r\n{%- set raw_phone = ext_raw if ext_raw and ext_raw|lower not in ['','none','null'] else contact_phone_raw -%}\r\n{%- set clean = raw_phone|replace('+1','')|replace('+','')|replace('-','')|replace('(','')|replace(')','')|replace(' ','')|trim -%}\r\n{%- set clean = clean|regex_replace('^1','') if clean|length == 11 and clean[0] == '1' else clean -%}\r\n{%- set formatted = clean[0:3] ~ '-' ~ clean[3:6] ~ '-' ~ clean[6:10] if clean|length == 10 else clean -%}{{ formatted if formatted and formatted|lower not in ['','none','null','unknown'] else None }}"
+          },
+          {
+            "key": "contact_email",
+            "value": "{{ CTX.llm_extraction_result.data.extracted.contact.contact_email.value|d(None) }}\r\n"
+          }
+        ],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "llm_data_extraction",
+    "description": "Perform an HTTP request",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [
+          "auth_password"
+        ],
+        "result": []
+      }
+    }
+  },
+  "019a0806cd5479f6aa30cc7e20c3fb43": {
+    "input": {},
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 0,
+    "metadata": {
+      "x": 72,
+      "y": 1200
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "019a0806-cd55-7abc-bdc5-0961c251cf13",
+        "when": "{{ ((CTX.caller_first_name|default('') ~ CTX.caller_last_name|default(''))|lower|trim)\r\n   == ((CTX.contact_first_name|default('') ~ CTX.contact_last_name|default(''))|lower|trim) }}",
+        "do": [
+          "019a0806cd5479f6aa30cc78c64d8a12"
+        ],
+        "publish": [],
+        "label": "true",
+        "left": null,
+        "top": null,
+        "orientation": null
+      },
+      {
+        "__typename": "WorkflowTransition",
+        "id": "019a0806-cd55-7abc-bdc5-0962ebcf2523",
+        "when": "{{ not (((CTX.caller_first_name|default('') ~ CTX.caller_last_name|default(''))|lower|trim)\r\n   == ((CTX.contact_first_name|default('') ~ CTX.contact_last_name|default(''))|lower|trim)) }}",
+        "do": [
+          "019a0806cd5479f6aa30cc83340b3960"
+        ],
+        "publish": [],
+        "label": "false",
+        "left": null,
+        "top": null,
+        "orientation": null
+      },
+      {
+        "__typename": "WorkflowTransition",
+        "id": "019a0806-cd55-7abc-bdc5-096337f7891b",
+        "when": "{{ FAILED }}",
+        "do": [
+          "019a0806cd5479f6aa30cc87cd446061"
+        ],
+        "publish": [],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "caller_is_contact",
+    "description": "Checks if the caller is different than ticket contact (calling on behalf)",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "c2789bcbc8804f42a0218cea5700dcb5": {
+    "input": {
+      "time": "{{ now() }}",
+      "department": "{{ CTX.department|d }}",
+      "contact_group_name": "{{ CTX.contact_group_name }}",
+      "site_location_name": "{{ CTX.site_location|d }}"
+    },
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {
+        "workflow_output": "{{ {\r\n  \"distribution_summary\": {\r\n    \"unique_email_recipients\": [\"atgadmin@unclebobs.info\"],\r\n    \"cc_targets\": [],\r\n    \"bcc_targets\": [\"oncallconnect@atgfw.com\"]\r\n  },\r\n  \"resolved_contacts\": [\r\n    {\r\n      \"display_name\": \"Grady A (2602217355)\",\r\n      \"source\": \"mock_data\",\r\n      \"contact_info\": {\r\n        \"emails\": [\r\n          {\r\n            \"value\": \"GradyA@unclebobs.info\",\r\n            \"is_primary\": true\r\n          }\r\n        ],\r\n        \"phone_numbers\": [\r\n          {\r\n            \"value\": \"2602217355\",\r\n            \"sms_consent\": {\r\n              \"status\": \"GRANTED\"\r\n            }\r\n          }\r\n        ]\r\n      },\r\n      \"contact_groups\": [\r\n        {\r\n          \"name\": \"OnCall Connect\",\r\n          \"department_id\": \"IT\"\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \"display_name\": \"Noise User (Ignored)\",\r\n      \"source\": \"mock_data\",\r\n      \"contact_info\": {\r\n        \"emails\": [\r\n          {\r\n            \"value\": \"noise@unclebobs.info\",\r\n            \"is_primary\": true\r\n          }\r\n        ],\r\n        \"phone_numbers\": [\r\n          {\r\n            \"value\": \"5551234567\",\r\n            \"sms_consent\": {\r\n              \"status\": \"DECLINED\"\r\n            }\r\n          }\r\n        ]\r\n      },\r\n      \"contact_groups\": [\r\n        {\r\n          \"name\": \"Other Group\",\r\n          \"department_id\": \"HR\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n} }}"
+      }
+    },
+    "join": 1,
+    "metadata": {
+      "x": 1728,
+      "y": 528
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_ALL",
+    "packOverrides": [],
+    "publishResultAs": "occ_contacts",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "e455586d-aaf9-4a8d-870e-bb32dd7ccc0e",
+        "when": "{{ SUCCEEDED }}",
+        "do": [
+          "07075bed8a0e45faa6759b1cdf04ca2e"
+        ],
+        "publish": [
+          {
+            "key": "email_to_list",
+            "value": "{%- set validity = CTX.call_validity_type|d('VALID')|upper -%}\r\n{%- set is_invalid = validity in ['ABANDONED','TOO_SHORT','INSUFFICIENT_DATA'] -%}\r\n{{ [] if is_invalid else TASKS.occ_contacts.result.workflow_output.distribution_summary.unique_email_recipients|d([]) }}"
+          },
+          {
+            "key": "email_cc_list",
+            "value": "{%- set validity = CTX.call_validity_type|d('VALID')|upper -%}\r\n{%- set is_invalid = validity in ['ABANDONED','TOO_SHORT','INSUFFICIENT_DATA'] -%}\r\n{{ [] if is_invalid else TASKS.occ_contacts.result.workflow_output.distribution_summary.cc_targets|d([]) }}"
+          },
+          {
+            "key": "email_bcc_list",
+            "value": "{%- set default_bcc = 'oncallconnect@atgfw.com' -%}\r\n{%- set bcc_raw = TASKS.occ_contacts.result.workflow_output.distribution_summary.bcc_targets|d([]) -%}\r\n{%- set bcc_list = bcc_raw if bcc_raw is iterable and bcc_raw is not string else [] -%}\r\n{%- set bcc_lower = bcc_list|map('lower')|list -%}\r\n{%- if default_bcc|lower not in bcc_lower -%}\r\n{%- set bcc_list = bcc_list + [default_bcc] -%}\r\n{%- endif -%}\r\n{{ bcc_list }}"
+          },
+          {
+            "key": "sms_consented_numbers",
+            "value": "{%- set validity = CTX.call_validity_type|d('VALID')|upper -%}\r\n{%- set is_invalid = validity in ['ABANDONED','TOO_SHORT','INSUFFICIENT_DATA'] -%}\r\n{%- if is_invalid -%}\r\n{{ [] }}\r\n{%- else -%}\r\n{%- set raw_sms = TASKS.occ_contacts.result.workflow_output.distribution_summary.unique_sms_recipients|d([]) -%}\r\n{%- set contacts = TASKS.occ_contacts.result.workflow_output.resolved_contacts|d([]) -%}\r\n{%- set suppressed_phones = [] -%}\r\n{%- for c in contacts -%}\r\n{%- set qh = c.notification_logic|d({}) -%}\r\n{%- set qh_action = qh.action|d('deliver_immediately') -%}\r\n{%- if qh.is_in_quiet_hours|d(false) and qh_action not in ['deliver_immediately','suppress_voice_call'] -%}\r\n{%- set phones = c.contact_info.phone_numbers|d([]) -%}\r\n{%- for p in phones -%}\r\n{%- set pval = p.value|d('')|regex_replace('[^0-9]','') -%}\r\n{%- set _ = suppressed_phones.append(pval) -%}\r\n{%- endfor -%}\r\n{%- endif -%}\r\n{%- endfor -%}\r\n{%- set filtered = [] -%}\r\n{%- for num in raw_sms -%}\r\n{%- set norm = num|regex_replace('[^0-9]','') -%}\r\n{%- if norm not in suppressed_phones -%}\r\n{%- set _ = filtered.append(num) -%}\r\n{%- endif -%}\r\n{%- endfor -%}\r\n{%- if filtered|length == 0 -%}\r\n{%- set fallback_raw = CTX.occ_settings.vars.occ_alert_escalation_phone_number|d(None) -%}\r\n{%- if fallback_raw -%}\r\n{%- set fallback_str = fallback_raw|string -%}\r\n{%- set fallback_clean = fallback_str|regex_replace('[^0-9]','') -%}\r\n{%- set fallback_formatted = '+1' ~ fallback_clean if fallback_clean|length == 10 else ('+' ~ fallback_clean if not fallback_clean.startswith('+') else fallback_clean) -%}\r\n{%- set _ = filtered.append(fallback_formatted) -%}\r\n{%- endif -%}\r\n{%- endif -%}\r\n{{ filtered }}\r\n{%- endif -%}"
+          },
+          {
+            "key": "notified_contacts",
+            "value": "{%- set validity = CTX.call_validity_type|d('VALID')|upper -%}\r\n{%- set is_invalid = validity in ['ABANDONED','TOO_SHORT','INSUFFICIENT_DATA'] -%}\r\n{%- set raw = [] if is_invalid else TASKS.occ_contacts.result.workflow_output.resolved_contacts|d([]) -%}\r\n{%- set out = [] -%}\r\n{%- for c in raw -%}\r\n{%- set emails = c.contact_info.emails|d([]) -%}\r\n{%- set phones = c.contact_info.phone_numbers|d([]) -%}\r\n{%- set primary_email = (emails|selectattr('is_primary','equalto',true)|first|d(emails|first|d({}))).value|d('') -%}\r\n{%- set primary_phone = (phones|first|d({})) -%}\r\n{%- set phone_val = primary_phone.value|d('') -%}\r\n{%- set consent_obj = primary_phone.sms_consent|d({}) -%}\r\n{%- set consent_status = consent_obj.status|d('unknown') -%}\r\n{%- set consent_granted = consent_status|lower == 'granted' -%}\r\n{%- set consent_label = 'Granted' if consent_granted else ('Declined' if consent_status|lower == 'declined' else 'Unknown') -%}\r\n{%- set groups = c.contact_groups|d([]) -%}\r\n{%- set first_group = groups|first|d({}) -%}\r\n{%- set notif = c.notification_logic|d({}) -%}\r\n{%- set _ = out.append({\r\n'name': c.display_name|d(''),\r\n'email': primary_email,\r\n'phone': phone_val,\r\n'sms_consent': consent_granted,\r\n'sms_consent_label': consent_label,\r\n'job_title': '',\r\n'department': first_group.department_id|d(''),\r\n'source': c.source|d('unknown'),\r\n'source_group': first_group.name|d(''),\r\n'quiet_hours': {\r\n  'is_active': notif.is_in_quiet_hours|d(false),\r\n  'action': notif.action|d('deliver_immediately'),\r\n  'description': notif.description|d('')\r\n}\r\n}) -%}\r\n{%- endfor -%}\r\n{{ out }}"
+          }
+        ],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "occ_contacts",
+    "description": "Resolves on-call contacts based on schedule, routing rules, consent, and quiet hours; publishes notification recipient lists.",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "432b279afd994ea1a61df2b1144a9fb3": {
+    "input": {},
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 0,
+    "metadata": {
+      "x": 1463.9999999999995,
+      "y": 863.9999999999997
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_ALL",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "fc2e4edf-4db5-4d9a-8407-c6e98a76e240",
+        "when": "{{ (CTX.call_validity_type|d('VALID')|upper == 'VALID') and (CTX.crm_notifications_enabled|d(false)|string).lower() in ['true','1','yes','y'] }}",
+        "do": [
+          "019a0806cd5479f6aa30cc7e20c3fb43",
+          "019a0806cd5479f6aa30cc86d85fd0c2"
+        ],
+        "publish": [],
+        "label": "crm_inactive_skip",
+        "left": null,
+        "top": null,
+        "orientation": null
+      },
+      {
+        "__typename": "WorkflowTransition",
+        "id": "fc2e4edf-4db5-4d9a-8407-c6e98a761240",
+        "when": "{{ (CTX.email_notifications_enabled|d(false)|string).lower() in ['true','1','yes','y'] }}",
+        "do": [
+          "06f361ad7f2145a6aaa19c43317ff160"
+        ],
+        "publish": [],
+        "label": "email",
+        "left": null,
+        "top": null,
+        "orientation": null
+      },
+      {
+        "__typename": "WorkflowTransition",
+        "id": "fc2e4edf-4db5-4d9a-8407-c6e98a26e240",
+        "when": "{{ (CTX.call_validity_type|d('VALID')|upper == 'VALID') and (CTX.sms_notifications_enabled|d(false)|string).lower() in ['true','1','yes','y'] }}",
+        "do": [
+          "ace4f63f675d4ad69fcc6361b2ebae91"
+        ],
+        "publish": [],
+        "label": "sms",
+        "left": null,
+        "top": null,
+        "orientation": null
+      },
+      {
+        "__typename": "WorkflowTransition",
+        "id": "fc2e4edf-4db5-4d9a-8407-c6e93a76e240",
+        "when": "{{ (CTX.call_validity_type|d('VALID')|upper == 'VALID') and (CTX.elevenlabs_outbound_notifications_enabled|d(false)|string).lower() in ['true','1','yes','y'] }}",
+        "do": [
+          "3826065fdeed4b49b7c7fad4c4f4541f"
+        ],
+        "publish": [],
+        "label": "elevenlabs_outbound",
+        "left": null,
+        "top": null,
+        "orientation": null
+      },
+      {
+        "__typename": "WorkflowTransition",
+        "id": "fc2e4edf-4db5-4d9a-8407-c6e94a76e240",
+        "when": "{{ (CTX.call_validity_type|d('VALID')|upper == 'VALID') and (CTX.teams_notifications_enabled|d(false)|string).lower() in ['true','1','yes','y'] }}",
+        "do": [
+          "d2e8205d34314b7195e54c2972975814"
+        ],
+        "publish": [],
+        "label": "teams",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "ready_to_send_notifications",
+    "description": "Action needed outside this workflow: Teams/SMS/Email acknowledgement handlers must update occ_session_{session_id}.alert_acknowledged = true for multi-channel to work. The child workflow will respect it via the check_alert_acknowledged routing.",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "019a0806cd5479f6aa30cc7a056a8a13": {
+    "input": {
+      "json_body": {
+        "sla": null,
+        "zip": null,
+        "city": null,
+        "item": {
+          "id": null
+        },
+        "site": {
+          "id": null
+        },
+        "team": {
+          "id": null
+        },
+        "type": {
+          "id": null
+        },
+        "_info": null,
+        "board": {
+          "id": "48"
+        },
+        "owner": {
+          "id": null
+        },
+        "impact": null,
+        "source": {
+          "id": "12"
+        },
+        "status": {
+          "id": null
+        },
+        "company": {
+          "id": "{{ CTX.company_id|d(CTX.catchall_company_id) }}"
+        },
+        "contact": {
+          "id": "{{ CTX.contact_id|d(none) }}"
+        },
+        "country": {
+          "id": null
+        },
+        "isInSla": null,
+        "lagDays": null,
+        "subType": {
+          "id": null
+        },
+        "summary": "{{CTX.request_summary|d('New Alert')}}",
+        "approved": null,
+        "billTime": null,
+        "closedBy": {
+          "id": null
+        },
+        "currency": {
+          "id": null
+        },
+        "duration": null,
+        "location": {
+          "id": null
+        },
+        "poNumber": null,
+        "priority": {
+          "id": null
+        },
+        "severity": null,
+        "siteName": null,
+        "workRole": {
+          "id": null
+        },
+        "workType": {
+          "id": null
+        },
+        "agreement": {
+          "id": null
+        },
+        "resources": null,
+        "slaStatus": null,
+        "closedDate": null,
+        "closedFlag": null,
+        "department": {
+          "id": null
+        },
+        "hourlyRate": null,
+        "mobileGuid": null,
+        "recordType": null,
+        "actualHours": null,
+        "budgetHours": null,
+        "contactName": null,
+        "dateResplan": null,
+        "opportunity": {
+          "id": null
+        },
+        "addressLine1": null,
+        "addressLine2": null,
+        "billExpenses": null,
+        "billProducts": null,
+        "customFields": [],
+        "dateResolved": null,
+        "externalXRef": null,
+        "requiredDate": null,
+        "skipCallback": null,
+        "billingAmount": null,
+        "billingMethod": null,
+        "dateResponded": null,
+        "predecessorId": null,
+        "hasChildTicket": null,
+        "integratorTags": [],
+        "parentTicketId": null,
+        "resPlanMinutes": null,
+        "resolveMinutes": null,
+        "respondMinutes": null,
+        "predecessorType": null,
+        "serviceLocation": {
+          "id": null
+        },
+        "stateIdentifier": null,
+        "subDateAccepted": null,
+        "automaticEmailCc": null,
+        "subBillingAmount": null,
+        "subBillingMethod": null,
+        "estimatedTimeCost": null,
+        "initialResolution": null,
+        "contactEmailLookup": null,
+        "contactPhoneNumber": null,
+        "estimatedStartDate": null,
+        "initialDescription": "{{CTX.initial_description}}",
+        "mergedParentTicket": {
+          "id": null
+        },
+        "contactEmailAddress": null,
+        "customerUpdatedFlag": null,
+        "knowledgeBaseLinkId": null,
+        "automaticEmailCcFlag": null,
+        "estimatedExpenseCost": null,
+        "estimatedProductCost": null,
+        "estimatedTimeRevenue": null,
+        "processNotifications": null,
+        "contactPhoneExtension": null,
+        "knowledgeBaseLinkType": null,
+        "lagNonworkingDaysFlag": null,
+        "predecessorClosedFlag": null,
+        "initialDescriptionFrom": null,
+        "estimatedExpenseRevenue": null,
+        "estimatedProductRevenue": null,
+        "initialInternalAnalysis": null,
+        "knowledgeBaseCategoryId": null,
+        "hasMergedChildTicketFlag": null,
+        "allowAllClientsPortalView": null,
+        "automaticEmailContactFlag": null,
+        "automaticEmailResourceFlag": null,
+        "knowledgeBaseSubCategoryId": null
+      }
+    },
+    "isMocked": true,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 1,
+    "metadata": {
+      "x": 72,
+      "y": 1728
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "new_ticket",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "019a0806-cd55-7abc-bdc5-095cdd69e917",
+        "when": "{{ SUCCEEDED }}",
+        "do": [
+          "019a0806cd5479f6aa30cc7c0ce92427"
+        ],
+        "publish": [],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "new_ticket",
+    "description": "",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "ace4f63f675d4ad69fcc6361b2ebae91": {
+    "input": {},
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 1,
+    "metadata": {
+      "x": 1728,
+      "y": 1176
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "dd7804c5-5e4b-4e73-9483-39fb0c5fa725",
+        "when": "{{ SUCCEEDED }}",
+        "do": [
+          "931b79501c4e430a95d1715c408ac7f3"
+        ],
+        "publish": [
+          {
+            "key": "sms_alert_text",
+            "value": "{%- set org_name = CTX.organization.name|d('Alert')|string|trim -%}\r\n{%- set raw_company = CTX.company_name|d('')|string|trim -%}\r\n{%- set company = raw_company if raw_company|lower not in ['','none','null','unspecified','unknown'] else '' -%}\r\n{%- set raw_first = CTX.caller_first_name|d('')|string|trim -%}\r\n{%- set raw_last = CTX.caller_last_name|d('')|string|trim -%}\r\n{%- set first = raw_first if raw_first|lower not in ['','none','null'] else '' -%}\r\n{%- set last = raw_last if raw_last|lower not in ['','none','null'] else '' -%}\r\n{%- set caller_name = ((first ~ ' ' ~ last)|trim) if (first or last) else '' -%}\r\n{%- set raw_summary = CTX.request_summary|d('')|string|trim -%}\r\n{%- set summary = raw_summary if raw_summary|lower not in ['','none','null','unspecified'] else 'Service request' -%}\r\n{%- set raw_callback = CTX.caller_phone_number|d(CTX.contact_phone)|d('')|string|trim -%}\r\n{%- set callback = raw_callback if raw_callback|lower not in ['','none','null'] and raw_callback|replace('-','')|replace(' ','')|length >= 7 else '' -%}\r\n{%- set short_session = (CTX.session_id|d('')|string)[-8:]|upper -%}\r\n{%- set lines = [] -%}\r\n{%- set _ = lines.append(org_name ~ ': ALERT') -%}\r\n{%- if company and summary != 'Service request' -%}\r\n{%- set _ = lines.append(company ~ ' - ' ~ summary) -%}\r\n{%- elif company -%}\r\n{%- set _ = lines.append(company) -%}\r\n{%- elif summary != 'Service request' -%}\r\n{%- set _ = lines.append(summary) -%}\r\n{%- endif -%}\r\n{%- if caller_name and callback -%}\r\n{%- set _ = lines.append('Caller: ' ~ caller_name ~ ' (' ~ callback ~ ')') -%}\r\n{%- elif caller_name -%}\r\n{%- set _ = lines.append('Caller: ' ~ caller_name) -%}\r\n{%- elif callback -%}\r\n{%- set _ = lines.append('Callback: ' ~ callback) -%}\r\n{%- endif -%}\r\n{%- set _ = lines.append('') -%}\r\n{%- set _ = lines.append('Reply ACK ' ~ short_session ~ ' to acknowledge') -%}\r\n{%- set _ = lines.append('or REJECT ' ~ short_session ~ ' to reject') -%}\r\n{{ lines|join('\\n') }}"
+          }
+        ],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "sms_template",
+    "description": "Builds the outbound SMS alert message body from normalized caller, company, and request context and publishes sms_alert_text for downstream delivery.",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "05175a3e975844b7adddbf82b82b841e": {
+    "input": {},
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 0,
+    "metadata": {
+      "x": 1728,
+      "y": -192
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_ALL",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "0db9d373-1a7f-445d-ae38-56a8b53ed74d",
+        "when": "{{ SUCCEEDED }}",
+        "do": [
+          "aed26b10b133494f832e50bed7d191b5",
+          "a8d9efa421f24bdfa06673a7c23828d7",
+          "50323e313f524ff2a42219ff145871e5"
+        ],
+        "publish": [
+          {
+            "key": "execution_url",
+            "value": "https://app.rewst.io/organizations/{{ CTX.organization.id }}/results/{{ CTX.execution_id }}"
+          },
+          {
+            "key": "ms_tenant_id",
+            "value": "{{ ([p.pack.id for p in CTX.trigger_instance.trigger.pack_overrides | d([]) if p.pack.name == 'Microsoft Graph'] | first | d(None)) }}"
+          },
+          {
+            "key": "session_id",
+            "value": "{{ UTILS.uuid4() }}"
+          }
+        ],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      },
+      {
+        "__typename": "WorkflowTransition",
+        "id": "bd74a4cc-a4eb-4027-82d1-8d3934bb9a0b",
+        "when": "{{ FAILED }}",
+        "do": [
+          "019a0806cd5479f6aa30cc87cd446061"
+        ],
+        "publish": [
+          {
+            "key": "failure_message",
+            "value": "failed at generating variables."
+          }
+        ],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "init",
+    "description": "init: publishes extracted caller info, contact details, SLA settings, and notification configuration",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "50323e313f524ff2a42219ff145871e5": {
+    "input": {
+      "data": null,
+      "json": null,
+      "method": "GET",
+      "params": null,
+      "cookies": null,
+      "paginate": false,
+      "raw_json": null,
+      "url_path": "{%- set ct_raw = CTX.call_transcript|d('') -%}\n{%- set ct = (ct_raw|from_yaml_string if (ct_raw is string and ct_raw|trim) else {}) if ct_raw else {} -%}\n{%- set call_obj = (ct.call if ct and ct.call else {}) -%}\n{%- set raw_caller_ctx = CTX.caller_id|d('')|string|trim -%}\n{%- set raw_caller_ct = (call_obj.external_number|d('')|string|trim) if call_obj else '' -%}\n{%- set raw_caller = raw_caller_ctx if (raw_caller_ctx and raw_caller_ctx != 'None') else raw_caller_ct -%}\n{%- set no_ext = raw_caller|regex_replace('(?i)(;ext=|extension|ext\\\\.?|x|#)\\\\s*\\\\d+.*$','') -%}\n{%- set clean = no_ext|regex_replace('[^0-9+]','') -%}\n{%- set core = (clean[1:] if clean[0:1] == '+' else (clean[2:] if clean[0:2] == '00' else clean))|regex_replace('[^0-9]','') -%}\n{%- set has_cc = (core[0:1] == '1') and (core|length == 11) -%}\n{%- set digits = core if has_cc else ('1' ~ (core[1:] if core[0:1] == '0' else core)) -%}\n{%- set norm_caller = ('+' ~ digits) if ((digits|length == 11) and (digits[0:1] == '1')) else '' -%}\n{%- set el_start = (call_obj.start_time_unix_secs if call_obj and call_obj.start_time_unix_secs else 0)|int -%}\n{%- set raw_time = CTX.time_utc|d('')|string|trim -%}\n{%- set use_raw_time = (raw_time and raw_time|length > 0 and raw_time != 'None') -%}\n{%- set use_el_start = (el_start > 0) -%}\n{%- set ts_from_raw = raw_time|parse_datetime if use_raw_time else None -%}\n{%- set ts_from_el = el_start|convert_from_epoch if use_el_start else None -%}\n{%- set ts_fallback = now() -%}\n{%- set ts = ts_from_raw if ts_from_raw else (ts_from_el if ts_from_el else ts_fallback) -%}\n{%- set from_ts = ts|datedelta(seconds=-180) -%}\n{%- set to_ts = ts|datedelta(seconds=30) -%}\n{%- set from_str = from_ts|format_datetime('%Y-%m-%dT%H:%M:%SZ') -%}\n{%- set to_str = to_ts|format_datetime('%Y-%m-%dT%H:%M:%SZ') -%}\n{{ \"/xapi/v1/ReportCallLogData/Pbx.GetCallLogData(periodFrom=\" ~ from_str ~ \",periodTo=\" ~ to_str ~ \",sourceType=0,sourceFilter='\" ~ norm_caller ~ \"',destinationType=0,destinationFilter='',callsType=2,callTimeFilterType=0,callTimeFilterFrom='0:00:0',callTimeFilterTo='0:00:0',hidePcalls=true)?$top=25&$skip=0\" }}",
+      "follow_redirects": true,
+      "require_2xx_status": true
+    },
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 0,
+    "metadata": {
+      "x": 1368.0000000000002,
+      "y": 96
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_ALL",
+    "packOverrides": [],
+    "publishResultAs": "get_threecx_call",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "0d83b6cb-327f-4678-92fb-13376468c960",
+        "when": "",
+        "do": [
+          "7377ccafa1c74088b52f99776920c0d3"
+        ],
+        "publish": [
+          {
+            "key": "threecx_calls",
+            "value": "{%- set calls = CTX.get_threecx_call.value|d([]) -%}\r\n{%- set ct_raw = CTX.call_transcript|d({}) -%}\r\n{%- set ct = ct_raw|from_yaml_string if ct_raw is string else ct_raw -%}\r\n{%- set el_duration = ct.call.duration_secs|d(0)|int -%}\r\n{%- set duration_tolerance = 10 -%}\r\n{%- set agent_raw = ct.call.agent_number|d('')|string -%}\r\n{%- set raw_agent = agent_raw|regex_replace('[^0-9]','') -%}\r\n{%- set agent_digits = raw_agent|regex_replace('[^0-9]','') -%}\r\n{%- set norm_agent = agent_digits[-10:] if agent_digits|length >= 10 else agent_digits -%}\r\n{%- set candidates = [] -%}\r\n{%- for c in calls -%}\r\n  {%- set dest_raw = c.DestinationCallerId|d('')|string|regex_replace('[^0-9]','') -%}\r\n  {%- set dest_norm = dest_raw[-10:] if dest_raw|length >= 10 else dest_raw -%}\r\n  {# === Fixed duration parsing for PT#H#M#.###S format === #}\r\n  {%- set td_raw = c.TalkingDuration|d('PT0S')|string|upper -%}\r\n  {%- set td_hrs = td_raw|regex_findall('(\\\\d+)H')|first|d('0')|int -%}\r\n  {%- set td_mins = td_raw|regex_findall('(\\\\d+)M')|first|d('0')|int -%}\r\n  {%- set td_secs = td_raw|regex_findall('([\\\\d.]+)S')|first|d('0')|float -%}\r\n  {%- set talk_secs = (td_hrs * 3600 + td_mins * 60 + td_secs)|round|int -%}\r\n  {%- set duration_diff = (talk_secs - el_duration)|abs -%}\r\n  {%- if dest_norm == norm_agent and c.Answered -%}\r\n    {%- set _ = candidates.append({'call': c, 'duration_diff': duration_diff, 'duration_match': duration_diff <= duration_tolerance, 'method': 'destination_and_duration' if duration_diff <= duration_tolerance else 'destination_only'}) -%}\r\n  {%- elif c.Answered and duration_diff <= duration_tolerance and candidates|length == 0 -%}\r\n    {%- set _ = candidates.append({'call': c, 'duration_diff': duration_diff, 'duration_match': true, 'method': 'duration_only'}) -%}\r\n  {%- endif -%}\r\n{%- endfor -%}\r\n{%- set sorted_candidates = candidates|sort(attribute='duration_diff')|list -%}\r\n{%- set best = sorted_candidates|first|d(None) -%}\r\n{%- set matched_leg = best.call if best else None -%}\r\n{%- set match_method = best.method if best else 'none' -%}\r\n{%- set duration_delta = best.duration_diff if best else None -%}\r\n{%- set main_id = matched_leg.MainCallHistoryId if matched_leg else None -%}\r\n{%- set all_segments = [] -%}\r\n{%- if main_id -%}\r\n  {%- for c in calls -%}\r\n    {%- if c.MainCallHistoryId == main_id -%}\r\n      {%- set _ = all_segments.append(c) -%}\r\n    {%- endif -%}\r\n  {%- endfor -%}\r\n{%- endif -%}\r\n{%- set inbound_legs = all_segments|selectattr('Direction','equalto','Inbound')|list -%}\r\n{%- set inbound_leg = inbound_legs|first|d(None) -%}\r\n{%- set answered_legs = all_segments|selectattr('Answered','equalto',true)|list -%}\r\n{%- set answered_leg = answered_legs|first|d(None) -%}\r\n{%- set failed_legs = [] -%}\r\n{%- for seg in all_segments -%}\r\n  {%- if not seg.Answered and seg.Direction == 'Outbound' -%}\r\n    {%- set _ = failed_legs.append(seg) -%}\r\n  {%- endif -%}\r\n{%- endfor -%}\r\n{%- if match_method == 'destination_and_duration' -%}\r\n  {%- set confidence = 'high' -%}\r\n{%- elif match_method == 'destination_only' -%}\r\n  {%- set confidence = 'medium' -%}\r\n{%- elif match_method == 'duration_only' -%}\r\n  {%- set confidence = 'low' -%}\r\n{%- else -%}\r\n  {%- set confidence = 'none' -%}\r\n{%- endif -%}\r\n\r\n{# === Extract dialed DID and location from inbound leg === #}\r\n{%- set dialed_did = None -%}\r\n{%- set dialed_did_normalized = None -%}\r\n{%- set threecx_location_raw = None -%}\r\n{%- set threecx_location_name = None -%}\r\n{%- if inbound_leg -%}\r\n  {%- set trunk_did_match = inbound_leg.Reason|d('')|regex_findall('Via trunk:[^(]+\\\\(\\\\+?(\\\\d+)\\\\)') -%}\r\n  {%- set dialed_did_raw = trunk_did_match|first|d(None) -%}\r\n  {%- if dialed_did_raw -%}\r\n    {%- set did_digits = dialed_did_raw|regex_replace('[^0-9]','') -%}\r\n    {%- set did_10 = did_digits[-10:] if did_digits|length >= 10 else did_digits -%}\r\n    {%- set dialed_did = '+1' ~ did_10 if did_10|length == 10 else dialed_did_raw -%}\r\n    {%- set dialed_did_normalized = did_10 -%}\r\n  {%- endif -%}\r\n  {%- set dest_display = inbound_leg.DestinationDisplayName|d('')|string|trim -%}\r\n  {%- set threecx_location_raw = dest_display -%}\r\n  {# === Fixed: Use * instead of ? to handle multiple keywords like \"Main AA\" === #}\r\n  {%- set loc_match = dest_display|regex_findall('^([A-Za-z][A-Za-z0-9 ]+?)(?:\\\\s+(?:Main|Service|Parts|Sales|Install|AA|Queue|Support))*(?:\\\\s*\\\\(\\\\d+\\\\))?$') -%}\r\n  {%- set threecx_location_name = loc_match|first|d(none)|trim if loc_match and loc_match|first else none -%}\r\n{%- endif -%}\r\n\r\n{%- set inbound_summary = None -%}\r\n{%- if inbound_leg -%}\r\n  {%- set inbound_summary = {'start_time': inbound_leg.StartTime, 'caller_id': inbound_leg.SourceCallerId, 'caller_display': inbound_leg.SourceDisplayName, 'destination_name': inbound_leg.DestinationDisplayName, 'destination_dn': inbound_leg.DestinationDn, 'routing_reason': inbound_leg.Reason} -%}\r\n{%- endif -%}\r\n{%- set answered_summary = None -%}\r\n{%- if answered_leg -%}\r\n  {# === Fixed duration parsing for answered_summary === #}\r\n  {%- set ans_td_raw = answered_leg.TalkingDuration|d('PT0S')|string|upper -%}\r\n  {%- set ans_td_hrs = ans_td_raw|regex_findall('(\\\\d+)H')|first|d('0')|int -%}\r\n  {%- set ans_td_mins = ans_td_raw|regex_findall('(\\\\d+)M')|first|d('0')|int -%}\r\n  {%- set ans_td_secs = ans_td_raw|regex_findall('([\\\\d.]+)S')|first|d('0')|float -%}\r\n  {%- set ans_talk_secs = (ans_td_hrs * 3600 + ans_td_mins * 60 + ans_td_secs)|round|int -%}\r\n  {%- set trunk_match = answered_leg.Reason|d('')|regex_findall('Via trunk: ([^(]+)') -%}\r\n  {%- set trunk_name = trunk_match|first|d('unknown')|trim -%}\r\n  {%- set answered_summary = {'start_time': answered_leg.StartTime, 'destination_number': answered_leg.DestinationCallerId, 'talk_duration': ans_talk_secs, 'trunk_used': trunk_name, 'routing_reason': answered_leg.Reason} -%}\r\n{%- endif -%}\r\n{%- set correlation_details = {'confidence': confidence, 'match_method': match_method, 'duration_delta_secs': duration_delta, 'elevenlabs_duration_secs': el_duration, 'agent_number_searched': norm_agent, 'total_calls_in_window': calls|length, 'segments_found': all_segments|length, 'candidates_evaluated': candidates|length, 'has_inbound_leg': inbound_leg is not none, 'has_answered_leg': answered_leg is not none, 'failed_trunks': failed_legs|map(attribute='Reason')|list} -%}\r\n\r\n{{ {'match_confidence': confidence, 'matched_call': matched_leg, 'all_segments': all_segments, 'inbound_leg': inbound_leg, 'inbound_summary': inbound_summary, 'answered_leg': answered_leg, 'answered_summary': answered_summary, 'correlation_details': correlation_details, 'dialed_did': dialed_did, 'dialed_did_normalized': dialed_did_normalized, 'threecx_location_raw': threecx_location_raw, 'threecx_location_name': threecx_location_name} }}"
+          }
+        ],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "get_threecx_call",
+    "description": "",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "019a0806cd5479f6aa30cc77f6ba760b": {
+    "input": {},
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 0,
+    "metadata": {
+      "x": 408,
+      "y": 1608
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "019a0806-cd55-7abc-bdc5-09555a7f64d9",
+        "when": "{{ CTX.find_client_and_contact.valid_company == true }}",
+        "do": [
+          "019a0806cd5479f6aa30cc7a056a8a13"
+        ],
+        "publish": [
+          {
+            "key": "company_id",
+            "value": "{{CTX.find_client_and_contact.company_id}}"
+          },
+          {
+            "key": "company_name",
+            "value": "{{CTX.find_client_and_contact.company_name}}"
+          },
+          {
+            "key": "contact_id",
+            "value": "{{CTX.find_client_and_contact.contact_id}}"
+          },
+          {
+            "key": "contact_name",
+            "value": "{{CTX.find_client_and_contact.contact_name}}"
+          }
+        ],
+        "label": "true",
+        "left": null,
+        "top": null,
+        "orientation": null
+      },
+      {
+        "__typename": "WorkflowTransition",
+        "id": "019a0806-cd55-7abc-bdc5-095606da6b5d",
+        "when": "{{ CTX.find_client_and_contact.valid_company == false }}",
+        "do": [
+          "019a0806cd5479f6aa30cc7a056a8a13"
+        ],
+        "publish": [
+          {
+            "key": "company_id",
+            "value": "{{ CTX.catchall_company_id }}"
+          }
+        ],
+        "label": "false",
+        "left": null,
+        "top": null,
+        "orientation": null
+      },
+      {
+        "__typename": "WorkflowTransition",
+        "id": "019a0806-cd55-7abc-bdc5-095748db8396",
+        "when": "{{ FAILED }}",
+        "do": [
+          "019a0806cd5479f6aa30cc87cd446061"
+        ],
+        "publish": [],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "valid_contact_company",
+    "description": "Action that does nothing",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "95831ea236e34f449506df3740ce0ec5": {
+    "input": {
+      "test": "{{ CTX.test|d(false) }}",
+      "agent_id": "agent_0701ked07a0ef4a8a3n9vhe4g57q",
+      "session_id": "{{ CTX.session_id }}",
+      "on_call_responder_phone_number": "{{ CTX.on_call_responder_phone_number }}",
+      "conversation_initiation_client_data": "{{ CTX.conversation_initiation_client_data }}"
+    },
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 0,
+    "metadata": {
+      "x": 2136,
+      "y": 1296
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_ALL",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "8b4da74d-07f6-4879-8717-35322095bc80",
+        "when": "{{ SUCCEEDED }}",
+        "do": [],
+        "publish": [],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "elevenlabs_outbound_call",
+    "description": "Orchestrates the AI calling loop. Priority: 1. Schedule 2. 'OnCall Connect' group members. Else: Escalation.",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "a8d9efa421f24bdfa06673a7c23828d7": {
+    "input": {},
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 0,
+    "metadata": {
+      "x": 1728,
+      "y": 96
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_ALL",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "46785c20-c10d-43b6-aa37-38ecbe931324",
+        "when": "",
+        "do": [
+          "7377ccafa1c74088b52f99776920c0d3"
+        ],
+        "publish": [
+          {
+            "key": "occ_settings",
+            "value": "{%- set vars = {} -%}\r\n{# --- collect occ_* vars, skip noisy keys --- #}\r\n{%- for k, v in ORG.VARIABLES().items() -%}\r\n  {%- if k.startswith('occ_') and not k.startswith('occ_initial_alert_metadata_') and not k.startswith('occ_button_alert_') and not k.startswith('occ_session_') -%}\r\n    {%- set raw = v -%}\r\n    {%- if raw is string and (raw|string|trim|is_json) -%}\r\n      {%- set parsed = (raw|string|trim)|json_parse -%}\r\n    {%- elif raw is string and (raw|string|trim|lower) in ['true','false'] -%}\r\n      {%- set parsed = ((raw|string|trim|lower) == 'true') -%}\r\n    {%- elif raw is string and (raw|string|trim|regex_match('^-?\\\\d+$')) -%}\r\n      {%- set parsed = (raw|string|trim)|int -%}\r\n    {%- elif raw is string and (raw|string|trim|regex_match('^-?\\\\d+\\\\.\\\\d+$')) -%}\r\n      {%- set parsed = (raw|string|trim)|float -%}\r\n    {%- else -%}\r\n      {%- set parsed = raw -%}\r\n    {%- endif -%}\r\n    {%- do vars.update({k: parsed}) -%}\r\n  {%- endif -%}\r\n{%- endfor -%}\r\n\r\n{# --- ensure bandwidth SMS phone number exists with fallback --- #}\r\n{%- if not vars.occ_bandwidth_from_sms_phone_number -%}\r\n  {%- set fallback = ORG.VARIABLES()['bandwidth_sms_from_number']|d('+12602031287') -%}\r\n  {%- do vars.update({'occ_bandwidth_from_sms_phone_number': fallback}) -%}\r\n{%- endif -%}\r\n\r\n{# --- Resolve Identity (Pass or Mint) --- #}\r\n{%- set stable_session_id = CTX.session_id | d(CTX.execution_id) -%}\r\n\r\n{# --- build runtime block --- #}\r\n{%- set runtime = {\r\n  \"org_id\": ORG().id,\r\n  \"session_id\": stable_session_id,\r\n  \"current_execution_id\": CTX.execution_id,\r\n  \"execution_url\": \"https://app.rewst.io/organizations/\" ~ ORG().id ~ \"/results/\" ~ CTX.execution_id,\r\n  \"now\": (now() | convert_from_epoch | string)\r\n} -%}\r\n\r\n{# --- ensure integrations.schedule_database exists --- #}\r\n{%- set integrations = vars.occ_integrations|d({}) -%}\r\n{%- if integrations is string and (integrations|string|trim|is_json) -%}\r\n  {%- set integrations = (integrations|string|trim)|json_parse -%}\r\n{%- endif -%}\r\n{%- if integrations is not mapping -%}{%- set integrations = {} -%}{%- endif -%}\r\n{%- set schedule_db = integrations.schedule_database|d({}) -%}\r\n{%- if schedule_db is not mapping -%}{%- set schedule_db = {} -%}{%- endif -%}\r\n\r\n{# --- derive sql config name --- #}\r\n{%- set sql_conf = vars.occ_sql_config_name|d('occ_sql_' ~ (ORG().id|string|lower|replace('-','_'))) -%}\r\n{%- do schedule_db.update({\"config_name\": sql_conf}) -%}\r\n{%- do integrations.update({\"schedule_database\": schedule_db}) -%}\r\n\r\n{# --- final settings object --- #}\r\n{%- set settings = {\r\n  \"vars\": vars,\r\n  \"integrations\": integrations,\r\n  \"runtime\": runtime\r\n} -%}\r\n\r\n{{ settings }}"
+          },
+          {
+            "key": "sla_start_time_friendly",
+            "value": "{{ ((CTX.call_transcript|from_yaml_string).call.start_time_unix_secs|int + (CTX.call_transcript|from_yaml_string).call.duration_secs|int)|convert_from_epoch|as_timezone('America/New_York')|format_datetime('%A, %B %-d, %Y at %-I:%M %p') }}"
+          },
+          {
+            "key": "response_sla_goal",
+            "value": "{%- set mode = CTX.occ_settings.vars.occ_default_contact_mode|d('nbd')|lower -%}{{ 'Next Business Day' if mode in ['nbd','next_business_day'] else ('During Hours' if mode in ['during_hours','overflow'] else ('After Hours' if mode == 'after_hours' else None)) }}"
+          }
+        ],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "oncall_connect",
+    "description": "Initializes OnCall Connect runtime configuration, loads org-level OCC settings, and prepares routing and SLA context.",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "931b79501c4e430a95d1715c408ac7f3": {
+    "input": {
+      "to_phone_number": "{{ item() }}",
+      "from_phone_number": "{{ CTX.occ_settings.vars.occ_bandwidth_from_sms_phone_number|d(CTX.bandwidth_from_sms_phone_number) }}",
+      "outbound_message_text": "{{ CTX.sms_alert_text }}",
+      "bypass_sms_consent_check": false,
+      "allow_long_message_length": true,
+      "bandwidth_messaging_application_id": null
+    },
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {
+        "mocked": "true"
+      }
+    },
+    "join": 1,
+    "metadata": {
+      "x": 1728,
+      "y": 1296
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": {
+      "__typename": "WorkflowTaskWithItems",
+      "items": "{{ CTX.sms_consented_numbers|d([]) }}",
+      "concurrency": "5"
+    },
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "96bfd7a1-a4c8-4c52-87b9-a54eef673720",
+        "when": "",
+        "do": [],
+        "publish": [],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "send_sms",
+    "description": "",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "d2e8205d34314b7195e54c2972975814": {
+    "input": {},
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 0,
+    "metadata": {
+      "x": 2544,
+      "y": 1176
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_ALL",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "__typename": "WorkflowTransition",
+        "id": "09afc736-f743-4239-a74e-b71c0349934d",
+        "when": "{{ SUCCEEDED }}",
+        "do": [],
+        "publish": [],
+        "label": "",
+        "left": null,
+        "top": null,
+        "orientation": null
+      }
+    ],
+    "name": "send_teams_message",
+    "description": "future",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  },
+  "06f361ad7f2145a6aaa19c43317ff160": {
+    "input": {},
+    "isMocked": false,
+    "mockInput": {
+      "mock_result": {}
+    },
+    "join": 1,
+    "metadata": {
+      "x": 1295.9999999999995,
+      "y": 1176
+    },
+    "humanSecondsSaved": 0,
+    "transitionMode": "FOLLOW_FIRST",
+    "packOverrides": [],
+    "publishResultAs": "",
+    "runAsOrgId": "",
+    "with": null,
+    "next": [
+      {
+        "do": [
+          "89380af5f73b41a6980abc38d1c6d7fa"
+        ],
+        "when": "{{ (CTX.agent_id|d('')|string in ['agent_0501k319b0q3f86bfg6f97rkhb25','agent_5001k4wxc9x1f7m91etj48rptq0y','agent_9001kbz2qbsje5avvpv2548repdq','agent_0501kecpebg3e9p8skydse9sm1j4']) }}",
+        "label": "oncall_connect",
+        "publish": [
+          {
+            "key": "email_body_html",
+            "value": "{# --- DATA PREPARATION --- #}\r\n{%- set bda = CTX.llm_extraction_result.data.extracted|d({}) -%}\r\n{%- set bda_legacy = CTX.elevenlabs_body_data_analysis|d({}) -%}\r\n{%- set bda_legacy = bda_legacy|from_yaml_string if bda_legacy is string else bda_legacy -%}\r\n{# Build dcr from new LLM extraction categories #}\r\n{%- set dcr = {} -%}\r\n{%- for cat_name in ['caller','contact','routing','request'] -%}\r\n{%- for key, field in bda[cat_name]|d({})|dictsort -%}\r\n{%- if field is mapping and field.value|d('')|string|trim|lower not in ['','none','null'] -%}\r\n{%- set _ = dcr.update({key: field}) -%}\r\n{%- endif -%}\r\n{%- endfor -%}\r\n{%- endfor -%}\r\n{%- set ecr = bda_legacy.evaluation_criteria_results|d({}) -%}\r\n{%- set ct = CTX.call_transcript|d({})|from_yaml_string if CTX.call_transcript|d({}) is string else CTX.call_transcript|d({}) -%}\r\n{%- set transcript = ct.transcript|d([]) -%}\r\n{# --- TIMEZONE & TIMESTAMP --- #}\r\n{%- set _meta = CTX.body.data.metadata|d({}) -%}\r\n{%- set _call_info = ct.call|d({}) -%}\r\n{%- set _dynvars = CTX.body.data.conversation_initiation_client_data.dynamic_variables|d({}) -%}\r\n{%- set _tz = CTX.call_timezone|d(_dynvars.system__timezone)|d(_call_info.timezone)|d('')|string|trim -%}\r\n{%- set call_timezone = _tz if (_tz and _tz|lower not in ['','none','null','unknown']) else 'America/New_York' -%}\r\n{%- set _epoch = _meta.start_time_unix_secs|d(_call_info.start_time_unix_secs)|d(0)|float|int -%}\r\n{%- set _ts = CTX.timestamp|d(CTX.event_time_call_start)|d(_dynvars.system__time_utc)|d('')|string|trim -%}\r\n{%- set call_start_dt = (_epoch|convert_from_epoch) if _epoch > 1000000000 else ((_ts|parse_datetime) if (_ts and _ts|length > 10) else None) -%}\r\n{%- macro ts(val) -%}\r\n{%- set dt = (val|convert_from_epoch) if (val is number and val > 1000000000) else ((val|string|trim|parse_datetime) if (val and val|string|length > 10 and val|string|lower not in ['','none','null']) else (val if val and val is not string and val is not number else None)) -%}\r\n{{- dt|as_timezone(call_timezone)|format_datetime('%A, %B %-d, %Y at %-I:%M %p %Z') if dt else '' -}}\r\n{%- endmacro -%}\r\n{%- set nr = CTX.notified_contacts|d([])|from_yaml_string if CTX.notified_contacts|d([]) is string else CTX.notified_contacts|d([]) -%}\r\n{%- set sms_obj = CTX.sms_recap|d({})|from_yaml_string if CTX.sms_recap|d({}) is string else CTX.sms_recap|d({}) -%}\r\n{%- set tcx = CTX.threecx_calls|d({}) -%}\r\n{%- set tcx_confidence = tcx.match_confidence|d('none') -%}\r\n{%- set tcx_inbound = tcx.inbound_summary|d({}) -%}\r\n{%- set tcx_answered = tcx.answered_summary|d({}) -%}\r\n{%- set tcx_correlation = tcx.correlation_details|d({}) -%}\r\n{%- set tcx_segments = tcx.all_segments|d([]) -%}\r\n{%- set tcx_caller_id = tcx_inbound.caller_id|d('')|string|trim -%}\r\n{%- set tcx_caller_display = tcx_inbound.caller_display|d('')|string|trim -%}\r\n{%- set tcx_dest_name = tcx_inbound.destination_name|d('')|string|trim -%}\r\n{%- set tcx_dest_dn = tcx_inbound.destination_dn|d('')|string|trim -%}\r\n{%- set tcx_routing = tcx_inbound.routing_reason|d('')|string|trim -%}\r\n{%- set tcx_trunk = tcx_answered.trunk_used|d('')|string|trim -%}\r\n{%- set tcx_talk_secs = tcx_answered.talk_duration|d(0)|int -%}\r\n{%- set tcx_failed = tcx_correlation.failed_trunks|d([]) -%}\r\n{%- set tcx_has_data = tcx_confidence not in ['none',''] and tcx_inbound|length > 0 -%}\r\n{# --- Original dialed number: the DID the caller actually dialed (from inbound trunk) --- #}\r\n{# --- Parse from routing_reason: \"Via trunk: Bandwidth (+12604633211)\" using split --- #}\r\n{%- set _routing = tcx_inbound.routing_reason|d('')|string -%}\r\n{%- set _via_parts = _routing.split('Via trunk:') -%}\r\n{%- set _after_via = _via_parts[1] if _via_parts|length > 1 else '' -%}\r\n{%- set _paren_parts = _after_via.split('(') -%}\r\n{%- set _after_open = _paren_parts[1] if _paren_parts|length > 1 else '' -%}\r\n{%- set _close_parts = _after_open.split(')') -%}\r\n{%- set _in_parens = _close_parts[0] if _close_parts|length > 0 else '' -%}\r\n{%- set _trunk_digits = _in_parens|regex_replace('[^0-9]','') -%}\r\n{%- set tcx_original_did = _trunk_digits if _trunk_digits|length >= 10 else '' -%}\r\n{# --- Fallback: try context variable --- #}\r\n{%- set tcx_original_did = tcx_original_did if tcx_original_did else CTX.original_dialed_number|d('')|string|trim -%}\r\n{%- set ns_consent = namespace(verbatim='') -%}\r\n{%- for i in range(transcript|length) -%}\r\n{%- set turn = transcript[i] -%}\r\n{%- for tc in turn.tool_calls|d([]) -%}\r\n{%- if tc.tool_name == 'store_sms_consent' and tc.called and i > 0 -%}\r\n{%- set prev_turn = transcript[i-1] -%}\r\n{%- if prev_turn.role == 'user' -%}\r\n{%- set ns_consent.verbatim = prev_turn.text|d('') -%}\r\n{%- endif -%}\r\n{%- endif -%}\r\n{%- endfor -%}\r\n{%- endfor -%}\r\n{%- set sms_consent_verbatim = ns_consent.verbatim|string|trim -%}\r\n{%- set sms_consent_verbatim = '' if sms_consent_verbatim|lower in ['','none','null'] else sms_consent_verbatim -%}\r\n{%- set has_consent_verbatim = sms_consent_verbatim and sms_consent_verbatim|length > 0 -%}\r\n{%- set sms_status_raw = CTX.sms_consent_status|d('Unknown')|string|lower -%}\r\n{%- set actual_consent = 'Granted' if (has_consent_verbatim and 'yes' in sms_consent_verbatim|lower) or sms_status_raw in ['granted','yes','true'] else 'Not Requested' if sms_status_raw in ['not_requested','none','null'] else 'Unknown' -%}\r\n\r\n{# --- HELPER MACRO (must be defined before use) --- #}\r\n{%- macro is_phone_number(text) -%}\r\n{%- set digits = text|d('')|string|regex_replace('[^0-9]','') -%}\r\n{{- 'true' if digits|length >= 10 else 'false' -}}\r\n{%- endmacro -%}\r\n{# --- VARS & NORMALIZATION --- #}\r\n{%- set ai_first = bda.caller.caller_first_name.value|d(bda.contact.contact_first_name.value)|d('')|string|trim -%}\r\n{%- set ai_last = bda.caller.caller_last_name.value|d(bda.contact.contact_last_name.value)|d('')|string|trim -%}\r\n{%- set ai_first_clean = '' if (ai_first|lower in ['','none','null','undefined','unknown'] or is_phone_number(ai_first) == 'true') else ai_first -%}\r\n{%- set ai_last_clean = '' if (ai_last|lower in ['','none','null','undefined','unknown'] or is_phone_number(ai_last) == 'true') else ai_last -%}\r\n{%- set ai_caller = ai_first_clean if (ai_first_clean and ai_first_clean|lower == ai_last_clean|lower) else ((ai_first_clean ~ ' ' ~ ai_last_clean)|trim) -%}\r\n{%- set first_raw = CTX.caller_first_name|d('')|string|trim -%}\r\n{%- set first_norm = first_raw|lower|regex_replace(\"[^a-z0-9]+\",\"\") -%}\r\n{%- set first_clean = '' if (first_norm in ['','none','null','undefined'] or is_phone_number(first_raw) == 'true') else first_raw -%}\r\n{%- set last_raw = CTX.caller_last_name|d('')|string|trim -%}\r\n{%- set last_norm = last_raw|lower|regex_replace(\"[^a-z0-9]+\",\"\") -%}\r\n{%- set last_clean = '' if (last_norm in ['','none','null','undefined'] or is_phone_number(last_raw) == 'true') else last_raw -%}\r\n{%- set raw_caller = first_clean if (first_clean and first_clean|lower == last_clean|lower) else ((first_clean ~ ' ' ~ last_clean)|trim) -%}\r\n{%- set caller_phone_raw = CTX.caller_phone_number|d(CTX.contact_phone)|d('')|string|trim -%}\r\n{%- set caller_phone_clean = caller_phone_raw if caller_phone_raw|lower not in ['','none','null'] else '' -%}\r\n{%- set caller_name_final = ai_caller if ai_caller else raw_caller -%}\r\n{%- set caller_display = caller_name_final if caller_name_final else 'Caller' -%}\r\n{%- set caller_display = 'Caller' if is_phone_number(caller_display) == 'true' else caller_display -%}\r\n{%- set user_initials = (caller_display.split()|map('first')|list|join|upper)[:2] if (caller_display and caller_display != 'Caller') else 'C' -%}\r\n{%- set loc_raw = CTX.site_location|d(bda.routing.site_location_name.value|d(''))|d('')|string|trim -%}\r\n{%- set loc_norm = loc_raw|lower|regex_replace(\"[^a-z0-9]+\",\"\") -%}\r\n{%- set loc_display = '' if loc_norm in ['','none','null','undefined'] else loc_raw -%}\r\n{%- set event_timestamp = call_start_dt|as_timezone(call_timezone) if call_start_dt else None -%}\r\n{%- set head_raw = CTX.request_summary|d(bda.request.summary.value|d(''))|trim -%}\r\n{%- set headline = head_raw if head_raw|lower|regex_replace(\"[^a-z0-9]+\",\"\") not in ['','none','null'] else None -%}\r\n{%- set desc_raw = CTX.detailed_description|d(bda.request.detailed_description.value)|d('')|trim -%}\r\n{%- set desc = (\r\n    desc_raw\r\n    |replace(\r\n        'did not give it verbally.',\r\n        'did not give it verbally; a callback number was obtained from structured caller ID.'\r\n    )\r\n    if desc_raw|lower|regex_replace(\"[^a-z0-9]+\",\"\") not in ['','none','null']\r\n    else None\r\n) -%}\r\n{%- set success_status = bda.call_successful|d('Unknown')|string|lower|trim -%}\r\n{%- set sla_target = CTX.response_sla_goal|d(None) -%}\r\n{%- set sms_from = (CTX.occ_settings.vars|d({})).occ_bandwidth_from_sms_phone_number|d(CTX.bandwidth_from_sms_phone_number)|d(ORG.VARIABLES()['occ_bandwidth_from_sms_phone_number'])|d('')|string|trim -%}\r\n{%- set validity = CTX.call_validity_type|d('VALID')|string|upper -%}\r\n{%- set val_reason = CTX.call_validity_reason|d(None) -%}\r\n{%- set email_list = CTX.email_to_list|d([]) -%}\r\n{%- set consented_sms_count = CTX.sms_consented_numbers|d([])|length -%}\r\n{%- set total_nr_count = nr|length -%}\r\n{%- set email_count = email_list|length -%}\r\n{%- set team_count = total_nr_count if total_nr_count > 0 else (email_list|length + consented_sms_count) -%}\r\n{%- set member_word = 'staff member' if team_count == 1 else 'staff members' -%}\r\n\r\n{# --- MACROS --- #}\r\n{%- macro pill(text, bg, border) -%}\r\n<span style=\"display:inline-block;max-width:240px;overflow:hidden;text-overflow:ellipsis;vertical-align:middle;padding:2px 9px;border-radius:12px;font-size:11px;font-weight:600;line-height:18px;white-space:nowrap;color:#ffffff;background-color:{{bg}};border:1px solid {{border}};\" title=\"{{ text|e }}\">{{text}}</span>\r\n{%- endmacro -%}\r\n\r\n{%- macro rationale(text) -%}\r\n{%- if text and text|lower not in ['','none','null'] -%}\r\n<div style=\"margin-top:4px;padding:8px 10px;background:#fff;border-left:2px solid #cbd5e1;font-family:Helvetica,Arial,sans-serif;font-size:11px;color:#64748b;line-height:1.4;font-style:italic;\">{{ text }}</div>\r\n{%- else -%}\r\n{{- '' -}}\r\n{%- endif -%}\r\n{%- endmacro -%}\r\n\r\n{%- macro fmt_phone(raw) -%}\r\n{%- set digits = raw|d('')|string|regex_replace('[^0-9]','')|regex_replace('^1','') -%}\r\n{%- if digits|length == 10 -%}\r\n{{- digits[0:3] ~ '-' ~ digits[3:6] ~ '-' ~ digits[6:10] -}}\r\n{%- elif digits|length > 0 -%}\r\n{{- digits -}}\r\n{%- else -%}\r\n{{- '' -}}\r\n{%- endif -%}\r\n{%- endmacro -%}\r\n\r\n{# --- BLOCKS --- #}\r\n{%- set timeline_block -%}\r\n{%- set t_start = ts(call_start_dt) -%}\r\n{%- set t_ai = ts(CTX.event_time_details_captured) -%}\r\n{%- set t_sms = ts(CTX.event_time_sms_sent) -%}\r\n{%- set t_end = ts(CTX.event_time_call_end) -%}\r\n<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\">\r\n  {# --- Caller: Use macro, detect if display is just a phone number --- #}\r\n  {%- set tl_caller_id_fmt = fmt_phone(tcx_caller_id) -%}\r\n  {%- set tl_display_raw = tcx_caller_display|d('')|string|trim -%}\r\n  {%- set tl_display_is_phone = is_phone_number(tl_display_raw) -%}\r\n  {%- set tl_caller_name = '' if (tl_display_is_phone == 'true' or tl_display_raw|lower in ['','none','null','unknown']) else tl_display_raw -%}\r\n  {%- set tl_caller_3cx = (tl_caller_name ~ ' (' ~ tl_caller_id_fmt ~ ')') if (tl_caller_name and tl_caller_id_fmt) else (tl_caller_name if tl_caller_name else tl_caller_id_fmt) -%}\r\n  {%- set el_caller_fmt = fmt_phone(CTX.caller_phone_number|d(CTX.contact_phone)|d('')) -%}\r\n  {%- set tl_caller_fallback = caller_display if (caller_display and caller_display != 'Caller' and is_phone_number(caller_display) == 'false') else el_caller_fmt -%}\r\n  {%- set use_caller = tl_caller_3cx if (tcx_has_data and tl_caller_3cx) else tl_caller_fallback -%}\r\n  {# --- Destination: Strip DN from name if already embedded, e.g. \"Name (860)\" --- #}\r\n  {%- set tl_dest_name_raw = tcx_dest_name|d('')|string|trim -%}\r\n  {%- set tl_dest_dn = tcx_dest_dn|d('')|string|trim -%}\r\n  {%- set tl_dest_name_clean = tl_dest_name_raw|regex_replace('\\\\s*\\\\(' ~ tl_dest_dn ~ '\\\\)\\\\s*$','') if tl_dest_dn else tl_dest_name_raw -%}\r\n  {%- set tl_dest_name_clean = tl_dest_name_clean if tl_dest_name_clean|lower not in ['','none','null'] else '' -%}\r\n  {%- set tl_dest_3cx = (tl_dest_name_clean ~ ' [' ~ tl_dest_dn ~ ']') if (tl_dest_name_clean and tl_dest_dn) else (tl_dest_name_clean if tl_dest_name_clean else tl_dest_dn) -%}\r\n  {%- set use_dest = tl_dest_3cx if (tcx_has_data and tl_dest_3cx) else loc_display -%}\r\n  {# --- Target phone (the original DID the caller dialed - from 3CX or fallback) --- #}\r\n  {%- set tl_target_phone = fmt_phone(tcx_original_did) if (tcx_has_data and tcx_original_did) else fmt_phone(CTX.original_dialed_number|d('')) -%}\r\n  {%- set tl_target_part = (' at ' ~ tl_target_phone) if tl_target_phone else '' -%}\r\n  {# --- Build Description --- #}\r\n  {%- set contacted_desc = (use_caller ~ ' called ' ~ use_dest ~ tl_target_part ~ '.') if (use_caller and use_dest) else ((use_caller ~ ' called' ~ tl_target_part ~ '.') if use_caller else (('Incoming call to ' ~ use_dest ~ tl_target_part ~ '.') if use_dest else 'Caller reached the automated support line.')) -%}\r\n  <tr>\r\n    <td width=\"24\" class=\"tl-icon\"><span class=\"tl-dot\">&bull;</span></td>\r\n    <td class=\"tl-content\">\r\n      <div class=\"tl-title\">Caller Contacted Support{% if t_start %}<span class=\"tl-time\">{{ t_start }}</span>{% endif %}</div>\r\n      <div class=\"tl-desc\">{{ contacted_desc }}</div>\r\n    </td>\r\n  </tr>\r\n  {# --- AI Answered Details --- #}\r\n  {%- set dur = CTX.call_duration_secs|d(0)|int -%}\r\n  {%- set dur_fmt = \"%d:%02d\"|format(dur//60, dur%60) if dur > 0 else '' -%}\r\n  {%- set agent_phone_raw = CTX.agent_phone_number|d('')|string|trim|regex_replace('^\\\\+1','') -%}\r\n  {%- set agent_phone_fmt = (agent_phone_raw[0:3] ~ '-' ~ agent_phone_raw[3:6] ~ '-' ~ agent_phone_raw[6:10]) if agent_phone_raw|length == 10 else agent_phone_raw -%}\r\n  {%- set agent_phone_clean = agent_phone_fmt if agent_phone_fmt|lower not in ['','none','null'] else '' -%}\r\n  {%- set ai_on_part = (' on ' ~ agent_phone_clean) if agent_phone_clean else '' -%}\r\n  {%- set ai_trunk_part = (' via ' ~ tcx_trunk) if (tcx_has_data and tcx_trunk and tcx_trunk|lower not in ['','none','null','unknown']) else '' -%}\r\n  {%- set ai_dur_part = (' · Duration: ' ~ dur_fmt) if dur_fmt else '' -%}\r\n  {%- set ai_failed_part = (' · ' ~ tcx_failed|length|string ~ ' ring' ~ ('s' if tcx_failed|length > 1 else '') ~ ' before answer') if (tcx_has_data and tcx_failed|length > 0) else '' -%}\r\n  <tr>\r\n    <td width=\"24\" class=\"tl-icon\"><span class=\"tl-dot\">&bull;</span></td>\r\n    <td class=\"tl-content\">\r\n      <div class=\"tl-title\">Call Answered by AI Agent{% if t_ai %}<span class=\"tl-time\">{{ t_ai }}</span>{% endif %}</div>\r\n      <div class=\"tl-desc\">AI answered{{ ai_on_part }}{{ ai_trunk_part }}{{ ai_dur_part }}.{{ ai_failed_part }}</div>\r\n    </td>\r\n  </tr>\r\n  <tr>\r\n    <td width=\"24\" class=\"tl-icon\"><span class=\"tl-dot\">&bull;</span></td>\r\n    <td class=\"tl-content\">\r\n      <div class=\"tl-title\">SMS Confirmation{% if t_sms %}<span class=\"tl-time\">{{ t_sms }}</span>{% endif %}</div>\r\n      <div class=\"tl-desc\">{% if sms_obj.sent|d(false) %}SMS recap sent to caller.{% else %}No SMS recap sent ({{ CTX.sms_consent_status|d('Unknown') }}).{% endif %}</div>\r\n      {% if sms_obj.text %}<div class=\"msg-box\"><span class=\"msg-label\">Sent:</span> {{ sms_obj.text }}</div>{% endif %}\r\n    </td>\r\n  </tr>\r\n  <tr>\r\n<td width=\"24\" class=\"tl-icon\">\r\n       {%- set end_dot_color = '#b91c1c' if CTX.call_transferred|d(false) else '#d97706' if validity != 'VALID' else '#10b981' if success_status == 'success' else '#EC1B05' -%}\r\n       <span class=\"tl-dot\" style=\"color:{{ end_dot_color }};\">&bull;</span>\r\n    </td>\r\n    <td class=\"tl-content\">\r\n      <div class=\"tl-title\">\r\n        {%- if CTX.call_transferred|d(false) -%}Call Transferred{%- elif validity != 'VALID' -%}Call Ended ({{ validity|replace('_',' ')|title }}){%- else -%}Call Completed{%- endif -%}\r\n        {% if t_end %}<span class=\"tl-time\">{{ t_end }}</span>{% endif %}\r\n      </div>\r\n    </td>\r\n  </tr>\r\n  <tr>\r\n    <td width=\"24\" class=\"tl-icon\"><span class=\"tl-dot\" style=\"color:#000000;\">&bull;</span></td>\r\n    <td style=\"padding-bottom:12px; vertical-align:top;\">\r\n      {%- set notify_fmt = ts(now()) -%}\r\n      {%- set call_start_epoch = _epoch if _epoch > 1000000000 else 0 -%}\r\n      {%- set now_epoch = now()|convert_from_epoch|format_datetime('%s')|int|d(0) -%}\r\n      {%- set secs_since_call = (now_epoch - call_start_epoch) if (now_epoch > 0 and call_start_epoch > 0) else 0 -%}\r\n      {%- set is_lost_call_retrieved = secs_since_call > 86400 -%}\r\n<div class=\"tl-title\">Internal Team Notified{% if is_lost_call_retrieved %}&nbsp;{{ pill('Lost Call Retrieved', '#d97706', '#fbbf24') }}{% endif %}{% if notify_fmt %}<span class=\"tl-time\">{{ notify_fmt }}</span>{% endif %}</div>\r\n      <div class=\"tl-desc\">{{ team_count }} {{ member_word }} alerted.{% if sla_target %} Response target: {{ sla_target }}.{% endif %}</div>\r\n    </td>\r\n  </tr>\r\n</table>\r\n{%- endset -%}\r\n\r\n{%- set tech_block -%}\r\n{# --- Tech block caller: same dedup logic as timeline --- #}\r\n{%- set tech_caller_id_fmt = fmt_phone(tcx_caller_id) -%}\r\n{%- set tech_display_raw = tcx_caller_display|d('')|string|trim -%}\r\n{%- set tech_display_is_phone = is_phone_number(tech_display_raw) -%}\r\n{%- set tech_caller_name = '' if (tech_display_is_phone == 'true' or tech_display_raw|lower in ['','none','null','unknown']) else tech_display_raw -%}\r\n{%- set tcx_caller_line = (tech_caller_name ~ ' (' ~ tech_caller_id_fmt ~ ')') if (tech_caller_name and tech_caller_id_fmt) else (tech_caller_name if tech_caller_name else tech_caller_id_fmt) -%}\r\n{# --- Tech block dest: strip DN if already in name --- #}\r\n{%- set tech_dest_name_raw = tcx_dest_name|d('')|string|trim -%}\r\n{%- set tech_dest_name_clean = tech_dest_name_raw|regex_replace('\\\\s*\\\\(' ~ tcx_dest_dn ~ '\\\\)\\\\s*$','') if tcx_dest_dn else tech_dest_name_raw -%}\r\n{%- set tech_dest_name_clean = tech_dest_name_clean if tech_dest_name_clean|lower not in ['','none','null'] else '' -%}\r\n{%- set tcx_dest_line = (tech_dest_name_clean ~ ' [' ~ tcx_dest_dn ~ ']') if (tech_dest_name_clean and tcx_dest_dn) else (tech_dest_name_clean if tech_dest_name_clean else tcx_dest_dn) -%}\r\n{%- set tech_dialed_fmt = fmt_phone(tcx_original_did) -%}\r\n\r\n<div class=\"tech-header\">Technical Details</div>\r\n\r\n<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" class=\"card-bg\" role=\"presentation\">\r\n    <tr>\r\n        <td class=\"tech-content\">\r\n            <div><span class=\"tech-label\">Time:</span> {{ ts(event_timestamp) if event_timestamp else 'Unknown' }}</div>\r\n            {%- set call_completed = CTX.call_duration_secs|d(0)|int > 0 -%}\r\n{%- set call_status_display = 'Completed' if call_completed else 'Failed' -%}\r\n{%- set call_status_color = '#10b981' if call_completed else '#ef4444' -%}\r\n<div><span class=\"tech-label\">Call Status:</span> <span style=\"color:{{ call_status_color }};\">{{ call_status_display }}</span> ({{ validity }})</div>\r\n{%- set task_success = success_status == 'success' -%}\r\n{%- set task_success_color = '#10b981' if success_status == 'success' else '#f59e0b' if success_status == 'partial' else '#ef4444' -%}\r\n<div><span class=\"tech-label\">Task Status:</span> <span style=\"color:{{ task_success_color }};\">{{ success_status|title|d('Incomplete') }}</span></div>\r\n            <div><span class=\"tech-label\">SMS Consent:</span> {{ actual_consent }}</div>\r\n            <div><span class=\"tech-label\">Execution:</span> {% if CTX.execution_id|d('') %}<a href=\"https://app.rewst.io/organizations/{{ CTX.organization.id }}/results/{{ CTX.execution_id }}\" class=\"link-blue\">{{ CTX.execution_id }}</a>{% else %}N/A{% endif %}</div>\r\n            <div><span class=\"tech-label\">Conversation:</span> {% if CTX.conversation_id|d('') %}<a href=\"https://elevenlabs.io/app/conversational-ai/history/{{ CTX.conversation_id }}\" class=\"link-blue\">{{ CTX.conversation_id }}</a>{% else %}N/A{% endif %}</div>\r\n            <div><span class=\"tech-label\">Agent ID:</span> {{ CTX.agent_id|d(CTX.oncall_connect_agent_id)|d('N/A') }}</div>\r\n            <div><span class=\"tech-label\">Recipients:</span> {{ team_count }}</div>\r\n{%- set qh_suppressed_emails = [] -%}\r\n{%- for c in nr -%}\r\n{%- set c_qh = c.quiet_hours|d({}) -%}\r\n{%- if c_qh.is_active|d(false) and c_qh.action|d('deliver_immediately') != 'deliver_immediately' and c.email -%}\r\n{%- set _ = qh_suppressed_emails.append(c.email) -%}\r\n{%- endif -%}\r\n{%- endfor -%}\r\n            <div><span class=\"tech-label\">Quiet Hours:</span> {% if qh_suppressed_emails|length > 0 %}<span style=\"color:#d97706;\">{{ qh_suppressed_emails|length }} suppressed</span>{% else %}<span style=\"color:#10b981;\">None suppressed</span>{% endif %}</div>\r\n            {%- if tcx_has_data -%}\r\n            <div style=\"margin-top:8px;padding-top:8px;border-top:1px dashed #e2e8f0;\"></div>\r\n            <div style=\"font-weight:600;color:#666;margin-bottom:4px;\">Phone System (3CX)</div>\r\n            {%- if tcx_caller_line -%}\r\n            <div><span class=\"tech-label\">Inbound From:</span> {{ tcx_caller_line }}</div>\r\n            {%- endif -%}\r\n            {%- if tcx_dest_line -%}\r\n            <div><span class=\"tech-label\">Routed To:</span> {{ tcx_dest_line }}</div>\r\n            {%- endif -%}\r\n            {%- if tech_dialed_fmt -%}\r\n            <div><span class=\"tech-label\">Dialed Number:</span> {{ tech_dialed_fmt }}</div>\r\n            {%- endif -%}\r\n            {%- if tcx_trunk and tcx_trunk|lower not in ['','none','null','unknown'] -%}\r\n            <div><span class=\"tech-label\">Trunk:</span> {{ tcx_trunk }}</div>\r\n            {%- endif -%}\r\n            {%- if tcx_talk_secs > 0 -%}\r\n            <div><span class=\"tech-label\">PBX Duration:</span> {{ \"%d:%02d\"|format(tcx_talk_secs//60, tcx_talk_secs%60) }}</div>\r\n            {%- endif -%}\r\n            {%- if tcx_routing and tcx_routing|lower not in ['','none','null'] -%}\r\n            <div><span class=\"tech-label\">Routing:</span> {{ tcx_routing }}</div>\r\n            {%- endif -%}\r\n            {%- if tcx_failed|length > 0 -%}\r\n            <div><span class=\"tech-label\">Failed Attempts:</span> {{ tcx_failed|length }}</div>\r\n            {%- endif -%}\r\n            <div><span class=\"tech-label\">Match Confidence:</span> <span style=\"color:{{ '#10b981' if tcx_confidence == 'high' else ('#f59e0b' if tcx_confidence == 'medium' else '#ef4444') }};\">{{ tcx_confidence|title }}</span></div>\r\n            {%- endif -%}\r\n        </td>\r\n    </tr>\r\n</table>\r\n<div class=\"footer\">\r\n    <p class=\"footer-note\">Automated notification from OnCall Connect</p>\r\n    <p class=\"footer-copy\">&copy; 2025 Applied Technology Group, Inc. All rights reserved.</p>\r\n    <p class=\"footer-copy\"><a href=\"mailto:support@atgfw.com\" class=\"footer-link\">support@atgfw.com</a> &nbsp;|&nbsp; <a href=\"tel:+12604822844\" class=\"footer-link\">(260) 482-2844</a></p>\r\n</div>\r\n{%- endset -%}\r\n\r\n<!doctype html>\r\n<html>\r\n<head>\r\n    <title>OnCall Connect</title>\r\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n    <style>\r\n        /* Base */\r\n        body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }\r\n        table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }\r\n        img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }\r\n        table { border-collapse: collapse !important; }\r\n        body { height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important; background-color: #f5f5f5; }\r\n        \r\n        /* Typography */\r\n        .f-sans { font-family: Helvetica, Arial, sans-serif; }\r\n        .f-mono { font-family: Consolas, Monaco, 'Courier New', monospace; }\r\n        .fw-bold { font-weight: 700; }\r\n        .link-blue { color: #2563eb; text-decoration: none; }\r\n        \r\n        /* Layout */\r\n        .wrapper { width: 600px; max-width: 600px; background-color: #ffffff; border: 1px solid #e0e0e0; }\r\n        .header-bg { background: linear-gradient(135deg, #EC1B05 0%, #C50F1F 100%); padding: 12px 24px; }\r\n        .header-title { padding-left: 16px; font-size: 18px; font-weight: 700; color: #000000; }\r\n        .main-pad { padding: 32px 24px; }\r\n        .card-bg { background-color: #fafbfc; border: 1px solid #e8eaed; border-radius: 4px; }\r\n        \r\n        /* Request Card */\r\n        .h-headline { margin: 0 0 12px 0; font-size: 20px; color: #1a1a1a; font-weight: 700; }\r\n        .p-desc { margin: 0 0 24px 0; font-size: 14px; line-height: 1.6; color: #555555; }\r\n        .kv-table { font-size: 13px; }\r\n        .kv-label { width: 130px; padding: 5px 0; color: #666666; vertical-align: top; font-weight: 700; }\r\n        .kv-val { padding: 5px 0; color: #222222; }\r\n        .card-title { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #e8eaed; font-size: 11px; font-weight: 700; color: #888888; text-transform: uppercase; letter-spacing: 0.5px; }\r\n        \r\n        /* Components */\r\n        .banner-warn { border: 1px solid #fbbf24; background: #fffbeb; margin-bottom: 24px; border-radius: 4px; }\r\n        .banner-xfer { border: 1px solid #fee2e2; background: #fef2f2; margin-bottom: 24px; border-radius: 4px; }\r\n        .banner-rec { border: 1px solid #e8d5d0; background: #faf3f0; margin-bottom: 32px; border-radius: 4px; }\r\n        \r\n        /* Timeline */\r\n        .tl-icon { padding-top: 0px; padding-right: 12px; vertical-align: top; }\r\n        .tl-content { padding-bottom: 24px; vertical-align: top; }\r\n        .tl-dot { font-size: 32px; line-height: 22px; color: #EC1B05; font-family: Helvetica, Arial, sans-serif; }\r\n        .tl-title { font-family: Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 700; color: #1a1a1a; margin-bottom: 4px; }\r\n        .tl-time { font-weight: 400; color: #888888; font-size: 12px; margin-left: 8px; }\r\n        .tl-desc { font-family: Helvetica, Arial, sans-serif; font-size: 13px; color: #555555; line-height: 1.55; }\r\n        .msg-box { margin-top: 10px; padding: 12px; background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 4px; font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: #166534; line-height: 1.5; }\r\n        .msg-label { font-weight: 700; text-transform: uppercase; font-size: 10px; }\r\n        \r\n        /* Section Headers & Tables */\r\n        .sect-header { margin-top: 32px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #e8eaed; font-family: Helvetica, Arial, sans-serif; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; }\r\n        .row-cell { padding: 10px 16px; border-bottom: 1px solid #f1f5f9; }\r\n        .row-title { font-family: Helvetica, Arial, sans-serif; font-weight: 700; color: #555; font-size: 11px; vertical-align: middle; }\r\n        .row-val { font-family: Helvetica, Arial, sans-serif; font-size: 13px; color: #111; margin-top: 4px; }\r\n        \r\n        /* Transcript Bubbles */\r\n        .ts-bub-box { padding: 12px 14px; border-radius: 12px; font-family: Helvetica, Arial, sans-serif; font-size: 13px; line-height: 1.5; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }\r\n        .ts-agent-bg { background: #ffffff; border: 1px solid #e5e7eb; border-top-left-radius: 0; color: #1a1a1a; }\r\n        .ts-user-bg { background: #e0e7ff; border: 1px solid #c7d2fe; border-top-right-radius: 0; color: #1e1b4b; }\r\n        .ts-av-box { width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; }\r\n        .ts-av-txt { color: #fff; font-family: Helvetica, Arial, sans-serif; font-size: 10px; font-weight: bold; }\r\n        .ts-time { font-family: Helvetica, Arial, sans-serif; font-size: 10px; color: #9ca3af; margin-top: 4px; }\r\n        \r\n        /* Tech & Footer */\r\n        .tech-header { text-align: center; margin-top: 32px; margin-bottom: 12px; font-family: Helvetica, Arial, sans-serif; font-size: 11px; font-weight: 700; color: #999999; text-transform: uppercase; letter-spacing: 0.5px; }\r\n        .tech-content { padding: 16px 20px; font-family: Consolas, Monaco, 'Courier New', monospace; font-size: 11px; color: #444444; line-height: 1.6; }\r\n        .tech-label { color: #999999; }\r\n        .footer { margin-top: 24px; text-align: center; }\r\n        .footer-note { font-family: Helvetica, Arial, sans-serif; font-style: italic; margin: 0 0 8px 0; font-size: 11px; color: #bbbbbb; }\r\n        .footer-copy { font-family: Helvetica, Arial, sans-serif; margin: 0 0 4px 0; font-size: 10px; color: #999999; }\r\n        .footer-link { color: #888888; text-decoration: none; }\r\n\r\n        @media screen and (max-width: 600px) {\r\n            .wrapper { width: 100% !important; max-width: 100% !important; }\r\n            .main-pad { padding: 10px 5% 15px 5% !important; }\r\n        }\r\n    </style>\r\n</head>\r\n<body>\r\n    <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" role=\"presentation\">\r\n        <tr>\r\n            <td align=\"center\" style=\"padding:20px 0;\">\r\n                <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"wrapper\" role=\"presentation\">\r\n                    {# --- HEADER --- #}\r\n                    <tr>\r\n                        <td align=\"left\" class=\"header-bg\">\r\n                            <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\">\r\n                                <tr>\r\n                                    <td valign=\"middle\"><img src=\"https://atgfw.blob.core.windows.net/public/OnCall%20Connect%20transparent%20black%20.png\" alt=\"OCC\" width=\"80\" style=\"display:block;width:80px;height:auto;\"></td>\r\n                                    <td valign=\"middle\" class=\"f-sans header-title\">OnCall Connect</td>\r\n                                </tr>\r\n                            </table>\r\n                        </td>\r\n                    </tr>\r\n                    \r\n                    {# --- MAIN CONTENT --- #}\r\n                    <tr>\r\n                        <td class=\"main-pad\">\r\n                            \r\n                            {# VALIDITY BANNER #}\r\n                            {% if validity != 'VALID' %}\r\n                            <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" class=\"banner-warn\" role=\"presentation\">\r\n                                <tr>\r\n                                    <td style=\"padding:16px 20px;\">\r\n                                        <div class=\"f-sans fw-bold\" style=\"font-size:12px;color:#92400e;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;\">⚠ Call Classification: {{ validity|replace('_',' ')|title }}</div>\r\n                                        {% if val_reason %}<div class=\"f-sans\" style=\"font-size:13px;color:#a16207;line-height:1.5;\">{{ val_reason }}</div>{% endif %}\r\n                                    </td>\r\n                                </tr>\r\n                            </table>\r\n                            {% endif %}\r\n\r\n                            {# HEADLINE & SUMMARY #}\r\n                            {% if headline %}<h3 class=\"f-sans h-headline\">{{ headline }}</h3>{% endif %}\r\n                            <p class=\"f-sans p-desc\">{{ desc if desc else 'Caller contacted the automated line. No specific request summary generated.' }}</p>\r\n\r\n                            {# REQUEST DETAILS CARD #}\r\n                            <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" class=\"card-bg\" style=\"margin-bottom:24px;\" role=\"presentation\">\r\n                                <tr>\r\n                                    <td style=\"padding:20px;\">\r\n                                        <div class=\"card-title\">Request Details</div>\r\n                                        <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" class=\"f-sans kv-table\" role=\"presentation\">\r\n{%- macro kv(label, value, is_link=false, href='') -%}\r\n{%- set cleaned = (value|d('')|string|trim) -%}\r\n{%- set norm = cleaned|lower|regex_replace(\"[^a-z0-9]+\",\"\") -%}\r\n{%- if cleaned and norm not in ['','none','null','undefined','nonenone','na','unspecified'] -%}\r\n<tr>\r\n    <td class=\"kv-label\">{{label}}:</td>\r\n    <td class=\"kv-val\">{%- if is_link -%}<a href=\"{{href}}\">{{cleaned}}</a>{%- else -%}{{cleaned}}{%- endif -%}</td>\r\n</tr>\r\n{%- else -%}\r\n{{- '' -}}\r\n{%- endif -%}\r\n{%- endmacro -%}\r\n                                            {{ kv('Company', CTX.company_name|d('')|trim) }}\r\n                                            {{ kv('Time', ts(event_timestamp)) }}\r\n                                            {{ kv('Location', loc_display|d('')) }}\r\n                                            {{ kv('Department', CTX.department|d('')) }}\r\n                                            {{ kv('Routed To', CTX.contact_group_name|d('')) }}\r\n                                            {{ kv('Caller Name', caller_display|d('')) }}\r\n                                            \r\n                                                                                        {%- set cn_raw = CTX.caller_phone_number|d(CTX.contact_phone)|d('')|trim -%}\r\n                                            {%- set cn_fmt = fmt_phone(cn_raw) -%}\r\n                                            {%- set cn_digits = cn_raw|regex_replace('[^0-9]','') -%}\r\n                                            {{ kv('Caller ID', cn_fmt, true, 'tel:+1' ~ cn_digits) }}\r\n                                            \r\n                                            {%- set cb_raw = CTX.contact_phone|d('')|trim -%}\r\n                                            {%- set cb_fmt = fmt_phone(cb_raw) -%}\r\n                                            {%- set cb_digits = cb_raw|regex_replace('[^0-9]','') -%}\r\n                                            {{ kv('Callback', cb_fmt, true, 'tel:+1' ~ cb_digits) }}\r\n                                            \r\n                                            {{ kv('Email', CTX.contact_email|d('')|trim, true, 'mailto:' ~ CTX.contact_email|d('')) }}\r\n                                            \r\n                                            {% if CTX.urgency|d(dcr.urgency.value)|d('')|string|lower in ['yes','true','high','urgent'] %}\r\n                                            <tr>\r\n                                                <td class=\"kv-label\">Urgency:</td>\r\n                                                <td style=\"padding:5px 0;color:#b91c1c;font-weight:700;\">High Priority</td>\r\n                                            </tr>\r\n                                            {% endif %}\r\n                                        </table>\r\n                                    </td>\r\n                                </tr>\r\n                            </table>\r\n\r\n                            {# TRANSFER ALERT #}\r\n                            {% if CTX.call_transferred|d(false) %}\r\n                            <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" class=\"banner-xfer\" role=\"presentation\">\r\n                                <tr>\r\n                                    <td style=\"padding:16px;\">\r\n                                        <div class=\"f-sans fw-bold\" style=\"font-size:11px;color:#b91c1c;text-transform:uppercase;margin-bottom:6px;\">Transfer Initiated</div>\r\n                                        <div class=\"f-sans\" style=\"font-size:13px;color:#991b1b;\">\r\n                                            To: <strong>{{ CTX.call_transfer_destination|d('Unspecified') }}</strong>\r\n                                            {% if CTX.transfer_reason %} <br><span style=\"font-size:12px;opacity:0.9;\">Reason: {{ CTX.transfer_reason }}</span>{% endif %}\r\n                                        </div>\r\n                                    </td>\r\n                                </tr>\r\n                            </table>\r\n                            {% endif %}\r\n\r\n                            {# RECORDING LINK #}\r\n                            {% if CTX.recording_url|d('') %}\r\n                            <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" class=\"banner-rec\" role=\"presentation\">\r\n                                <tr>\r\n                                    <td style=\"padding:16px;\">\r\n                                        <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\">\r\n                                            <tr>\r\n                                                <td width=\"40\" valign=\"middle\"><div style=\"width:32px;height:32px;background:#C50F1F;border-radius:50%;text-align:center;line-height:32px;color:white;font-size:12px;\">▶</div></td>\r\n                                                <td valign=\"middle\">\r\n                                                    <div class=\"f-sans\" style=\"color:#333;font-size:13px;font-weight:700;\">Call Recording Available</div>\r\n                                                    <div class=\"f-sans\" style=\"font-size:11px;color:#666;\">Listen to the conversation</div>\r\n                                                </td>\r\n                                                <td align=\"right\" valign=\"middle\">\r\n                                                    <a href=\"{{ CTX.recording_url }}\" class=\"f-sans fw-bold\" style=\"font-size:11px;color:#C50F1F;text-decoration:none;padding:8px 16px;border:1px solid #e8d5d0;background:#fff;border-radius:4px;display:inline-block;\">LISTEN</a>\r\n                                                </td>\r\n                                            </tr>\r\n                                        </table>\r\n                                    </td>\r\n                                </tr>\r\n                            </table>\r\n                            {% endif %}\r\n                            \r\n                            {# TIMELINE #}\r\n                            {{ timeline_block }}\r\n\r\n                            \r\n                            {%- set routing_loc = loc_display|d(bda.routing.site_location_name.value|d(''))|trim -%}\r\n                            {%- set routing_dept = CTX.department|d(bda.routing.department.value|d(''))|trim -%}\r\n                            {%- set routing_group = CTX.contact_group_name|d(bda.routing.routing_group_name.value|d(''))|trim -%}\r\n                            {%- set routing_rationale = bda.routing.routing_group_name.rationale|d('')|d('')|trim -%}\r\n                            {% if routing_loc or routing_dept or routing_group %}\r\n                            <div class=\"sect-header\">Routing Logic</div>\r\n                            <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" class=\"card-bg\" role=\"presentation\">\r\n                                <tr><td style=\"padding:16px 20px;\">\r\n                                    <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" class=\"f-sans\" style=\"font-size:13px;\" role=\"presentation\">\r\n                                        {%- if routing_loc and routing_loc|lower not in ['','none','null','undefined'] %}\r\n                                        <tr>\r\n                                            <td style=\"padding:4px 0;color:#666;font-weight:700;width:140px;\">Location:</td>\r\n                                            <td style=\"padding:4px 0;color:#222;\">{{ routing_loc }}</td>\r\n                                        </tr>\r\n                                        {%- endif %}\r\n                                        {%- if routing_dept and routing_dept|lower not in ['','none','null','undefined'] %}\r\n                                        <tr>\r\n                                            <td style=\"padding:4px 0;color:#666;font-weight:700;width:140px;\">Department:</td>\r\n                                            <td style=\"padding:4px 0;color:#222;\">{{ routing_dept }}</td>\r\n                                        </tr>\r\n                                        {%- endif %}\r\n                                        {%- if routing_group and routing_group|lower not in ['','none','null','undefined'] %}\r\n                                        <tr>\r\n                                            <td style=\"padding:4px 0;color:#666;font-weight:700;width:140px;\">Routed To:</td>\r\n                                            <td style=\"padding:4px 0;color:#222;font-weight:600;\">{{ routing_group }}</td>\r\n                                        </tr>\r\n                                        {%- endif %}\r\n                                    </table>\r\n{%- set routing_clean = routing_rationale if (routing_rationale and 'error' not in routing_rationale|lower) else '' -%}\r\n{%- if routing_clean and routing_clean|lower not in ['','none','null'] %}\r\n<div style=\"margin-top:12px;padding:10px 12px;background:#fff;border-left:3px solid #EC1B05;font-size:12px;color:#555;line-height:1.5;font-style:italic;\">\r\n    <strong style=\"color:#333;font-style:normal;\">Why:</strong> {{ routing_clean }}\r\n</div>\r\n{%- endif %}\r\n                                </td></tr>\r\n                            </table>\r\n                            {% endif %}\r\n\r\n                            {# DATA COLLECTION #}\r\n                            {% if dcr|length > 0 %}\r\n                            <div class=\"sect-header\">AI Data Collection</div>\r\n                            <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" class=\"card-bg\" role=\"presentation\">\r\n                                {% for key, field in dcr|dictsort %}\r\n                                {% if field.value|d('')|trim|lower not in ['','none','null'] %}\r\n                                <tr><td class=\"row-cell\">\r\n                                    <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\">\r\n                                        <tr>\r\n                                            <td class=\"row-title\">{{ key|replace('_',' ')|title }}</td>\r\n                                            <td align=\"right\">{{ pill(field.value, '#C50F1F', '#C50F1F') }}</td>\r\n                                        </tr>\r\n                                    </table>\r\n                                    {{ rationale(field.rationale) }}\r\n                                </td></tr>\r\n                                {% endif %}\r\n                                {% endfor %}\r\n                            </table>\r\n                            {% endif %}\r\n\r\n                            {# RECIPIENTS #}\r\n{%- set has_any = (nr|length > 0) or (email_list|length > 0) or (CTX.sms_consented_numbers|d([])|length > 0) -%}\r\n{%- set suppressed_list = [] -%}\r\n{%- for c in nr -%}\r\n{%- set c_qh = c.quiet_hours|d({}) -%}\r\n{%- if c_qh.is_active|d(false) and c_qh.action|d('deliver_immediately') != 'deliver_immediately' -%}\r\n{%- set _ = suppressed_list.append(c.email|d('')) -%}\r\n{%- endif -%}\r\n{%- endfor -%}\r\n{%- set suppressed_count = suppressed_list|length -%}\r\n{% if has_any %}\r\n                            <div class=\"sect-header\">Notification Recipients</div>\r\n{%- if suppressed_count > 0 -%}\r\n<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#fffbeb;border:1px solid #fcd34d;border-radius:4px;margin-bottom:12px;\" role=\"presentation\">\r\n<tr><td style=\"padding:10px 14px;\">\r\n<div class=\"f-sans\" style=\"font-size:11px;color:#92400e;\"><strong>⏰ Quiet Hours Active</strong> — {{ suppressed_count }} recipient(s) not notified due to quiet hours. They are listed below for reference.</div>\r\n</td></tr>\r\n</table>\r\n{%- endif -%}\r\n<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" class=\"card-bg\" style=\"margin-bottom:24px;\" role=\"presentation\">\r\n<tr><td style=\"padding:16px;\">\r\n<div class=\"f-sans\" style=\"font-size:12px;color:#6b7280;line-height:1.4;margin-bottom:12px;\">Recipients derived from routing + configured notification lists. Displayed with consent state for SMS.</div>\r\n<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\">\r\n<tr>\r\n<td style=\"padding:6px 0;border-bottom:1px solid #eef2f7;font-family:Helvetica,Arial,sans-serif;font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;\">Recipient</td>\r\n<td align=\"right\" style=\"padding:6px 0;border-bottom:1px solid #eef2f7;font-family:Helvetica,Arial,sans-serif;font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px;\">Channels</td>\r\n</tr>\r\n{%- if nr|length > 0 -%}\r\n{%- for r in nr -%}\r\n{%- set r_name = r.name|d('')|string|trim -%}\r\n{%- set r_name = '' if r_name|lower in ['','none','null'] else r_name -%}\r\n{%- set r_email = r.email|d('')|string|trim -%}\r\n{%- set r_email = '' if r_email|lower in ['','none','null'] else r_email -%}\r\n{%- set r_phone = r.phone|d('')|string|trim -%}\r\n{%- set r_phone = '' if r_phone|lower in ['','none','null'] else r_phone -%}\r\n{%- set r_consent = r.sms_consent_label|d('Granted' if r.sms_consent|d(false) else 'Unknown') -%}\r\n{%- set r_title = r.job_title|d('')|string|trim -%}\r\n{%- set r_title = '' if r_title|lower in ['','none','null'] else r_title -%}\r\n{%- set r_source = r.source|d('unknown') -%}\r\n{%- set r_group = r.source_group|d('')|string|trim -%}\r\n{%- set r_group = '' if r_group|lower in ['','none','null'] else r_group -%}\r\n{%- set basis_txt = r_group if r_group else (r_source|replace('_',' ')|title) -%}\r\n{%- set qh = r.quiet_hours|d({}) -%}\r\n{%- set qh_active = qh.is_active|d(false) -%}\r\n{%- set qh_action = qh.action|d('deliver_immediately') -%}\r\n{%- set qh_suppressed = qh_active and qh_action != 'deliver_immediately' -%}\r\n{%- set row_opacity = '0.5' if qh_suppressed else '1' -%}\r\n{%- set phone_digits = r_phone|regex_replace('[^0-9]','') -%}\r\n{%- set phone_digits = phone_digits[1:] if phone_digits|length == 11 and phone_digits[0:1] == '1' else phone_digits -%}\r\n{%- set phone_fmt = (phone_digits[0:3] ~ '-***-' ~ phone_digits[6:10]) if phone_digits|length == 10 else r_phone -%}\r\n{%- set email_parts = r_email.split('@') if r_email and '@' in r_email else [] -%}\r\n{%- set email_local = email_parts[0] if email_parts|length > 1 else '' -%}\r\n{%- set email_domain = email_parts[1] if email_parts|length > 1 else '' -%}\r\n{%- set email_redacted = ((email_local[0:1] ~ '***@' ~ email_domain) if email_local|length > 1 else ('***@' ~ email_domain)) if email_domain else r_email -%}\r\n<tr style=\"opacity:{{ row_opacity }};\">\r\n<td style=\"padding:10px 0;border-bottom:1px solid #eef2f7;vertical-align:top;\">\r\n<div class=\"f-sans\" style=\"font-size:13px;font-weight:700;color:#111827;line-height:1.2;\">{{ r_name if r_name else (email_redacted if r_email else (phone_fmt if r_phone else 'Unspecified')) }}{%- if r_title -%}<span style=\"font-weight:400;color:#6b7280;font-size:11px;margin-left:6px;\">{{ r_title }}</span>{%- endif -%}{%- if qh_suppressed -%}&nbsp;{{ pill('Quiet Hours','#fde68a','#fcd34d') }}{%- endif -%}</div>\r\n<div style=\"margin-top:4px;font-family:Helvetica,Arial,sans-serif;font-size:12px;color:#6b7280;line-height:1.3;\">\r\n{%- if r_email -%}Email: <span style=\"font-family:Consolas,Monaco,monospace;\">{{ email_redacted }}</span>{%- endif -%}\r\n{%- if r_email and r_phone -%}<span style=\"color:#cbd5e1;\">&nbsp;•&nbsp;</span>{%- endif -%}\r\n{%- if r_phone -%}SMS: <span style=\"font-family:Consolas,Monaco,monospace;\">{{ phone_fmt }}</span>{%- endif -%}\r\n{%- if basis_txt -%}<span style=\"color:#cbd5e1;\">&nbsp;•&nbsp;</span>Source: {{ basis_txt }}{%- endif -%}\r\n{%- if qh_suppressed -%}<span style=\"color:#cbd5e1;\">&nbsp;•&nbsp;</span><span style=\"color:#92400e;font-style:italic;\">{{ qh.description|d('Suppressed') }}</span>{%- endif -%}\r\n</div>\r\n</td>\r\n<td align=\"right\" style=\"padding:10px 0;border-bottom:1px solid #eef2f7;vertical-align:top;\">\r\n{%- if r_email -%}{{ pill('Email','#3b82f6','#bfdbfe') }}{%- endif -%}\r\n{%- if r_email and r_phone -%}&nbsp;{%- endif -%}\r\n{%- if r_phone -%}{{ pill('SMS: ' ~ r_consent,'#f97316','#fed7aa') }}{%- endif -%}\r\n</td>\r\n</tr>\r\n{%- endfor -%}\r\n{%- else -%}\r\n{%- for e in email_list -%}\r\n<tr>\r\n<td style=\"padding:10px 0;border-bottom:1px solid #eef2f7;vertical-align:top;\">\r\n<div class=\"f-sans\" style=\"font-size:13px;font-weight:700;color:#111827;line-height:1.2;\">{{ e }}</div>\r\n<div style=\"margin-top:4px;font-family:Helvetica,Arial,sans-serif;font-size:12px;color:#6b7280;line-height:1.3;\">Basis: {{ CTX.contact_group_name|d('Routing group') }}</div>\r\n</td>\r\n<td align=\"right\" style=\"padding:10px 0;border-bottom:1px solid #eef2f7;vertical-align:top;\">{{ pill('Email','#3b82f6','#bfdbfe') }}</td>\r\n</tr>\r\n{%- endfor -%}\r\n{%- for p in CTX.sms_consented_numbers|d([]) -%}\r\n{%- set p_digits = p|regex_replace('[^0-9]','') -%}\r\n{%- set p_digits = p_digits[1:] if p_digits|length == 11 and p_digits[0:1] == '1' else p_digits -%}\r\n{%- set p_fmt = (p_digits[0:3] ~ '-***-' ~ p_digits[6:10]) if p_digits|length == 10 else p -%}\r\n<tr>\r\n<td style=\"padding:10px 0;border-bottom:1px solid #eef2f7;vertical-align:top;\">\r\n<div class=\"f-sans\" style=\"font-size:13px;font-weight:700;color:#111827;line-height:1.2;\">{{ p_fmt }}</div>\r\n<div style=\"margin-top:4px;font-family:Helvetica,Arial,sans-serif;font-size:12px;color:#6b7280;line-height:1.3;\">Basis: Caller consent exchange</div>\r\n</td>\r\n<td align=\"right\" style=\"padding:10px 0;border-bottom:1px solid #eef2f7;vertical-align:top;\">{{ pill('SMS: Granted','#f97316','#fed7aa') }}</td>\r\n</tr>\r\n{%- endfor -%}\r\n{%- endif -%}\r\n</table>\r\n</td></tr>\r\n</table>\r\n{% endif %}\r\n\r\n                            {# TRANSCRIPT #}\r\n{% if transcript|length > 0 %}\r\n                            <div class=\"sect-header\">Conversation Transcript</div>\r\n                            <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\">\r\n                                {% for turn in transcript %}\r\n                                {%- set txt = turn.text|d('')|trim -%}\r\n                                {%- set tool_calls = turn.tool_calls|d([]) -%}\r\n                                {% if txt and txt|lower not in ['','none','...','... ...','... ... ...'] %}\r\n                                {%- set is_agent = (turn.role|d('agent') == 'agent') -%}\r\n                                {%- set time_secs = turn.time_in_call_secs|d(0)|int -%}\r\n                                {%- set time_secs = time_secs if time_secs >= 0 else 0 -%}\r\n                                {%- set time_fmt = \"%d:%02d\"|format(time_secs//60, time_secs%60) -%}\r\n                                <tr>\r\n                                    {% if is_agent %}\r\n                                    {# AGENT ROW: Avatar Left #}\r\n                                    <td width=\"40\" valign=\"top\" style=\"padding-bottom:16px;\">\r\n                                        <div class=\"ts-av-box\" style=\"background:linear-gradient(135deg,#EC1B05,#C50F1F);\">\r\n                                            <span class=\"ts-av-txt\">AI</span>\r\n                                        </div>\r\n                                    </td>\r\n                                    <td valign=\"top\" style=\"padding-bottom:16px;\">\r\n                                        <div class=\"ts-bub-box ts-agent-bg\">\r\n                                            {{ turn.text|e }}\r\n                                        </div>\r\n                                        <div class=\"ts-time\">{{ time_fmt }}</div>\r\n                                    </td>\r\n                                    <td width=\"20\"></td>\r\n                                    {% else %}\r\n                                    {# CALLER ROW: Avatar Right #}\r\n                                    <td width=\"20\"></td>\r\n                                    <td valign=\"top\" align=\"right\" style=\"padding-bottom:16px;\">\r\n                                        <div class=\"ts-bub-box ts-user-bg\" style=\"text-align:left;display:inline-block;\">\r\n                                            {{ turn.text|e }}\r\n                                        </div>\r\n                                        <div class=\"ts-time\" style=\"text-align:right;\">{{ time_fmt }}</div>\r\n                                    </td>\r\n                                    <td width=\"40\" valign=\"top\" align=\"right\" style=\"padding-bottom:16px;\">\r\n                                        <div class=\"ts-av-box\" style=\"background:#3730a3;\">\r\n                                            <span class=\"ts-av-txt\">{{ user_initials }}</span>\r\n                                        </div>\r\n                                    </td>\r\n                                    {% endif %}\r\n                                </tr>\r\n                                {% endif %}\r\n                                {% for tc in tool_calls %}\r\n                                {% if tc.tool_name|d('') %}\r\n                                <tr>\r\n                                    <td width=\"40\"></td>\r\n                                    <td colspan=\"2\" style=\"padding-bottom:8px;\">\r\n                                        <div style=\"display:inline-block;background:#fffbeb;padding:4px 10px;border-radius:4px;border:1px solid #fcd34d;\">\r\n                                            <span style=\"font-family:Consolas,Monaco,monospace;font-size:10px;color:#92400e;\">Tool: {{ tc.tool_name }}{% if tc.called|d(false) %} ✓{% endif %}</span>\r\n                                        </div>\r\n                                    </td>\r\n                                </tr>\r\n                                {% endif %}\r\n                                {% endfor %}\r\n                                {% endfor %}\r\n                            </table>\r\n{% endif %}\r\n\r\n                            {# QUALITY EVAL #}\r\n                            {% if ecr|length > 0 %}\r\n                            <div class=\"sect-header\">Quality Assurance</div>\r\n                            <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" class=\"card-bg\" role=\"presentation\">\r\n                                {% for key, val in ecr|dictsort %}\r\n                                {%- set r = (\r\n    'success'\r\n    if (\r\n        (key == 'data_collection_complete'\r\n         and (ai_first_clean or ai_last_clean)\r\n         and (caller_phone_clean or bda.contact.contact_phone.value|d('')))\r\n        or\r\n        (key == 'information_accuracy'\r\n         and headline\r\n         and desc)\r\n        or\r\n        (key == 'proper_closure'\r\n         and (ai_first_clean or ai_last_clean)\r\n         and headline)\r\n    )\r\n    else val.result|d('unknown')|string|lower\r\n) -%}\r\n{%- set bg = '#10b981' if r == 'success' else ('#f59e0b' if r == 'partial' else '#ef4444') -%}\r\n{%- set bd = '#a7f3d0' if r == 'success' else ('#fcd34d' if r == 'partial' else '#fecaca') -%}\r\n<tr><td class=\"row-cell\">\r\n    <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" role=\"presentation\">\r\n        <tr>\r\n            <td class=\"f-sans\" style=\"font-size:12px;color:#555;font-weight:600;\">{{ key|replace('_',' ')|title }}</td>\r\n            <td align=\"right\">{{ pill(r|title, bg, bd) }}</td>\r\n        </tr>\r\n    </table>\r\n                                    {{ rationale(val.rationale) }}\r\n                                </td></tr>\r\n                                {% endfor %}\r\n                            </table>\r\n                            {% endif %}\r\n\r\n                            {# QR CODE #}\r\n                            {% if sms_from %}\r\n                            <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"background:#fff5f3;border:2px solid #ffebe8; margin-top:32px; border-radius:4px;\" role=\"presentation\">\r\n                                <tr>\r\n                                    <td align=\"center\" style=\"padding:24px;\">\r\n                                        <a href=\"sms:{{sms_from}}?body=Yes, I consent to receive text messages from {{CTX.organization.name}} [{{CTX.organization.id}}]\" style=\"text-decoration:none;border:0;display:inline-block;\">\r\n                                            <img src=\"https://quickchart.io/qr?text=SMSTO%3A{{sms_from}}%3AYes%2C%20I%20consent%20to%20receive%20text%20messages%20from%20{{CTX.organization.name|urlencode}}%20%5B{{CTX.organization.id}}%5D&size=120\" alt=\"QR\" width=\"120\" style=\"display:block;width:120px;height:auto;\">\r\n                                        </a>\r\n                                        <div class=\"f-sans\" style=\"font-size:14px;color:#222;font-weight:700;margin-top:12px;\">Enable SMS Alerts</div>\r\n                                        <div class=\"f-sans\" style=\"font-size:12px;color:#666;margin-top:4px;\">Scan or tap to consent to text messages.</div>\r\n                                    </td>\r\n                                </tr>\r\n                            </table>\r\n                            {% endif %}\r\n\r\n                            {{ tech_block }}\r\n\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n            </td>\r\n        </tr>\r\n    </table>\r\n</body>\r\n</html>"
+          },
+          {
+            "key": "email_subject",
+            "value": "{%- set phase = CTX.occ_settings.vars.occ_deployment_phase|d('dev')|lower -%}\r\n{%- set is_prod = phase == 'prod' -%}\r\n{%- set subject_prefix = '' if is_prod else '[' ~ phase|upper ~ '] ' -%}\r\n{%- set bda_subj = CTX.llm_extraction_result.data.extracted|d({}) -%}\r\n{%- set llm_summary = bda_subj.request.request_summary.value|d('')|string|trim -%}\r\n{%- set llm_summary_clean = llm_summary if (llm_summary and llm_summary|lower not in ['','none','null','undefined']) else '' -%}\r\n{%- set raw_summary = CTX.request_summary|d(CTX.ticket_summary)|d('')|string|trim -%}\r\n{%- set raw_summary_clean = raw_summary if (raw_summary and raw_summary|lower not in ['','none','null','undefined']) else '' -%}\r\n{%- set safe_summary = llm_summary_clean or raw_summary_clean or None -%}\r\n{%- set llm_first = bda_subj.caller.caller_first_name.value|d('')|string|trim -%}\r\n{%- set llm_last = bda_subj.caller.caller_last_name.value|d('')|string|trim -%}\r\n{%- set llm_first_clean = llm_first if (llm_first and llm_first|lower not in ['','none','null','undefined']) else '' -%}\r\n{%- set llm_last_clean = llm_last if (llm_last and llm_last|lower not in ['','none','null','undefined']) else '' -%}\r\n{%- set llm_caller = ((llm_first_clean ~ ' ' ~ llm_last_clean)|trim) if (llm_first_clean or llm_last_clean) else '' -%}\r\n{%- set ctx_first = CTX.caller_first_name|d('')|string|trim -%}\r\n{%- set ctx_last = CTX.caller_last_name|d('')|string|trim -%}\r\n{%- set ctx_first_clean = ctx_first if (ctx_first and ctx_first|lower not in ['','none','null','undefined']) else '' -%}\r\n{%- set ctx_last_clean = ctx_last if (ctx_last and ctx_last|lower not in ['','none','null','undefined']) else '' -%}\r\n{%- set ctx_caller = ((ctx_first_clean ~ ' ' ~ ctx_last_clean)|trim) if (ctx_first_clean or ctx_last_clean) else '' -%}\r\n{%- set caller_name_raw = llm_caller or ctx_caller or '' -%}\r\n{%- set caller_digits = caller_name_raw|regex_replace('[^0-9]','') -%}\r\n{%- set caller_is_phone = caller_digits|length >= 10 -%}\r\n{%- set caller_name_safe = caller_name_raw if (caller_name_raw and not caller_is_phone) else None -%}\r\n{%- if safe_summary and caller_name_safe -%}\r\n{%- set subject = 'OnCall Connect | ' ~ caller_name_safe ~ ' – ' ~ safe_summary -%}\r\n{%- elif safe_summary -%}\r\n{%- set subject = 'OnCall Connect | ' ~ safe_summary -%}\r\n{%- elif caller_name_safe -%}\r\n{%- set subject = 'OnCall Connect | Call from ' ~ caller_name_safe -%}\r\n{%- else -%}\r\n{%- set subject = 'OnCall Connect | Call received' -%}\r\n{%- endif -%}\r\n{%- set nr_subj = CTX.notified_contacts|d([]) -%}\r\n{%- set ns_qh = namespace(any_suppressed=false) -%}\r\n{%- for c in nr_subj -%}\r\n{%- set c_qh = c.quiet_hours|d({}) -%}\r\n{%- if c_qh.is_active|d(false) and c_qh.action|d('deliver_immediately') != 'deliver_immediately' -%}\r\n{%- set ns_qh.any_suppressed = true -%}\r\n{%- endif -%}\r\n{%- endfor -%}\r\n{%- set subject = ('[QH] ' ~ subject) if ns_qh.any_suppressed else subject -%}\r\n{{ subject_prefix ~ subject }}"
+          },
+          {
+            "key": "email",
+            "value": "{%- set phase = CTX.occ_settings.vars.occ_deployment_phase|d('dev')|lower -%}\r\n{%- set is_prod = phase == 'prod' -%}\r\n{%- set validity = CTX.call_validity_type|d('VALID')|string|upper -%}\r\n{%- set is_invalid_call = validity in ['ABANDONED','TOO_SHORT','INSUFFICIENT_DATA'] -%}\r\n{%- set raw_recipients = CTX.email_to_list|d(['oncallconnect@atgfw.com']) if is_prod else ['oncallconnect@atgfw.com'] -%}\r\n{%- set nr = CTX.notified_contacts|d([]) -%}\r\n{%- set suppressed = [] -%}\r\n{%- for c in nr -%}\r\n{%- set qh = c.quiet_hours|d({}) -%}\r\n{%- set qh_action = qh.action|d('deliver_immediately') -%}\r\n{%- if qh.is_active|d(false) and qh_action != 'deliver_immediately' and c.email -%}\r\n{%- set _ = suppressed.append(c.email|lower) -%}\r\n{%- endif -%}\r\n{%- endfor -%}\r\n{%- set final_recipients = [] -%}\r\n{%- if not is_invalid_call -%}\r\n{%- for e in raw_recipients -%}\r\n{%- if e|lower not in suppressed -%}\r\n{%- set _ = final_recipients.append(e) -%}\r\n{%- endif -%}\r\n{%- endfor -%}\r\n{%- endif -%}\r\n{%- set final_recipients = final_recipients if final_recipients else (['oncallconnect@atgfw.com'] if is_invalid_call else ['oncallconnect@atgfw.com']) -%}\r\n{%- set urgency = CTX.urgency|d(CTX.llm_extraction_result.request.requested_due_date.value|d(''))|string|lower -%}\r\n{%- set is_urgent = urgency in ['yes','true','high','urgent','1'] -%}\r\n{%- set transferred = CTX.call_transferred|d(false) -%}\r\n{%- set sla = CTX.response_sla_goal|d('')|string -%}\r\n{%- set sla_lower = sla|lower|replace(' ','_') -%}\r\n{%- set dept = CTX.department|d('')|string|trim -%}\r\n{%- set tz = 'America/New_York' -%}\r\n{%- if is_urgent or transferred -%}\r\n{%- set importance = 'high' -%}\r\n{%- elif validity in ['ABANDONED','TOO_SHORT','INSUFFICIENT_DATA'] -%}\r\n{%- set importance = 'low' -%}\r\n{%- else -%}\r\n{%- set importance = 'normal' -%}\r\n{%- endif -%}\r\n{%- set cats = ['OnCall Connect'] -%}\r\n{%- if dept and dept|lower not in ['','none','null'] -%}\r\n{%- do cats.append(dept) -%}\r\n{%- endif -%}\r\n{%- if sla and sla|lower not in ['','none','null'] -%}\r\n{%- do cats.append(sla) -%}\r\n{%- endif -%}\r\n{%- if validity and validity not in ['','VALID'] -%}\r\n{%- do cats.append(validity|replace('_',' ')|title) -%}\r\n{%- endif -%}\r\n{%- if transferred -%}\r\n{%- do cats.append('Transferred') -%}\r\n{%- endif -%}\r\n{%- if is_urgent -%}\r\n{%- do cats.append('Urgent') -%}\r\n{%- endif -%}\r\n{%- set hdrs = [] -%}\r\n{%- set exec_id = CTX.execution_id|d('')|string|trim -%}\r\n{%- if exec_id and exec_id|lower not in ['','none','null'] -%}\r\n{%- do hdrs.append({'name':'X-OnCall-Execution-ID','value':exec_id}) -%}\r\n{%- endif -%}\r\n{%- set conv_id = CTX.conversation_id|d('')|string|trim -%}\r\n{%- if conv_id and conv_id|lower not in ['','none','null'] -%}\r\n{%- do hdrs.append({'name':'X-OnCall-Conversation-ID','value':conv_id}) -%}\r\n{%- endif -%}\r\n{%- set rec_id = CTX.recording_id|d('')|string|trim -%}\r\n{%- if rec_id and rec_id|lower not in ['','none','null'] -%}\r\n{%- do hdrs.append({'name':'X-OnCall-Recording-ID','value':rec_id}) -%}\r\n{%- endif -%}\r\n{%- set org_id = CTX.organization.id|d('')|string|trim -%}\r\n{%- if org_id and org_id|lower not in ['','none','null'] -%}\r\n{%- do hdrs.append({'name':'X-OnCall-Rewst-Org-ID','value':org_id}) -%}\r\n{%- endif -%}\r\n{%- set agent_id = CTX.agent_id|d(CTX.oncall_connect_agent_id)|d('')|string|trim -%}\r\n{%- if agent_id and agent_id|lower not in ['','none','null'] -%}\r\n{%- do hdrs.append({'name':'X-OnCall-Agent-ID','value':agent_id}) -%}\r\n{%- endif -%}\r\n{%- set flag_obj = None -%}\r\n{%- set _meta_email = CTX.body.data.metadata|d({}) -%}\r\n{%- set _ct_email = CTX.call_transcript|d({}) -%}\r\n{%- set _ct_email = _ct_email|from_yaml_string if _ct_email is string else _ct_email -%}\r\n{%- set _call_info_email = _ct_email.call|d({}) -%}\r\n{%- set _epoch_email = _meta_email.start_time_unix_secs|d(_call_info_email.start_time_unix_secs)|d(0)|int -%}\r\n{%- set _call_dt_email = (_epoch_email|convert_from_epoch) if _epoch_email > 0 else None -%}\r\n{%- set _ctx_ts_raw = CTX.event_time_call_start|d(CTX.timestamp)|d('')|string|trim -%}\r\n{%- set _ctx_ts_email = _ctx_ts_raw|parse_datetime if (_ctx_ts_raw and _ctx_ts_raw|lower not in ['','none','null']) else None -%}\r\n{%- set base_call_dt = _call_dt_email if _call_dt_email else _ctx_ts_email -%}\r\n{%- if base_call_dt -%}\r\n{%- if validity == 'VALID' and sla_lower in ['next_business_day','nbd'] -%}\r\n{%- set start_dt = base_call_dt|as_timezone(tz)|datedelta(days=1)|format_datetime('%Y-%m-%dT08:00:00') -%}\r\n{%- set due_dt = base_call_dt|as_timezone(tz)|datedelta(days=1)|format_datetime('%Y-%m-%dT17:00:00') -%}\r\n{%- set flag_obj = {'flagStatus':'flagged','startDateTime':{'dateTime':start_dt,'timeZone':tz},'dueDateTime':{'dateTime':due_dt,'timeZone':tz}} -%}\r\n{%- elif is_urgent -%}\r\n{%- set start_dt = base_call_dt|as_timezone(tz)|format_datetime('%Y-%m-%dT%H:%M:%S') -%}\r\n{%- set due_dt = base_call_dt|as_timezone(tz)|datedelta(hours=2)|format_datetime('%Y-%m-%dT%H:%M:%S') -%}\r\n{%- set flag_obj = {'flagStatus':'flagged','startDateTime':{'dateTime':start_dt,'timeZone':tz},'dueDateTime':{'dateTime':due_dt,'timeZone':tz}} -%}\r\n{%- endif -%}\r\n{%- endif -%}\r\n{{ {'recipients':{'to':[] if is_invalid_call else (final_recipients if final_recipients else ['oncallconnect@atgfw.com']),'cc':[] if is_invalid_call else CTX.email_cc_list|d([]),'bcc':CTX.email_bcc_list|d(['oncallconnect@atgfw.com']),'reply_to':['oncallconnect@atgfw.com']},'content':{'subject':CTX.email_subject,'body':CTX.email_body_html,'format':'html'},'sender':{'user_id':'oncallconnect@atgfw.com','from_address':'','sender_address':''},'metadata':{'importance':importance,'categories':cats,'flag':flag_obj,'inference_classification':'focused','headers':hdrs},'attachments':[],'options':{'save_to_sent_items':true,'request_read_receipt':false,'request_delivery_receipt':false},'tracking':{'execution_id':exec_id}} }}"
+          }
+        ],
+        "id": "96e1306f-4b7e-4ea2-b538-58d73742af30",
+        "left": null,
+        "top": null,
+        "orientation": "vertical",
+        "__typename": "WorkflowTransition"
+      }
+    ],
+    "name": "email_template",
+    "description": "Builds and sends the OnCall Connect alert email with summary, transcript, recipients, and SLA context.",
+    "timeout": 600,
+    "securitySchema": {
+      "redact": {
+        "input": [],
+        "result": []
+      }
+    }
+  }
+}
