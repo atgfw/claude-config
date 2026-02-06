@@ -46,14 +46,24 @@ Everything else moves into:
 
 ## Relationship to Existing Changes
 
-| Change | Status | Relationship |
-|--------|--------|-------------|
-| `enforce-n8n-object-governance` | 41/45 done | Task 6.1 wired hook JSDoc to reference CLAUDE.md sections. This proposal **inverts** that: hooks reference `hooks/docs/*.md` instead. Natural successor, not conflict. |
-| `add-project-open-reinit` | 0/41 | Includes "documentation drift detection" comparing CLAUDE.md against implementation. The drift detector should be aware of the new slim structure - may need a minor update to its comparison targets. |
-| `add-self-escalation-mechanism` | 0/46 | References "Outdated CLAUDE.md" as an escalation pattern. Unaffected - the escalation concept still applies to the slim version. |
-| All other changes | Various | No overlap. This proposal does not touch hook logic, settings.json, or any enforcement behavior. |
+| Change | Status | Overlap | Action |
+|--------|--------|---------|--------|
+| `enforce-n8n-object-governance` | 41/45 done | Task 6.1 wired hook JSDoc to reference CLAUDE.md. Task 6.2 enriched error messages with tool names. Task 4.5 created `tool-router/README.md` as the reference docs pattern. | **Invert 6.1**: hooks reference `hooks/docs/*.md` instead of CLAUDE.md. **Audit 6.2**: check what enrichment was already done before adding more. **Follow 4.5 pattern**: use existing `tool-router/README.md` rather than creating `hooks/docs/tool-routing.md` from scratch. |
+| `add-global-github-framework` | 1/21 tasks checked BUT code already exists | Task 3.7 "Document in CLAUDE.md" was completed (content exists in CLAUDE.md). All git hooks (`secret_scanner.ts`, `commit_message_validator.ts`, `branch_naming_validator.ts`, `changelog_generator.ts`, `semantic_version_calculator.ts`) and templates already exist. Tasks are stale. | **Migrate** the CLAUDE.md GitHub content to `hooks/docs/github-framework.md`. Note: the code is done, the tasks.md just wasn't updated. |
+| `add-project-open-reinit` | 0/41 | Includes "documentation drift detection" comparing CLAUDE.md against implementation. | Drift detector should be aware of the new slim structure - may need minor update to comparison targets. |
+| `add-self-escalation-mechanism` | 0/46 | References "Outdated CLAUDE.md" as an escalation pattern. | Unaffected - concept still applies to slim version. |
 
-No existing proposal has attempted to reduce CLAUDE.md size or migrate its content elsewhere. This is net-new work.
+### Existing Artifacts to Integrate (Not Reinvent)
+
+| Artifact | Location | Lines | Action |
+|----------|----------|-------|--------|
+| Tool Router README | `tool-router/README.md` | 187 | **MOVE** to `hooks/docs/tool-routing.md` (consolidate with CLAUDE.md Tool Selection Protocol content). Do NOT create from scratch. |
+| Tool Filtering docs | `hooks/docs/tool-filtering.md` | 160 | **KEEP** as-is. Already in the right location. |
+| Vitest migration guide | `hooks/docs/vitest-migration.md` | 112 | **KEEP** as-is. CLAUDE.md already references it. |
+| n8n hook JSDoc headers | Various `hooks/src/governance/*.ts` | ~100 each | **AUDIT** existing JSDoc - some already contain the full rule documentation. Update references from CLAUDE.md to hooks/docs/. |
+| Error message enrichment | `enforce-n8n-object-governance` task 6.2 | Completed | **AUDIT** what was done. Only enrich messages that are still terse after 6.2. |
+
+No existing proposal has attempted to reduce CLAUDE.md size or migrate its content elsewhere. This is net-new work, but it must integrate with artifacts created by prior proposals rather than creating duplicates.
 
 ## Out of Scope
 
