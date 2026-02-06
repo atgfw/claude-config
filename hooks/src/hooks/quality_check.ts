@@ -372,11 +372,31 @@ class QualityChecker {
     if (result.code !== 0) {
       // Filter to only show errors for the edited file
       const lines = (result.stdout + result.stderr).split('\n');
-      const relevantErrors = lines.filter((line) => line.includes(path.basename(this.filePath)));
+      const relevantLines = lines.filter((line) => line.includes(path.basename(this.filePath)));
 
-      if (relevantErrors.length > 0) {
+      // Separate TS6133 (unused variable/import) as warnings - these are
+      // common false positives during multi-edit sessions where an import
+      // is added in one edit and its usage in the next.
+      const realErrors: string[] = [];
+      const unusedWarnings: string[] = [];
+
+      for (const line of relevantLines) {
+        if (line.includes('TS6133') || line.includes('TS6196')) {
+          unusedWarnings.push(line);
+        } else {
+          realErrors.push(line);
+        }
+      }
+
+      if (unusedWarnings.length > 0) {
+        this.warnings.push(
+          `Unused declarations (may be intermediate edit state):\n  ${unusedWarnings.join('\n  ')}`
+        );
+      }
+
+      if (realErrors.length > 0) {
         this.errors.push(
-          `TypeScript errors in ${path.basename(this.filePath)}:\n  ${relevantErrors.join('\n  ')}`
+          `TypeScript errors in ${path.basename(this.filePath)}:\n  ${realErrors.join('\n  ')}`
         );
       }
     } else {
