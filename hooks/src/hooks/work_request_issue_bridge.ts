@@ -196,7 +196,7 @@ async function workRequestIssueBridge(
   // Detect work request
   const detected = detectWorkRequest(prompt);
   if (!detected) {
-    return { hookSpecificOutput: { hookEventName: 'UserPromptSubmit' } };
+    return { hookEventName: 'UserPromptSubmit' };
   }
 
   // Check for duplicates
@@ -204,7 +204,7 @@ async function workRequestIssueBridge(
   const fullTitle = `[${systemPrefix}] ${detected.type}: ${detected.title}`;
 
   if (isDuplicateOfOpenIssue(fullTitle)) {
-    return { hookSpecificOutput: { hookEventName: 'UserPromptSubmit' } };
+    return { hookEventName: 'UserPromptSubmit' };
   }
 
   // Create the issue
@@ -229,7 +229,7 @@ async function workRequestIssueBridge(
   });
 
   if (!issueNumber) {
-    return { hookSpecificOutput: { hookEventName: 'UserPromptSubmit' } };
+    return { hookEventName: 'UserPromptSubmit' };
   }
 
   // Link issue to session goal stack
